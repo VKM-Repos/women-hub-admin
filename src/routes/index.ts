@@ -3,9 +3,12 @@ import AnonymousLayout from "../layouts/AnonymousLayout";
 import MainLayout from "../layouts/MainLayout";
 
 // Pages
-import Login from "@/pages/login";
+import Home from "@/pages/main/Home/Index";
+import User from "@/pages/main/Users/User";
+import Login from "@/pages/auth/Login/Index";
+import { renderRoutes } from "./generateRoutes";
 
-export const routes = [
+export const routess = [
   {
     layout: AnonymousLayout,
     routes: [
@@ -14,7 +17,6 @@ export const routes = [
         title: "Login page",
         component: Login,
         path: "/login",
-        isPublic: true,
       },
     ],
   },
@@ -33,21 +35,15 @@ export const routes = [
         hasSiderLink: true,
         routes: [
           {
-            name: "list-users",
+            name: "users",
             title: "List of users",
             hasSiderLink: true,
-            component: ListUsers,
+            component: User,
             path: "/users",
-          },
-          {
-            name: "create-user",
-            title: "Add user",
-            hasSiderLink: true,
-            component: CreateUser,
-            path: "/users/new",
           },
         ],
       },
     ],
   },
 ];
+export const Routes = renderRoutes(routess);

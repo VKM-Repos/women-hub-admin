@@ -1,15 +1,7 @@
-import { Button } from "./components/ui/button";
-
+import { Routes } from "./routes";
 
 function App() {
-  return (
-    <>
-      <h1 className="text-red-500 text-5xl">Women hub admin</h1>
-      <Button>
-        click me!
-      </Button>
-    </>
-  );
+  return <Routes isAuthorized={true} />;
 }
 
 export default App;

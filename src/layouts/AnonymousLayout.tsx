@@ -1,3 +1,5 @@
+import { Outlet } from "react-router-dom";
+
 export default function AnonymousLayout() {
-  return <div>AnonymousLayout</div>;
+  return <Outlet />;
 }
