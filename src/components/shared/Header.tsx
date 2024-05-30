@@ -6,7 +6,7 @@ import ChevronDown from "@/assets/icons/chevron-down-icon.svg";
 const Header = () => {
   return (
     <div className="flex justify-end font-inter">
-      <div className=" w-[80%] h-16 bg-white rounded-bl-3xl flex items-center justify-between px-10 fixed">
+      <div className=" w-[80%] h-16 bg-white rounded-bl-3xl flex items-center justify-between px-10 fixed z-50">
         <span className="font-semibold text-[20px]">Overview</span>
         <div className="flex gap-10 items-center">
           <img src={NotificationIcon} alt="" />

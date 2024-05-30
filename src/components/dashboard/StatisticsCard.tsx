@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 
 type cardProps = {
   title: string;
-  count: number;
+  count: number | string;
   icon: React.ReactNode;
   color: string;
 };
