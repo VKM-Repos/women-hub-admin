@@ -8,7 +8,6 @@ import { SideNavItem } from "@/types";
 
 import chevron from "@/assets/icons/chevron-down-icon.svg";
 import footerImg from "@/assets/sidbar-footer-img.svg";
-
 import logo from "@/assets/logo.svg";
 const SideNav = () => {
   return (
@@ -96,17 +95,54 @@ const MenuItem = ({ item }: { item: SideNavItem }) => {
           </div>
 
           {subMenuOpen && (
-            <div className="my-2 ml-12 flex flex-col space-y-3">
-              {item.subMenuItems?.map((subItem, idx) => {
+            <div className="my-2 pl-5 flex flex-col space-y-3 w-full ">
+              {item.subMenuItems?.map((subItem: any, idx: number) => {
                 return (
                   <Link
                     key={idx}
                     to={subItem.path}
-                    className={`${
-                      subItem.path === pathname ? "font-medium" : ""
+                    className={`w-full px-5 py-2 flex gap-3 rounded-md hover:bg-white hover:bg-opacity-[10%] ${
+                      subItem.path === pathname
+                        ? "bg-[#E3FFF4] text-primary font-medium"
+                        : ""
                     }`}
                   >
-                    <span>{subItem.title}</span>
+                    {/* {subItem.icon} */}
+                    <span>
+                      <svg
+                        width="16"
+                        height="17"
+                        viewBox="0 0 16 17"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M16 8.90234C16 13.3206 12.4183 16.9023 8 16.9023C3.58172 16.9023 0 13.3206 0 8.90234C0 4.48407 3.58172 0.902344 8 0.902344C12.4183 0.902344 16 4.48407 16 8.90234ZM2.55998 8.90234C2.55998 11.9068 4.99556 14.3424 8 14.3424C11.0044 14.3424 13.44 11.9068 13.44 8.90234C13.44 5.89791 11.0044 3.46233 8 3.46233C4.99556 3.46233 2.55998 5.89791 2.55998 8.90234Z"
+                          fill="currentColor"
+                        />
+                        <path
+                          d="M16 8.90234C16 13.3206 12.4183 16.9023 8 16.9023C3.58172 16.9023 0 13.3206 0 8.90234C0 4.48407 3.58172 0.902344 8 0.902344C12.4183 0.902344 16 4.48407 16 8.90234ZM2.55998 8.90234C2.55998 11.9068 4.99556 14.3424 8 14.3424C11.0044 14.3424 13.44 11.9068 13.44 8.90234C13.44 5.89791 11.0044 3.46233 8 3.46233C4.99556 3.46233 2.55998 5.89791 2.55998 8.90234Z"
+                          fill="black"
+                          fill-opacity="0.2"
+                        />
+                        <path
+                          d="M16 8.90234C16 13.3206 12.4183 16.9023 8 16.9023C3.58172 16.9023 0 13.3206 0 8.90234C0 4.48407 3.58172 0.902344 8 0.902344C12.4183 0.902344 16 4.48407 16 8.90234ZM2.55998 8.90234C2.55998 11.9068 4.99556 14.3424 8 14.3424C11.0044 14.3424 13.44 11.9068 13.44 8.90234C13.44 5.89791 11.0044 3.46233 8 3.46233C4.99556 3.46233 2.55998 5.89791 2.55998 8.90234Z"
+                          fill="black"
+                          fill-opacity="0.2"
+                        />
+                        <path
+                          d="M16 8.90234C16 13.3206 12.4183 16.9023 8 16.9023C3.58172 16.9023 0 13.3206 0 8.90234C0 4.48407 3.58172 0.902344 8 0.902344C12.4183 0.902344 16 4.48407 16 8.90234ZM2.55998 8.90234C2.55998 11.9068 4.99556 14.3424 8 14.3424C11.0044 14.3424 13.44 11.9068 13.44 8.90234C13.44 5.89791 11.0044 3.46233 8 3.46233C4.99556 3.46233 2.55998 5.89791 2.55998 8.90234Z"
+                          fill="black"
+                          fill-opacity="0.2"
+                        />
+                        <path
+                          d="M16 8.90234C16 13.3206 12.4183 16.9023 8 16.9023C3.58172 16.9023 0 13.3206 0 8.90234C0 4.48407 3.58172 0.902344 8 0.902344C12.4183 0.902344 16 4.48407 16 8.90234ZM2.55998 8.90234C2.55998 11.9068 4.99556 14.3424 8 14.3424C11.0044 14.3424 13.44 11.9068 13.44 8.90234C13.44 5.89791 11.0044 3.46233 8 3.46233C4.99556 3.46233 2.55998 5.89791 2.55998 8.90234Z"
+                          fill="black"
+                          fill-opacity="0.2"
+                        />
+                      </svg>
+                    </span>
+                    <span className=" w-full">{subItem.title}</span>
                   </Link>
                 );
               })}
