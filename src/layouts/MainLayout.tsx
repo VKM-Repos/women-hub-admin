@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 
 export default function MainLayout() {
   return (
-    <div className="flex bg-[#F0EBD6] no-scrollbar">
+    <div className="flex bg-[#FCFCFCF9] no-scrollbar">
       <SideBar />
       <main className="flex-1 ">
         <Header />
