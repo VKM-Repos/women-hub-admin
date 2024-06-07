@@ -1,88 +1,162 @@
 import GenericTable from "@/components/shared/table/Table";
-import { createColumnHelper } from "@tanstack/react-table";
+import { ColumnDef } from "@tanstack/react-table";
 
 import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
+import { MoreVertical } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-type Person = {
-  checked: JSX.Element | string;
-  username: string;
-  email: string;
-  status: string;
-  joinDate: string;
-  bio: string;
-  action: JSX.Element;
-};
-
-const defaultData: Person[] = [
+const data: object[] = [
   {
-    checked: <Checkbox />,
-    username: "Salis Sadiq",
-    email: "salscodes@gmail.com",
+    id: "m5gr84i9",
+    name: "Salis Sadiq",
+    email: "ken99@yahoo.com",
     status: "Active",
-    joinDate: "21 MAR 24",
-    bio: "In Relationship",
-    action: <></>,
+    joined: "21 MAR 24",
+    bio: "The variance of being t..",
   },
   {
-    checked: <Checkbox />,
-    username: "Mustapha Alani",
-    email: "musteecool@gmail.com",
+    id: "3u1reuv4",
+    name: "Akanbi Kanyinsola",
+    email: "Abe45@gmail.com",
+    status: "Active",
+    joined: "21 MAR 24",
+    bio: "-----",
+  },
+  {
+    id: "derv1ws0",
+    name: "Mustapha Omotosho",
+    email: "Monserrat44@gmail.com",
     status: "Flagged",
-    joinDate: "21 MAR 24",
-    bio: "Married",
-    action: <></>,
+    joined: "21 MAR 24",
+    bio: "A demanding life..Bio",
   },
   {
-    checked: <></>,
-    username: "Akonbi Kanyinsola",
-    email: "akonbi@gmail.com",
+    id: "5kma53ae",
+    name: "Damilola Victor",
+    email: "Silas22@gmail.com",
+    status: "Suspended",
+    joined: "21 MAR 24",
+    bio: "Massive work fro the things in ..",
+  },
+  {
+    id: "bhqecj4p",
+    name: "Olumide balogun",
+    email: "carmella@hotmail.com",
     status: "Active",
-    joinDate: "21 MAR 24",
-    bio: "In Relationship",
-    action: <></>,
+    joined: "21 MAR 24",
+    bio: "The though of difficult geno,..",
   },
 ];
-const columnHelper = createColumnHelper<Person>();
 
-const columns = [
-  columnHelper.accessor(" ", {
-    cell: () => (
-      <span>
-        <Checkbox />
-      </span>
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+  status: "Active" | "Flagged" | "Suspended";
+  joined: string;
+  bio: string;
+};
+
+const columns: ColumnDef<string>[] = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+        className="text-white"
+      />
     ),
-  }),
-  columnHelper.accessor("username", {
-    cell: (info) => info.getValue(),
-    footer: (info) => info.column.id,
-  }),
-  columnHelper.accessor((row) => row.email, {
-    id: "email",
-    cell: (info) => <i>{info.getValue()}</i>,
-    header: () => <span>Email</span>,
-    footer: (info) => info.column.id,
-  }),
-  columnHelper.accessor("status", {
-    header: () => "Status",
-    cell: (info) => info.renderValue(),
-    footer: (info) => info.column.id,
-  }),
-  columnHelper.accessor("joinDate", {
-    header: () => <span>Join date</span>,
-    footer: (info) => info.column.id,
-  }),
-  columnHelper.accessor("bio", {
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+        className="text-white"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: "name",
+    header: "Name",
+    cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
+  },
+  {
+    accessorKey: "email",
+    header: "Email",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("email")}</div>
+    ),
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("status")}</div>
+    ),
+  },
+  {
+    accessorKey: "joined",
+    header: "Join date",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("joined")}</div>
+    ),
+  },
+  {
+    accessorKey: "bio",
     header: "Bio",
-    footer: (info) => info.column.id,
-  }),
-  columnHelper.accessor("action", {
-    cell: () => <span>...</span>,
-  }),
+    cell: ({ row }) => <div className="capitalize">{row.getValue("bio")}</div>,
+  },
+
+  {
+    id: "actions",
+    header: "Action",
+    enableHiding: false,
+    cell: ({ row }) => {
+      const payment = row.original;
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreVertical className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem
+              onClick={() => navigator.clipboard.writeText(payment.id)}
+            >
+              Copy payment ID
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>View customer</DropdownMenuItem>
+            <DropdownMenuItem>View payment details</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
 ];
 export default function Users() {
   return (
     <div className="w-full">
-      <GenericTable columns={columns} data={defaultData} />
+      <GenericTable columns={columns} data={data} />
     </div>
   );
 }
