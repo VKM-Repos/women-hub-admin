@@ -5,6 +5,7 @@ import MainLayout from "../layouts/MainLayout";
 // Pages
 import Home from "@/pages/main/Home/Index";
 import User from "@/pages/main/Users/User";
+import Admin from "@/pages/main/Users/Admin";
 import Login from "@/pages/auth/Login/Index";
 import { renderRoutes } from "./generateRoutes";
 
@@ -35,11 +36,18 @@ export const routess = [
         hasSiderLink: true,
         routes: [
           {
-            name: "users",
+            name: "Users",
             title: "List of users",
             hasSiderLink: true,
             component: User,
             path: "/users",
+          },
+          {
+            name: "Administrators",
+            title: "List of admin",
+            hasSiderLink: true,
+            component: Admin,
+            path: "/administrators",
           },
         ],
       },

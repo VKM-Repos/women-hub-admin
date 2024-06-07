@@ -20,7 +20,7 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
       {
         title: "Administrators",
         icon: <img src={Circle} className="z-50" />,
-        path: "/projects/web-design",
+        path: "/administrators",
       },
       {
         title: "Editors",

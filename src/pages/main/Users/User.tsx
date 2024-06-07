@@ -13,10 +13,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-const data: object[] = [
+import UserImg from "@/assets/user-img.svg";
+
+const data: User[] = [
   {
     id: "m5gr84i9",
     name: "Salis Sadiq",
+    image: UserImg,
     email: "ken99@yahoo.com",
     status: "Active",
     joined: "21 MAR 24",
@@ -25,6 +28,7 @@ const data: object[] = [
   {
     id: "3u1reuv4",
     name: "Akanbi Kanyinsola",
+    image: UserImg,
     email: "Abe45@gmail.com",
     status: "Active",
     joined: "21 MAR 24",
@@ -33,6 +37,7 @@ const data: object[] = [
   {
     id: "derv1ws0",
     name: "Mustapha Omotosho",
+    image: UserImg,
     email: "Monserrat44@gmail.com",
     status: "Flagged",
     joined: "21 MAR 24",
@@ -41,6 +46,7 @@ const data: object[] = [
   {
     id: "5kma53ae",
     name: "Damilola Victor",
+    image: UserImg,
     email: "Silas22@gmail.com",
     status: "Suspended",
     joined: "21 MAR 24",
@@ -49,6 +55,7 @@ const data: object[] = [
   {
     id: "bhqecj4p",
     name: "Olumide balogun",
+    image: UserImg,
     email: "carmella@hotmail.com",
     status: "Active",
     joined: "21 MAR 24",
@@ -58,6 +65,7 @@ const data: object[] = [
 
 export type User = {
   id: string;
+  image: string;
   name: string;
   email: string;
   status: "Active" | "Flagged" | "Suspended";
@@ -93,7 +101,11 @@ const columns: ColumnDef<string>[] = [
   {
     accessorKey: "name",
     header: "Name",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
+    cell: ({ row }) => (
+      <div className="capitalize flex items-center gap-5">
+        <img src={UserImg} alt="" /> {row.getValue("name")}
+      </div>
+    ),
   },
   {
     accessorKey: "email",
@@ -106,7 +118,21 @@ const columns: ColumnDef<string>[] = [
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("status")}</div>
+      <div className="capitalize">
+        <span
+          className={`${
+            row.getValue("status") == "Active"
+              ? "bg-[#E3FFF4] text-[#83BF6E]"
+              : row.getValue("status") == "Flagged"
+              ? "bg-[#FFF2B0] text-[#F7931E]"
+              : row.getValue("status") == "Suspended"
+              ? "bg-[#FFE7E4] text-[#FF6A55]"
+              : ""
+          } px-1.5 py-1 rounded-md text-xs`}
+        >
+          {row.getValue("status")}
+        </span>
+      </div>
     ),
   },
   {
@@ -138,15 +164,14 @@ const columns: ColumnDef<string>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <div className="flex flex-col gap-2 font-medium font-inter text-sm px-5">
+              <p>View</p>
+              <p>Edit</p>
+              <p>Flag</p>
+              <p>Suspend</p>
+              <p>Active</p>
+              <p>Delete</p>
+            </div>
           </DropdownMenuContent>
         </DropdownMenu>
       );

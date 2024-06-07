@@ -11,9 +11,10 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  getGroupedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ChevronDown, Filter } from "lucide-react";
+import { ArrowRight, ChevronDown, Filter } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -31,6 +32,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Tag from "@/components/dashboard/Tag";
+import { Checkbox } from "@/components/ui/checkbox";
 
 type tableProps = {
   columns: ColumnDef<string>[];
@@ -57,6 +60,7 @@ export default function DataTable({ columns, data }: tableProps) {
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    getGroupedRowModel: getGroupedRowModel(),
     state: {
       sorting,
       columnFilters,
@@ -85,7 +89,7 @@ export default function DataTable({ columns, data }: tableProps) {
               />
             </svg>
           </span>
-          Create User
+          Add New User
         </Button>
 
         <div className="flex items-center gap-5">
@@ -173,23 +177,42 @@ export default function DataTable({ columns, data }: tableProps) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              {table
-                .getAllColumns()
-                .filter((column) => column.getCanHide())
-                .map((column) => {
-                  return (
-                    <DropdownMenuCheckboxItem
-                      key={column.id}
-                      className="capitalize"
-                      checked={column.getIsVisible()}
-                      onCheckedChange={(value: boolean) =>
-                        column.toggleVisibility(!!value)
-                      }
-                    >
-                      {column.id}
-                    </DropdownMenuCheckboxItem>
-                  );
-                })}
+              <div className="px-5">
+                <div>
+                  <Tag title="Showing 10 of 32 Users" />
+                  <hr className="mt-4 mb-6" />
+                </div>
+                <span className="text-txtColor text-sm">Showing</span>
+                {table
+                  .getAllColumns()
+                  .filter((column) => column.getCanHide())
+                  .map((column) => {
+                    return (
+                      <div className="w-[300px] my-3">
+                        <div className="flex justify-between">
+                          <span className="font-semibold capitalize">
+                            {column.id}
+                          </span>
+
+                          <DropdownMenuCheckboxItem
+                            key={column.id}
+                            className="capitalize"
+                            checked={column.getIsVisible()}
+                            onCheckedChange={(value: boolean) =>
+                              column.toggleVisibility(!!value)
+                            }
+                          ></DropdownMenuCheckboxItem>
+                        </div>
+                      </div>
+                    );
+                  })}
+                <div className="flex justify-end gap-3 mt-10 mb-3">
+                  <Button className="bg-white" variant="outline">
+                    Reset
+                  </Button>
+                  <Button className="bg-secondary text-white">Apply</Button>
+                </div>
+              </div>
             </DropdownMenuContent>
           </DropdownMenu>
 
@@ -220,23 +243,41 @@ export default function DataTable({ columns, data }: tableProps) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              {table
-                .getAllColumns()
-                .filter((column) => column.getCanHide())
-                .map((column) => {
-                  return (
-                    <DropdownMenuCheckboxItem
-                      key={column.id}
-                      className="capitalize"
-                      checked={column.getIsVisible()}
-                      onCheckedChange={(value: boolean) =>
-                        column.toggleVisibility(!!value)
-                      }
-                    >
-                      {column.id}
-                    </DropdownMenuCheckboxItem>
-                  );
-                })}
+              <div className="px-5">
+                <div>
+                  <Tag title="Flag User" />
+                  <hr className="mt-4 mb-6" />
+                </div>
+                <p className="text-txtColor text-base font-semibold">
+                  Reason(s)
+                </p>
+                <p className="text-txtColor text-sm">
+                  You can select atmost 2 reasons
+                </p>
+                <div className="flex flex-col gap-3 w-[300px] mt-5">
+                  <div className="flex justify-between items-center">
+                    Inappropriate Language <Checkbox></Checkbox>{" "}
+                  </div>
+                  <div className="flex justify-between items-center">
+                    Inappropriate Content <Checkbox></Checkbox>{" "}
+                  </div>
+                  <div className="flex justify-between items-center">
+                    Spam <Checkbox></Checkbox>{" "}
+                  </div>
+                  <div className="flex justify-between items-center">
+                    Misleading information <Checkbox></Checkbox>{" "}
+                  </div>
+                  <div className="flex justify-between items-center">
+                    Other <Checkbox></Checkbox>{" "}
+                  </div>
+                </div>
+                <div className="flex justify-end gap-3 mt-10 mb-3">
+                  <Button className="bg-white" variant="outline">
+                    Reset
+                  </Button>
+                  <Button className="bg-secondary text-white">Apply</Button>
+                </div>
+              </div>
             </DropdownMenuContent>
           </DropdownMenu>
 
@@ -288,7 +329,7 @@ export default function DataTable({ columns, data }: tableProps) {
           </DropdownMenu>
         </div>
       </div>
-      <div className="rounded-md border bg-white">
+      <div className="rounded-md border bg-white font-inter">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -343,17 +384,29 @@ export default function DataTable({ columns, data }: tableProps) {
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          Showing 1-10 of {table.getFilteredRowModel().rows.length}
         </div>
-        <div className="space-x-2">
+        <div className="space-x-0">
           <Button
             variant="outline"
             size="sm"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Previous
+            <span>
+              <svg
+                width="8"
+                height="12"
+                viewBox="0 0 8 12"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M7.41 10.4008L2.83 5.99438L7.41 1.58798L6 0.234375L0 5.99438L6 11.7544L7.41 10.4008Z"
+                  fill="#202224"
+                />
+              </svg>
+            </span>
           </Button>
           <Button
             variant="outline"
@@ -361,7 +414,20 @@ export default function DataTable({ columns, data }: tableProps) {
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            Next
+            <span>
+              <svg
+                width="8"
+                height="12"
+                viewBox="0 0 8 12"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M0.59 10.4008L5.17 5.99438L0.59 1.58798L2 0.234375L8 5.99438L2 11.7544L0.59 10.4008Z"
+                  fill="#202224"
+                />
+              </svg>
+            </span>
           </Button>
         </div>
       </div>
