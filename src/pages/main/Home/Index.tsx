@@ -10,9 +10,9 @@ export default function Home() {
   return (
     <div className="font-inter">
       <h1 className="font-bold text-[45px] text-txtColor">Welcome</h1>
-      <div>
+      <div className="">
         <Tag title="Users Statistics" />
-        <div className="flex gap-5 mt-10">
+        <div className="flex gap-5 mt-10 w-full">
           {userStarts?.map((stats) => (
             <StatisticsCard
               title={stats?.title}
