@@ -155,7 +155,7 @@ const columns: ColumnDef<string>[] = [
     accessorKey: "joined",
     header: "Join date",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("joined")}</div>
+      <div className="capitalize w-[100px]">{row.getValue("joined")}</div>
     ),
   },
   {
