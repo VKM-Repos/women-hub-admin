@@ -115,9 +115,24 @@ export default function DataTable({ columns, data }: tableProps) {
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="light">User</SelectItem>
-                  <SelectItem value="dark">Administrator</SelectItem>
-                  <SelectItem value="system">Editor</SelectItem>
+                  <SelectItem value="light">
+                    <span className="flex items-center gap-2">
+                      <Icon name="users" /> User
+                    </span>
+                  </SelectItem>
+                  <hr />
+                  <SelectItem value="dark">
+                    <span className="flex items-center gap-2">
+                      <Icon name="organization" />
+                      Organization
+                    </span>
+                  </SelectItem>
+                  <hr />
+                  <SelectItem value="system">
+                    <span className="flex items-center gap-2">
+                      <Icon name="editor" /> Editor
+                    </span>
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>

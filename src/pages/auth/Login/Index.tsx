@@ -7,7 +7,7 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <div className="w-screen h-screen bg-[#ECECEC] flex flex-col justify-center ">
-      <div className="flex gap-[480px] absolute top-0">
+      <div className="flex gap-[480px] absolute -top-10">
         <span className="relative">
           <svg
             width="265"
@@ -211,8 +211,10 @@ export default function Login() {
         <div className="w-full">
           <img src={Logo} className="aspect-square w-[80px]" />
           <div className="mt-5 font-inter">
-            <p className="font-bold text-primary text-lg">Admin Panel Login</p>
-            <p className="text-xs w-[85%]">
+            <p className="font-extrabold text-primary text-lg">
+              Admin Panel Login
+            </p>
+            <p className="text-xs w-[90%] text-txtColor">
               Sign in to access powerful tools for managing user accounts,
               publishing blog posts, and maintaining community integrity.
             </p>
@@ -256,17 +258,17 @@ export default function Login() {
         </div>
       </div>
       <div className="flex flex-col items-center text-txtColor mb-5 -mt-5">
-        <div className="font-inter text-xs">
+        <div className="font-inter text-xs flex items-center gap-2">
           <span>Terms of Use</span>
           <span>Privacy Policy</span>
         </div>
         <p className="text-sm">Copyright © 2024 vhdo. All rights reserved</p>
       </div>
       <div className="absolute bottom-0 flex justify-between w-full">
-        <span className="relative">
+        <span className="absolute bottom-0 -left-10">
           <svg
             width="507"
-            height="549"
+            height="450"
             viewBox="0 0 507 549"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
