@@ -14,7 +14,6 @@ import {
   getGroupedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowRight, ChevronDown, Filter } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -70,7 +69,7 @@ export default function DataTable({ columns, data }: tableProps) {
   });
 
   return (
-    <div className="w-full">
+    <div>
       <div className="flex justify-between items-center py-4">
         <Button className="text-white bg-secondary h-12 w-[150px] flex items-center gap-2">
           <span>
