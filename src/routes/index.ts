@@ -7,6 +7,12 @@ import Home from "@/pages/main/Home/Index";
 import User from "@/pages/main/Users/User";
 import Admin from "@/pages/main/Users/Admin";
 import Login from "@/pages/auth/Login/Index";
+import Posts from "@/pages/main/Analytics/Index";
+import NewsLetter from "@/pages/main/NewsLetter/Index";
+import Analytics from "@/pages/main/Analytics/Index";
+import AuditLog from "@/pages/main/AuditLog/Index";
+import Settings from "@/pages/main/Settings/Index";
+
 import { renderRoutes } from "./generateRoutes";
 
 export const routess = [
@@ -50,6 +56,36 @@ export const routess = [
             path: "/administrators",
           },
         ],
+      },
+      {
+        name: "Posts",
+        title: "List of posts",
+        component: Posts,
+        path: "/posts",
+      },
+      {
+        name: "News Letter",
+        title: "News Letter",
+        component: NewsLetter,
+        path: "/news-letter",
+      },
+      {
+        name: "Analytics",
+        title: "Analytics",
+        component: Analytics,
+        path: "/analytics",
+      },
+      {
+        name: "Audit Log",
+        title: "Audit Log",
+        component: AuditLog,
+        path: "/audit-log",
+      },
+      {
+        name: "Settings",
+        title: "Settings",
+        component: Settings,
+        path: "/settings",
       },
     ],
   },

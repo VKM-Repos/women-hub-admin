@@ -180,7 +180,7 @@ const columns: ColumnDef<string>[] = [
 ];
 export default function Users() {
   return (
-    <div className="w-full">
+    <div className="">
       <GenericTable columns={columns} data={data} />
     </div>
   );
