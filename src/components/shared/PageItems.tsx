@@ -1,30 +1,30 @@
 import { SideNavItem } from "../../types";
 
-import PageIcon from "@/assets/icons/page-icon.svg";
+import Icon from "../icons/Icon";
 export const PAGE_ITEMS: SideNavItem[] = [
   {
     title: "Landing Page",
     path: "/home",
-    icon: <img src={PageIcon} className="z-50" />,
+    icon: <Icon name="pages" />,
   },
   {
     title: "Category",
     path: "/#",
-    icon: <img src={PageIcon} />,
+    icon: <Icon name="pages" />,
   },
   {
     title: "Event",
     path: "/#",
-    icon: <img src={PageIcon} />,
+    icon: <Icon name="pages" />,
   },
   {
     title: "Discussion",
     path: "/#",
-    icon: <img src={PageIcon} />,
+    icon: <Icon name="pages" />,
   },
   {
     title: "Support",
     path: "/#",
-    icon: <img src={PageIcon} />,
+    icon: <Icon name="pages" />,
   },
 ];

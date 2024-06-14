@@ -1,28 +1,24 @@
 import { SideNavItem } from "../../types";
-
-import AnalysisIcon from "@/assets/icons/analysis-icon.svg";
-import AuditIcon from "@/assets/icons/audit-icon.svg";
-import SettingsIcon from "@/assets/icons/settings-icon.svg";
-import LogoutIcon from "@/assets/icons/logout-icon.svg";
+import Icon from "../icons/Icon";
 export const TOOLS_ITEMS: SideNavItem[] = [
   {
+    title: "News Letter",
+    path: "/news-letter",
+    icon: <Icon name="newsLetter" />,
+  },
+  {
     title: "Analytics",
-    path: "/#",
-    icon: <img src={AnalysisIcon} />,
+    path: "/analytics",
+    icon: <Icon name="analytics" />,
   },
   {
     title: "Audit Log",
-    path: "/#",
-    icon: <img src={AuditIcon} />,
+    path: "/audit-log",
+    icon: <Icon name="audit" />,
   },
   {
     title: "Settings",
-    path: "/#",
-    icon: <img src={SettingsIcon} />,
-  },
-  {
-    title: "Logout",
-    path: "/#",
-    icon: <img src={LogoutIcon} />,
+    path: "/settings",
+    icon: <Icon name="settings" />,
   },
 ];
