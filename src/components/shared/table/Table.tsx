@@ -31,8 +31,28 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogClose,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 import Tag from "@/components/dashboard/Tag";
 import { Checkbox } from "@/components/ui/checkbox";
+import Icon from "@/components/icons/Icon";
 
 type tableProps = {
   columns: ColumnDef<string>[];
@@ -71,25 +91,52 @@ export default function DataTable({ columns, data }: tableProps) {
   return (
     <div>
       <div className="flex justify-between items-center py-4">
-        <Button className="text-white bg-secondary h-12 w-[150px] flex items-center gap-2">
-          <span>
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M12 2.75C12.6904 2.75 13.25 3.30964 13.25 4V10.75H20C20.6904 10.75 21.25 11.3096 21.25 12C21.25 12.6904 20.6904 13.25 20 13.25H13.25V20C13.25 20.6904 12.6904 21.25 12 21.25C11.3096 21.25 10.75 20.6904 10.75 20V13.25H4C3.30964 13.25 2.75 12.6904 2.75 12C2.75 11.3096 3.30964 10.75 4 10.75H10.75V4C10.75 3.30964 11.3096 2.75 12 2.75Z"
-                fill="#F2F2F2"
-              />
-            </svg>
-          </span>
-          Add New User
-        </Button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button className="text-white bg-secondary h-12 w-[150px] flex items-center gap-2">
+              <span>
+                <Icon name="plus" />
+              </span>
+              Add New User
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>
+                <Tag title="Create a New user" color="#B5E4CA" />
+              </DialogTitle>
+              <DialogDescription>
+                <span className="pl-10">Select a user type</span>
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <Select>
+                <SelectTrigger className="w-[300px]">
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="light">User</SelectItem>
+                  <SelectItem value="dark">Administrator</SelectItem>
+                  <SelectItem value="system">Editor</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button className="text-black bg-white h-12 px-5" type="submit">
+                  Cancel
+                </Button>
+              </DialogClose>
+
+              <Button
+                className="text-white bg-secondary h-12 px-5"
+                type="submit"
+              >
+                Create
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
 
         <div className="flex items-center gap-5">
           <div className="flex items-center bg-white py-1 px-3 rounded-md w-[500px]">
