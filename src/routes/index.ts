@@ -12,7 +12,9 @@ import NewsLetter from "@/pages/main/NewsLetter/Index";
 import Analytics from "@/pages/main/Analytics/Index";
 import AuditLog from "@/pages/main/AuditLog/Index";
 import Settings from "@/pages/main/Settings/Index";
-
+import CreateUser from "@/pages/main/Users/CreateUser";
+import CreateEditor from "@/pages/main/Users/CreateEditor";
+import CreateOrganization from "@/pages/main/Users/CreateOrganization";
 import { renderRoutes } from "./generateRoutes";
 
 export const routess = [
@@ -54,6 +56,27 @@ export const routess = [
             hasSiderLink: true,
             component: Admin,
             path: "/administrators",
+          },
+          {
+            name: "Create User",
+            title: "Create User",
+            hasSiderLink: false,
+            component: CreateUser,
+            path: "/create-user",
+          },
+          {
+            name: "Create Editor",
+            title: "Create Editor",
+            hasSiderLink: false,
+            component: CreateEditor,
+            path: "/create-editor",
+          },
+          {
+            name: "Create Organization",
+            title: "Create Organization",
+            hasSiderLink: false,
+            component: CreateOrganization,
+            path: "/create-organization",
           },
         ],
       },

@@ -31,28 +31,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogClose,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
 import Tag from "@/components/dashboard/Tag";
 import { Checkbox } from "@/components/ui/checkbox";
-import Icon from "@/components/icons/Icon";
+import CreateUserButton from "./components/CreateUserButton";
 
 type tableProps = {
   columns: ColumnDef<string>[];
@@ -91,67 +72,7 @@ export default function DataTable({ columns, data }: tableProps) {
   return (
     <div>
       <div className="flex justify-between items-center py-4">
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button className="text-white bg-secondary h-12 w-[150px] flex items-center gap-2">
-              <span>
-                <Icon name="plus" />
-              </span>
-              Add New User
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>
-                <Tag title="Create a New user" color="#B5E4CA" />
-              </DialogTitle>
-              <DialogDescription>
-                <span className="pl-10">Select a user type</span>
-              </DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <Select>
-                <SelectTrigger className="w-[300px]">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="light">
-                    <span className="flex items-center gap-2">
-                      <Icon name="users" /> User
-                    </span>
-                  </SelectItem>
-                  <hr />
-                  <SelectItem value="dark">
-                    <span className="flex items-center gap-2">
-                      <Icon name="organization" />
-                      Organization
-                    </span>
-                  </SelectItem>
-                  <hr />
-                  <SelectItem value="system">
-                    <span className="flex items-center gap-2">
-                      <Icon name="editor" /> Editor
-                    </span>
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button className="text-black bg-white h-12 px-5" type="submit">
-                  Cancel
-                </Button>
-              </DialogClose>
-
-              <Button
-                className="text-white bg-secondary h-12 px-5"
-                type="submit"
-              >
-                Create
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <CreateUserButton />
 
         <div className="flex items-center gap-5">
           <div className="flex items-center bg-white py-1 px-3 rounded-md w-[500px]">
