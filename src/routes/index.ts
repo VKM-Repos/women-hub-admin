@@ -15,6 +15,7 @@ import Settings from "@/pages/main/Settings/Index";
 import CreateUser from "@/pages/main/Users/CreateUser";
 import CreateEditor from "@/pages/main/Users/CreateEditor";
 import CreateOrganization from "@/pages/main/Users/CreateOrganization";
+import UploadPicture from "@/pages/main/Users/UploadPicture";
 import { renderRoutes } from "./generateRoutes";
 
 export const routess = [
@@ -77,6 +78,13 @@ export const routess = [
             hasSiderLink: false,
             component: CreateOrganization,
             path: "/create-organization",
+          },
+          {
+            name: "Upload User Picture",
+            title: "Upload User Picture",
+            hasSiderLink: false,
+            component: UploadPicture,
+            path: "/upload-user-picture/:id",
           },
         ],
       },
