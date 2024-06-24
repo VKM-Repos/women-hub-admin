@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <div className="font-inter">
       <h1 className="font-bold text-[45px] text-txtColor">Welcome</h1>
-      <div className="">
+      <div className="mt-3">
         <Tag title="Users Statistics" />
         <div className="flex gap-5 mt-10 w-full">
           {userStarts?.map((stats) => (
@@ -23,7 +23,7 @@ export default function Home() {
           ))}
         </div>
       </div>
-      <div className="flex gap-5 mt-10">
+      <div className="flex gap-5 mt-10 mb-10">
         <div className="bg-white rounded-md drop-shadow-lg w-[70%]">
           <LineChart />
         </div>
