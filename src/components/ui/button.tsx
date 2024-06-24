@@ -8,7 +8,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground",
+        default: "",
         destructive: "bg-destructive text-destructive-foreground ",
         outline: "border border-input bg-background ",
         secondary: "bg-secondary text-secondary-foreground ",
