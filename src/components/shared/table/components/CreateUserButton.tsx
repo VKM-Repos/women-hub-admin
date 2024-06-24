@@ -125,7 +125,7 @@ export default function CreateUserButton() {
                   </FormItem>
                 )}
               />
-              <DialogFooter>
+              <DialogFooter className="justify-end">
                 <DialogClose asChild>
                   <Button className="text-black bg-white h-12 px-5">
                     Cancel
