@@ -12,13 +12,18 @@ import Avatar from "@/assets/icons/avatar.svg";
 import ChevronDown from "@/assets/icons/chevron-down-icon.svg";
 
 import Icon from "../icons/Icon";
+import useAppStore from "@/lib/store/app.store";
 const Header = () => {
   const { pathname } = useLocation();
+  const { logout } = useAppStore();
 
   let modifiedPath = pathname.replace("/", "");
   modifiedPath = modifiedPath.replace("-", " ");
   modifiedPath = modifiedPath.replace("-", " ");
 
+  const handleLogout = () => {
+    logout();
+  };
   return (
     <div className="flex justify-end font-inter">
       <div className=" w-[80%] min-w-[80%] max-w-[80%] h-16 bg-white rounded-bl-3xl flex items-center justify-between px-10 fixed z-50">
@@ -54,12 +59,12 @@ const Header = () => {
                 >
                   <Icon name="settings" /> Settings
                 </Link>
-                <Link
-                  to={`/settings`}
-                  className="flex items-center gap-2 hover:bg-[#EFEFEF] text-sm px-2 py-[6px] rounded-md"
+                <span
+                  onClick={handleLogout}
+                  className="flex items-center gap-2 hover:bg-[#EFEFEF] text-sm px-2 py-[6px] rounded-md cursor-pointer"
                 >
                   <Icon name="logout" /> Log Out
-                </Link>
+                </span>
               </div>
             </DropdownMenuContent>
           </DropdownMenu>
