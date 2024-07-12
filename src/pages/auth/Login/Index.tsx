@@ -71,7 +71,7 @@ export default function Login() {
         <div className="w-full">
           <img src={Logo} className="aspect-square w-[80px]" />
           <div className="mt-5 font-inter">
-            <p className="font-extrabold text-primary text-lg">
+            <p className="font-extrabold text-[#106840] text-lg">
               Admin Panel Login
             </p>
             <p className="text-xs w-[90%] text-txtColor">
@@ -107,11 +107,12 @@ export default function Login() {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <div className="px-2 rounded-md border flex items-center">
+                      <div className="pr-2 rounded-md border flex items-center">
                         <FormControl>
                           <Input
                             type={showPassword ? "text" : "password"}
                             placeholder="Password"
+                            className="pl-5"
                             {...field}
                             {...register("password")}
                           />
@@ -135,13 +136,15 @@ export default function Login() {
               <div className="flex items-center gap-3 mt-3">
                 <Checkbox className="text-white" /> Remember me
               </div>
-              <Button
-                type="submit"
-                className="bg-secondary text-white px-5 py-2 rounded-xl mt-7 font-medium"
-                disabled={isPending}
-              >
-                {isPending ? "Please wait..." : "Sign In"}
-              </Button>
+              <div className="flex w-full">
+                <Button
+                  type="submit"
+                  className="bg-secondary text-white px-5 py-2 rounded-xl mt-7 w-full font-medium"
+                  disabled={isPending}
+                >
+                  {isPending ? "Please wait..." : "Sign In"}
+                </Button>
+              </div>
             </form>
           </Form>
         </div>
