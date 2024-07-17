@@ -7,15 +7,12 @@ import { MoreVertical } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 import UserImg from "@/assets/user-img.svg";
 
-const data: User[] = [
+const data: any[] | [string] = [
   {
     id: "m5gr84i9",
     name: "Salis Sadiq",
@@ -152,9 +149,7 @@ const columns: ColumnDef<string>[] = [
     id: "actions",
     header: "Action",
     enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original;
-
+    cell: ({}) => {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
