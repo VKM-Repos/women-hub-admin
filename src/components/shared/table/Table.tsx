@@ -37,7 +37,7 @@ import CreateUserButton from "./components/CreateUserButton";
 
 type tableProps = {
   columns: ColumnDef<string>[];
-  data: [] | string[];
+  data: any[] | string[];
 };
 
 export default function DataTable({ columns, data }: tableProps) {

@@ -1,8 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
-import { authApi, publicApi } from "@/lib/config/axiosInstance";
+import { authApi, publicApi } from "@/config/axiosInstance";
 
-
-export const useGET = ({ url, queryKey, withAuth = false, enabled }: { url: string, queryKey: any[], withAuth: boolean, enabled: boolean }) => {
+export const useGET = ({
+  url,
+  queryKey,
+  withAuth = false,
+  enabled,
+}: {
+  url: string;
+  queryKey: any[];
+  withAuth: boolean;
+  enabled: boolean;
+}) => {
   const fetch = async () => {
     const axiosInstance = withAuth ? authApi : publicApi;
     const response = await axiosInstance.get(url);
@@ -20,7 +29,7 @@ export const useGET = ({ url, queryKey, withAuth = false, enabled }: { url: stri
     isRefetching,
     isLoadingError,
     isRefetchError,
-  } = useQuery({ queryKey: queryKey, queryFn: fetch });
+  } = useQuery({ queryKey: queryKey, queryFn: fetch, enabled: enabled });
   return {
     data,
     isFetching,
@@ -34,4 +43,3 @@ export const useGET = ({ url, queryKey, withAuth = false, enabled }: { url: stri
     isRefetchError,
   };
 };
-

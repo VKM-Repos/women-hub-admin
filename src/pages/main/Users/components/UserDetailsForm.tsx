@@ -5,6 +5,11 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
 export default function UserDetailsForm() {
+  const handleOnCLick = () => {
+    // Generate password logic goes here
+    const password = "Generate Password";
+    console.log("Generated password:", password);
+  };
   return (
     <div className="font-inter mt-7">
       <div>

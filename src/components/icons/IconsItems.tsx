@@ -1,4 +1,4 @@
-export const iconsItems = {
+export const iconsItems: {} = {
   users: (
     <svg
       width="24"

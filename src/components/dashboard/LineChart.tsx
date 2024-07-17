@@ -8,6 +8,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  ChartData,
 } from "chart.js";
 
 ChartJS.register(
@@ -54,7 +55,7 @@ export default function LineChart() {
   };
   return (
     <div className="px-5 pt-5">
-      <Line data={data} options={options} suggestedMax={200} />
+      <Line data={data as ChartData<"line">} options={options} />
     </div>
   );
 }

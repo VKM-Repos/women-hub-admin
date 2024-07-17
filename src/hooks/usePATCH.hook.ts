@@ -1,11 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
-import { authApi, publicApi } from "@/lib/config/axiosInstance";
+import { authApi, publicApi } from "@/config/axiosInstance";
 
 export const usePATCH = (
   url: string,
   withAuth = true,
-  storeCallback = undefined,
+  callback: (data: any) => void,
   contentType = "application/json",
   method = "PUT"
 ) => {
@@ -30,7 +30,7 @@ export const usePATCH = (
       console.log(returnedData);
       toast.success("Success");
 
-      // storeCallback && storeCallback(returnedData)
+      callback && callback(returnedData);
     },
     onError: (err) => {
       // (err?.data?.message instanceof Array) ? toast.error(err?.data?.message[0]) : toast.error(err?.data?.message)
