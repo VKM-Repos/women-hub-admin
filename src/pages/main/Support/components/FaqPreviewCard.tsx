@@ -1,17 +1,7 @@
 import { Checkbox } from "@/components/ui/checkbox";
-import Thumbnail from "@/assets/images/guide-thumbnail.png";
 import Avatar from "@/assets/icons/avatar.svg";
-import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-{
-  /*import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';*/
-}
-import Icon from "@/components/icons/Icon";
+
 import { Faq } from "@/types/faqs.type";
 import { cn } from "@/lib/utils";
 
@@ -23,18 +13,6 @@ type Props = {
 function FaqPreviewCard({ showFilters, data }: Props) {
   const navigate = useNavigate();
 
-  const handleArchivePost = (id: string) => {
-    toast.success("post archived");
-  };
-  const handleDeletePost = (id: string) => {
-    toast.success("post deleted");
-  };
-  const handleViewPost = (id: string) => {
-    navigate(`/posts/${id}`);
-  };
-  const handlePublishPost = (id: string) => {
-    toast.success("post published");
-  };
   return (
     <div className="font-inter hover:border-secondary/70 group flex w-full items-center rounded-xl border-2 border-white bg-white p-4 shadow-sm">
       {showFilters && (
@@ -71,33 +49,7 @@ function FaqPreviewCard({ showFilters, data }: Props) {
         className={`flex w-full max-w-60 flex-col items-end justify-end gap-y-2`}
       >
         <div className="flex items-center justify-between gap-6">
-          <span className="invisible flex items-center justify-start gap-2 group-hover:visible">
-            {/*{data.status === "PUBLISHED" && (
-              <PostButtons
-                icon={<Icon name="archivePostIcon" />}
-                label="Archive"
-                onClick={() => handleArchivePost(data.id)}
-              />
-            )}
-            {data.status === "DRAFT" && (
-              <PostButtons
-                icon={<Icon name="publishPostIcon" />}
-                label="Publish"
-                onClick={() => handlePublishPost(data.id)}
-              />
-            )}
-            <PostButtons
-              icon={<Icon name="viewPostIcon" />}
-              label="View"
-              onClick={() => handleViewPost(data.id)}
-            />
-
-            <PostButtons
-              icon={<Icon name="deletePostIcon" />}
-              label="Delete"
-              onClick={() => handleDeletePost(data.id)}
-        />*/}
-          </span>
+          <span className="invisible flex items-center justify-start gap-2 group-hover:visible"></span>
           <p className="text-[#106840] font-normal text-xs">
             {"Editor’s Name"}
           </p>
@@ -105,53 +57,9 @@ function FaqPreviewCard({ showFilters, data }: Props) {
             <img src={Avatar} alt="" />
           </picture>
         </div>
-        {/*<div className="text-txtColor flex items-start gap-4 text-xs font-semibold">
-          <span className="flex items-center gap-2">
-            {"23"}
-            <Icon name="postCommentIcon" />
-          </span>
-          <span className="flex items-center gap-2">
-            {"0"}
-            <Icon name="postInteractionIcon" />
-          </span>
-        </div>*/}
       </div>
     </div>
   );
 }
 
 export default FaqPreviewCard;
-
-{
-  /*type PostButtonActions = {
-  icon: React.ReactNode;
-  onClick: (e: any) => void;
-  label: string;
-};
-
-export const PostButtons: React.FC<PostButtonActions> = ({
-  icon,
-  label,
-  onClick,
-}) => {
-  return (
-    <button onClick={onClick} className={''}>
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <span className="relative flex aspect-square w-fit items-center justify-center ">
-              {icon}
-            </span>
-          </TooltipTrigger>
-          <TooltipContent
-            side="top"
-            className="bg-secondary border-none text-xs text-white"
-          >
-            {label}
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-    </button>
-  );
-};*/
-}

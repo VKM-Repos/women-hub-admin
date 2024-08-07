@@ -1,11 +1,8 @@
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { PlusIcon, SearchIcon } from "lucide-react";
 import { Link } from "react-router-dom";
-import Icon from "@/components/icons/Icon";
-import { filter } from "lodash";
-import { any } from "zod";
 
 type Props = {
   showFilters: boolean;

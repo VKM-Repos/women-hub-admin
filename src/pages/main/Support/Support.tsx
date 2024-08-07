@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/icons/Icon";
 import Tag from "@/components/dashboard/Tag";
-import Tag2 from "@/components/dashboard/TagCircle";
 import Ticket from "./Ticket";
 import { Link } from "react-router-dom";
 import GettingStart from "@/assets/images/Getting started.png";
