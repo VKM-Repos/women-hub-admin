@@ -11,7 +11,7 @@ export default function Home() {
     <div className="font-inter">
       <h1 className="font-bold text-[45px] text-txtColor">Welcome</h1>
       <div className="mt-3">
-        <Tag title="Users Statistics" />
+        <Tag title="Users Statistics" color="tagBgOrg" />
         <div className="flex gap-5 mt-10 w-full">
           {userStarts?.map((stats) => (
             <StatisticsCard
@@ -41,7 +41,7 @@ export default function Home() {
           </button>
         </div>
       </div>
-      <Tag title="Post Metrics" />
+      <Tag title="Post Metrics" color="tagBgOrg" />
       <div className="flex justify-between gap-10 mt-5 mb-10">
         <div className="w-full">
           <PostMetricsGrid />
