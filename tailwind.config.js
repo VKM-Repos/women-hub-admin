@@ -23,7 +23,7 @@ module.exports = {
         txtColor: "#65655E",
         hoverBg: "#D8D8D8",
         border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
+        input: "#F4F4F4",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

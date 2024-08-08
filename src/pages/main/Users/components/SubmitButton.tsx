@@ -13,13 +13,20 @@ import { Link } from "react-router-dom";
 
 export default function SubmitButton() {
   return (
-    <div className="bg-white mt-6 px-5 py-7 flex items-center justify-between">
+    <div className="bg-white mt-6 px-5 py-7 flex items-center justify-between w-full">
       <Icon name="check" />
+      <Button
+        type="submit"
+        variant="default"
+        className="bg-secondary text-white px-5 py-2"
+      >
+        Save and Continue
+      </Button>
       <Dialog>
         <DialogTrigger asChild>
           <Button
             variant="default"
-            className="bg-secondary text-white px-5 py-2"
+            className="bg-secondary text-white px-5 py-2 hidden"
           >
             Save and Continue
           </Button>
