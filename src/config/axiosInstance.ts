@@ -1,5 +1,6 @@
 // import "dotenv/config";
 
+import useAppStore from "@/lib/store/app.store";
 import axios, { AxiosInstance } from "axios";
 
 // const backendApiURL = process?.env?.REACT_APP_BASE_URL;
@@ -13,7 +14,7 @@ export const authApi: AxiosInstance = axios.create({
 authApi.defaults.headers.common["Content-Type"] = "application/json";
 
 authApi.interceptors.request.use(async (config) => {
-  const userToken = localStorage.getItem("token");
+  const userToken = useAppStore.getState().user?.token;
 
   if (userToken) {
     config.headers["Authorization"] = `Bearer ${userToken}`;

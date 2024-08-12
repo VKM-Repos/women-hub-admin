@@ -24,7 +24,7 @@ export const PAGE_ITEMS: SideNavItem[] = [
   },
   {
     title: "Support",
-    path: "/#",
+    path: "/support",
     icon: <Icon name="pages" />,
   },
 ];

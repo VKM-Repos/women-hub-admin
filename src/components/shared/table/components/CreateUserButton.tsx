@@ -76,7 +76,7 @@ export default function CreateUserButton() {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
-            <Tag title="Create a New user" color="#B5E4CA" />
+            <Tag title="Create a New user" />
           </DialogTitle>
           <DialogDescription>
             <span className="pl-10">Select a user type</span>

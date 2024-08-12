@@ -15,12 +15,13 @@ import Icon from "../icons/Icon";
 import useAppStore from "@/lib/store/app.store";
 const Header = () => {
   const { pathname } = useLocation();
-  const { logout } = useAppStore();
+  const { logout, user } = useAppStore();
 
   let modifiedPath = pathname.replace("/", "");
   modifiedPath = modifiedPath.replace("-", " ");
   modifiedPath = modifiedPath.replace("-", " ");
 
+  let modifiedUserRole = user?.role?.replace("_", " ");
   const handleLogout = () => {
     logout();
   };
@@ -38,11 +39,13 @@ const Header = () => {
                 <div className="flex gap-10 items-center">
                   <div className="flex gap-2 items-center">
                     <img src={Avatar} alt="" />
-                    <div className="flex flex-col">
+                    <div className="flex flex-col justify-start items-start">
                       <span className="text-txtColor text-[12px] font-medium">
-                        Salis Sadiq
+                        {user?.name}
                       </span>
-                      <span className="text-[9px] font-light">Super Admin</span>
+                      <span className="text-[9px] font-light capitalize">
+                        {modifiedUserRole}
+                      </span>
                     </div>
                     <div>
                       <img src={ChevronDown} alt="" />

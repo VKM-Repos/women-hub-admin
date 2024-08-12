@@ -1,4 +1,4 @@
-import GenericTable from "@/components/shared/table/Table";
+import GenericTable from "@/components/shared/table/HelplineTable";
 import { ColumnDef } from "@tanstack/react-table";
 
 import { Checkbox } from "@/components/ui/checkbox";
@@ -10,19 +10,50 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import UserImg from "@/assets/user-img.svg";
-import { useGET } from "@/hooks/useGET.hook";
-import Loading from "@/components/shared/Loading";
-import { formatDate } from "@/lib/utils/dateFormat";
+const data: any[] | [string] = [
+  {
+    id: "m5gr84i9",
+    helpline: "For counselling",
+    state: "Oyo",
+    status: "Active",
+  },
+  {
+    id: "3u1reuv4",
+    helpline: "Sexual Abuse",
+    state: "Oyo",
+    status: "Suspended",
+  },
+  {
+    id: "derv1ws0",
+    helpline: "For counselling",
+    state: "Oyo",
+    status: "Active",
+  },
+  {
+    id: "5kma53ae",
+    helpline: "Sexual Abuse",
+    state: "Oyo",
+    status: "Suspended",
+  },
+  {
+    id: "bhqecj4p",
+    helpline: "For counselling",
+    state: "Oyo",
+    status: "Active",
+  },
+  {
+    id: "6kvk93ae",
+    helpline: "Sexual Abuse",
+    state: "Oyo",
+    status: "Suspended",
+  },
+];
 
-export type User = {
+export type Help = {
   id: string;
-  image: string;
-  name: string;
-  email: string;
+  helpline: string;
+  state: string;
   status: "Active" | "Flagged" | "Suspended";
-  joined: string;
-  bio: string;
 };
 
 const columns: ColumnDef<string>[] = [
@@ -51,53 +82,39 @@ const columns: ColumnDef<string>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "name",
-    header: "Name",
+    accessorKey: "helpline",
+    header: "Helplines",
     cell: ({ row }) => (
-      <div className="capitalize flex items-center gap-5">
-        <img src={UserImg} alt="" /> {row.getValue("name")}
-      </div>
+      <div className="capitalize">{row.getValue("helpline")}</div>
     ),
   },
   {
-    accessorKey: "email",
-    header: "Email",
+    accessorKey: "state",
+    header: "State",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("email")}</div>
+      <div className="capitalize">{row.getValue("state")} state</div>
     ),
   },
   {
-    accessorKey: "suspended",
+    accessorKey: "status",
     header: "Status",
     cell: ({ row }) => (
       <div className="capitalize">
         <span
           className={`${
-            row.getValue("suspended") == false
+            row.getValue("status") == "Active"
               ? "bg-[#E3FFF4] text-[#83BF6E]"
-              : row.getValue("suspended") == true
+              : row.getValue("status") == "Flagged"
               ? "bg-[#FFF2B0] text-[#F7931E]"
-              : row.getValue("suspended") == true
+              : row.getValue("status") == "Suspended"
               ? "bg-[#FFE7E4] text-[#FF6A55]"
               : ""
           } px-1.5 py-1 rounded-md text-xs`}
         >
-          {row.getValue("suspended") ? "Suspend" : "Active"}
+          {row.getValue("status")}
         </span>
       </div>
     ),
-  },
-  {
-    accessorKey: "createdAt",
-    header: "Join date",
-    cell: ({ row }) => (
-      <div className="capitalize">{formatDate(row.getValue("createdAt"))}</div>
-    ),
-  },
-  {
-    accessorKey: "bio",
-    header: "Bio",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("bio")}</div>,
   },
 
   {
@@ -128,23 +145,10 @@ const columns: ColumnDef<string>[] = [
     },
   },
 ];
-export default function Users() {
-  const { data: users, isPending } = useGET({
-    url: `admin/users`,
-    queryKey: ["GET_USERS_LIST"],
-    withAuth: true,
-    enabled: true,
-  });
-
-  console.log(users?.content, "<<<<<<<");
-
+export default function Helplines() {
   return (
-    <div className="">
-      {isPending ? (
-        <Loading />
-      ) : (
-        <GenericTable columns={columns} data={users?.content} />
-      )}
+    <div className="w-full">
+      <GenericTable columns={columns} data={data} />
     </div>
   );
 }

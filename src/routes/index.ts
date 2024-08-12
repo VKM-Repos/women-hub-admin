@@ -3,6 +3,7 @@ import AnonymousLayout from '../layouts/AnonymousLayout';
 import MainLayout from '../layouts/MainLayout';
 
 // Pages
+
 import Home from '@/pages/main/Home/Index';
 import User from '@/pages/main/Users/User';
 import Admin from '@/pages/main/Users/Admin';
@@ -20,6 +21,9 @@ import UploadPicture from '@/pages/main/Users/UploadPicture';
 import { renderRoutes } from './generateRoutes';
 import PostPreview from '@/pages/main/Posts/preview';
 import PostDetailsPage from '@/pages/main/Posts/postid';
+import Tickets from "@/pages/main/Support/Tickets";
+import Editor from "@/pages/main/Users/Editor";
+
 
 export const routess = [
   {
@@ -62,8 +66,16 @@ export const routess = [
             path: '/administrators',
           },
           {
-            name: 'Create User',
-            title: 'Create User',
+
+            name: "Editors",
+            title: "List of admin",
+            hasSiderLink: true,
+            component: Editor,
+            path: "/editors",
+          },
+          {
+            name: "Create User",
+            title: "Create User",
             hasSiderLink: false,
             component: CreateUser,
             path: '/create-user',
@@ -149,6 +161,57 @@ export const routess = [
         title: 'Settings',
         component: Settings,
         path: '/settings',
+      },
+      {
+        name: "Support",
+        title: "Support page",
+        component: Support,
+        path: "/support",
+        hasSiderLink: true,
+        routes: [
+          {
+            name: "Support",
+            title: "Guidelines",
+            hasSiderLink: true,
+            component: Guideline,
+            path: "/support/a-guide-to-womenhub",
+          },
+          {
+            name: "Support",
+            title: "FAQs",
+            hasSiderLink: true,
+            component: FAQs,
+            path: "/support/FAQs",
+          },
+          {
+            name: "Support",
+            title: "Helplines",
+            hasSiderLink: false,
+            component: Helplines,
+            path: "/support/helplines",
+          },
+          {
+            name: "Support",
+            title: "View All Tickets",
+            hasSiderLink: false,
+            component: Tickets,
+            path: "/support/tickets",
+          },
+          {
+            name: "Support",
+            title: "Support",
+            hasSiderLink: false,
+            component: CreateOrganization,
+            path: "/create-organization",
+          },
+          {
+            name: "Support",
+            title: "Support",
+            hasSiderLink: false,
+            component: UploadPicture,
+            path: "/upload-user-picture/:id",
+          },
+        ],
       },
     ],
   },
