@@ -8,6 +8,7 @@ export default function Back() {
   return (
     <Button
       variant={"outline"}
+      type="button"
       className="font-semibold flex gap-2"
       onClick={() => navigate(-1)}
     >

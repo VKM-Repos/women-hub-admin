@@ -1,10 +1,42 @@
-import Icon from "@/components/icons/Icon";
+// import Icon from "@/components/icons/Icon";
+// import { Button } from "@/components/ui/button";
+// import { Input } from "@/components/ui/input";
+// import { Label } from "@/components/ui/label";
+// import { Textarea } from "@/components/ui/textarea";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+
+const FormSchema = z.object({
+  username: z.string().min(2, {
+    message: "Username must be at least 2 characters.",
+  }),
+});
 
 export default function UserDetailsForm() {
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      username: "",
+    },
+  });
+
+  function onSubmit(data: z.infer<typeof FormSchema>) {
+    console.log(data);
+  }
   const handleOnCLick = () => {
     // Generate password logic goes here
     const password = "Generate Password";
@@ -12,39 +44,30 @@ export default function UserDetailsForm() {
   };
   return (
     <div className="font-inter mt-7">
-      <div>
-        <Label htmlFor="email" className="flex items-center gap-2 mb-2">
-          Email <Icon name="info" />
-        </Label>
-        <Input className="bg-[#F4F4F4]" id="email" />
-      </div>
-      <div className="mt-5">
-        <Label htmlFor="name" className="flex items-center gap-2 mb-2">
-          Name <Icon name="info" />
-        </Label>
-        <Input className="bg-[#F4F4F4]" id="name" />
-      </div>
-      <div className="mt-5">
-        <Label htmlFor="bio" className="flex items-center gap-2 mb-2">
-          Bio <Icon name="info" />
-        </Label>
-        <Textarea className="bg-[#F4F4F4]" id="bio" />
-      </div>
-
-      <div className="mt-5">
-        <Label htmlFor="name" className="flex items-center gap-2 mb-2">
-          User Password <Icon name="info" />
-        </Label>
-        <div className=" flex">
-          <Input className="border border-input rounded-r-none" id="pass" />
-          <Button
-            onClick={() => handleOnCLick()}
-            className="bg-[#393939] text-white rounded-l-none"
-          >
-            Generate
-          </Button>
-        </div>
-      </div>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-2/3 space-y-6"
+        >
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Username</FormLabel>
+                <FormControl>
+                  <Input placeholder="shadcn" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This is your public display name.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit">Submit</Button>
+        </form>
+      </Form>
     </div>
   );
 }

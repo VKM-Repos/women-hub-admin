@@ -22,6 +22,7 @@ import CreateOrganization from "@/pages/main/Users/CreateOrganization";
 import UploadPicture from "@/pages/main/Users/UploadPicture";
 import { renderRoutes } from "./generateRoutes";
 import Tickets from "@/pages/main/Support/Tickets";
+import Editor from "@/pages/main/Users/Editor";
 
 export const routess = [
   {
@@ -62,6 +63,13 @@ export const routess = [
             hasSiderLink: true,
             component: Admin,
             path: "/administrators",
+          },
+          {
+            name: "Editors",
+            title: "List of admin",
+            hasSiderLink: true,
+            component: Editor,
+            path: "/editors",
           },
           {
             name: "Create User",

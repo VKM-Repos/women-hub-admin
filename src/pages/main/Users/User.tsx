@@ -11,54 +11,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import UserImg from "@/assets/user-img.svg";
-
-const data: any[] | [string] = [
-  {
-    id: "m5gr84i9",
-    name: "Salis Sadiq",
-    image: UserImg,
-    email: "ken99@yahoo.com",
-    status: "Active",
-    joined: "21 MAR 24",
-    bio: "The variance of being t..",
-  },
-  {
-    id: "3u1reuv4",
-    name: "Akanbi Kanyinsola",
-    image: UserImg,
-    email: "Abe45@gmail.com",
-    status: "Active",
-    joined: "21 MAR 24",
-    bio: "-----",
-  },
-  {
-    id: "derv1ws0",
-    name: "Mustapha Omotosho",
-    image: UserImg,
-    email: "Monserrat44@gmail.com",
-    status: "Flagged",
-    joined: "21 MAR 24",
-    bio: "A demanding life..Bio",
-  },
-  {
-    id: "5kma53ae",
-    name: "Damilola Victor",
-    image: UserImg,
-    email: "Silas22@gmail.com",
-    status: "Suspended",
-    joined: "21 MAR 24",
-    bio: "Massive work fro the things in ..",
-  },
-  {
-    id: "bhqecj4p",
-    name: "Olumide balogun",
-    image: UserImg,
-    email: "carmella@hotmail.com",
-    status: "Active",
-    joined: "21 MAR 24",
-    bio: "The though of difficult geno,..",
-  },
-];
+import { useGET } from "@/hooks/useGET.hook";
+import Loading from "@/components/shared/Loading";
+import { formatDate } from "@/lib/utils/dateFormat";
 
 export type User = {
   id: string;
@@ -112,31 +67,31 @@ const columns: ColumnDef<string>[] = [
     ),
   },
   {
-    accessorKey: "status",
+    accessorKey: "suspended",
     header: "Status",
     cell: ({ row }) => (
       <div className="capitalize">
         <span
           className={`${
-            row.getValue("status") == "Active"
+            row.getValue("suspended") == false
               ? "bg-[#E3FFF4] text-[#83BF6E]"
-              : row.getValue("status") == "Flagged"
+              : row.getValue("suspended") == true
               ? "bg-[#FFF2B0] text-[#F7931E]"
-              : row.getValue("status") == "Suspended"
+              : row.getValue("suspended") == true
               ? "bg-[#FFE7E4] text-[#FF6A55]"
               : ""
           } px-1.5 py-1 rounded-md text-xs`}
         >
-          {row.getValue("status")}
+          {row.getValue("suspended") ? "Suspend" : "Active"}
         </span>
       </div>
     ),
   },
   {
-    accessorKey: "joined",
+    accessorKey: "createdAt",
     header: "Join date",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("joined")}</div>
+      <div className="capitalize">{formatDate(row.getValue("createdAt"))}</div>
     ),
   },
   {
@@ -174,9 +129,22 @@ const columns: ColumnDef<string>[] = [
   },
 ];
 export default function Users() {
+  const { data: users, isPending } = useGET({
+    url: `admin/users`,
+    queryKey: ["GET_USERS_LIST"],
+    withAuth: true,
+    enabled: true,
+  });
+
+  console.log(users?.content, "<<<<<<<");
+
   return (
     <div className="">
-      <GenericTable columns={columns} data={data} />
+      {isPending ? (
+        <Loading />
+      ) : (
+        <GenericTable columns={columns} data={users?.content} />
+      )}
     </div>
   );
 }
