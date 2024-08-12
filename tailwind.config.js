@@ -18,6 +18,7 @@ module.exports = {
     },
     extend: {
       colors: {
+        textPrimary: "#106840",
         primary: "#041A10",
         secondary: "#FF7400",
         txtColor: "#65655E",
@@ -25,7 +26,7 @@ module.exports = {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
+        background: "#F4F4F4",
         foreground: "hsl(var(--foreground))",
         tagBg: "#FFBC99",
         // primary: {
