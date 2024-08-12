@@ -62,6 +62,7 @@ module.exports = {
       fontFamily: {
         inter: ["Inter", "sans-serif"],
         montserrat: ["Montserrat", "sans-serif"],
+        quicksand: ["Quicksand"],
       },
       borderRadius: {
         lg: "var(--radius)",

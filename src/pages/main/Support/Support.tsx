@@ -109,7 +109,7 @@ const Support = () => {
           <Link to={"/support/helplines"}>
             <div className=" w-[300px] h-[251.16px] px-[11.63px]">
               <div className="w-[290.09px]  hover:w-[300px] hover:h-[150px] transition-all duration-300">
-                <img src={HELPLINES} className="" />
+                <img src={HELPLINES} className="aspect-auto object-cover" />
               </div>
 
               <h1 className="text-sm/[17.45px] text-primary font-normal mt-4 mb-4">
@@ -129,7 +129,7 @@ const Support = () => {
           <div className="flex flex-col bg-white border-2 border-zinc-100 shadow-xl rounded-lg px-5 mb-10">
             <div className="flex justify-between mb-4">
               <div className="self-center">
-                <Tag title="Support Ticket" />
+                <Tag title="Support Ticket" color="bg-[#B5E4CA]" />
               </div>
               <div>
                 <button
