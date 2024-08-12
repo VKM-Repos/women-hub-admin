@@ -71,9 +71,9 @@ const Support = () => {
         </div>
         <div className="flex mt-10 mb-10 ">
           <Link to={"/support/a-guide-to-womenhub"}>
-            <div className=" w-[300px] h-[251.16px] px-[11.63px]">
+            <div className=" w-[300px] h-[251.16px] mr-8 px-[11.63px]">
               <div className="w-[290.09px]  hover:w-[300px] hover:h-[150px] transition-all duration-300">
-                <img src={GettingStart} className="" />
+                <img src={GettingStart} className="aspect-auto object-cover" />
               </div>
 
               <h1 className="text-sm/[17.45px] text-primary font-normal mt-4 mb-4">
@@ -89,7 +89,7 @@ const Support = () => {
             </div>
           </Link>
           <Link to={"/support/FAQs"}>
-            <div className=" w-[300px] h-[251.16px] px-[11.63px]">
+            <div className=" w-[300px] h-[251.16px] mr-8 px-[11.63px]">
               <div className="w-[290.09px]  hover:w-[300px] hover:h-[150px] transition-all duration-300">
                 <img src={FAQ} className="" />
               </div>
@@ -107,7 +107,7 @@ const Support = () => {
             </div>
           </Link>
           <Link to={"/support/helplines"}>
-            <div className=" w-[300px] h-[251.16px] px-[11.63px]">
+            <div className=" w-[300px] h-[251.16px] mr-8 px-[11.63px]">
               <div className="w-[290.09px]  hover:w-[300px] hover:h-[150px] transition-all duration-300">
                 <img src={HELPLINES} className="aspect-auto object-cover" />
               </div>

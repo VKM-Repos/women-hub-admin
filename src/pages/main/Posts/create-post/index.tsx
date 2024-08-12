@@ -5,6 +5,7 @@ import PostForm from '../components/form/PostForm';
 import MDEditor from '../components/form/MDEditor';
 
 
+
 const CreatePostPage = () => {
   const { step, setStep, data, setData, resetStore } = useCreatePostFormStore();
 
@@ -25,7 +26,7 @@ const CreatePostPage = () => {
         return <PostForm />;
       case 2:
         return <MDEditor handleNext={handleNext} handleGoBack={handleGoBack} />;
-        return <OrgStepComplete orgId={orgId} />;
+        // return <OrgStepComplete orgId={orgId} />;
       default:
         return null;
     }
