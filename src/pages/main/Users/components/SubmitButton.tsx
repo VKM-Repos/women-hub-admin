@@ -9,9 +9,25 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-export default function SubmitButton() {
+import spalsh from "@/assets/splash.svg";
+export default function SubmitButton({
+  showModal,
+  handleSetShpwModal,
+  handleResetForm,
+}: {
+  showModal: boolean;
+  handleSetShpwModal: () => void;
+  handleResetForm: () => void;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [splash, setSplash] = useState(false);
+  useEffect(() => {
+    if (showModal) {
+      setIsOpen(true);
+    }
+  }, [showModal]);
   return (
     <div className="bg-white mt-6 px-5 py-7 flex items-center justify-between w-full">
       <Icon name="check" />
@@ -22,16 +38,20 @@ export default function SubmitButton() {
       >
         Save and Continue
       </Button>
-      <Dialog>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
           <Button
             variant="default"
+            // id="confirmModal"
             className="bg-secondary text-white px-5 py-2 hidden"
           >
             Save and Continue
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent
+          className="sm:max-w-[425px]"
+          onInteractOutside={(e) => e.preventDefault()}
+        >
           <DialogHeader>
             <DialogTitle>
               <div className="flex justify-center mb-2">
@@ -51,7 +71,17 @@ export default function SubmitButton() {
 
           <DialogFooter className="justify-center">
             <div className="flex items-center justify-center gap-5">
-              <Button variant="outline">No, skip</Button>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setIsOpen(false);
+                  setSplash(true);
+                  handleSetShpwModal();
+                  handleResetForm();
+                }}
+              >
+                No, skip
+              </Button>
               <Link
                 to={`/upload-user-picture/${2}`}
                 className="bg-secondary text-white px-5 py-2 rounded-md"
@@ -60,6 +90,41 @@ export default function SubmitButton() {
               </Link>
             </div>
           </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={splash} onOpenChange={setSplash}>
+        <DialogTrigger asChild>
+          <Button
+            variant="default"
+            // id="confirmModal"
+            className="bg-secondary text-white px-5 py-2 hidden"
+          >
+            Save and Continue
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>
+              <div className="flex flex-col items-center justify-center mb-2">
+                <div className="mb-10">
+                  <span className="absolute">
+                    <img src={spalsh} alt="" className="w-[300px]" />
+                  </span>
+                  <iframe src="https://lottie.host/embed/d669c5d3-f186-4e69-a874-3151a335757d/ZPQiEbkXq2.json"></iframe>
+                </div>
+                <h2 className="font-bold font-inter text-2xl text-[#106840]">
+                  Created successfully
+                </h2>
+              </div>
+            </DialogTitle>
+            <hr />
+            <DialogDescription>
+              <p className="text-center text-[14px] mt-4 text-txtColor font-inter">
+                {" "}
+                <p>User has been notified</p>
+              </p>
+            </DialogDescription>
+          </DialogHeader>
         </DialogContent>
       </Dialog>
     </div>
