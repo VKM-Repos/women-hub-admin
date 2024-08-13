@@ -3,22 +3,32 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { PlusIcon, SearchIcon } from "lucide-react";
 import { Link } from "react-router-dom";
+import Icon from '@/components/icons/Icon';
+import { useState } from "react";
+import { SupportButtons } from "./SupportButtons";
 
 type Props = {
   showFilters: boolean;
   setShowFilters: any;
   data: any;
   handleFilter: Function;
+  toggleCheckedAll: Function;
+  page: string;
 };
+
 const Filters = ({
   showFilters,
   setShowFilters,
   data,
   handleFilter,
+  toggleCheckedAll,
+  page,
 }: Props) => {
   const toggleFilters = () => {
     setShowFilters(!showFilters);
   };
+
+  const [isChecked, setIsChecked] = useState(false);
 
   return (
     <div className="w-full space-y-8">
@@ -48,26 +58,39 @@ const Filters = ({
         <>
           {showFilters ? (
             <span className="flex items-center justify-start gap-4">
-              <Checkbox></Checkbox>
+               <Checkbox
+                //  checked={isChecked}
+                 onCheckedChange={(isChecked) => {
+                  setIsChecked(!isChecked);
+                  toggleCheckedAll(isChecked)
+                }}
+                aria-label="Select all"
+                className="text-white"
+                />
               <p className="text-txtColor">{"0 of 3"}</p>
               <span className="flex items-center justify-start gap-2">
-                {/* <SupportButtons
-                        icon={<Icon name="archiveIcon"/>}
-                        label="Archive"
-                        onClick ={()=> {}}  />
-                        <SupportButtons
-                        icon={<Icon name="archiveIcon"/>}
-                        label="Archive"
-                        onClick ={()=> {}}  />
-                        <SupportButtons
-                        icon={<Icon name="archiveIcon"/>}
-                        label="Archive"
-                        onClick ={()=> {}}  />*/}
+                <SupportButtons
+                  icon={<Icon name="archivePostIcon" />}
+                  label="Archive"
+                  onClick={() => {}}
+                />
+
+                <SupportButtons
+                  icon={<Icon name="publishPostIcon" />}
+                  label="Publish"
+                  onClick={() => {}}
+                />
+
+                <SupportButtons
+                  icon={<Icon name="deletePostIcon" />}
+                  label="Delete"
+                  onClick={() => {}}
+                />
               </span>
             </span>
           ) : (
             <span className="text-textPrimary flex items-center gap-2">
-              {`All (${data.length})`}
+              {`${page === "FAQs"? "Questions & Answer":"Articles"} (${data.length})`}
               <>
                 <svg
                   width="20"

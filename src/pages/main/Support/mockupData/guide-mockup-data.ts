@@ -4,7 +4,7 @@ export const guideData = [
     title: "How to Create an organization on WomenHu",
     image: "test.jn",
     date: "May 8, 2024",
-    status: "Published",
+    status: "DRAFT",
     editor: `Editor s Name`,
   },
   {
@@ -12,7 +12,7 @@ export const guideData = [
     title: "How to Create an organization on WomenHu",
     image: "test.jn",
     date: "May 8, 2024",
-    status: "Published",
+    status: "ARCHIVED",
     editor: `Editor s Name`,
   },
   {
@@ -20,7 +20,7 @@ export const guideData = [
     title: "How to Create an organization on WomenHu",
     image: "test.jn",
     date: "May 8, 2024",
-    status: "Published",
+    status: "PUBLISHED",
     editor: `Editor s Name`,
   },
   {
@@ -28,7 +28,7 @@ export const guideData = [
     title: "How to Create an organization on WomenHu",
     image: "test.jn",
     date: "May 8, 2024",
-    status: "Published",
+    status: "PUBLISHED",
     editor: `Editor s Name`,
   },
   {
@@ -36,7 +36,7 @@ export const guideData = [
     title: "How to Create an organization on WomenHu",
     image: "test.jn",
     date: "May 8, 2024",
-    status: "Published",
+    status: "PUBLISHED",
     editor: `Editor s Name`,
   },
   {
@@ -44,7 +44,7 @@ export const guideData = [
     title: "How to Create an organization on WomenHu",
     image: "test.jn",
     date: "May 8, 2024",
-    status: "Published",
+    status: "PUBLISHED",
     editor: `Editor s Name`,
   },
   {
@@ -52,7 +52,7 @@ export const guideData = [
     title: "test",
     image: "test.jn",
     date: "May 8, 2024",
-    status: "Published",
+    status: "PUBLISHED",
     editor: `Editor s Name`,
   },
   {
@@ -60,7 +60,7 @@ export const guideData = [
     title: "How to Create an organization on WomenHu",
     image: "test.jn",
     date: "May 8, 2024",
-    status: "Published",
+    status: "PUBLISHED",
     editor: `Editor s Name`,
   },
 ];

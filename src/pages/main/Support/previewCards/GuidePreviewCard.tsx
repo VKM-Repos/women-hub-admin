@@ -14,35 +14,46 @@ import { useNavigate } from "react-router-dom";
 import Icon from "@/components/icons/Icon";
 import { Guide } from "@/types/guides.type";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
+import { SupportButtons } from "../components/SupportButtons";
 
 type Props = {
   showFilters: boolean;
   data: any;
+  checkedAll:boolean;
 };
 
-function GuidePreviewCard({ showFilters, data }: Props) {
+function GuidePreviewCard({ showFilters, data, checkedAll }: Props) {
   const navigate = useNavigate();
 
-  const handleArchivePost = (id: string) => {
-    toast.success("post archived");
+  const handleArchiveGuide = (id: string) => {
+    toast.success("Guide archived");
   };
-  const handleDeletePost = (id: string) => {
-    toast.success("post deleted");
+  const handleDeleteGuide = (id: string) => {
+    toast.success("Guide deleted");
   };
-  const handleViewPost = (id: string) => {
-    navigate(`/posts/${id}`);
+  const handleViewGuide = (id: string) => {
+    navigate(`/guide/${id}`);
   };
-  const handlePublishPost = (id: string) => {
-    toast.success("post published");
+  const handlePublishGuide = (id: string) => {
+    toast.success("Guide published");
   };
+
+  const [isSelected, setIsSelected] = useState(false)
+
   return (
-    <div className="font-inter hover:border-secondary/70 group flex w-full items-center rounded-xl border-2 border-white bg-white p-4 shadow-sm">
+    <div className="font-inter hover:border-secondary/70 group flex w-full items-center rounded-xl border-2 border-white bg-white px-[20px] py-[30px] shadow-sm">
       {showFilters && (
         <div className="w-[4rem]">
-          {/* This checkbox uses shad cn's lib, */}
-          {/* TODO: Customize checkbox component in such a way that when you select(isChecked) will select the id of the data passed to this
-            card so it can be used for bulk actions - ie, archive, publish, preview etc, bulk actions */}
-          <Checkbox></Checkbox>
+          <Checkbox
+            checked={checkedAll? checkedAll: isSelected}
+            onCheckedChange={(checked: boolean) => {
+              // toggleSelected(data.id, checked)
+              setIsSelected(checked);
+            }}
+            aria-label="Select all"
+            className="text-white"
+          />
         </div>
       )}
       <div className={`grid w-full grid-cols-10 gap-6`}>
@@ -54,9 +65,6 @@ function GuidePreviewCard({ showFilters, data }: Props) {
             {data?.title}
           </h5>
           <div className="flex items-center justify-start gap-2">
-            {/*<span className="border-secondary text-secondary font-light flex w-fit items-center justify-center rounded-full border bg-white p-0 px-2 text-xs">
-              {data.category}
-            </span>*/}
             <p
               className={cn(
                 "text-xs font-bold capitalize",
@@ -75,31 +83,31 @@ function GuidePreviewCard({ showFilters, data }: Props) {
       >
         <div className="flex items-center justify-between gap-6">
           <span className="invisible flex items-center justify-start gap-2 group-hover:visible">
-            {/*{data.status === "PUBLISHED" && (
-              <PostButtons
-                icon={<Icon name="archivePostIcon" />}
-                label="Archive"
-                onClick={() => handleArchivePost(data.id)}
-              />
+          {data?.status === "PUBLISHED" && (
+              <SupportButtons
+              icon={<Icon name="archivePostIcon" />}
+              label="Archive"
+              onClick={() => handleArchiveGuide(data?.id)}
+            />
             )}
-            {data.status === "DRAFT" && (
-              <PostButtons
-                icon={<Icon name="publishPostIcon" />}
-                label="Publish"
-                onClick={() => handlePublishPost(data.id)}
-              />
-            )}
-            <PostButtons
+            {data?.status === "DRAFT" && (
+            <SupportButtons
+              icon={<Icon name="publishPostIcon" />}
+              label="Publish"
+              onClick={() => handlePublishGuide(data?.id)}
+            />
+            )}  
+            <SupportButtons
               icon={<Icon name="viewPostIcon" />}
               label="View"
-              onClick={() => handleViewPost(data.id)}
+              onClick={() => handleViewGuide(data?.id)}
             />
 
-            <PostButtons
+            <SupportButtons
               icon={<Icon name="deletePostIcon" />}
               label="Delete"
-              onClick={() => handleDeletePost(data.id)}
-        />*/}
+              onClick={() => handleDeleteGuide(data?.id)}
+            />
           </span>
           <p className="text-[#106840] font-normal text-xs">
             {"Editor’s Name"}

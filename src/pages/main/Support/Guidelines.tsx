@@ -23,31 +23,37 @@ export default function Guidelines() {
     setGuidesData(filteredData);
   };
 
+  const [checkedAll, setCheckedAll] = useState(false);
+
+  const toggleCheckedAll = (value: boolean)=>{
+    setCheckedAll(value)
+  }
+  
   return (
-    <div className="mx-10">
+    <div className="mx-24">
       <div className="flex flex-row justify-between bg-white border-2 border-zinc-100 shadow-xl rounded-lg px-5 py-5 mb-10">
         <div className="flex flex-col justify-around">
           <div>
-            <h1 className="text-[#106840] font-medium text-[32px]">
+            <h1 className="text-[#106840] font-normal font-sora text-[32px]">
               A Guide to Women Hub
             </h1>
           </div>
-          <div className="mt-2 mb-2">
-            <p className="text-[#515151] text-[16px]">
+          <div className="mt-2 mb-4">
+            <p className="text-[#515151] font-normal font-quicksand text-[16px]">
               Learn about our community guidelines and policies to ensure a safe
               and welcoming environment for everyone.
             </p>
           </div>
           <div>
             <Link to={"/support/editHeader"}>
-              <button className="bg-[#FCFCFC] px-[16px] py-[8px] border-2 border-gray-300 rounded-lg">
+              <button className="bg-[#FCFCFC] px-[16px] py-[8px] font-bold font-inter text-[13px] border-2 border-gray-300 rounded-lg">
                 Edit Header
               </button>
             </Link>
           </div>
         </div>
-        <div className="w-[290.09px]">
-          <img src={GettingStart} className="h-full aspect-auto object-cover" />
+        <div className="w-[322.95px]">
+          <img src={GettingStart} className="h-full aspect-auto object-fit" />
         </div>
       </div>
       <section className="flex flex-col gap-y-6">
@@ -56,6 +62,8 @@ export default function Guidelines() {
           setShowFilters={setShowFilters}
           data={guidesData}
           handleFilter={handleFilter}
+          toggleCheckedAll={toggleCheckedAll}
+          page="Guidelines"
         />
 
         <div className="flex flex-col gap-4">
@@ -65,6 +73,7 @@ export default function Guidelines() {
                 key={guide.id}
                 showFilters={showFilters}
                 data={guide}
+                checkedAll={checkedAll}
               />
             ))
           ) : (
@@ -73,7 +82,7 @@ export default function Guidelines() {
         </div>
         <div className="flex items-center justify-end space-x-2 py-4">
           <div className="flex-1 text-sm text-muted-foreground">
-            Showing 1-10 of {guides.length}
+            Showing 1-10 of {guidesData.length}
           </div>
           <div className="space-x-0">
             <Button
