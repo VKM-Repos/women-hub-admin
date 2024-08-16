@@ -23,7 +23,7 @@ const EditHeader = () => {
         return <EditForm />;
       case 2:
         return <MDEditor handleNext={handleNext} handleGoBack={handleGoBack} />;
-      // return <OrgStepComplete orgId={orgId} />;
+      
       default:
         return null;
     }

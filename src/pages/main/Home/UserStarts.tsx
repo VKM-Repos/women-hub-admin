@@ -15,21 +15,21 @@ export const userStarts: userTypes[] = [
     color: "bg-[#B5FFE1]",
   },
   {
-    title: "Users",
+    title: "Organizations",
     count: 180,
     icon: <img src={UsersIcon} />,
-    color: "bg-[#B5FFE1]",
-  },
-  {
-    title: "Organizations",
-    count: 160,
-    icon: <img src={Organization} />,
     color: "bg-[#F1EAE4]",
   },
   {
     title: "Events",
+    count: 160,
+    icon: <img src={Organization} />,
+    color: "bg-[#DFE2FF]",
+  },
+  {
+    title: "Projects",
     count: 260,
     icon: <img src={Events} />,
-    color: "bg-[#DFE2FF]",
+    color: "bg-[#E9FEFF]",
   },
 ];

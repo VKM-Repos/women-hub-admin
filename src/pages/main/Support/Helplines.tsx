@@ -147,7 +147,7 @@ const columns: ColumnDef<string>[] = [
 ];
 export default function Helplines() {
   return (
-    <div className="w-full mx-10">
+    <div className="w-full">
       <GenericTable columns={columns} data={data} />
     </div>
   );

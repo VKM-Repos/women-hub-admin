@@ -27,6 +27,7 @@ import Support from "@/pages/main/Support/Support";
 import Guidelines from "@/pages/main/Support/Guidelines";
 import FAQs from "@/pages/main/Support/FAQs";
 import Helplines from "@/pages/main/Support/Helplines";
+import EditHeader from "@/pages/main/Support/EditHeader";
 
 export const routess = [
   {
@@ -217,7 +218,7 @@ export const routess = [
             name: "Edit Header",
             title: "EDit Header",
             hasSiderLink: false,
-            component: CreatePosts,
+            component: EditHeader,
             path: "/support/editHeader",
           },
         ],

@@ -1,7 +1,8 @@
 import Tag from "@/components/dashboard/Tag";
-import Ticket from "./Ticket";
-
+import TicketPreviewCard from "./previewCards/TicketPreviewCard";
+import { ticketData } from "./mockupData/ticket-mockup-data";
 import { Button } from "@/components/ui/button";
+import { Ticket } from "@/types/tickets.types";
 import Icon from "@/components/icons/Icon";
 import {
   DropdownMenu,
@@ -11,60 +12,80 @@ import {
 } from "@/components/ui/dropdown-menu";
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
+import TicketsButtons from "./components/TicketsButtons";
 
-const tickets = [
-  {
-    id: "202406-A01",
-    issue: "Registration",
-    report: `I receive internal error whenever i try to sign up and i have tried
-        refreshing my browser but nothing has changed. I receive internal error
-        whenever i try to sign up and i have tried refreshing my browser but
-        nothing has changed`,
-    email: "joe@gmail.com",
-    status: "read",
-  },
-  {
-    id: "202406-A02",
-    issue: "Registration",
-    report: `I receive internal error whenever i try to sign up and i have tried
-        refreshing my browser but nothing has changed. I receive internal error
-        whenever i try to sign up and i have tried refreshing my browser but
-        nothing has changed`,
-    email: "joe@gmail.com",
-    status: "read",
-  },
-  {
-    id: "202406-A03",
-    issue: "Registration",
-    report: `I receive internal error whenever i try to sign up and i have tried
-        refreshing my browser but nothing has changed. I receive internal error
-        whenever i try to sign up and i have tried refreshing my browser but
-        nothing has changed`,
-    email: "joe@gmail.com",
-    status: "read",
-  },
-];
 
 const Tickets = () => {
+
   const [btns, setBtns] = useState([
     {
       id: 1,
-      name: "test",
-      status: true,
+      title: "All",
+      isActive: true
     },
+    {
+      id: 2,
+      title: "New",
+      isActive: false
+    },
+    {
+      id: 3,
+      title: "Ongoing",
+      isActive: false
+    },
+    {
+      id: 4,
+      title: "Closed",
+      isActive: false
+    }
   ]);
+
+  const tickets: Ticket[] | any = ticketData;
+
+  const [ticketsData, setTicketsData] = useState(tickets);
+
+  const filterTickets = (status: string)=>{
+
+    setBtns(prevBtns =>
+      prevBtns.map(btn =>
+        btn.title === status
+          ? { ...btn, isActive: !btn.isActive }
+          : { ...btn, isActive: false }
+      )
+    );
+
+    if (status === "All"){
+      setTicketsData(tickets)
+      
+    }else if (status === "New"){
+      const filteredData = tickets.filter((ticket: Ticket) =>
+        ticket.status === "New"
+      );
+      setTicketsData(filteredData)
+    }else if (status === "Ongoing"){
+      const filteredData = tickets.filter((ticket: Ticket) =>
+        ticket.status === "Ongoing"
+      );
+      setTicketsData(filteredData)
+    }else if (status === "Closed"){
+      const filteredData = tickets.filter((ticket: Ticket) =>
+        ticket.status === "Closed"
+      );
+      setTicketsData(filteredData)
+    }else{
+      setTicketsData(tickets)
+    }
+
+  }
+
   return (
     <>
-      <div className="flex flex-col bg-white border-2 border-zinc-100 shadow-xl rounded-lg px-5 mb-10">
+      <div className="flex flex-col bg-white border-2 border-zinc-100 shadow-xl rounded-lg px-[24px] py-[13px] mb-10">
         <div className="flex justify-between mb-4">
           <div className="self-center">
-            <Tag title="Support Ticket" />
+            <Tag title="Support Ticket" color="bg-[#B5E4CA]"/>
           </div>
-          <div>
-            <button className="border p-2 rounded-xl mt-3">
-              View all tickets
-            </button>
-          </div>
+          
         </div>
         <div className="flex items-center justify-between w-full">
           <div className="flex  bg-white py-1 px-3 ">
@@ -87,7 +108,7 @@ const Tickets = () => {
               </span>
               <Input
                 placeholder="Search Articles"
-                className="max-w-sm border-0"
+                className="w-full border-none bg-transparent focus:outline-none"
               />
             </div>
 
@@ -149,7 +170,7 @@ const Tickets = () => {
               <DropdownMenuContent align="end">
                 <div className="px-5">
                   <div>
-                    <Tag title="Showing 10 of 32 Users" />
+                    <Tag title="Showing 10 of 32 Users" color="bg-[#B5E4CA]"/>
                     <hr className="mt-4 mb-6" />
                   </div>
                   <span className="text-txtColor text-sm">Showing</span>
@@ -217,34 +238,15 @@ const Tickets = () => {
           </div>
         </div>
         <div className="flex mt-4 w-full">
-          <button
-            onClick={() => console.log(true)}
-            className={`px-8 py-2 ${"bg-inherit font-medium border-2 border-b-white border-t-white border-r-white border-l-white"}`}
-          >
-            All
-          </button>
-          <button
-            onClick={() => console.log(false)}
-            className={`px-8 py-2 ${"bg-inherit font-medium border-2 border-b-[#106840] border-t-white border-r-white border-l-white"}`}
-          >
-            New
-          </button>
-          <button
-            onClick={() => console.log(true)}
-            className={`px-8 py-2 ${"bg-inherit font-medium border-2 border-b-grey border-t-white border-r-white border-l-white"}`}
-          >
-            Ongoing
-          </button>
-          <button
-            onClick={() => console.log(false)}
-            className={`px-8 py-2 ${"bg-inherit font-medium border-2 border-b-[#106840] border-t-white border-r-white border-l-white"}`}
-          >
-            Closed
-          </button>
+
+          {btns.map((btn) => (
+            <TicketsButtons key={btn.id} data={btn} filter={filterTickets} />
+          ))}
+
         </div>
 
-        {tickets?.map((ticket) => {
-          return <Ticket key={ticket.id} data={ticket} />;
+        {ticketsData?.map((ticket: Ticket) => {
+          return <TicketPreviewCard key={ticket.id} data={ticket} />;
         })}
       </div>
     </>

@@ -1,58 +1,20 @@
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/icons/Icon";
 import Tag from "@/components/dashboard/Tag";
-import Ticket from "./Ticket";
 import { Link } from "react-router-dom";
 import GettingStart from "@/assets/images/Getting started.png";
 import FAQ from "@/assets/images/FAQ.png";
 import HELPLINES from "@/assets/images/HELPLINES.png";
 import { useNavigate } from "react-router-dom";
-
-const tickets = [
-  {
-    id: "202406-A01",
-    issue: "Registration",
-    report: `I receive internal error whenever i try to sign up and i have tried
-      refreshing my browser but nothing has changed. I receive internal error
-      whenever i try to sign up and i have tried refreshing my browser but
-      nothing has changed`,
-    email: "joe@gmail.com",
-    status: "read",
-  },
-  {
-    id: "202406-A02",
-    issue: "Registration",
-    report: `I receive internal error whenever i try to sign up and i have tried
-      refreshing my browser but nothing has changed. I receive internal error
-      whenever i try to sign up and i have tried refreshing my browser but
-      nothing has changed`,
-    email: "joe@gmail.com",
-    status: "read",
-  },
-  {
-    id: "202406-A03",
-    issue: "Registration",
-    report: `I receive internal error whenever i try to sign up and i have tried
-      refreshing my browser but nothing has changed. I receive internal error
-      whenever i try to sign up and i have tried refreshing my browser but
-      nothing has changed`,
-    email: "joe@gmail.com",
-    status: "read",
-  },
-  {
-    id: "202406-A04",
-    issue: "Registration",
-    report: `I receive internal error whenever i try to sign up and i have tried
-      refreshing my browser but nothing has changed. I receive internal error
-      whenever i try to sign up and i have tried refreshing my browser but
-      nothing has changed`,
-    email: "joe@gmail.com",
-    status: "read",
-  },
-];
+import TicketPreviewCard from "./previewCards/TicketPreviewCard";
+import { ticketData } from "./mockupData/ticket-mockup-data";
+import { Ticket } from "@/types/tickets.types";
 
 const Support = () => {
   const navigate = useNavigate();
+  
+  const tickets: Ticket[] | any = ticketData;
+
   return (
     <>
       <div className="mb-10">
@@ -126,7 +88,7 @@ const Support = () => {
           </Link>
         </div>
         <div className="mt-20 mb-10">
-          <div className="flex flex-col bg-white border-2 border-zinc-100 shadow-xl rounded-lg px-5 mb-10">
+          <div className="flex flex-col bg-white border-2 border-zinc-100 shadow-xl rounded-lg px-[24px] py-[13px] mb-10">
             <div className="flex justify-between mb-4">
               <div className="self-center">
                 <Tag title="Support Ticket" color="bg-[#B5E4CA]" />
@@ -141,8 +103,8 @@ const Support = () => {
               </div>
             </div>
 
-            {tickets?.map((ticket) => {
-              return <Ticket key={ticket.id} data={ticket} />;
+            {tickets?.map((ticket: Ticket) => {
+              return <TicketPreviewCard key={ticket.id} data={ticket} />;
             })}
           </div>
         </div>

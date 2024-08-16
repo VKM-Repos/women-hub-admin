@@ -3,16 +3,7 @@ import Thumbnail from "@/assets/images/guide-thumbnail.png";
 import Avatar from "@/assets/icons/avatar.svg";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-{
-  /*import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';*/
-}
 import Icon from "@/components/icons/Icon";
-import { Guide } from "@/types/guides.type";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { SupportButtons } from "../components/SupportButtons";
@@ -116,16 +107,6 @@ function GuidePreviewCard({ showFilters, data, checkedAll }: Props) {
             <img src={Avatar} alt="" />
           </picture>
         </div>
-        {/*<div className="text-txtColor flex items-start gap-4 text-xs font-semibold">
-          <span className="flex items-center gap-2">
-            {"23"}
-            <Icon name="postCommentIcon" />
-          </span>
-          <span className="flex items-center gap-2">
-            {"0"}
-            <Icon name="postInteractionIcon" />
-          </span>
-        </div>*/}
       </div>
     </div>
   );
@@ -133,36 +114,4 @@ function GuidePreviewCard({ showFilters, data, checkedAll }: Props) {
 
 export default GuidePreviewCard;
 
-{
-  /*type PostButtonActions = {
-  icon: React.ReactNode;
-  onClick: (e: any) => void;
-  label: string;
-};
 
-export const PostButtons: React.FC<PostButtonActions> = ({
-  icon,
-  label,
-  onClick,
-}) => {
-  return (
-    <button onClick={onClick} className={''}>
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <span className="relative flex aspect-square w-fit items-center justify-center ">
-              {icon}
-            </span>
-          </TooltipTrigger>
-          <TooltipContent
-            side="top"
-            className="bg-secondary border-none text-xs text-white"
-          >
-            {label}
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-    </button>
-  );
-};*/
-}

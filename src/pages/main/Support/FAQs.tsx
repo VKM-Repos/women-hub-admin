@@ -18,8 +18,6 @@ export default function FAQs() {
     const filteredData = faqs.filter((faq: any) =>
       faq.title.toLowerCase().includes(filterValue)
     );
-
-    console.log(filteredData)
     setFAQData(filteredData);
   };
 
