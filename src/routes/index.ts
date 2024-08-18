@@ -21,9 +21,12 @@ import UploadPicture from '@/pages/main/Users/UploadPicture';
 import { renderRoutes } from './generateRoutes';
 import PostPreview from '@/pages/main/Posts/preview';
 import PostDetailsPage from '@/pages/main/Posts/postid';
-import Tickets from "@/pages/main/Support/Tickets";
-import Editor from "@/pages/main/Users/Editor";
-
+import Tickets from '@/pages/main/Support/Tickets';
+import Editor from '@/pages/main/Users/Editor';
+import Support from '@/pages/main/Support/Support';
+import Guidelines from '@/pages/main/Support/components/Guidelines';
+import FAQs from '@/pages/main/Support/components/FAQs';
+import Helplines from '@/pages/main/Support/components/Helplines';
 
 export const routess = [
   {
@@ -66,16 +69,15 @@ export const routess = [
             path: '/administrators',
           },
           {
-
-            name: "Editors",
-            title: "List of admin",
+            name: 'Editors',
+            title: 'List of admin',
             hasSiderLink: true,
             component: Editor,
-            path: "/editors",
+            path: '/editors',
           },
           {
-            name: "Create User",
-            title: "Create User",
+            name: 'Create User',
+            title: 'Create User',
             hasSiderLink: false,
             component: CreateUser,
             path: '/create-user',
@@ -163,53 +165,53 @@ export const routess = [
         path: '/settings',
       },
       {
-        name: "Support",
-        title: "Support page",
+        name: 'Support',
+        title: 'Support page',
         component: Support,
-        path: "/support",
+        path: '/support',
         hasSiderLink: true,
         routes: [
           {
-            name: "Support",
-            title: "Guidelines",
+            name: 'Support',
+            title: 'Guidelines',
             hasSiderLink: true,
-            component: Guideline,
-            path: "/support/a-guide-to-womenhub",
+            component: Guidelines,
+            path: '/support/a-guide-to-womenhub',
           },
           {
-            name: "Support",
-            title: "FAQs",
+            name: 'Support',
+            title: 'FAQs',
             hasSiderLink: true,
             component: FAQs,
-            path: "/support/FAQs",
+            path: '/support/FAQs',
           },
           {
-            name: "Support",
-            title: "Helplines",
+            name: 'Support',
+            title: 'Helplines',
             hasSiderLink: false,
             component: Helplines,
-            path: "/support/helplines",
+            path: '/support/helplines',
           },
           {
-            name: "Support",
-            title: "View All Tickets",
+            name: 'Support',
+            title: 'View All Tickets',
             hasSiderLink: false,
             component: Tickets,
-            path: "/support/tickets",
+            path: '/support/tickets',
           },
           {
-            name: "Support",
-            title: "Support",
+            name: 'Support',
+            title: 'Support',
             hasSiderLink: false,
             component: CreateOrganization,
-            path: "/create-organization",
+            path: '/create-organization',
           },
           {
-            name: "Support",
-            title: "Support",
+            name: 'Support',
+            title: 'Support',
             hasSiderLink: false,
             component: UploadPicture,
-            path: "/upload-user-picture/:id",
+            path: '/upload-user-picture/:id',
           },
         ],
       },
