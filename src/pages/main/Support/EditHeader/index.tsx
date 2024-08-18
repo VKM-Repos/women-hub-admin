@@ -1,12 +1,13 @@
-import { useCreatePostFormStore } from "@/store/useCreatePostForm.store";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import EditForm from "../components/form/EditForm";
 import MDEditor from "../components/form/MDEditor";
+import { useEditSupportHeaderForm } from "@/store/useEditSupportHeaderForm.store";
 
 const EditHeader = () => {
-  const { step, setStep, data, setData, resetStore } = useCreatePostFormStore();
+  const { step, setStep, data, setData, resetStore } = useEditSupportHeaderForm();
 
+  console.log(data)
   const handleNext = () => {
     setStep(step + 1);
   };
@@ -29,12 +30,15 @@ const EditHeader = () => {
     }
   };
 
+
+
   return (
     <section className="mx-auto w-full space-y-1 md:w-[95%] pb-[5rem]">
       <div className="rounded-lg bg-white w-full pb-[4rem]">
         <Header
           step={step}
-          title={data?.postDetails?.title}
+          // title= "Header Information"
+          title={data?.headerDetails?.title}
           handleGoBack={handleGoBack}
         />
 

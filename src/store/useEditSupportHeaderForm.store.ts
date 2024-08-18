@@ -29,7 +29,7 @@ export const useEditSupportHeaderForm = create<EditSupportHeaderForm>(
       step: 1,
       data: {
         headerDetails: {
-          title: '',
+          title: 'Header Information',
           description: '',
           },
         coverPicture: null,
@@ -44,7 +44,7 @@ export const useEditSupportHeaderForm = create<EditSupportHeaderForm>(
           step: 9,
           data: {
             headerDetails: {
-              title: '',
+              title: 'Header Information',
               description: '',
               },
             coverPicture: null,

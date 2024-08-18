@@ -33,7 +33,7 @@ const Header = ({ step, title, handleGoBack }: Props) => {
       <div className="w-full max-w-sm flex items-center justify-start gap-4">
         <div className="w-[20px] h-[40px] bg-[#B5E4CA] rounded"></div>
         <h2 className="text-xl font-semibold w-full max-w-lg truncate">
-          {title ? title : "Add post"}
+          {title}
         </h2>
       </div>
       {step > 1 && (

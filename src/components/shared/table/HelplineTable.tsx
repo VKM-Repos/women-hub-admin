@@ -15,7 +15,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/icons/Icon";
-
+import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -78,9 +78,11 @@ export default function HelplineTable({ columns, data }: tableProps) {
             </p>
           </div>
           <div>
-            <button className="bg-[#FCFCFC] px-[16px] py-[8px] font-bold font-inter text-[13px] border-2 border-gray-300 rounded-lg">
-              Edit Header
-            </button>
+          <Link to={"/support/editHeader"}>
+              <button className="bg-[#FCFCFC] px-[16px] py-[8px] font-bold font-inter text-[13px] border-2 border-gray-300 rounded-lg">
+                Edit Header
+              </button>
+            </Link>
           </div>
         </div>
         <div className="w-[290.09px]">
