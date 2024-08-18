@@ -8,13 +8,13 @@ type Props = {
     step: number,
     title?: string,
     handleGoBack: () => void
+    handleSaveToDraft: () => void
+    handlePublish: () => void
+    handleUpdate: () => void
 }
 
-const PostHeader = ({ step, title, handleGoBack }: Props) => {
+const PostHeader = ({ step, title, handleGoBack, handleSaveToDraft, handlePublish, handleUpdate }: Props) => {
 
-    const handlePublish = () => { }
-    const handleSaveToDraft = () => { }
-    const handleUpdate = () => { }
 
     const menu: any[] = [
         {

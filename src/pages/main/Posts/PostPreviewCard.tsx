@@ -46,7 +46,7 @@ function PostPreviewCard({ showFilters, post }: Props) {
       )}
       <div className={`grid w-full grid-cols-10 gap-6`}>
         <picture className="col-span-1 aspect-square w-full">
-          <img src={Thumbnail} alt="" />
+          <img src={post.coverImageUrl ? post.coverImageUrl : Thumbnail} alt="" />
         </picture>
         <div className="col-span-9 space-y-1">
           <h5 className="font-normal text-textPrimary w-full max-w-xl truncate text-base">
@@ -65,7 +65,7 @@ function PostPreviewCard({ showFilters, post }: Props) {
               {post?.status?.toLocaleLowerCase()}
             </p>
             &bull;
-            <p className="font-normal text-txtColor text-xs">{post?.datePublished}</p>
+            <p className="font-normal text-txtColor text-xs">{post?.status === 'PUBLISHED' ? post.datePublished : post?.createdAt}</p>
           </div>
         </div>
       </div>
@@ -100,18 +100,18 @@ function PostPreviewCard({ showFilters, post }: Props) {
               onClick={() => handleDeletePost(post?.id)}
             />
           </span>
-          <p className="text-textPrimary font-normal text-xs">{'Admin 1'}</p>
+          <p className="text-textPrimary font-normal text-xs">{post?.author}</p>
           <picture className="aspect-square w-5">
             <img src={Avatar} alt="" />
           </picture>
         </div>
         <div className="text-txtColor flex items-start gap-4 text-xs font-semibold">
           <span className="flex items-center gap-2">
-            {'23'}
+            {post.numberOfComments}
             <Icon name="postCommentIcon" />
           </span>
           <span className="flex items-center gap-2">
-            {'0'}
+            {post.numberOfLikes}
             <Icon name="postInteractionIcon" />
           </span>
         </div>

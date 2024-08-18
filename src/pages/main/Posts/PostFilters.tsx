@@ -10,7 +10,7 @@ import { Post } from '@/types/posts.type';
 type Props = {
   showFilters: boolean;
   setShowFilters: any;
-  posts: Post[]
+  posts: Array<Post>
 };
 
 const PostFilters = ({ showFilters, setShowFilters, posts }: Props) => {
@@ -70,7 +70,7 @@ const PostFilters = ({ showFilters, setShowFilters, posts }: Props) => {
             </span>
           ) : (
             <span className="text-textPrimary flex items-center gap-2">
-              {`All (${posts.length})`}
+              {`All (${posts?.length ?? ""})`}
               <>
                 <svg
                   width="20"
