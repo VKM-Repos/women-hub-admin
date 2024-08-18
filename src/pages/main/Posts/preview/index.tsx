@@ -1,14 +1,9 @@
 
-import { MenuIcon } from "lucide-react";
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom"
-import Logo from '@/assets/women-hub-logo.svg'
-import NavLinks from "./components/NavLinks";
 import BlogImage from '@/assets/sample-blog-image.png'
-import BlogImg from '@/assets/blog-pic.png'
 import NewsLetterSVG from "./components/NewsLetterSVG";
-import FooterSVG from "./components/FooterSVG";
-import RecentPost from "./components/RecentPost";
+import { useCreatePostFormStore } from "@/store/useCreatePostForm.store";
 
 type Props = {}
 
@@ -24,101 +19,37 @@ const PostPreview = (props: Props) => {
   
   const { id } = useParams<{ id: string }>()
 
+  const { data, setData } = useCreatePostFormStore();
+
   return (
     <div className="absolute inset-0 z-50 w-screen min-h-screen bg-white overflow-y-scroll pb-[7rem]">
-      <header className="w-full border-b bg-white">
-      <nav
-        className={`font-sora bg-white fixed inset-x-0 top-0 z-[2000] flex items-center justify-between px-2 py-2 shadow-sm md:px-8`}
-      >
-        <div className="flex w-1/3 items-center justify-start gap-4 py-2">
-          <button className={'block lg:hidden'}>
-            <MenuIcon />
-          </button>
-          <Link className="" to="#" aria-label="Home">
-            <img
-              src={Logo}
-              alt=""
-              className="aspect-auto w-[3rem] md:w-[4rem]"
-              width={100}
-              height={100}
-            />
-          </Link>
-        </div>
-
-        <div className="mx-auto hidden w-1/3 items-center justify-center space-x-4 lg:flex">
-          <NavLinks />
-        </div>
-
-        <div className="font-quickSand flex w-fit place-content-end items-center gap-5 lg:w-1/3">
-         <picture>
-          <img src="/src/assets/org-avatar.svg" alt="" className="border-2 rounded-full w-8 aspect-square border-secondary"/>
-         </picture>
-         <picture>
-          <img src="/src/assets/org-avatar.svg" alt="" className="border-2 rounded-full w-8 aspect-square border-secondary"/>
-         </picture>
-        </div>
-      </nav>
-    </header>
 
     <section className="mt-[7rem] w-full lg:w-[85%] mx-auto h-[25rem] bg-textPrimary rounded-[1rem] p-4 md:p-12 grid grid-cols-1 md:grid-cols-2">
       <div className="col-span-1 flex flex-col items-start justify-center gap-3 relative">
-        <span className="absolute -top-5 left-0">
+        <button className="absolute -top-5 left-0">
           <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M15.1541 26.8945L5.95741 17.6979C5.81807 17.5585 5.71914 17.4076 5.66061 17.245C5.60302 17.0824 5.57422 16.9082 5.57422 16.7225C5.57422 16.5367 5.60302 16.3625 5.66061 16.1999C5.71914 16.0373 5.81807 15.8864 5.95741 15.747L15.1541 6.55039C15.4095 6.29493 15.7286 6.16116 16.1114 6.14908C16.495 6.13793 16.8262 6.2717 17.1049 6.55039C17.3836 6.80585 17.5289 7.12495 17.541 7.50768C17.5522 7.89134 17.4184 8.22251 17.1397 8.5012L10.3119 15.329H25.8835C26.2783 15.329 26.6095 15.4623 26.877 15.7289C27.1436 15.9965 27.2769 16.3276 27.2769 16.7225C27.2769 17.1173 27.1436 17.448 26.877 17.7146C26.6095 17.9821 26.2783 18.1159 25.8835 18.1159H10.3119L17.1397 24.9437C17.3952 25.1992 17.5289 25.5243 17.541 25.9191C17.5522 26.3139 17.4184 26.6391 17.1397 26.8945C16.8842 27.1732 16.5591 27.3125 16.1643 27.3125C15.7695 27.3125 15.4328 27.1732 15.1541 26.8945Z" fill="white"/>
           </svg>
-        </span>
+        </button>
         <span className="p-1 px-2 text-white bg-secondary text-xs rounded-lg">
           Education
         </span>
-        <h2 className="text-white font-bold max-w-sm text-4xl">Empowering Women: Breaking Barriers and Building Bridges</h2>
-        <p className="text-sm text-white font-light">Published by: Women Hub • Feb 02, 2024</p>
+        <h2 className="text-white font-bold max-w-sm text-4xl">{data.title}</h2>
+        <p className="text-sm text-white font-light">Published by: {data.author} • Feb 02, 2024</p>
         <p className="text-sm text-white font-light">5 mins Read</p>
       </div>
       <div className="col-span-1">
         <picture>
-          <img src={BlogImage} alt="" className="w-[28rem] aspect-auto mx-auto" />
+          <img src={data.coverImageUrl ? data.coverImageUrl : BlogImage} alt="" className="w-[28rem] aspect-auto mx-auto" />
         </picture>
       </div>
     </section>
 
     <article className="w-[80%] mx-auto mt-[5rem] space-y-10">
-      <section className="space-y-10">
-        <h1 className="text-black text-3xl font-bold text-left">Introduction</h1>
-        <p className="text-black font-normal text-base">
-          In a world where progress is measured by inclusivity and diversity, the empowerment of women stands as a fundamental pillar. The Women Hub initiative is committed to not only acknowledging this reality but actively participating in the transformation of societal norms.
-        </p>
-      </section>
-
-      <section className="space-y-10">
-        <h1 className="text-black text-3xl font-bold text-left">Understanding Women Empowerment: Navigating the Landscape</h1>
-        <p className="text-black font-normal text-base">
-          Women empowerment goes beyond mere rhetoric. It's a multi-dimensional journey encompassing economic, educational, and societal dimensions. It's about creating an environment where every woman has the opportunity to pursue her dreams and ambitions.
-        </p>
-      </section>
-
-      <section className="space-y-10">
-        <h1 className="text-black text-3xl font-bold text-left">Success Stories: Voices That Inspire</h1>
-        <p className="text-black font-normal text-base">
-          Real empowerment stories are not just tales of overcoming challenges; they are powerful narratives of resilience and determination. Take, for instance, the story of [Name], who defied societal expectations to become a leader in her field. These stories serve as beacons of inspiration, proving that every woman has the potential to make a significant impact.
-        </p>
-      </section>
-      <section className="space-y-10">
-        <h1 className="text-black text-3xl font-bold text-left">Challenges and Solutions: Addressing Hurdles</h1>
-        <p className="text-black font-normal text-base">
-          While celebrating achievements, it's equally important to acknowledge the hurdles women face daily. From gender-based discrimination to limited access to resources, challenges persist. In this section, we delve into these issues, aiming to spark conversations that lead to effective solutions.
-        </p>
-      </section>
-      <section className="space-y-10">
-        <h1 className="text-black text-3xl font-bold text-left">Conclusion</h1>
-        <p className="text-black font-normal text-base">
-          The journey of empowering women is ongoing. With each success story, every shared challenge, and the collaborative efforts of initiatives like Women Hub, we take one step closer to a more inclusive future. Let this be an invitation to join us on this transformative journey, ensuring that no woman is left behind.
-        </p>
-      </section>
-      <section className="space-y-10">
-       <picture>
-        <img src={BlogImg} alt=""  />
-       </picture>
-      </section>
+      <div className="text-base md:text-lg"
+      dangerouslySetInnerHTML={{__html: data.body}}
+      />
+ 
       <section className="space-y-10">
        <div className="flex items-center justify-between">
         <span className=" text-textPrimary text-base font-semibold underline">{'< Older post'}</span>
@@ -144,10 +75,6 @@ const PostPreview = (props: Props) => {
         <NewsLetterSVG />
         </section>
     </article>
-    <div className="w-[90%] mx-auto mt-20">
-      <RecentPost />
-    </div>
-    <FooterSVG />
     </div>
   )
 }
