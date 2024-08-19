@@ -1,58 +1,20 @@
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/icons/Icon";
 import Tag from "@/components/dashboard/Tag";
-import Ticket from "./Ticket";
 import { Link } from "react-router-dom";
 import GettingStart from "@/assets/images/Getting started.png";
 import FAQ from "@/assets/images/FAQ.png";
 import HELPLINES from "@/assets/images/HELPLINES.png";
 import { useNavigate } from "react-router-dom";
-
-const tickets = [
-  {
-    id: "202406-A01",
-    issue: "Registration",
-    report: `I receive internal error whenever i try to sign up and i have tried
-      refreshing my browser but nothing has changed. I receive internal error
-      whenever i try to sign up and i have tried refreshing my browser but
-      nothing has changed`,
-    email: "joe@gmail.com",
-    status: "read",
-  },
-  {
-    id: "202406-A02",
-    issue: "Registration",
-    report: `I receive internal error whenever i try to sign up and i have tried
-      refreshing my browser but nothing has changed. I receive internal error
-      whenever i try to sign up and i have tried refreshing my browser but
-      nothing has changed`,
-    email: "joe@gmail.com",
-    status: "read",
-  },
-  {
-    id: "202406-A03",
-    issue: "Registration",
-    report: `I receive internal error whenever i try to sign up and i have tried
-      refreshing my browser but nothing has changed. I receive internal error
-      whenever i try to sign up and i have tried refreshing my browser but
-      nothing has changed`,
-    email: "joe@gmail.com",
-    status: "read",
-  },
-  {
-    id: "202406-A04",
-    issue: "Registration",
-    report: `I receive internal error whenever i try to sign up and i have tried
-      refreshing my browser but nothing has changed. I receive internal error
-      whenever i try to sign up and i have tried refreshing my browser but
-      nothing has changed`,
-    email: "joe@gmail.com",
-    status: "read",
-  },
-];
+import TicketPreviewCard from "./previewCards/TicketPreviewCard";
+import { ticketData } from "./mockupData/ticket-mockup-data";
+import { Ticket } from "@/types/tickets.types";
 
 const Support = () => {
   const navigate = useNavigate();
+  
+  const tickets: Ticket[] | any = ticketData;
+
   return (
     <>
       <div className="mb-10">
@@ -71,9 +33,9 @@ const Support = () => {
         </div>
         <div className="flex mt-10 mb-10 ">
           <Link to={"/support/a-guide-to-womenhub"}>
-            <div className=" w-[300px] h-[251.16px] px-[11.63px]">
+            <div className=" w-[300px] h-[251.16px] mr-4 px-[11.63px]">
               <div className="w-[290.09px]  hover:w-[300px] hover:h-[150px] transition-all duration-300">
-                <img src={GettingStart} className="" />
+                <img src={GettingStart} className="aspect-auto object-cover" />
               </div>
 
               <h1 className="text-sm/[17.45px] text-primary font-normal mt-4 mb-4">
@@ -89,9 +51,9 @@ const Support = () => {
             </div>
           </Link>
           <Link to={"/support/FAQs"}>
-            <div className=" w-[300px] h-[251.16px] px-[11.63px]">
+            <div className=" w-[300px] h-[251.16px] mr-4 px-[11.63px]">
               <div className="w-[290.09px]  hover:w-[300px] hover:h-[150px] transition-all duration-300">
-                <img src={FAQ} className="" />
+                <img src={FAQ} className="aspect-auto object-cover" />
               </div>
               <h1 className="text-sm/[17.45px] text-primary font-normal mt-4 mb-4">
                 FAQs
@@ -107,9 +69,9 @@ const Support = () => {
             </div>
           </Link>
           <Link to={"/support/helplines"}>
-            <div className=" w-[300px] h-[251.16px] px-[11.63px]">
+            <div className=" w-[300px] h-[251.16px] mr-4 px-[11.63px]">
               <div className="w-[290.09px]  hover:w-[300px] hover:h-[150px] transition-all duration-300">
-                <img src={HELPLINES} className="" />
+                <img src={HELPLINES} className="aspect-auto object-cover" />
               </div>
 
               <h1 className="text-sm/[17.45px] text-primary font-normal mt-4 mb-4">
@@ -126,7 +88,7 @@ const Support = () => {
           </Link>
         </div>
         <div className="mt-20 mb-10">
-          <div className="flex flex-col bg-white border-2 border-zinc-100 shadow-xl rounded-lg px-5 mb-10">
+          <div className="flex flex-col bg-white border-2 border-zinc-100 shadow-xl rounded-lg px-[24px] py-[13px] mb-10">
             <div className="flex justify-between mb-4">
               <div className="self-center">
                 <Tag title="Support Ticket" color="bg-[#B5E4CA]" />
@@ -141,8 +103,8 @@ const Support = () => {
               </div>
             </div>
 
-            {tickets?.map((ticket) => {
-              return <Ticket key={ticket.id} data={ticket} />;
+            {tickets?.map((ticket: Ticket) => {
+              return <TicketPreviewCard key={ticket.id} data={ticket} />;
             })}
           </div>
         </div>

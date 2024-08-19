@@ -15,7 +15,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/icons/Icon";
-
+import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -63,28 +63,30 @@ export default function HelplineTable({ columns, data }: tableProps) {
   });
 
   return (
-    <div>
+    <div className="mx-20">
       <div className="flex flex-row justify-between bg-white border-2 border-zinc-100 shadow-xl rounded-lg px-5 py-5 mb-10">
         <div className="flex flex-col justify-around">
           <div>
-            <h1 className="text-[#106840] font-medium text-[32px]">
+            <h1 className="text-[#106840] font-normal font-sora text-[32px]">
               Help Lines
             </h1>
           </div>
-          <div className="mt-2 mb-2">
-            <p className="text-[#515151] text-[16px]">
+          <div className="mt-2 mb-4 w-[609px]">
+            <p className="text-[#515151] font-normal font-quicksand  text-[16px]">
               Helpline provides access to various emergency contacts dedicated
               to supporting women in times of crisis.
             </p>
           </div>
           <div>
-            <button className="bg-[#FCFCFC] px-[16px] py-[8px] border-2 border-gray-300 rounded-lg">
-              Edit Header
-            </button>
+          <Link to={"/support/editHeader"}>
+              <button className="bg-[#FCFCFC] px-[16px] py-[8px] font-bold font-inter text-[13px] border-2 border-gray-300 rounded-lg">
+                Edit Header
+              </button>
+            </Link>
           </div>
         </div>
         <div className="w-[290.09px]">
-          <img src={HELPLINES} className="h-full" />
+          <img src={HELPLINES} className="h-full aspect-auto object-cover rounded-[21.16px]" />
         </div>
       </div>
       <div className="flex justify-between items-center py-4">
@@ -114,7 +116,7 @@ export default function HelplineTable({ columns, data }: tableProps) {
               onChange={(event) =>
                 table.getColumn("helpline")?.setFilterValue(event.target.value)
               }
-              className="max-w-sm border-0"
+              className="w-full border-none bg-transparent focus:outline-none"
             />
           </div>
           <div>

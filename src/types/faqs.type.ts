@@ -4,6 +4,7 @@ export type Faq = {
   date: string;
   status: FaqStatus;
   editor: string;
+  category: string;
 };
 
-type FaqStatus = "DRAFT" | "PUBLISH" | "ARCHIVED" | null;
+type FaqStatus = "DRAFT" | "PUBLISHED" | "ARCHIVED" | null;

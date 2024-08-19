@@ -1,6 +1,6 @@
 import Support from "./Support";
-import Helplines from "./components/Helplines";
-import Guidelines from "./components/Guidelines";
+import Helplines from "./Helplines";
+import Guidelines from "./Guidelines";
 import Tickets from "./Tickets";
 import AddArticle from "./components/AddArticle";
 
