@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 export default function OrganizationDetailsForm() {
   return (
     <div className="font-inter mt-7">
-      <Tag title="Organization information" />
+      <Tag title="Organization information" color="bg-[#B5E4CA]" />
       <div className="w-full max-w-full">
         <Label htmlFor="category" className="flex items-center gap-2 mb-2 mt-5">
           Category <Icon name="info" />

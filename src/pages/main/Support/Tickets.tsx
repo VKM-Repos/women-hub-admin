@@ -6,86 +6,79 @@ import { Ticket } from "@/types/tickets.types";
 import Icon from "@/components/icons/Icon";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import TicketsButtons from "./components/TicketsButtons";
 
-
 const Tickets = () => {
-
   const [btns, setBtns] = useState([
     {
       id: 1,
       title: "All",
-      isActive: true
+      isActive: true,
     },
     {
       id: 2,
       title: "New",
-      isActive: false
+      isActive: false,
     },
     {
       id: 3,
       title: "Ongoing",
-      isActive: false
+      isActive: false,
     },
     {
       id: 4,
       title: "Closed",
-      isActive: false
-    }
+      isActive: false,
+    },
   ]);
 
   const tickets: Ticket[] | any = ticketData;
 
   const [ticketsData, setTicketsData] = useState(tickets);
 
-  const filterTickets = (status: string)=>{
-
-    setBtns(prevBtns =>
-      prevBtns.map(btn =>
+  const filterTickets = (status: string) => {
+    setBtns((prevBtns) =>
+      prevBtns.map((btn) =>
         btn.title === status
           ? { ...btn, isActive: !btn.isActive }
           : { ...btn, isActive: false }
       )
     );
 
-    if (status === "All"){
-      setTicketsData(tickets)
-      
-    }else if (status === "New"){
-      const filteredData = tickets.filter((ticket: Ticket) =>
-        ticket.status === "New"
+    if (status === "All") {
+      setTicketsData(tickets);
+    } else if (status === "New") {
+      const filteredData = tickets.filter(
+        (ticket: Ticket) => ticket.status === "New"
       );
-      setTicketsData(filteredData)
-    }else if (status === "Ongoing"){
-      const filteredData = tickets.filter((ticket: Ticket) =>
-        ticket.status === "Ongoing"
+      setTicketsData(filteredData);
+    } else if (status === "Ongoing") {
+      const filteredData = tickets.filter(
+        (ticket: Ticket) => ticket.status === "Ongoing"
       );
-      setTicketsData(filteredData)
-    }else if (status === "Closed"){
-      const filteredData = tickets.filter((ticket: Ticket) =>
-        ticket.status === "Closed"
+      setTicketsData(filteredData);
+    } else if (status === "Closed") {
+      const filteredData = tickets.filter(
+        (ticket: Ticket) => ticket.status === "Closed"
       );
-      setTicketsData(filteredData)
-    }else{
-      setTicketsData(tickets)
+      setTicketsData(filteredData);
+    } else {
+      setTicketsData(tickets);
     }
-
-  }
+  };
 
   return (
     <>
       <div className="flex flex-col bg-white border-2 border-zinc-100 shadow-xl rounded-lg px-[24px] py-[13px] mb-10">
         <div className="flex justify-between mb-4">
           <div className="self-center">
-            <Tag title="Support Ticket" color="bg-[#B5E4CA]"/>
+            <Tag title="Support Ticket" color="bg-[#B5E4CA]" />
           </div>
-          
         </div>
         <div className="flex items-center justify-between w-full">
           <div className="flex  bg-white py-1 px-3 ">
@@ -170,7 +163,7 @@ const Tickets = () => {
               <DropdownMenuContent align="end">
                 <div className="px-5">
                   <div>
-                    <Tag title="Showing 10 of 32 Users" color="bg-[#B5E4CA]"/>
+                    <Tag title="Showing 10 of 32 Users" color="bg-[#B5E4CA]" />
                     <hr className="mt-4 mb-6" />
                   </div>
                   <span className="text-txtColor text-sm">Showing</span>
@@ -238,11 +231,9 @@ const Tickets = () => {
           </div>
         </div>
         <div className="flex mt-4 w-full">
-
           {btns.map((btn) => (
             <TicketsButtons key={btn.id} data={btn} filter={filterTickets} />
           ))}
-
         </div>
 
         {ticketsData?.map((ticket: Ticket) => {

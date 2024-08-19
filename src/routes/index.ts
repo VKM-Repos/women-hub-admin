@@ -102,7 +102,7 @@ export const routess = [
             title: "Upload User Picture",
             hasSiderLink: false,
             component: UploadPicture,
-            path: "/upload-user-picture/:id",
+            path: "/upload-user-picture/:id/:pathname",
           },
         ],
       },
