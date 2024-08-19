@@ -32,7 +32,7 @@ const Footer = ({ handleNext }: Props) => {
         </svg>
       </span>
       <Button variant="secondary" size="lg" onClick={handleNext}>
-        Next
+        Update
       </Button>
     </section>
   );

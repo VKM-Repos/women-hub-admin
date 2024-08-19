@@ -3,7 +3,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { PlusIcon, SearchIcon } from "lucide-react";
 import { Link } from "react-router-dom";
-import Icon from '@/components/icons/Icon';
+import Icon from "@/components/icons/Icon";
 import { useState } from "react";
 import { SupportButtons } from "./SupportButtons";
 
@@ -58,16 +58,15 @@ const Filters = ({
         <>
           {showFilters ? (
             <span className="flex items-center justify-start gap-4">
-               <Checkbox
-                //  checked={isChecked}
-                 onCheckedChange={(isChecked) => {
+              <Checkbox
+                onCheckedChange={(isChecked) => {
                   setIsChecked(!isChecked);
-                  toggleCheckedAll(isChecked)
+                  toggleCheckedAll(isChecked);
                 }}
                 aria-label="Select all"
                 className="text-white"
-                />
-              <p className="text-txtColor">{"0 of 3"}</p>
+              />
+              <p className="text-txtColor">{`0 of ${data.length}`}</p>
               <span className="flex items-center justify-start gap-2">
                 <SupportButtons
                   icon={<Icon name="archivePostIcon" />}
@@ -90,7 +89,9 @@ const Filters = ({
             </span>
           ) : (
             <span className="text-textPrimary flex items-center gap-2">
-              {`${page === "FAQs"? "Questions & Answer":"Articles"} (${data.length})`}
+              {`${page === "FAQs" ? "Questions & Answer" : "Articles"} (${
+                data.length
+              })`}
               <>
                 <svg
                   width="20"

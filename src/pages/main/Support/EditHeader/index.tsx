@@ -3,11 +3,15 @@ import Footer from "../components/Footer";
 import EditForm from "../components/form/EditForm";
 import MDEditor from "../components/form/MDEditor";
 import { useEditSupportHeaderForm } from "@/store/useEditSupportHeaderForm.store";
+import { useLocation } from "react-router-dom";
 
 const EditHeader = () => {
-  const { step, setStep, data, setData, resetStore } = useEditSupportHeaderForm();
+  const location = useLocation();
+  const guide = location.state?.data;
 
-  console.log(data)
+  const { step, setStep, data, setData, resetStore } =
+    useEditSupportHeaderForm();
+
   const handleNext = () => {
     setStep(step + 1);
   };
@@ -21,23 +25,20 @@ const EditHeader = () => {
   const RenderSteps = () => {
     switch (step) {
       case 1:
-        return <EditForm />;
+        return <EditForm data={guide} />;
       case 2:
         return <MDEditor handleNext={handleNext} handleGoBack={handleGoBack} />;
-      
+
       default:
         return null;
     }
   };
-
-
 
   return (
     <section className="mx-auto w-full space-y-1 md:w-[95%] pb-[5rem]">
       <div className="rounded-lg bg-white w-full pb-[4rem]">
         <Header
           step={step}
-          // title= "Header Information"
           title={data?.headerDetails?.title}
           handleGoBack={handleGoBack}
         />

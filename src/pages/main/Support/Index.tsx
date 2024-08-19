@@ -11,9 +11,3 @@ export default function Index() {
     </div>
   );
 }
-
-//<Support />
-//<Helplines />
-//<Guidelines />
-//<Tickets />
-//<AddArticle />

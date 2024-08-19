@@ -13,18 +13,29 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { Select, SelectContent, SelectTrigger, SelectValue } from "../ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 import { Textarea } from "../ui/textarea";
-import Dropzone from "react-dropzone";
+import Dropzone, {
+  DropzoneInputProps,
+  DropzoneRootProps,
+} from "react-dropzone";
 import { cn } from "@/lib/utils";
-
+import { UploadIcon } from "lucide-react";
+import { useState } from "react";
+import MDEditor from "@/pages/main/Posts/components/form/MDEditor";
 
 export enum FormFieldType {
   INPUT = "input",
   TEXTAREA = "textarea",
   PHONE_INPUT = "phoneInput",
   CHECKBOX = "checkbox",
-//   DATE_PICKER = "datePicker",
+  EDITOR = "editor",
+  //   DATE_PICKER = "datePicker",
   SELECT = "select",
   SKELETON = "skeleton",
   IMAGE_UPLOAD = "imageUpload",
@@ -46,6 +57,7 @@ interface CustomProps {
 }
 
 const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
+  const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
   switch (props.fieldType) {
     case FormFieldType.INPUT:
       return (
@@ -83,14 +95,14 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
       return (
         <FormControl>
           {/* <PhoneInput
-            defaultCountry="US"
-            placeholder={props.placeholder}
-            international
-            withCountryCallingCode
-            value={field.value as E164Number | undefined}
-            onChange={field.onChange}
-            className="input-phone"
-          /> */}
+                        defaultCountry="US"
+                        placeholder={props.placeholder}
+                        international
+                        withCountryCallingCode
+                        value={field.value as E164Number | undefined}
+                        onChange={field.onChange}
+                        className="input-phone"
+                    /> */}
         </FormControl>
       );
     case FormFieldType.CHECKBOX:
@@ -139,9 +151,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
                 <SelectValue placeholder={props.placeholder} />
               </SelectTrigger>
             </FormControl>
-            <SelectContent className="w-64">
-              {props.children}
-            </SelectContent>
+            <SelectContent className="w-64">{props.children}</SelectContent>
           </Select>
         </FormControl>
       );
@@ -149,34 +159,51 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
       return (
         <FormControl>
           <Dropzone
-                  accept={{
-                    "image/*": [".jpg", ".jpeg", ".png"],
-                  }}
-                  multiple={true}
-                  maxSize={5000000}
-                >
-                  {({ getRootProps, getInputProps }) => (
-                    <div
-                      {...getRootProps({
-                        className: cn(
-                          "p-3 mb-4 flex flex-col items-center justify-center w-full rounded-md cursor-pointer border border-[#e2e8f0]"
-                        ),
-                      })}
-                    >
-                      <div className="flex items-center gap-x-3 mt-2 mb-2">
-                        <label
-                          htmlFor="Products"
-                          className={`text-sm text-[7E8DA0] cursor-pointer focus:outline-none focus:underline ${
-                            form.formState.errors.products && "text-red-500"
-                          }`}
-                        >
-                          Add your Product Images
-                          <input {...getInputProps()} />
-                        </label>
-                      </div>
-                    </div>
-                  )}
-                </Dropzone>
+            accept={{
+              "image/*": [".jpg", ".jpeg", ".png"],
+            }}
+            multiple={false}
+            maxSize={5000000}
+            onDrop={(acceptedFiles) => {
+              const file = acceptedFiles[0];
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                const base64String = reader.result as string;
+                setBackgroundImage(base64String);
+                field.onChange(base64String);
+              };
+              reader.readAsDataURL(file);
+            }}
+          >
+            {({ getRootProps, getInputProps }) => (
+              <div
+                {...getRootProps({
+                  className: cn(
+                    "mt-6 w-full min-h-[14rem] cursor-pointer flex items-center p-4 rounded-lg text-center",
+                    backgroundImage ? "bg-cover bg-center" : "bg-background"
+                  ),
+                  style: backgroundImage
+                    ? { backgroundImage: `url(${backgroundImage})` }
+                    : {},
+                })}
+              >
+                <input {...(getInputProps() as DropzoneInputProps)} />
+
+                <span className="w-fit flex items-center gap-2 mx-auto p-4 rounded-lg bg-white shadow-md">
+                  <UploadIcon />
+                  <p className="font-bold">
+                    {!backgroundImage ? "Click, or drop files" : "Change photo"}
+                  </p>
+                </span>
+              </div>
+            )}
+          </Dropzone>
+        </FormControl>
+      );
+    case FormFieldType.EDITOR:
+      return (
+        <FormControl>
+          <MDEditor body={field.value} onChange={field.onChange} />
         </FormControl>
       );
     case FormFieldType.SKELETON:
@@ -199,7 +226,6 @@ const CustomFormField = (props: CustomProps) => {
             <FormLabel className="shad-input-label">{label}</FormLabel>
           )}
           <RenderInput field={field} props={props} />
-
           <FormMessage className="" />
         </FormItem>
       )}
