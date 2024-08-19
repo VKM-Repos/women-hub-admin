@@ -48,7 +48,6 @@ export default function CreateUserButton() {
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     const { account } = data;
-    console.log(account);
     switch (account) {
       case "organization":
         navigate("/create-organization");
@@ -76,7 +75,7 @@ export default function CreateUserButton() {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
-            <Tag title="Create a New user" />
+            <Tag title="Create a New user" color="bg-[#B5E4CA]" />
           </DialogTitle>
           <DialogDescription>
             <span className="pl-10">Select a user type</span>
@@ -127,13 +126,13 @@ export default function CreateUserButton() {
               />
               <DialogFooter className="justify-end">
                 <DialogClose asChild>
-                  <Button className="text-black bg-white h-12 px-5">
+                  <Button className="text-black bg-white h-10 px-5">
                     Cancel
                   </Button>
                 </DialogClose>
 
                 <Button
-                  className="text-white bg-secondary h-12 px-5"
+                  className="text-white bg-secondary h-10 px-5 ml-7"
                   type="submit"
                 >
                   Create
