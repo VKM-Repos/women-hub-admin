@@ -158,10 +158,13 @@ export default function DataTable({ columns, data }: tableProps) {
                 Filter
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent
+              align="end"
+              onInteractOutside={(e) => e.preventDefault()}
+            >
               <div className="px-5">
                 <div>
-                  <Tag title="Showing 10 of 32 Users" />
+                  <Tag title="Showing 10 of 32 Users" color="bg-[#FFBC99]" />
                   <hr className="mt-4 mb-6" />
                 </div>
                 <span className="text-txtColor text-sm">Showing</span>
@@ -227,7 +230,7 @@ export default function DataTable({ columns, data }: tableProps) {
             <DropdownMenuContent align="end">
               <div className="px-5">
                 <div>
-                  <Tag title="Flag User" />
+                  <Tag title="Flag User" color="bg-[#FFBC99]" />
                   <hr className="mt-4 mb-6" />
                 </div>
                 <p className="text-txtColor text-base font-semibold">
