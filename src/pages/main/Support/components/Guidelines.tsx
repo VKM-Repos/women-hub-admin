@@ -6,7 +6,7 @@ import { guideData } from "./guide-mockup-data";
 import HELPLINES from "@/assets/images/HELPLINES.png";
 import { Button } from "@/components/ui/button";
 
-export default function Helplines() {
+export default function Guidelines() {
   const [showFilters, setShowFilters] = useState(false);
 
   let guides: Guide[] | any = guideData;

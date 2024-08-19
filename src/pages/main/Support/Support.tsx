@@ -129,7 +129,7 @@ const Support = () => {
           <div className="flex flex-col bg-white border-2 border-zinc-100 shadow-xl rounded-lg px-5 mb-10">
             <div className="flex justify-between mb-4">
               <div className="self-center">
-                <Tag title="Support Ticket" />
+                <Tag title="Support Ticket" color="bg-[#B5E4CA]" />
               </div>
               <div>
                 <button
