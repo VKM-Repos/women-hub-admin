@@ -2,14 +2,12 @@ import Tag from "@/components/dashboard/Tag";
 import Ticket from "./Ticket";
 
 import { Button } from "@/components/ui/button";
-import Icon from "@/components/icons/Icon";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
 
 const tickets = [
@@ -58,7 +56,7 @@ const Tickets = () => {
       <div className="flex flex-col bg-white border-2 border-zinc-100 shadow-xl rounded-lg px-5 mb-10">
         <div className="flex justify-between mb-4">
           <div className="self-center">
-            <Tag title="Support Ticket" />
+            <Tag title="Support Ticket" color="bg-[#B5E4CA]" />
           </div>
           <div>
             <button className="border p-2 rounded-xl mt-3">
@@ -149,7 +147,7 @@ const Tickets = () => {
               <DropdownMenuContent align="end">
                 <div className="px-5">
                   <div>
-                    <Tag title="Showing 10 of 32 Users" />
+                    <Tag title="Showing 10 of 32 Users" color="bg-[#B5E4CA]" />
                     <hr className="mt-4 mb-6" />
                   </div>
                   <span className="text-txtColor text-sm">Showing</span>

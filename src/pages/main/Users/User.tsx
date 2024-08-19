@@ -136,14 +136,12 @@ export default function Users() {
     enabled: true,
   });
 
-  console.log(users?.content, "<<<<<<<");
-
   return (
     <div className="">
       {isPending ? (
         <Loading />
       ) : (
-        <GenericTable columns={columns} data={users?.content} />
+        <GenericTable columns={columns} data={users?.content || []} />
       )}
     </div>
   );
