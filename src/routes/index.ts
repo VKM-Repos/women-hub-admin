@@ -104,6 +104,13 @@ export const routess = [
             component: UploadPicture,
             path: "/upload-user-picture/:id/:pathname",
           },
+          {
+            name: "Upload Organization Picture",
+            title: "Upload Organization Picture",
+            hasSiderLink: false,
+            component: UploadPicture,
+            path: "/upload-org-picture/:orgId/:userId",
+          },
         ],
       },
       {

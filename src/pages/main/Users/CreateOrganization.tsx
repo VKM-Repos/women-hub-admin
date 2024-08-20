@@ -22,7 +22,6 @@ import { useState } from "react";
 import { generatePassword } from "@/lib/utils/passwordGenerator";
 import { usePOST } from "@/hooks/usePOST.hook";
 import Icon from "@/components/icons/Icon";
-import { useLocation } from "react-router-dom";
 import { useGET } from "@/hooks/useGET.hook";
 import {
   Select,
@@ -73,8 +72,7 @@ export default function CreateOrganization() {
     useState<boolean>(false);
   const [websiteExist, setWebsiteExist] = useState(false);
   const [user, setUser] = useState("");
-
-  const { pathname } = useLocation();
+  const [orgId, setOrgId] = useState("");
 
   const { mutate, isPending } = usePOST(
     "admin/organizations",
@@ -136,8 +134,8 @@ export default function CreateOrganization() {
       { userInformation, organizationInformation },
       {
         onSuccess: (returnedData) => {
-          setUser(returnedData.id);
-
+          setUser(returnedData.admin.id);
+          setOrgId(returnedData.id);
           setShowModal(true);
         },
         onError: () => {
@@ -484,8 +482,8 @@ export default function CreateOrganization() {
               showModal={showModal}
               handleSetShpwModal={handleSetShpwModal}
               handleResetForm={handleResetForm}
-              pathname={pathname}
               userId={user}
+              orgId={orgId}
             />
           </form>
         </Form>

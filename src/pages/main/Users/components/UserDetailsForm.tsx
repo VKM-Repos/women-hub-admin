@@ -37,11 +37,7 @@ export default function UserDetailsForm() {
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log(data);
   }
-  const handleOnCLick = () => {
-    // Generate password logic goes here
-    const password = "Generate Password";
-    console.log("Generated password:", password);
-  };
+
   return (
     <div className="font-inter mt-7">
       <Form {...form}>

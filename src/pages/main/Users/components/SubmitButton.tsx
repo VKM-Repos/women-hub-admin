@@ -17,13 +17,15 @@ export default function SubmitButton({
   handleSetShpwModal,
   handleResetForm,
   userId,
+  orgId,
   pathname,
 }: {
   showModal: boolean;
   handleSetShpwModal: () => void;
   handleResetForm: () => void;
   userId?: string;
-  pathname: string;
+  orgId?: string;
+  pathname?: string;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [splash, setSplash] = useState(false);
@@ -88,7 +90,11 @@ export default function SubmitButton({
                 No, skip
               </Button>
               <Link
-                to={`/upload-user-picture/${userId}${pathname}`}
+                to={
+                  orgId
+                    ? `/upload-org-picture/${orgId}/${userId}`
+                    : `/upload-user-picture/${userId}${pathname}`
+                }
                 className="bg-secondary text-white px-5 py-2 rounded-md"
               >
                 Yes , please
