@@ -2,13 +2,10 @@ import { useState } from 'react';
 import PostFilters from './PostFilters';
 import PostPreviewCard from './PostPreviewCard';
 import { Post } from '@/types/posts.type';
-import { postData } from './post-mockup-data';
 import { useGET } from '@/hooks/useGET.hook';
 
 export default function Posts() {
   const [showFilters, setShowFilters] = useState(false);
-
-  // let posts: Post[] | any = postData 
 
     const { data: posts } = useGET({
     url: "admin/posts",

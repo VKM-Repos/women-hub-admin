@@ -1,4 +1,4 @@
-import { Button, buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
 import { PlusIcon, SearchIcon } from 'lucide-react';
