@@ -1,8 +1,6 @@
-import React from "react";
 
-type Props = {};
 
-const FooterSVG = (props: Props) => {
+const FooterSVG = () => {
   return (
     <div>
       <svg

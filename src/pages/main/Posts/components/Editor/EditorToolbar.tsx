@@ -1,13 +1,8 @@
-"use client"
 
 import { Editor } from "@tiptap/react"
-import FontMenu from "./ToolbarButtons/font-menu"
 import Bold from "./ToolbarButtons/bold"
 import Italic from "./ToolbarButtons/italic"
 import Strikethrough from "./ToolbarButtons/strikethrough"
-import TextAlign from "./ToolbarButtons/text-align"
-import OrderedList from "./ToolbarButtons/ordered-list"
-import BulletList from "./ToolbarButtons/bullet-list"
 import Link from "./ToolbarButtons/link"
 import Image from "./ToolbarButtons/image"
 import Emoji from "./ToolbarButtons/emoji"

@@ -3,7 +3,7 @@
 import { Icons } from "../icons"
 import { Toggle } from "@/components/ui/toggle"
 import { Editor } from "@tiptap/react"
-import EmojiPicker, { Theme } from "emoji-picker-react"
+import EmojiPicker from "emoji-picker-react"
 
 import { useEffect, useRef, useState } from "react"
 

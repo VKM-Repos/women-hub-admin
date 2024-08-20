@@ -6,7 +6,6 @@ import { z } from "zod";
 import { Form } from "@/components/ui/form";
 import { useCreatePostFormStore } from "@/store/useCreatePostForm.store";
 import { useEffect } from "react";
-import toast from "react-hot-toast";
 
 type Props = {
   handleNext: () => void;
