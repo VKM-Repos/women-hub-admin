@@ -20,6 +20,7 @@ import { generatePassword } from "@/lib/utils/passwordGenerator";
 import { useState } from "react";
 import Loading from "@/components/shared/Loading";
 import { usePOST } from "@/hooks/usePOST.hook";
+import { useLocation } from "react-router-dom";
 
 const FormSchema = z.object({
   email: z.string().email("Invalid email.").min(5, {
@@ -37,6 +38,8 @@ const FormSchema = z.object({
 
 export default function CreateUser() {
   const [showModal, setShowModal] = useState(false);
+  const [user, setUser] = useState("");
+  const { pathname } = useLocation();
   const { mutate, isPending } = usePOST(
     "admin/users/editors",
     true,
@@ -56,7 +59,8 @@ export default function CreateUser() {
 
   const onSubmit = (data: z.infer<typeof FormSchema>) => {
     mutate(data, {
-      onSuccess: () => {
+      onSuccess: (returnedData) => {
+        setUser(returnedData.id);
         setShowModal(true);
       },
       onError: () => {
@@ -182,6 +186,8 @@ export default function CreateUser() {
             showModal={showModal}
             handleSetShpwModal={handleSetShpwModal}
             handleResetForm={handleResetForm}
+            userId={user}
+            pathname={pathname}
           />
         </form>
       </Form>

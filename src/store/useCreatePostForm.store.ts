@@ -4,17 +4,13 @@ import { persist, PersistOptions } from 'zustand/middleware';
 export interface CreatePostFormStore {
   step: number;
   data: {
-    postDetails: {
-      title: string;
-      author: string;
-      description: string;
-      categoryIds: number[];
-      content: string;
-    };
-    coverPicture: File | null;
-    image: File | null;
-    imagePreview: string;
-    coverPicturePreview: string;
+    title: string;
+    author: string;
+    description: string;
+    categoryId: string;
+    body: string;
+    coverImageUrl: string;
+    coverImageUrlPreview: string;
   };
   setStep: (step: number) => void;
   setData: (data: Partial<CreatePostFormStore['data']>) => void;
@@ -31,17 +27,13 @@ export const useCreatePostFormStore = create<CreatePostFormStore>(
     set => ({
       step: 1,
       data: {
-        postDetails: {
-          title: '',
-          author: '',
-          description: '',
-          categoryIds: [],
-          content: '',
-        },
-        coverPicture: null,
-        image: null,
-        imagePreview: '',
-        coverPicturePreview: '',
+        title: '',
+        author: '',
+        description: '',
+        categoryId: '',
+        body: '',
+        coverImageUrl: '',
+        coverImageUrlPreview: '',
       },
       setStep: step => set({ step }),
       setData: data => set(state => ({ data: { ...state.data, ...data } })),
@@ -49,17 +41,13 @@ export const useCreatePostFormStore = create<CreatePostFormStore>(
         set({
           step: 9,
           data: {
-            postDetails: {
-              title: '',
-              author: '',
-              description: '',
-              categoryIds: [],
-              content: '',
-            },
-            coverPicture: null,
-            image: null,
-            imagePreview: '',
-            coverPicturePreview: '',
+            title: '',
+            author: '',
+            description: '',
+            categoryId: '',
+            body: '',
+            coverImageUrl: '',
+            coverImageUrlPreview: '',
           },
         });
         localStorage.removeItem('CreatePostFormStore');

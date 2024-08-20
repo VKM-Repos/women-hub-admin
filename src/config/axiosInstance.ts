@@ -3,12 +3,8 @@
 import useAppStore from "@/lib/store/app.store";
 import axios, { AxiosInstance } from "axios";
 
-// const backendApiURL = process?.env?.REACT_APP_BASE_URL;
-// console.log(process?.env, "><<<<<<<<<<<<<");
-
 export const authApi: AxiosInstance = axios.create({
   baseURL: "https://dev.womenhub.org/api/",
-  // withCredentials: true,
 });
 
 authApi.defaults.headers.common["Content-Type"] = "application/json";

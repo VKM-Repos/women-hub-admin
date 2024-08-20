@@ -16,10 +16,16 @@ export default function SubmitButton({
   showModal,
   handleSetShpwModal,
   handleResetForm,
+  userId,
+  orgId,
+  pathname,
 }: {
   showModal: boolean;
   handleSetShpwModal: () => void;
   handleResetForm: () => void;
+  userId?: string;
+  orgId?: string;
+  pathname?: string;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [splash, setSplash] = useState(false);
@@ -28,6 +34,7 @@ export default function SubmitButton({
       setIsOpen(true);
     }
   }, [showModal]);
+
   return (
     <div className="bg-white mt-6 px-5 py-7 flex items-center justify-between w-full">
       <Icon name="check" />
@@ -83,7 +90,11 @@ export default function SubmitButton({
                 No, skip
               </Button>
               <Link
-                to={`/upload-user-picture/${2}`}
+                to={
+                  orgId
+                    ? `/upload-org-picture/${orgId}/${userId}`
+                    : `/upload-user-picture/${userId}${pathname}`
+                }
                 className="bg-secondary text-white px-5 py-2 rounded-md"
               >
                 Yes , please

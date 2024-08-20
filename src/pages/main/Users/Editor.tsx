@@ -148,7 +148,7 @@ export default function Editor() {
       {isPending ? (
         <Loading />
       ) : (
-        <GenericTable columns={columns} data={editors?.content} />
+        <GenericTable columns={columns} data={editors?.content || []} />
       )}
     </div>
   );

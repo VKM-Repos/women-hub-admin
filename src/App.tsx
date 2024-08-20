@@ -26,8 +26,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Toaster toastOptions={toastConfig} />
-      {/* <Routes isAuthorized={loggedIn} /> */}
-      <Routes isAuthorized={true} />
+      <Routes isAuthorized={loggedIn} />
     </QueryClientProvider>
   );
 }
