@@ -28,14 +28,12 @@ const FormSchema = z.object({
   password: z.string().min(1, { message: "Password field is required !" }),
 });
 export default function Login() {
-  const { login, user, loggedIn } = useAppStore();
+  const { login } = useAppStore();
   const navigate = useNavigate();
   function loginCallBack(data: any) {
     login(data, true);
     navigate("/home");
   }
-  console.log(user?.token, loggedIn, "<<<<");
-
   const { mutate, isPending } = usePOST(
     "auth/admin/token",
     false,
@@ -57,6 +55,7 @@ export default function Login() {
   function onSubmit(data: z.infer<typeof FormSchema>) {
     mutate(data);
   }
+  // if (loggedIn) return navigate("/home");
   return (
     <div className="w-screen h-screen bg-[#ECECEC] flex flex-col justify-center ">
       <div className="flex gap-[480px] absolute -top-10">

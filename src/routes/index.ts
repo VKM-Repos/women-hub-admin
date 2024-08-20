@@ -24,9 +24,10 @@ import PostDetailsPage from '@/pages/main/Posts/postid';
 import Tickets from '@/pages/main/Support/Tickets';
 import Editor from '@/pages/main/Users/Editor';
 import Support from '@/pages/main/Support/Support';
-import Guidelines from '@/pages/main/Support/components/Guidelines';
-import FAQs from '@/pages/main/Support/components/FAQs';
-import Helplines from '@/pages/main/Support/components/Helplines';
+import Guidelines from '@/pages/main/Support/Guidelines';
+import FAQs from '@/pages/main/Support/FAQs';
+import Helplines from '@/pages/main/Support/Helplines';
+import EditHeader from '@/pages/main/Support/EditHeader';
 
 export const routess = [
   {
@@ -101,7 +102,7 @@ export const routess = [
             title: 'Upload User Picture',
             hasSiderLink: false,
             component: UploadPicture,
-            path: '/upload-user-picture/:id',
+            path: '/upload-user-picture/:id/:pathname',
           },
         ],
       },
@@ -212,6 +213,13 @@ export const routess = [
             hasSiderLink: false,
             component: UploadPicture,
             path: '/upload-user-picture/:id',
+          },
+          {
+            name: 'Edit Header',
+            title: 'EDit Header',
+            hasSiderLink: false,
+            component: EditHeader,
+            path: '/support/editHeader',
           },
         ],
       },
