@@ -1920,6 +1920,11 @@
   resolved "https://registry.yarnpkg.com/@tiptap/extension-horizontal-rule/-/extension-horizontal-rule-2.6.4.tgz#ed5a7ae83ab6fe4e5683b8b2f8eb81eaf294b2dc"
   integrity sha512-lL29Hxsj1qFwRqtg41JlBOK/hmN+qnwIWvNCyZpKEVHs7d0iELj2REB/7R1KKAAdsvYo7pJrgqwBd1Ph6xRLpw==
 
+"@tiptap/extension-image@^2.6.4":
+  version "2.6.4"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-image/-/extension-image-2.6.4.tgz#fa2e7a8d4050a4bade76cef24e20ca45f38fc638"
+  integrity sha512-uc2JA1qnZ6X33di3RTIDfE9oaJeWKyE6aJdWDt5OXPOW60kPKO8PIxy9n11O8v0oVb/+bZ9cnPu9UpSnJVaUCg==
+
 "@tiptap/extension-italic@^2.6.4":
   version "2.6.4"
   resolved "https://registry.yarnpkg.com/@tiptap/extension-italic/-/extension-italic-2.6.4.tgz#38a4056f9d3268879f32b1680d94d380f978ed78"
@@ -1966,6 +1971,11 @@
   version "2.6.4"
   resolved "https://registry.yarnpkg.com/@tiptap/extension-underline/-/extension-underline-2.6.4.tgz#b16135dea2d45dbed8bc5b3cabab33781a878173"
   integrity sha512-1MSCmX4L2l8DKqIJ6BLMp/XUzWK1lW+BI1+rLBd4N/kU8CdF5UqjWFijsu3UBCibV/fliyAzCoLoKO/lHRUUcA==
+
+"@tiptap/extension-youtube@^2.6.4":
+  version "2.6.4"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-youtube/-/extension-youtube-2.6.4.tgz#c219a75f11730f7cf8a5f8f74c12b9e777fd4abc"
+  integrity sha512-jHDOnQ/i6xkqJe/tRu1mj4szhb3LNfHg02vQ2HbrGnlvij+7oIVjFoNVsVoQPVxMMwo9/tMBY6AWCk5ZNRp57A==
 
 "@tiptap/pm@^2.6.2", "@tiptap/pm@^2.6.4":
   version "2.6.4"
@@ -2737,6 +2747,13 @@ emoji-mart@^5.6.0:
   resolved "https://registry.yarnpkg.com/emoji-mart/-/emoji-mart-5.6.0.tgz#71b3ed0091d3e8c68487b240d9d6d9a73c27f023"
   integrity sha512-eJp3QRe79pjwa+duv+n7+5YsNhRcMl812EcFVwrnRvYKoNPoQb5qxU8DG6Bgwji0akHdp6D4Ln6tYLG58MFSow==
 
+emoji-picker-react@^4.11.1:
+  version "4.11.1"
+  resolved "https://registry.yarnpkg.com/emoji-picker-react/-/emoji-picker-react-4.11.1.tgz#5be830d50b9ea8a606c8a4d46dfe5e0021cc2e93"
+  integrity sha512-e3vhGcZyyNu7GqJaXzgoVxtASXs97duAP/vh7aL88dHJcW72DjuwYMjipzNBCjPFxXwUiQas483SKCAxPwwaUQ==
+  dependencies:
+    flairup "1.0.0"
+
 emoji-regex@^8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/emoji-regex/-/emoji-regex-8.0.0.tgz#e818fd69ce5ccfcb404594f842963bf53164cc37"
@@ -3039,6 +3056,11 @@ find-up@^5.0.0:
   dependencies:
     locate-path "^6.0.0"
     path-exists "^4.0.0"
+
+flairup@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/flairup/-/flairup-1.0.0.tgz#d3af0052ad02734c12d2446608a869498adb351b"
+  integrity sha512-IKlE+pNvL2R+kVL1kEhUYqRxVqeFnjiIvHWDMLFXNaqyUdFXQM2wte44EfMYJNHkW16X991t2Zg8apKkhv7OBA==
 
 flat-cache@^3.0.4:
   version "3.2.0"
@@ -4894,6 +4916,21 @@ tiptap-editor-extension-emoji@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/tiptap-editor-extension-emoji/-/tiptap-editor-extension-emoji-1.1.0.tgz#420ebf64141cac1a1194ded9865ac0f58c018c81"
   integrity sha512-XPXOzXX6Vws9qFkS/8hTXOdGv2zzkYAeka9yEi0YCW20MNLZdYWtX/b2oAy6NUGnW2DgFqMoNKBoldvhxpaUwA==
+
+tiptap-extension-auto-joiner@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/tiptap-extension-auto-joiner/-/tiptap-extension-auto-joiner-0.1.3.tgz#d9f8ed805f9489d11c5b29e0b5ceed7ebad7063a"
+  integrity sha512-nY3aKeCpVb2WjjVEZkLtEqxsK3KU1zGioyglMhK1sUFNjKDccOfRyz/YDKrHRAVsKJPGnk2A8VA1827iGEAXWQ==
+
+tiptap-extension-global-drag-handle@^0.1.10:
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/tiptap-extension-global-drag-handle/-/tiptap-extension-global-drag-handle-0.1.10.tgz#f0eb2d064a6a42859cae3ba370e7bc5423dfed68"
+  integrity sha512-Bt6nzlQWp+Jw8ljvwO7dWqIgs2LupIzC6ar8SlXkfJ6MSGZ3+YMORrooSdbSysMlv2Zk1ypJc/kw/n9yGJMMEg==
+
+tiptap-extension-resize-image@^1.1.8:
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/tiptap-extension-resize-image/-/tiptap-extension-resize-image-1.1.8.tgz#a45e450a0b50f26d87e3c923cf20112408ebb9f4"
+  integrity sha512-dRPCfkCCUPtlVCn7w9HHE01ANJE6pRQMPAYXmsd1Qlk8KUasePdvCQIVJMqKriAqvKYJtnRc3HfojmzZtkQq0w==
 
 to-fast-properties@^2.0.0:
   version "2.0.0"

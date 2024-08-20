@@ -6,6 +6,7 @@ import { z } from "zod";
 import { Form } from "@/components/ui/form";
 import { useCreatePostFormStore } from "@/store/useCreatePostForm.store";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 type Props = {
   handleNext: () => void;
@@ -32,12 +33,13 @@ const EditorForm = ({ handleNext }: Props) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const values = form.getValues(); 
+      const values = form.getValues();
       setData({
         ...data, 
         body: values.body, 
       });
-    }, 30000);
+      
+    }, 3000);
 
 
     return () => clearInterval(interval);

@@ -20,6 +20,7 @@ import { cn } from "@/lib/utils";
 import { UploadIcon } from "lucide-react";
 import { useState } from "react";
 import MDEditor from "@/pages/main/Posts/components/form/MDEditor";
+import Editor from "@/pages/main/Posts/components/Editor";
 
 
 export enum FormFieldType {
@@ -197,7 +198,8 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
             case FormFieldType.EDITOR:
             return (
                 <FormControl>
-                   <MDEditor body={field.value} onChange={field.onChange} />
+                   {/* <MDEditor body={field.value} onChange={field.onChange} /> */}
+                   <Editor body={field.value} onChange={field.onChange} />
                 </FormControl>
             );
         case FormFieldType.SKELETON:

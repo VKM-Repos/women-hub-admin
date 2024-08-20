@@ -53,7 +53,7 @@ const menu: MenuItem[] = [
   },
 ];
 
-export function AskAI() {
+export function AI() {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>

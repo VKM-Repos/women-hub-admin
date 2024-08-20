@@ -4,7 +4,6 @@ import PostForm from '../components/form/PostForm';
 import EditorForm from '../components/form/EditorForm';
 import { usePOST } from '@/hooks/usePOST.hook';
 import toast from 'react-hot-toast';
-import { useState } from 'react';
 import Loading from '@/components/shared/Loading';
 
 const CreatePostPage = () => {
