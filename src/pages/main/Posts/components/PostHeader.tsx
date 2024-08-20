@@ -8,13 +8,13 @@ type Props = {
     step: number,
     title?: string,
     handleGoBack: () => void
+    handleSaveToDraft: () => void
+    handlePublish: () => void
+    handleUpdate: () => void
 }
 
-const PostHeader = ({ step, title, handleGoBack }: Props) => {
+const PostHeader = ({ step, title, handleGoBack, handleSaveToDraft, handlePublish, handleUpdate }: Props) => {
 
-    const handlePublish = () => { }
-    const handleSaveToDraft = () => { }
-    const handleUpdate = () => { }
 
     const menu: any[] = [
         {
@@ -22,27 +22,16 @@ const PostHeader = ({ step, title, handleGoBack }: Props) => {
             isButton: true,
             onClick: () => handleSaveToDraft(),
         },
-        {
-            title: "Update",
-            isButton: true,
-            onClick: () => handleUpdate(),
-        },
     ];
 
     return (
-        <header className="flex items-center justify-between min-h-[5rem] p-4">
-            <div className="w-full max-w-sm flex items-center justify-start gap-4">
+        <header className="grid grid-cols-2 items-center justify-between min-h-[5rem] p-4">
+            <div className="w-full col-span-1 flex items-center justify-start gap-4">
                 <div className="w-[20px] h-[40px] bg-[#B5E4CA] rounded"></div>
-                <h2 className="text-xl font-semibold w-full max-w-lg truncate">{title ? title : 'Add post'}</h2>
+                <h2 className="text-xl font-semibold w-full max-w-[300px] truncate">{title ? title : 'Add post'}</h2>
             </div>
             {step > 1 && (
-                <div className="flex items-center gap-3">
-                    <button>
-                        <Icon name='undoIcon' />
-                    </button>
-                    <button>
-                        <Icon name='redoIcon' />
-                    </button>
+                <div className=" col-span-1 flex items-center gap-x-4 justify-end">
                     <Button onClick={handleGoBack} variant='outline' className="flex gap-1 items-center" >
                         <Icon name='arrowLeft' />
                         <span>Back</span>

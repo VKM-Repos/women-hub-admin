@@ -13,6 +13,7 @@ export type Post = {
   numberOfComments: number;
   numberOfLikes: number;
   status: PostStatus;
+  createdAt: string;
 };
 
 type PostStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED' | null;

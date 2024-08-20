@@ -3,19 +3,27 @@ import PostFilters from './PostFilters';
 import PostPreviewCard from './PostPreviewCard';
 import { Post } from '@/types/posts.type';
 import { postData } from './post-mockup-data';
+import { useGET } from '@/hooks/useGET.hook';
 
 export default function Posts() {
   const [showFilters, setShowFilters] = useState(false);
 
-  let posts: Post[] | any = postData 
+  // let posts: Post[] | any = postData 
+
+    const { data: posts } = useGET({
+    url: "admin/posts",
+    queryKey: ["posts"],
+    withAuth: true,
+    enabled: true,
+  });
 
   return (
     <section className="flex flex-col gap-y-6">
-      <PostFilters showFilters={showFilters} setShowFilters={setShowFilters} posts={posts} />
+      <PostFilters showFilters={showFilters} setShowFilters={setShowFilters} posts={posts?.content} />
 
       <div className="flex flex-col gap-4">
-        {Array.isArray(posts) && posts.length > 0 ? (
-          posts.map((post: Post) => (
+        {posts?.content?.length > 0 ? (
+          posts?.content.map((post: Post) => (
             <PostPreviewCard key={post.id} showFilters={showFilters} post={post} />
           ))
         ) : (
