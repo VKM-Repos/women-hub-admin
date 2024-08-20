@@ -8,7 +8,7 @@ import Loading from '@/components/shared/Loading';
 
 
 const CreatePostPage = () => {
-  const { step, setStep, data, setData, resetStore } = useCreatePostFormStore();
+  const { step, setStep, data} = useCreatePostFormStore();
 
   const handleNext = () => {
     setStep(step + 1);
