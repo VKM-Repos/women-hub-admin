@@ -11,7 +11,7 @@ type Props = {
   data: any;
 };
 
-const EditForm = ({ data }: Props) => {
+const CreateHelplineForm = ({ data }: Props) => {
   // Assuming you have the logged-in user data available
   const loggedInUser = { firstName: "Jane", lastName: "Doe" };
 
@@ -37,26 +37,26 @@ const EditForm = ({ data }: Props) => {
           />
         </div>
 
-        {/* TITLE */}
+        {/* Helpline Name */}
         <CustomFormField
           fieldType={FormFieldType.INPUT}
           control={form.control}
           name="title"
           placeholder=""
-          label="Title"
+          label="Helpline Name"
         />
 
-        {/* DESCRIPTION */}
+        {/* Phone Number */}
         <CustomFormField
-          fieldType={FormFieldType.TEXTAREA}
+          fieldType={FormFieldType.INPUT}
           control={form.control}
-          name="description"
-          label="Description"
-          placeholder="Enter description"
+          name="title"
+          placeholder=""
+          label="Phone Number"
         />
       </form>
     </Form>
   );
 };
 
-export default EditForm;
+export default CreateHelplineForm;

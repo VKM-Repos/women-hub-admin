@@ -8,5 +8,4 @@ export const createGuideSchema = z.object({
     .max(1500, "Description must be at most 1500 characters"),
   coverImageUrl: z.string().optional(),
   categoryId: z.string(),
-  body: z.string(),
 });

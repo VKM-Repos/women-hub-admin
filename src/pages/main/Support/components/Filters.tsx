@@ -43,16 +43,29 @@ const Filters = ({
             onChange={() => handleFilter(event)}
           />
         </div>
-        <Link
-          to={"/support/create-"}
-          className={cn(
-            buttonVariants({ variant: "secondary", size: "lg" }),
-            "flex gap-2 text-white rounded-[12px]"
-          )}
-        >
-          <PlusIcon />
-          Add New
-        </Link>
+        {page === "FAQs" ? (
+          <Link
+            to={`/support/create-FAQ`}
+            className={cn(
+              buttonVariants({ variant: "secondary", size: "lg" }),
+              "flex gap-2 text-white rounded-[12px]"
+            )}
+          >
+            <PlusIcon />
+            Add New
+          </Link>
+        ) : (
+          <Link
+            to={`/support/create-guideline`}
+            className={cn(
+              buttonVariants({ variant: "secondary", size: "lg" }),
+              "flex gap-2 text-white rounded-[12px]"
+            )}
+          >
+            <PlusIcon />
+            Add New
+          </Link>
+        )}
       </div>
       <div className="flex w-full justify-between">
         <>
@@ -66,7 +79,11 @@ const Filters = ({
                 aria-label="Select all"
                 className="text-white"
               />
-              <p className="text-txtColor">{`0 of ${data.length}`}</p>
+              <p className="text-txtColor">
+                {isChecked
+                  ? `0 of ${data.length}`
+                  : `${data.length} of ${data.length}`}
+              </p>
               <span className="flex items-center justify-start gap-2">
                 <SupportButtons
                   icon={<Icon name="archivePostIcon" />}

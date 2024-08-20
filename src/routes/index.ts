@@ -28,6 +28,9 @@ import Guidelines from "@/pages/main/Support/Guidelines";
 import FAQs from "@/pages/main/Support/FAQs";
 import Helplines from "@/pages/main/Support/Helplines";
 import EditHeader from "@/pages/main/Support/EditHeader";
+import AddGuideline from "@/pages/main/Support/components/AddGuideline";
+import AddFAQ from "@/pages/main/Support/components/AddFAQ";
+import AddHelpline from "@/pages/main/Support/components/AddHelpline";
 
 export const routess = [
   {
@@ -201,18 +204,25 @@ export const routess = [
             path: "/support/tickets",
           },
           {
-            name: "Support",
-            title: "Support",
+            name: "Create Guideline",
+            title: "Create Guideline",
             hasSiderLink: false,
-            component: CreateOrganization,
-            path: "/create-organization",
+            component: AddGuideline,
+            path: "/support/create-guideline",
           },
           {
-            name: "Support",
-            title: "Support",
+            name: "Create FAQ",
+            title: "Create FAQ",
             hasSiderLink: false,
-            component: UploadPicture,
-            path: "/upload-user-picture/:id",
+            component: AddFAQ,
+            path: "/support/create-FAQ",
+          },
+          {
+            name: "Create Helpline",
+            title: "Create Helpline",
+            hasSiderLink: false,
+            component: AddHelpline,
+            path: "/support/create-helpline",
           },
           {
             name: "Edit Header",
