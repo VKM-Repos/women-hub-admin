@@ -14,7 +14,7 @@ export default function Editor({ body, onChange }: Props) {
   const editor = useEditor({
     content: body,
     extensions: [...defaultExtensions],
-    onCreate({ editor }) {},
+    onCreate({}) {},
     onUpdate({ editor }) {
       onChange(editor.getHTML());
     },

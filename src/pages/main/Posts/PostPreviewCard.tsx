@@ -23,16 +23,16 @@ function PostPreviewCard({ showFilters, post }: Props) {
   const navigate = useNavigate();
 
   const handleArchivePost = (id: number) => {
-    toast.success('post archived');
+    toast.success(`posts ${id} archived`);
   };
   const handleDeletePost = (id: number) => {
-    toast.success('post deleted');
+    toast.success(`posts ${id} deleted`);
   };
   const handleViewPost = (id: number) => {
     navigate(`/posts/${id}`);
   };
   const handlePublishPost = (id: number) => {
-    toast.success('post published');
+    toast.success(`posts ${id} published`);
   };
   return (
     <div onClick={() => handleViewPost(post.id)} className="font-inter hover:border-secondary/70 group flex w-full items-center rounded-xl border-2 border-white bg-white p-4 shadow-sm">

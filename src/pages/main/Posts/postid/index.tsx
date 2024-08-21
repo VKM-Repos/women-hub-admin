@@ -6,8 +6,8 @@ import { usePOST } from '@/hooks/usePOST.hook';
 import toast from 'react-hot-toast';
 import Loading from '@/components/shared/Loading';
 
-const CreatePostPage = () => {
-  const { step, setStep, data, setData, resetStore } = useCreatePostFormStore();
+const PostDetailsPage = () => {
+  const { step, setStep, data } = useCreatePostFormStore();
 
   const handleNext = () => {
     setStep(step + 1);
@@ -90,4 +90,4 @@ const CreatePostPage = () => {
   );
 };
 
-export default CreatePostPage;
+export default PostDetailsPage;

@@ -1,13 +1,12 @@
 import { useEffect } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import BlogImage from '@/assets/sample-blog-image.png';
 import NewsLetterSVG from './components/NewsLetterSVG';
 import { useCreatePostFormStore } from '@/store/useCreatePostForm.store';
 import './tiptap.css';
 
-type Props = {};
 
-const PostPreview = (props: Props) => {
+const PostPreview = () => {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
 
@@ -16,9 +15,10 @@ const PostPreview = (props: Props) => {
     };
   }, []);
 
-  const { id } = useParams<{ id: string }>();
+  // const { id } = useParams<{ id: string }>();
 
-  const { data, setData } = useCreatePostFormStore();
+
+  const { data } = useCreatePostFormStore();
 
   const today = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
