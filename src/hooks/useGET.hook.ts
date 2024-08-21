@@ -15,7 +15,7 @@ export const useGET = ({
   const fetch = async () => {
     const axiosInstance = withAuth ? authApi : publicApi;
     const response = await axiosInstance.get(url);
-    console.log(response);
+    console.log(response.status, "<<<<<<<<<<<<<<<");
 
     return response?.data;
   };

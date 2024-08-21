@@ -31,6 +31,8 @@ import EditHeader from "@/pages/main/Support/EditHeader";
 import AddGuideline from "@/pages/main/Support/components/AddGuideline";
 import AddFAQ from "@/pages/main/Support/components/AddFAQ";
 import AddHelpline from "@/pages/main/Support/components/AddHelpline";
+import UploadOrgPicture from "@/pages/main/Users/UploadOrgPicture";
+
 
 export const routess = [
   {
@@ -111,7 +113,7 @@ export const routess = [
             name: "Upload Organization Picture",
             title: "Upload Organization Picture",
             hasSiderLink: false,
-            component: UploadPicture,
+            component: UploadOrgPicture,
             path: "/upload-org-picture/:orgId/:userId",
           },
         ],
@@ -231,6 +233,7 @@ export const routess = [
             component: AddHelpline,
             path: "/support/create-helpline",
           },
+
           {
             name: "Edit Header",
             title: "EDit Header",
