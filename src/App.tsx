@@ -1,9 +1,22 @@
 import { Routes } from "./routes";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import { Toaster, ToastPosition } from "react-hot-toast";
 import useAppStore from "./lib/store/app.store";
 function App() {
-  const queryClient = new QueryClient();
+  const { logout } = useAppStore();
+  const queryClient = new QueryClient({
+    queryCache: new QueryCache({
+      onError: (error: any) => {
+        if (error.response.status === 401) {
+          logout();
+        }
+      },
+    }),
+  });
   const { loggedIn } = useAppStore();
   const toastConfig = {
     position: "top-center" as ToastPosition,
