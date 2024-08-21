@@ -94,7 +94,7 @@ const CreateGuidelineForm = () => {
           label="Cover Picture"
         />
 
-        <section className="w-[95%] mx-auto border-2 bg-background rounded-[1rem] min-h-screen overflow-hidden">
+        <section className="w-full mx-auto border-2 bg-background rounded-[1rem] min-h-screen overflow-hidden">
           {/* markdown header */}
           <div className="w-full min-h-[4rem] flex gap-4 items-center justify-start px-2 bg-white">
             <ToggleGroup type="multiple">
