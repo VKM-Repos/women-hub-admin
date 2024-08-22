@@ -2,59 +2,33 @@ import Tag from "@/components/dashboard/Tag";
 import profileAvatar from "@/assets/profile-avatar.svg";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/icons/Icon";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-
-const FormSchema = z.object({
-  email: z.string().email({ message: "Invalid email." }).min(5, {
-    message: "Email must be at least 5 characters.",
-  }),
-  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  bio: z.string().min(2, { message: "Bio is required." }),
-});
+import { useGET } from "@/hooks/useGET.hook";
+import { ProfileForm } from "./components/ProfileForm";
+import { UpdatePasswordForm } from "./components/UpdatePasswordForm";
+import { NotificationForm } from "./components/NotificationForm";
 
 export default function Settings() {
   const [notification, setNotification] = useState(false);
   const location = useLocation();
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      email: "",
-      name: "",
-      bio: "",
-    },
+  const { data: notifications } = useGET({
+    url: "admin/settings/notification",
+    queryKey: ["GET_NOTIFICATION_SETTINGS"],
+    withAuth: true,
+    enabled: true,
   });
+  const { data: userProfile } = useGET({
+    url: "admin/settings/profile",
+    queryKey: ["GET_USER_PROILE"],
+    withAuth: true,
+    enabled: true,
+  });
+
   const handleCheckNotification = () => {
     setNotification(!notification);
   };
-  const onSubmit = (data: z.infer<typeof FormSchema>) => {
-    console.log(data);
-
-    // mutate(data, {
-    //   onSuccess: () => {
-    //     setShowModal(true);
-    //   },
-    //   onError: () => {
-    //     // Handle error
-    //   },
-    // });
-  };
-  console.log(location.hash);
 
   return (
     <div className="bg-white flex  w-[76.5%] h-[80vh] drop-shadow-md rounded-lg px-10 py-5 fixed">
@@ -113,135 +87,35 @@ export default function Settings() {
             </Button>
             <Button variant="outline">Remove</Button>
           </div>
-          <div>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)}>
-                <div className="font-inter flex flex-col gap-7">
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="flex gap-2 items-center font-bold mb-2">
-                          Email <Icon name="info" />
-                          <FormMessage className="bg-black text-white px-3 py-1 rounded-md" />
-                        </FormLabel>
-                        <FormControl>
-                          <Input className="bg-input" {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="flex gap-2 items-center font-bold mb-2">
-                          Name <Icon name="info" />
-                          <FormMessage className="bg-black text-white px-3 py-1 rounded-md" />
-                        </FormLabel>
-                        <FormControl>
-                          <Input className="bg-input" {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="bio"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="flex gap-2 items-center font-bold mb-2">
-                          Bio <Icon name="info" />
-                          <FormMessage className="bg-black text-white px-3 py-1 rounded-md" />
-                        </FormLabel>
-                        <FormControl>
-                          <Textarea className="bg-input" {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <Button variant="outline" className="mt-5">
-                  Update Profile
-                </Button>
-              </form>
-            </Form>
-          </div>
+
+          <ProfileForm user={userProfile} />
         </div>
         <div id="password-reset" className="my-10">
           <Tag title="Password  Reset" color="bg-[#CABDFF]" />
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <div className="font-inter flex flex-col gap-7 my-5">
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex gap-2 items-center font-bold mb-2">
-                        Old Password <Icon name="info" />
-                        <FormMessage className="bg-black text-white px-3 py-1 rounded-md" />
-                      </FormLabel>
-                      <FormControl>
-                        <Input className="bg-input" {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel className="flex gap-2 items-center font-bold mb-2">
-                        New Password <Icon name="info" />
-                        <FormMessage className="bg-black text-white px-3 rounded-md" />
-                      </FormLabel>
-                      <FormControl>
-                        <div className="bg-input flex items-center justify-center w-full px-3">
-                          <Input className="" {...field} />
-                          <span>
-                            <Icon name="eye" />{" "}
-                          </span>
-                        </div>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <Button variant="outline" className="mt-5 rounded-lg">
-                Update password
-              </Button>
-            </form>
-          </Form>
+          <UpdatePasswordForm />
         </div>
         <hr />
         <div id="notofication" className="my-10">
           <Tag title="Notifications" color="bg-[#FFBC99]" />
 
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <div className="font-inter flex justify-between gap-7 mt-5 -mb-3 w-full">
-                <span className="text-txtColor text-sm font-semibold flex gap-3 items-center">
-                  Whenever <Icon name="info" />
-                </span>
-                <Switch
-                  id="websiteExist"
-                  checked={notification}
-                  onCheckedChange={handleCheckNotification}
-                />
-              </div>
-              <hr />
-              <Button variant="outline" className="-mt-5 rounded-lg">
-                Update Notification
-              </Button>
-            </form>
-          </Form>
+          <div className="font-inter flex justify-between gap-7 mt-5 -mb-3 w-full">
+            <span className="text-txtColor text-sm font-semibold flex gap-3 items-center">
+              Email Whenever <Icon name="info" />
+            </span>
+            <Switch
+              id="websiteExist"
+              checked={notification}
+              onCheckedChange={handleCheckNotification}
+            />
+          </div>
+          {notification && (
+            <div className="mt-5">
+              <NotificationForm notifications={notifications} />
+            </div>
+          )}
         </div>
         <hr />
-        <div id="footer" className="my-10">
+        {/* <div id="footer" className="my-10">
           <Tag title="Footer" color="bg-[#B5E4CA]" />
           <div className="my-7">
             <span className="text-sm">
@@ -373,7 +247,7 @@ export default function Settings() {
               </Button>
             </form>
           </Form>
-        </div>
+        </div> */}
       </div>
     </div>
   );
