@@ -3,11 +3,14 @@ import Filters from "./components/Filters";
 import GuidePreviewCard from "./previewCards/GuidePreviewCard";
 import { Guide } from "@/types/guides.type";
 import { guideData } from "./mockupData/guide-mockup-data";
-import GettingStart from "@/assets/images/Getting started.png";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import GuideHeroSection from "./components/GuideHeroSection";
 
 export default function Guidelines() {
+  const location = useLocation();
+  const guide = location.state?.guide;
+
   const [showFilters, setShowFilters] = useState(false);
 
   let guides: Guide[] | any = guideData;
@@ -25,37 +28,13 @@ export default function Guidelines() {
 
   const [checkedAll, setCheckedAll] = useState(false);
 
-  const toggleCheckedAll = (value: boolean)=>{
-    setCheckedAll(value)
-  }
-  
+  const toggleCheckedAll = (value: boolean) => {
+    setCheckedAll(value);
+  };
+
   return (
     <div className="mx-24">
-      <div className="flex flex-row justify-between bg-white border-2 border-zinc-100 shadow-xl rounded-lg px-5 py-5 mb-10">
-        <div className="flex flex-col justify-around">
-          <div>
-            <h1 className="text-[#106840] font-normal font-sora text-[32px]">
-              A Guide to Women Hub
-            </h1>
-          </div>
-          <div className="mt-2 mb-4">
-            <p className="text-[#515151] font-normal font-quicksand text-[16px]">
-              Learn about our community guidelines and policies to ensure a safe
-              and welcoming environment for everyone.
-            </p>
-          </div>
-          <div>
-            <Link to={"/support/editHeader"}>
-              <button className="bg-[#FCFCFC] px-[16px] py-[8px] font-bold font-inter text-[13px] border-2 border-gray-300 rounded-lg">
-                Edit Header
-              </button>
-            </Link>
-          </div>
-        </div>
-        <div className="w-[322.95px]">
-          <img src={GettingStart} className="h-full aspect-auto object-fit" />
-        </div>
-      </div>
+      <GuideHeroSection data={guide} />
       <section className="flex flex-col gap-y-6">
         <Filters
           showFilters={showFilters}
@@ -106,12 +85,7 @@ export default function Guidelines() {
                 </svg>
               </span>
             </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              // onClick={() => table.nextPage()}
-              // disabled={!table.getCanNextPage()}
-            >
+            <Button variant="outline" size="sm">
               <span>
                 <svg
                   width="8"

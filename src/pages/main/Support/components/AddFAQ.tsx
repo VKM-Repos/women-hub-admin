@@ -1,14 +1,10 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import EditForm from "../components/form/EditForm";
 import MDEditor from "../components/form/MDEditor";
 import { useEditSupportHeaderForm } from "@/store/useEditSupportHeaderForm.store";
-import { useLocation } from "react-router-dom";
+import CreateFAQForm from "./form/CreateFAQForm";
 
-const EditHeader = () => {
-  const location = useLocation();
-  const guide = location.state?.data;
-
+const AddFAQ = () => {
   const { step, setStep, data, setData, resetStore } =
     useEditSupportHeaderForm();
 
@@ -25,7 +21,7 @@ const EditHeader = () => {
   const RenderSteps = () => {
     switch (step) {
       case 1:
-        return <EditForm data={guide} />;
+        return <CreateFAQForm />;
       case 2:
         return <MDEditor handleNext={handleNext} handleGoBack={handleGoBack} />;
 
@@ -50,4 +46,4 @@ const EditHeader = () => {
   );
 };
 
-export default EditHeader;
+export default AddFAQ;

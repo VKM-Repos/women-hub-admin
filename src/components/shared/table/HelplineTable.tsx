@@ -15,7 +15,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/icons/Icon";
-import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -25,8 +25,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-import HELPLINES from "@/assets/images/HELPLINES.png";
+import GuideHeroSection from "@/pages/main/Support/components/GuideHeroSection";
 
 type tableProps = {
   columns: ColumnDef<string>[];
@@ -62,33 +61,12 @@ export default function HelplineTable({ columns, data }: tableProps) {
     },
   });
 
+  const location = useLocation();
+  const guide = location.state?.guide;
+
   return (
     <div className="mx-20">
-      <div className="flex flex-row justify-between bg-white border-2 border-zinc-100 shadow-xl rounded-lg px-5 py-5 mb-10">
-        <div className="flex flex-col justify-around">
-          <div>
-            <h1 className="text-[#106840] font-normal font-sora text-[32px]">
-              Help Lines
-            </h1>
-          </div>
-          <div className="mt-2 mb-4 w-[609px]">
-            <p className="text-[#515151] font-normal font-quicksand  text-[16px]">
-              Helpline provides access to various emergency contacts dedicated
-              to supporting women in times of crisis.
-            </p>
-          </div>
-          <div>
-          <Link to={"/support/editHeader"}>
-              <button className="bg-[#FCFCFC] px-[16px] py-[8px] font-bold font-inter text-[13px] border-2 border-gray-300 rounded-lg">
-                Edit Header
-              </button>
-            </Link>
-          </div>
-        </div>
-        <div className="w-[290.09px]">
-          <img src={HELPLINES} className="h-full aspect-auto object-cover rounded-[21.16px]" />
-        </div>
-      </div>
+      <GuideHeroSection data={guide} />
       <div className="flex justify-between items-center py-4">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center bg-white py-1 px-3 rounded-lg">

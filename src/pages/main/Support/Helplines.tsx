@@ -1,6 +1,5 @@
 import GenericTable from "@/components/shared/table/HelplineTable";
 import { ColumnDef } from "@tanstack/react-table";
-
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { MoreVertical } from "lucide-react";

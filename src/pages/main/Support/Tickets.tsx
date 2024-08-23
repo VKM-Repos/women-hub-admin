@@ -3,7 +3,6 @@ import TicketPreviewCard from "./previewCards/TicketPreviewCard";
 import { ticketData } from "./mockupData/ticket-mockup-data";
 import { Button } from "@/components/ui/button";
 import { Ticket } from "@/types/tickets.types";
-import Icon from "@/components/icons/Icon";
 import {
   DropdownMenu,
   DropdownMenuContent,
