@@ -3,7 +3,6 @@
 // import ReactDatePicker from "react-datepicker";
 import { Control } from "react-hook-form";
 // import PhoneInput from "react-phone-number-input";
-
 import { Checkbox } from "../ui/checkbox";
 import {
   FormControl,
@@ -20,7 +19,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Textarea } from "../ui/textarea";
-import Dropzone, { DropzoneInputProps } from "react-dropzone";
+import Dropzone, { DropzoneInputProps, } from "react-dropzone";
 import { cn } from "@/lib/utils";
 import { UploadIcon } from "lucide-react";
 import { useState } from "react";
@@ -196,19 +195,19 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
             )}
           </Dropzone>
         </FormControl>
-      );
-    case FormFieldType.EDITOR:
-      return (
-        <FormControl>
-          {/* <MDEditor body={field.value} onChange={field.onChange} /> */}
-          <Editor body={field.value} onChange={field.onChange} />
-        </FormControl>
-      );
-    case FormFieldType.SKELETON:
-      return props.renderSkeleton ? props.renderSkeleton(field) : null;
-    default:
-      return null;
-  }
+            );
+            case FormFieldType.EDITOR:
+            return (
+                <FormControl>
+                   <Editor body={field.value} onChange={field.onChange} />
+                </FormControl>
+            );
+        case FormFieldType.SKELETON:
+            return props.renderSkeleton ? props.renderSkeleton(field) : null;
+        default:
+            return null;
+    }
+
 };
 
 const CustomFormField = (props: CustomProps) => {
