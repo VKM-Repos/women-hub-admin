@@ -32,6 +32,8 @@ import AddGuideline from "@/pages/main/Support/components/AddGuideline";
 import AddFAQ from "@/pages/main/Support/components/AddFAQ";
 import AddHelpline from "@/pages/main/Support/components/AddHelpline";
 import UploadOrgPicture from "@/pages/main/Users/UploadOrgPicture";
+import Categories from "@/pages/main/Categories/Index";
+import { CategoryDetails } from "@/pages/main/Categories/CategoryDetails";
 
 
 export const routess = [
@@ -152,6 +154,18 @@ export const routess = [
             path: "/posts/:postId/:previewId",
           },
         ],
+      },
+      {
+        name: "Categires",
+        title: "Categories",
+        component: Categories,
+        path: "/categories",
+      },
+      {
+        name: "Categires Details",
+        title: "Categories",
+        component: CategoryDetails,
+        path: "/categories-details",
       },
       {
         name: "News Letter",

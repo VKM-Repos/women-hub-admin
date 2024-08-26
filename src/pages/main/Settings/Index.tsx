@@ -9,6 +9,7 @@ import { useGET } from "@/hooks/useGET.hook";
 import { ProfileForm } from "./components/ProfileForm";
 import { UpdatePasswordForm } from "./components/UpdatePasswordForm";
 import { NotificationForm } from "./components/NotificationForm";
+import { FooterForm } from "./components/FooterForm";
 
 export default function Settings() {
   const [notification, setNotification] = useState(false);
@@ -25,10 +26,17 @@ export default function Settings() {
     withAuth: true,
     enabled: true,
   });
+  const { data: footerData } = useGET({
+    url: "admin/settings/footer",
+    queryKey: ["GET_FOOTER_DATA"],
+    withAuth: true,
+    enabled: true,
+  });
 
   const handleCheckNotification = () => {
     setNotification(!notification);
   };
+  console.log(footerData, "??????");
 
   return (
     <div className="bg-white flex  w-[76.5%] h-[80vh] drop-shadow-md rounded-lg px-10 py-5 fixed">
@@ -88,7 +96,7 @@ export default function Settings() {
             <Button variant="outline">Remove</Button>
           </div>
 
-          <ProfileForm user={userProfile} />
+          {userProfile && <ProfileForm user={userProfile} />}
         </div>
         <div id="password-reset" className="my-10">
           <Tag title="Password  Reset" color="bg-[#CABDFF]" />
@@ -115,139 +123,9 @@ export default function Settings() {
           )}
         </div>
         <hr />
-        {/* <div id="footer" className="my-10">
-          <Tag title="Footer" color="bg-[#B5E4CA]" />
-          <div className="my-7">
-            <span className="text-sm">
-              The footer contains all contain all clickable elements for the use
-              of users
-            </span>
-          </div>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <div className="font-inter flex justify-between gap-7 -mb-3 w-full">
-                <span className="text-txtColor text-sm font-semibold flex gap-3 items-center -mb-10">
-                  Social Media <Icon name="info" />
-                </span>
-                <hr />
-              </div>
-              <hr />
-              <div className="flex flex-col gap-5">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex gap-2 items-center font-bold mb-2">
-                        Facebook Link <Icon name="info" />
-                        <FormMessage className="bg-black text-white px-3 py-1 rounded-md" />
-                      </FormLabel>
-                      <FormControl>
-                        <div className="flex rounded-lg bg-input px-1">
-                          <Icon name="facebook" />
-                          <Input className="" {...field} />
-                        </div>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex gap-2 items-center font-bold mb-2">
-                        Twitter Link <Icon name="info" />
-                        <FormMessage className="bg-black text-white px-3 py-1 rounded-md" />
-                      </FormLabel>
-                      <FormControl>
-                        <div className="flex rounded-lg bg-input px-1">
-                          <Icon name="twitter" />
-                          <Input className="" {...field} />
-                        </div>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex gap-2 items-center font-bold mb-2">
-                        LinkedIn Link <Icon name="info" />
-                        <FormMessage className="bg-black text-white px-3 py-1 rounded-md" />
-                      </FormLabel>
-                      <FormControl>
-                        <div className="flex rounded-lg bg-input px-1">
-                          <Icon name="linkedIn" />
-                          <Input className="" {...field} />
-                        </div>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="flex gap-2 items-center font-bold mb-2">
-                        Instagram Link <Icon name="info" />
-                        <FormMessage className="bg-black text-white px-3 py-1 rounded-md" />
-                      </FormLabel>
-                      <FormControl>
-                        <div className="flex rounded-lg bg-input px-1">
-                          <Icon name="instagram" />
-                          <Input className="" {...field} />
-                        </div>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <span>Legal & Complaince</span>
-              <div>
-                <div className="font-inter flex justify-between gap-7 mt-5 -mb-3 w-full">
-                  <span className="text-txtColor text-sm font-semibold flex gap-3 items-center">
-                    Privacy Policy <Icon name="info" />
-                  </span>
-                  <Switch
-                    id="websiteExist"
-                    checked={notification}
-                    onCheckedChange={handleCheckNotification}
-                  />
-                </div>
-                <hr />
-                <div className="font-inter flex justify-between gap-7 mt-5 -mb-3 w-full">
-                  <span className="text-txtColor text-sm font-semibold flex gap-3 items-center">
-                    Terms& Condition <Icon name="info" />
-                  </span>
-                  <Switch
-                    id="websiteExist"
-                    checked={notification}
-                    onCheckedChange={handleCheckNotification}
-                  />
-                </div>
-                <hr />
-                <div className="font-inter flex justify-between gap-7 mt-5 -mb-3 w-full">
-                  <span className="text-txtColor text-sm font-semibold flex gap-3 items-center">
-                    GDPR Cmpliance <Icon name="info" />
-                  </span>
-                  <Switch
-                    id="websiteExist"
-                    checked={notification}
-                    onCheckedChange={handleCheckNotification}
-                  />
-                </div>
-                <hr />
-              </div>
-              <Button variant="outline" className="mt-5 rounded-lg">
-                Update
-              </Button>
-            </form>
-          </Form>
-        </div> */}
+        <div id="footer" className="my-10">
+          {footerData && <FooterForm footerData={footerData} />}
+        </div>
       </div>
     </div>
   );
