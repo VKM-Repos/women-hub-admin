@@ -4,7 +4,7 @@ import BlogImage from '@/assets/sample-blog-image.png';
 import NewsLetterSVG from './components/NewsLetterSVG';
 import { useCreatePostFormStore } from '@/store/useCreatePostForm.store';
 import './tiptap.css';
-
+import { useEditPostFormStore } from '@/store/useEditPostForm.store';
 
 const PostPreview = () => {
   useEffect(() => {
@@ -17,8 +17,8 @@ const PostPreview = () => {
 
   // const { id } = useParams<{ id: string }>();
 
-
   const { data } = useCreatePostFormStore();
+  const { data: editData } = useEditPostFormStore();
 
   const today = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
@@ -33,7 +33,7 @@ const PostPreview = () => {
     return readTime;
   };
 
-  const readTime = calculateReadTime(data.body);
+  const readTime = calculateReadTime(data.body ? data.body : editData?.body);
   const navigate = useNavigate();
 
   const goBack = () => {
@@ -62,10 +62,12 @@ const PostPreview = () => {
             Education
           </span>
           <h2 className="max-w-md text-pretty text-[2.5rem] font-semibold text-white">
-            {data.title}
+            {data.title ? data.title : editData.title}
           </h2>
           <p className="font-light text-sm text-white">
-            Published by: <strong>{data.author}</strong> • {today}
+            Published by:{' '}
+            <strong>{data.author ? data.author : editData.author}</strong> •{' '}
+            {today}
           </p>
           <p className="font-light text-sm text-white">{readTime} mins Read</p>
         </div>
@@ -73,7 +75,13 @@ const PostPreview = () => {
           <div className="absolute bottom-10 right-14 z-[10] mx-auto aspect-video w-[28rem] rounded-[1rem] bg-[#B5FFE1]" />
           <picture>
             <img
-              src={data.coverImageUrl ? data.coverImageUrl : BlogImage}
+              src={
+                data.coverImageUrl
+                  ? data.coverImageUrl
+                  : editData.coverImageUrl
+                    ? editData.coverImageUrl
+                    : BlogImage
+              }
               alt=""
               className="relative z-[15] mx-auto aspect-video w-[28rem] rounded-[1rem] object-cover"
             />
@@ -84,7 +92,9 @@ const PostPreview = () => {
       <article className="mx-auto mt-[5rem] w-[80%] space-y-10">
         <div
           className="!tiptap space-y-6 text-base md:text-lg"
-          dangerouslySetInnerHTML={{ __html: data.body }}
+          dangerouslySetInnerHTML={{
+            __html: data.body ? data.body : editData?.body,
+          }}
         />
 
         <section className="space-y-10">

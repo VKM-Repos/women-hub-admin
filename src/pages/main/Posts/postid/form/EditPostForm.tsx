@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import CustomFormField, {
   FormFieldType,
 } from '@/components/form/custom-form-fields';
@@ -13,17 +12,24 @@ import Avatar from '@/assets/icons/avatar.svg';
 import { useGET } from '@/hooks/useGET.hook';
 import { Category } from '@/types/category.types';
 import useAppStore from '@/lib/store/app.store';
-import { useCreatePostFormStore } from '@/store/useCreatePostForm.store';
 import { Button } from '@/components/ui/button';
 import { useEffect, useState } from 'react';
+import { useEditPostFormStore } from '@/store/useEditPostForm.store';
+import { Post } from '@/types/posts.type';
 
 type Props = {
   handleNext: () => void;
+  data: Post;
 };
 
-const PostForm = ({ handleNext }: Props) => {
-  const { data, setData } = useCreatePostFormStore();
+const EditPostForm = ({ handleNext, data }: Props) => {
+  const { setData } = useEditPostFormStore();
   const { user } = useAppStore();
+
+  useEffect(() => {
+    // 👇️ Scroll to top on page load
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  }, []);
 
   const authors = [
     { name: 'Women Hub' },
@@ -41,13 +47,13 @@ const PostForm = ({ handleNext }: Props) => {
   const form = useForm<z.infer<typeof createBlogPostSchema>>({
     resolver: zodResolver(createBlogPostSchema),
     defaultValues: {
-      title: data.title ?? '',
-      author: data?.author ?? '',
-      description: data.description ?? '',
+      title: data?.title,
+      author: data?.author,
+      description: data?.description,
       externalEditorName: '',
-      coverImageUrl: data.coverImageUrl ?? '',
-      categoryId: data.categoryId ?? '',
-      body: '',
+      coverImageUrl: data?.coverImageUrl,
+      categoryId: data?.category.id.toString(),
+      body: data?.body,
     },
   });
 
@@ -77,10 +83,6 @@ const PostForm = ({ handleNext }: Props) => {
     });
     handleNext();
   };
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-  }, []);
 
   return (
     <Form {...form}>
@@ -146,6 +148,7 @@ const PostForm = ({ handleNext }: Props) => {
           control={form.control}
           name="coverImageUrl"
           label="Cover Picture"
+          initialImage={data?.coverImageUrl}
         />
 
         {/* CATEGORY */}
@@ -200,4 +203,4 @@ const PostForm = ({ handleNext }: Props) => {
   );
 };
 
-export default PostForm;
+export default EditPostForm;
