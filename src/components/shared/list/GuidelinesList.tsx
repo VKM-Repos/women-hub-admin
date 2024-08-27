@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -11,12 +11,12 @@ import {
   getSortedRowModel,
   getGroupedRowModel,
   useReactTable,
-} from "@tanstack/react-table";
+} from '@tanstack/react-table';
 
-import { Button } from "@/components/ui/button";
-import Icon from "@/components/icons/Icon";
+import { Button } from '@/components/ui/button';
+import Icon from '@/components/icons/Icon';
 
-import { Input } from "@/components/ui/input";
+import { Input } from '@/components/ui/input';
 import {
   Table,
   TableBody,
@@ -24,9 +24,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from '@/components/ui/table';
 
-import GUIDELINE from "@/assets/images/Getting started.png";
+import GUIDELINE from '@/assets/images/Getting started.png';
 
 type tableProps = {
   columns: ColumnDef<string>[];
@@ -64,21 +64,21 @@ export default function GuidelineList({ columns, data }: tableProps) {
 
   return (
     <div>
-      <div className="flex flex-row justify-between bg-white border-2 border-zinc-100 shadow-xl rounded-lg px-5 py-5 mb-10">
+      <div className="border-zinc-100 mb-10 flex flex-row justify-between rounded-lg border-2 bg-white px-5 py-5 shadow-xl">
         <div className="flex flex-col justify-around">
           <div>
-            <h1 className="text-[#106840] font-medium text-[32px]">
+            <h1 className="text-[32px] font-medium text-[#106840]">
               A Guide to Women Hub
             </h1>
           </div>
-          <div className="mt-2 mb-2">
-            <p className="text-[#515151] text-[16px]">
+          <div className="mb-2 mt-2">
+            <p className="text-[16px] text-[#515151]">
               Learn about our community guidelines and policies to ensure a safe
               and welcoming environment for everyone.
             </p>
           </div>
           <div>
-            <button className="bg-[#FCFCFC] px-[16px] py-[8px] rounded-lg">
+            <button className="rounded-lg bg-[#FCFCFC] px-[16px] py-[8px]">
               Edit Header
             </button>
           </div>
@@ -87,9 +87,9 @@ export default function GuidelineList({ columns, data }: tableProps) {
           <img src={GUIDELINE} className="h-full" />
         </div>
       </div>
-      <div className="flex justify-between items-center py-4">
-        <div className="flex items-center justify-between w-full">
-          <div className="flex items-center bg-white py-1 px-3 rounded-lg">
+      <div className="flex items-center justify-between py-4">
+        <div className="flex w-full items-center justify-between">
+          <div className="flex items-center rounded-lg bg-white px-3 py-1">
             <span>
               <svg
                 width="24"
@@ -99,8 +99,8 @@ export default function GuidelineList({ columns, data }: tableProps) {
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
+                  fillRule="evenodd"
+                  clipRule="evenodd"
                   d="M1 11C1 5.47715 5.47715 1 11 1C16.5228 1 21 5.47715 21 11C21 13.4013 20.1536 15.6049 18.7429 17.3287L23 21.5858L21.5858 23L17.3287 18.7429C15.6049 20.1536 13.4013 21 11 21C5.47715 21 1 16.5228 1 11ZM11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3Z"
                   fill="#141B34"
                 />
@@ -109,16 +109,16 @@ export default function GuidelineList({ columns, data }: tableProps) {
             <Input
               placeholder="Search Articles"
               value={
-                (table.getColumn("helpline")?.getFilterValue() as string) ?? ""
+                (table.getColumn('helpline')?.getFilterValue() as string) ?? ''
               }
-              onChange={(event) =>
-                table.getColumn("helpline")?.setFilterValue(event.target.value)
+              onChange={event =>
+                table.getColumn('helpline')?.setFilterValue(event.target.value)
               }
               className="max-w-sm border-0"
             />
           </div>
           <div>
-            <Button className="text-white bg-secondary rounded-lg h-12 w-[150px] flex items-center gap-2">
+            <Button className="bg-secondary flex h-12 w-[150px] items-center gap-2 rounded-lg text-white">
               <span>
                 <Icon name="plus" />
               </span>
@@ -127,12 +127,12 @@ export default function GuidelineList({ columns, data }: tableProps) {
           </div>
         </div>
       </div>
-      <div className="rounded-md border bg-white font-inter">
+      <div className="font-inter rounded-md border bg-white">
         <div></div>
         <div></div>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
+        <div className="text-muted-foreground flex-1 text-sm">
           Showing 1-10 of {table.getFilteredRowModel().rows.length}
         </div>
         <div className="space-x-0">

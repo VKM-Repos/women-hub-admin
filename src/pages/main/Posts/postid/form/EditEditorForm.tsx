@@ -20,14 +20,14 @@ const EditEditorForm = ({ handleNext, data }: Props) => {
   const form = useForm<z.infer<typeof createBlogPostSchema>>({
     resolver: zodResolver(createBlogPostSchema),
     defaultValues: {
-      body: data.body || '',
+      body: data?.body || '',
     },
   });
 
   const onSubmit = async (values: z.infer<typeof createBlogPostSchema>) => {
     setData({
       ...values,
-      body: values.body,
+      body: values?.body,
     });
     handleNext();
   };
@@ -36,7 +36,7 @@ const EditEditorForm = ({ handleNext, data }: Props) => {
     const interval = setInterval(() => {
       const values = form.getValues();
       setData({
-        body: values.body,
+        body: values?.body,
       });
     }, 3000);
 

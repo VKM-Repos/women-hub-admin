@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -11,12 +11,12 @@ import {
   getSortedRowModel,
   getGroupedRowModel,
   useReactTable,
-} from "@tanstack/react-table";
+} from '@tanstack/react-table';
 
-import { Button } from "@/components/ui/button";
-import Icon from "@/components/icons/Icon";
-import { useLocation } from "react-router-dom";
-import { Input } from "@/components/ui/input";
+import { Button } from '@/components/ui/button';
+import Icon from '@/components/icons/Icon';
+import { useLocation } from 'react-router-dom';
+import { Input } from '@/components/ui/input';
 import {
   Table,
   TableBody,
@@ -24,8 +24,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import GuideHeroSection from "@/pages/main/Support/components/GuideHeroSection";
+} from '@/components/ui/table';
+import GuideHeroSection from '@/pages/main/Support/components/GuideHeroSection';
 
 type tableProps = {
   columns: ColumnDef<string>[];
@@ -67,9 +67,9 @@ export default function HelplineTable({ columns, data }: tableProps) {
   return (
     <div className="mx-20">
       <GuideHeroSection data={guide} />
-      <div className="flex justify-between items-center py-4">
-        <div className="flex items-center justify-between w-full">
-          <div className="flex items-center bg-white py-1 px-3 rounded-lg">
+      <div className="flex items-center justify-between py-4">
+        <div className="flex w-full items-center justify-between">
+          <div className="flex items-center rounded-lg bg-white px-3 py-1">
             <span>
               <svg
                 width="24"
@@ -79,8 +79,8 @@ export default function HelplineTable({ columns, data }: tableProps) {
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
+                  fillRule="evenodd"
+                  clipRule="evenodd"
                   d="M1 11C1 5.47715 5.47715 1 11 1C16.5228 1 21 5.47715 21 11C21 13.4013 20.1536 15.6049 18.7429 17.3287L23 21.5858L21.5858 23L17.3287 18.7429C15.6049 20.1536 13.4013 21 11 21C5.47715 21 1 16.5228 1 11ZM11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3Z"
                   fill="#141B34"
                 />
@@ -89,16 +89,16 @@ export default function HelplineTable({ columns, data }: tableProps) {
             <Input
               placeholder="Search Articles"
               value={
-                (table.getColumn("helpline")?.getFilterValue() as string) ?? ""
+                (table.getColumn('helpline')?.getFilterValue() as string) ?? ''
               }
-              onChange={(event) =>
-                table.getColumn("helpline")?.setFilterValue(event.target.value)
+              onChange={event =>
+                table.getColumn('helpline')?.setFilterValue(event.target.value)
               }
               className="w-full border-none bg-transparent focus:outline-none"
             />
           </div>
           <div>
-            <Button className="text-white bg-secondary rounded-lg h-12 w-[150px] flex items-center gap-2">
+            <Button className="bg-secondary flex h-12 w-[150px] items-center gap-2 rounded-lg text-white">
               <span>
                 <Icon name="plus" />
               </span>
@@ -107,12 +107,12 @@ export default function HelplineTable({ columns, data }: tableProps) {
           </div>
         </div>
       </div>
-      <div className="rounded-md border bg-white font-inter">
+      <div className="font-inter rounded-md border bg-white">
         <Table>
           <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
+            {table.getHeaderGroups().map(headerGroup => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
+                {headerGroup.headers.map(header => {
                   return (
                     <TableHead key={header.id} className="py-4">
                       <span className="text-base">
@@ -134,10 +134,10 @@ export default function HelplineTable({ columns, data }: tableProps) {
               table.getRowModel().rows.map((row, index) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                  className={`${index % 2 == 0 ? "bg-[#EAEAEA]" : ""}`}
+                  data-state={row.getIsSelected() && 'selected'}
+                  className={`${index % 2 == 0 ? 'bg-[#EAEAEA]' : ''}`}
                 >
-                  {row.getVisibleCells().map((cell) => (
+                  {row.getVisibleCells().map(cell => (
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
@@ -161,7 +161,7 @@ export default function HelplineTable({ columns, data }: tableProps) {
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
+        <div className="text-muted-foreground flex-1 text-sm">
           Showing 1-10 of {table.getFilteredRowModel().rows.length}
         </div>
         <div className="space-x-0">
