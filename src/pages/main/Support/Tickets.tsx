@@ -1,37 +1,37 @@
-import Tag from "@/components/dashboard/Tag";
-import TicketPreviewCard from "./previewCards/TicketPreviewCard";
-import { ticketData } from "./mockupData/ticket-mockup-data";
-import { Button } from "@/components/ui/button";
-import { Ticket } from "@/types/tickets.types";
+import Tag from '@/components/dashboard/Tag';
+import TicketPreviewCard from './previewCards/TicketPreviewCard';
+import { ticketData } from './mockupData/ticket-mockup-data';
+import { Button } from '@/components/ui/button';
+import { Ticket } from '@/types/tickets.types';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import TicketsButtons from "./components/TicketsButtons";
+} from '@/components/ui/dropdown-menu';
+import { useState } from 'react';
+import { Input } from '@/components/ui/input';
+import TicketsButtons from './components/TicketsButtons';
 
 const Tickets = () => {
   const [btns, setBtns] = useState([
     {
       id: 1,
-      title: "All",
+      title: 'All',
       isActive: true,
     },
     {
       id: 2,
-      title: "New",
+      title: 'New',
       isActive: false,
     },
     {
       id: 3,
-      title: "Ongoing",
+      title: 'Ongoing',
       isActive: false,
     },
     {
       id: 4,
-      title: "Closed",
+      title: 'Closed',
       isActive: false,
     },
   ]);
@@ -41,29 +41,29 @@ const Tickets = () => {
   const [ticketsData, setTicketsData] = useState(tickets);
 
   const filterTickets = (status: string) => {
-    setBtns((prevBtns) =>
-      prevBtns.map((btn) =>
+    setBtns(prevBtns =>
+      prevBtns.map(btn =>
         btn.title === status
           ? { ...btn, isActive: !btn.isActive }
           : { ...btn, isActive: false }
       )
     );
 
-    if (status === "All") {
+    if (status === 'All') {
       setTicketsData(tickets);
-    } else if (status === "New") {
+    } else if (status === 'New') {
       const filteredData = tickets.filter(
-        (ticket: Ticket) => ticket.status === "New"
+        (ticket: Ticket) => ticket.status === 'New'
       );
       setTicketsData(filteredData);
-    } else if (status === "Ongoing") {
+    } else if (status === 'Ongoing') {
       const filteredData = tickets.filter(
-        (ticket: Ticket) => ticket.status === "Ongoing"
+        (ticket: Ticket) => ticket.status === 'Ongoing'
       );
       setTicketsData(filteredData);
-    } else if (status === "Closed") {
+    } else if (status === 'Closed') {
       const filteredData = tickets.filter(
-        (ticket: Ticket) => ticket.status === "Closed"
+        (ticket: Ticket) => ticket.status === 'Closed'
       );
       setTicketsData(filteredData);
     } else {
@@ -73,15 +73,15 @@ const Tickets = () => {
 
   return (
     <>
-      <div className="flex flex-col bg-white border-2 border-zinc-100 shadow-xl rounded-lg px-[24px] py-[13px] mb-10">
-        <div className="flex justify-between mb-4">
+      <div className="border-zinc-100 mb-10 flex flex-col rounded-lg border-2 bg-white px-[24px] py-[13px] shadow-xl">
+        <div className="mb-4 flex justify-between">
           <div className="self-center">
             <Tag title="Support Ticket" color="bg-[#B5E4CA]" />
           </div>
         </div>
-        <div className="flex items-center justify-between w-full">
-          <div className="flex  bg-white py-1 px-3 ">
-            <div className="flex items-center rounded-lg shadow-lg border-2 border-slate-50 px-[24px] mr-4">
+        <div className="flex w-full items-center justify-between">
+          <div className="flex  bg-white px-3 py-1 ">
+            <div className="border-slate-50 mr-4 flex items-center rounded-lg border-2 px-[24px] shadow-lg">
               <span>
                 <svg
                   width="24"
@@ -91,8 +91,8 @@ const Tickets = () => {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
                     d="M1 11C1 5.47715 5.47715 1 11 1C16.5228 1 21 5.47715 21 11C21 13.4013 20.1536 15.6049 18.7429 17.3287L23 21.5858L21.5858 23L17.3287 18.7429C15.6049 20.1536 13.4013 21 11 21C5.47715 21 1 16.5228 1 11ZM11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3Z"
                     fill="#141B34"
                   />
@@ -108,7 +108,7 @@ const Tickets = () => {
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="outline"
-                  className="h-12 flex items-center gap-2"
+                  className="flex h-12 items-center gap-2"
                 >
                   <svg
                     width="25"
@@ -118,40 +118,40 @@ const Tickets = () => {
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M7.5 22C6.94772 22 6.5 21.5523 6.5 21V18C6.5 17.4477 6.94772 17 7.5 17C8.05228 17 8.5 17.4477 8.5 18V21C8.5 21.5523 8.05228 22 7.5 22Z"
                       fill="#F2F2F2"
                     />
                     <path
                       opacity="0.4"
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M17.5 22C16.9477 22 16.5 21.5523 16.5 21V15C16.5 14.4477 16.9477 14 17.5 14C18.0523 14 18.5 14.4477 18.5 15V21C18.5 21.5523 18.0523 22 17.5 22Z"
                       fill="#141B34"
                     />
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M17.5 7C16.9477 7 16.5 6.55228 16.5 6V3C16.5 2.44772 16.9477 2 17.5 2C18.0523 2 18.5 2.44772 18.5 3V6C18.5 6.55228 18.0523 7 17.5 7Z"
                       fill="#141B34"
                     />
                     <path
                       opacity="0.4"
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M7.5 10C6.94772 10 6.5 9.55228 6.5 9V3C6.5 2.44772 6.94772 2 7.5 2C8.05229 2 8.5 2.44772 8.5 3V9C8.5 9.55228 8.05228 10 7.5 10Z"
                       fill="#141B34"
                     />
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M7.47475 11.25H7.52525C7.96972 11.25 8.34075 11.25 8.64537 11.2708C8.96247 11.2924 9.26199 11.339 9.55238 11.4593C10.2262 11.7384 10.7616 12.2738 11.0407 12.9476C11.161 13.238 11.2076 13.5375 11.2292 13.8546C11.25 14.1592 11.25 14.5303 11.25 14.9747V15.0253C11.25 15.4697 11.25 15.8408 11.2292 16.1454C11.2076 16.4625 11.161 16.762 11.0407 17.0524C10.7616 17.7262 10.2262 18.2616 9.55238 18.5407C9.26199 18.661 8.96247 18.7076 8.64537 18.7292C8.34075 18.75 7.96972 18.75 7.52526 18.75H7.47474C7.03028 18.75 6.65925 18.75 6.35464 18.7292C6.03754 18.7076 5.73801 18.661 5.44762 18.5407C4.77379 18.2616 4.23844 17.7262 3.95933 17.0524C3.83905 16.762 3.79241 16.4625 3.77077 16.1454C3.74999 15.8408 3.74999 15.4697 3.75 15.0253V14.9747C3.74999 14.5303 3.74999 14.1592 3.77077 13.8546C3.79241 13.5375 3.83905 13.238 3.95933 12.9476C4.23844 12.2738 4.77379 11.7384 5.44762 11.4593C5.73801 11.339 6.03754 11.2924 6.35464 11.2708C6.65925 11.25 7.03029 11.25 7.47475 11.25Z"
                       fill="#141B34"
                     />
                     <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
                       d="M17.4747 5.25H17.5253C17.9697 5.24999 18.3408 5.24999 18.6454 5.27077C18.9625 5.29241 19.262 5.33905 19.5524 5.45933C20.2262 5.73844 20.7616 6.27379 21.0407 6.94762C21.161 7.23801 21.2076 7.53754 21.2292 7.85464C21.25 8.15925 21.25 8.53028 21.25 8.97474V9.02526C21.25 9.46972 21.25 9.84075 21.2292 10.1454C21.2076 10.4625 21.161 10.762 21.0407 11.0524C20.7616 11.7262 20.2262 12.2616 19.5524 12.5407C19.262 12.661 18.9625 12.7076 18.6454 12.7292C18.3408 12.75 17.9697 12.75 17.5253 12.75H17.4747C17.0303 12.75 16.6592 12.75 16.3546 12.7292C16.0375 12.7076 15.738 12.661 15.4476 12.5407C14.7738 12.2616 14.2384 11.7262 13.9593 11.0524C13.839 10.762 13.7924 10.4625 13.7708 10.1454C13.75 9.84075 13.75 9.46971 13.75 9.02525V8.97475C13.75 8.53029 13.75 8.15925 13.7708 7.85464C13.7924 7.53754 13.839 7.23801 13.9593 6.94762C14.2384 6.27379 14.7738 5.73844 15.4476 5.45933C15.738 5.33905 16.0375 5.29241 16.3546 5.27077C16.6592 5.24999 17.0303 5.24999 17.4747 5.25Z"
                       fill="#141B34"
                     />
@@ -163,7 +163,7 @@ const Tickets = () => {
                 <div className="px-5">
                   <div>
                     <Tag title="Showing 10 of 32 Users" color="bg-[#B5E4CA]" />
-                    <hr className="mt-4 mb-6" />
+                    <hr className="mb-6 mt-4" />
                   </div>
                   <span className="text-txtColor text-sm">Showing</span>
                   {/* {table
@@ -189,7 +189,7 @@ const Tickets = () => {
                       </div>
                     );
                   })}*/}
-                  <div className="flex justify-end gap-3 mt-10 mb-3">
+                  <div className="mb-3 mt-10 flex justify-end gap-3">
                     <Button className="bg-white" variant="outline">
                       Reset
                     </Button>
@@ -204,7 +204,7 @@ const Tickets = () => {
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="outline"
-                  className="h-12 flex items-center gap-2"
+                  className="flex h-12 items-center gap-2"
                 >
                   <svg
                     width="24"
@@ -229,8 +229,8 @@ const Tickets = () => {
             </DropdownMenu>
           </div>
         </div>
-        <div className="flex mt-4 w-full">
-          {btns.map((btn) => (
+        <div className="mt-4 flex w-full">
+          {btns.map(btn => (
             <TicketsButtons key={btn.id} data={btn} filter={filterTickets} />
           ))}
         </div>
