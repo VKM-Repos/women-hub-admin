@@ -6,16 +6,17 @@ import { createBlogPostSchema } from './validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Form } from '@/components/ui/form';
-import { useCreatePostFormStore } from '@/store/useCreatePostForm.store';
 import { useEffect } from 'react';
+import { useEditPostFormStore } from '@/store/useEditPostForm.store';
+import { Post } from '@/types/posts.type';
 
 type Props = {
   handleNext: () => void;
+  data: Post;
 };
 
-const EditorForm = ({ handleNext }: Props) => {
-  const { data, setData } = useCreatePostFormStore();
-
+const EditEditorForm = ({ handleNext, data }: Props) => {
+  const { setData } = useEditPostFormStore();
   const form = useForm<z.infer<typeof createBlogPostSchema>>({
     resolver: zodResolver(createBlogPostSchema),
     defaultValues: {
@@ -35,13 +36,12 @@ const EditorForm = ({ handleNext }: Props) => {
     const interval = setInterval(() => {
       const values = form.getValues();
       setData({
-        ...data,
         body: values.body,
       });
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [form, data, setData]);
+  }, [form, data]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
@@ -64,4 +64,4 @@ const EditorForm = ({ handleNext }: Props) => {
   );
 };
 
-export default EditorForm;
+export default EditEditorForm;

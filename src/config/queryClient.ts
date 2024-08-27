@@ -1,6 +1,5 @@
-import { QueryClient } from "@tanstack/react-query";
-import React from "react";
-
+import { QueryClient } from '@tanstack/react-query';
+import React from 'react';
 
 export const useQueryClientAndSettings = () => {
   const queryClientSettings = {
@@ -22,7 +21,10 @@ export const useQueryClientAndSettings = () => {
     },
   };
 
-  const queryClient = React.useMemo(() => new QueryClient(queryClientSettings), []);
+  const queryClient = React.useMemo(
+    () => new QueryClient(queryClientSettings),
+    []
+  );
 
   return { queryClient };
 };

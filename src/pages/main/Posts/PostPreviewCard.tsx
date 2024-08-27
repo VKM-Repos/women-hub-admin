@@ -14,15 +14,10 @@ import { Post } from '@/types/posts.type';
 import { cn } from '@/lib/utils';
 import { usePOST } from '@/hooks/usePOST.hook';
 
-
 type Props = {
   showFilters: boolean;
   post: Post;
 };
-
-
-
-
 
 function PostPreviewCard({ showFilters, post }: Props) {
   const navigate = useNavigate();
@@ -37,49 +32,60 @@ function PostPreviewCard({ showFilters, post }: Props) {
   );
 
   const handleArchivePost = (id: number) => {
-    toast.success(`posts ${id} archived`);
-  };
-  const handleDeletePost = (id: number) => {
-    toast.success(`posts ${id} deleted`);
-  };
-  const handleViewPost = async(id: number) => {
-    
-    navigate(`/posts/${id}`);
-  };
-  const handlePublishPost = (id: number) => {
     try {
-      publishPost(id)
+      toast.success(`Post ${id} archived`);
+      // Implement actual archiving logic here
     } catch (error) {
-      console.log(error)   
+      console.error('Archive error:', error);
     }
   };
 
-    const date = new Date(post.createdAt);
-    date.setDate(date.getDate() - 4);
-    const formattedDate = date.toISOString().split('T')[0];
-  
+  const handleDeletePost = (id: number) => {
+    try {
+      toast.success(`Post ${id} deleted`);
+      // Implement actual deleting logic here
+    } catch (error) {
+      console.error('Delete error:', error);
+    }
+  };
+
+  const handleViewPost = (id: number) => {
+    navigate(`/posts/${id}`);
+  };
+
+  const handlePublishPost = (id: number) => {
+    try {
+      publishPost(id);
+    } catch (error) {
+      console.error('Publish error:', error);
+    }
+  };
+
+  const date = new Date(post.createdAt);
+  date.setDate(date.getDate() - 4);
+  const formattedDate = date.toISOString().split('T')[0];
+
   return (
     <div className="font-inter hover:border-secondary/70 group flex w-full items-center rounded-xl border-2 border-white bg-white p-4 shadow-sm">
       {showFilters && (
         <div className="w-[4rem]">
-          {/* This checkbox uses shad cn's lib, */}
-          {/* TODO: Customize checkbox component in such a way that when you select(isChecked) will select the id of the data passed to this
-            card so it can be used for bulk actions - ie, archive, publish, preview etc, bulk actions */}
           <Checkbox></Checkbox>
         </div>
       )}
       <div className={`grid w-full grid-cols-10 gap-6`}>
         <picture className="col-span-1 aspect-square w-full">
-          <img src={Thumbnail} alt="" />
+          <img src={Thumbnail} alt="Thumbnail" />
         </picture>
         <div className="col-span-9 space-y-1">
           <h5 className="font-normal text-textPrimary w-full max-w-xl truncate text-base">
-            {post?.title && post.title.charAt(0).toUpperCase() + post.title.slice(1)}
+            {post?.title
+              ? post.title.charAt(0).toUpperCase() + post.title.slice(1)
+              : 'No Title'}
           </h5>
 
           <div className="flex items-center justify-start gap-2">
             <span className="border-secondary text-secondary font-light flex w-fit items-center justify-center rounded-[4px] border bg-white p-0 px-2 text-xs">
-              {post?.category.name}
+              {post?.category?.name || 'No Category'}
             </span>
             <p
               className={cn(
@@ -87,10 +93,14 @@ function PostPreviewCard({ showFilters, post }: Props) {
                 post?.status === 'DRAFT' ? 'text-secondary' : 'text-textPrimary'
               )}
             >
-              {post?.status?.toLocaleLowerCase()}
+              {post?.status?.toLocaleLowerCase() || 'Unknown Status'}
             </p>
             &bull;
-            <p className="font-normal text-txtColor text-xs">{post?.status === 'PUBLISHED' ? post.datePublished : formattedDate}</p>
+            <p className="font-normal text-txtColor text-xs">
+              {post?.status === 'PUBLISHED'
+                ? post.datePublished
+                : formattedDate}
+            </p>
           </div>
         </div>
       </div>
@@ -99,44 +109,45 @@ function PostPreviewCard({ showFilters, post }: Props) {
       >
         <div className="flex items-center justify-between gap-6">
           <span className="invisible flex items-center justify-start gap-2 group-hover:visible">
-            {post.status === "PUBLISHED" && (
+            {post.status === 'PUBLISHED' && (
               <PostButtons
-              icon={<Icon name="archivePostIcon" />}
-              label="Archive"
-              onClick={() => handleArchivePost(post?.id)}
-            />
+                icon={<Icon name="archivePostIcon" />}
+                label="Archive"
+                onClick={() => handleArchivePost(post?.id)}
+              />
             )}
-            {post.status === "DRAFT" && (
-            <PostButtons
-              icon={<Icon name="publishPostIcon" />}
-              label="Publish"
-              onClick={() => handlePublishPost(post?.id)}
-            />
-            )}  
+            {post.status === 'DRAFT' && (
+              <PostButtons
+                icon={<Icon name="publishPostIcon" />}
+                label="Publish"
+                onClick={() => handlePublishPost(post?.id)}
+              />
+            )}
             <PostButtons
               icon={<Icon name="viewPostIcon" />}
               label="View"
               onClick={() => handleViewPost(post?.id)}
             />
-
             <PostButtons
               icon={<Icon name="deletePostIcon" />}
               label="Delete"
               onClick={() => handleDeletePost(post?.id)}
             />
           </span>
-          <p className="text-textPrimary font-normal text-xs">{post?.author}</p>
+          <p className="text-textPrimary font-normal text-xs">
+            {post?.author || 'No Author'}
+          </p>
           <picture className="aspect-square w-5">
-            <img src={Avatar} alt="" />
+            <img src={Avatar} alt="Avatar" />
           </picture>
         </div>
         <div className="text-txtColor flex items-start gap-4 text-xs font-semibold">
           <span className="flex items-center gap-2">
-            {post.numberOfComments}
+            {post.numberOfComments || 0}
             <Icon name="postCommentIcon" />
           </span>
           <span className="flex items-center gap-2">
-            {post.numberOfLikes}
+            {post.numberOfLikes || 0}
             <Icon name="postInteractionIcon" />
           </span>
         </div>
@@ -149,7 +160,7 @@ export default PostPreviewCard;
 
 type PostButtonActions = {
   icon: React.ReactNode;
-  onClick: (e: any) => void;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   label: string;
 };
 
