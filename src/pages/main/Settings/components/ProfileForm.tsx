@@ -30,7 +30,7 @@ export function ProfileForm({ user }: { user: any }) {
   const form = useForm<z.infer<typeof ProfileFormSchema>>({
     resolver: zodResolver(ProfileFormSchema),
     defaultValues: {
-      name: user?.name || "YOLO",
+      name: user?.name,
       bio: user?.bio,
     },
   });
@@ -45,7 +45,6 @@ export function ProfileForm({ user }: { user: any }) {
       },
     });
   }
-  console.log(user?.name, "yyyy");
 
   return (
     <Form {...form}>
@@ -77,7 +76,7 @@ export function ProfileForm({ user }: { user: any }) {
                   <FormMessage className="bg-black text-white px-3 py-1 rounded-md" />
                 </FormLabel>
                 <FormControl>
-                  <Input className="bg-input" {...field} value={user?.name} />
+                  <Input className="bg-input" {...field} />
                 </FormControl>
               </FormItem>
             )}
@@ -92,7 +91,7 @@ export function ProfileForm({ user }: { user: any }) {
                   <FormMessage className="bg-black text-white px-3 py-1 rounded-md" />
                 </FormLabel>
                 <FormControl>
-                  <Textarea className="bg-input" {...field} value={user?.bio} />
+                  <Textarea className="bg-input" {...field} />
                 </FormControl>
               </FormItem>
             )}

@@ -3,35 +3,37 @@ import AnonymousLayout from '../layouts/AnonymousLayout';
 import MainLayout from '../layouts/MainLayout';
 
 // Pages
+import Home from "@/pages/main/Home/Index";
+import User from "@/pages/main/Users/User";
+import Admin from "@/pages/main/Users/Admin";
+import Login from "@/pages/auth/Login/Index";
+import Posts from "@/pages/main/Posts/Index";
+import CreatePosts from "@/pages/main/Posts/create-post/index";
+import NewsLetter from "@/pages/main/NewsLetter/Index";
+import Analytics from "@/pages/main/Analytics/Index";
+import AuditLog from "@/pages/main/AuditLog/Index";
+import Settings from "@/pages/main/Settings/Index";
+import CreateUser from "@/pages/main/Users/CreateUser";
+import CreateEditor from "@/pages/main/Users/CreateEditor";
+import CreateOrganization from "@/pages/main/Users/CreateOrganization";
+import UploadPicture from "@/pages/main/Users/UploadPicture";
+import { renderRoutes } from "./generateRoutes";
+import PostPreview from "@/pages/main/Posts/preview";
+import PostDetailsPage from "@/pages/main/Posts/postid";
+import Tickets from "@/pages/main/Support/Tickets";
+import Editor from "@/pages/main/Users/Editor";
+import Support from "@/pages/main/Support/Support";
+import Guidelines from "@/pages/main/Support/Guidelines";
+import FAQs from "@/pages/main/Support/FAQs";
+import Helplines from "@/pages/main/Support/Helplines";
+import EditHeader from "@/pages/main/Support/EditHeader";
+import AddGuideline from "@/pages/main/Support/components/AddGuideline";
+import AddFAQ from "@/pages/main/Support/components/AddFAQ";
+import AddHelpline from "@/pages/main/Support/components/AddHelpline";
+import UploadOrgPicture from "@/pages/main/Users/UploadOrgPicture";
+import Categories from "@/pages/main/Categories/Index";
+import { CategoryDetails } from "@/pages/main/Categories/CategoryDetails";
 
-import Home from '@/pages/main/Home/Index';
-import User from '@/pages/main/Users/User';
-import Admin from '@/pages/main/Users/Admin';
-import Login from '@/pages/auth/Login/Index';
-import Posts from '@/pages/main/Posts/Index';
-import CreatePosts from '@/pages/main/Posts/create-post/index';
-import NewsLetter from '@/pages/main/NewsLetter/Index';
-import Analytics from '@/pages/main/Analytics/Index';
-import AuditLog from '@/pages/main/AuditLog/Index';
-import Settings from '@/pages/main/Settings/Index';
-import CreateUser from '@/pages/main/Users/CreateUser';
-import CreateEditor from '@/pages/main/Users/CreateEditor';
-import CreateOrganization from '@/pages/main/Users/CreateOrganization';
-import UploadPicture from '@/pages/main/Users/UploadPicture';
-import { renderRoutes } from './generateRoutes';
-import PostPreview from '@/pages/main/Posts/preview';
-import PostDetailsPage from '@/pages/main/Posts/postid';
-import Tickets from '@/pages/main/Support/Tickets';
-import Editor from '@/pages/main/Users/Editor';
-import Support from '@/pages/main/Support/Support';
-import Guidelines from '@/pages/main/Support/Guidelines';
-import FAQs from '@/pages/main/Support/FAQs';
-import Helplines from '@/pages/main/Support/Helplines';
-import EditHeader from '@/pages/main/Support/EditHeader';
-import AddGuideline from '@/pages/main/Support/components/AddGuideline';
-import AddFAQ from '@/pages/main/Support/components/AddFAQ';
-import AddHelpline from '@/pages/main/Support/components/AddHelpline';
-import UploadOrgPicture from '@/pages/main/Users/UploadOrgPicture';
 
 export const routess = [
   {
@@ -153,8 +155,20 @@ export const routess = [
         ],
       },
       {
-        name: 'News Letter',
-        title: 'News Letter',
+        name: "Categires",
+        title: "Categories",
+        component: Categories,
+        path: "/categories",
+      },
+      {
+        name: "Categires Details",
+        title: "Categories",
+        component: CategoryDetails,
+        path: "/categories-details",
+      },
+      {
+        name: "News Letter",
+        title: "News Letter",
         component: NewsLetter,
         path: '/news-letter',
       },
