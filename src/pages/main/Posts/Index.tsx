@@ -7,6 +7,7 @@ import Loading from '@/components/shared/Loading';
 
 export default function Posts() {
   const [showFilters, setShowFilters] = useState(false);
+  const [selectedPosts, setSelectedPosts] = useState<number[]>([]);
 
   const {
     data: posts,
@@ -24,12 +25,31 @@ export default function Posts() {
     refetch();
   }, [posts]);
 
+  const togglePostSelection = (postId: number) => {
+    setSelectedPosts(prevSelected =>
+      prevSelected.includes(postId)
+        ? prevSelected.filter(id => id !== postId)
+        : [...prevSelected, postId]
+    );
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedPosts.length === posts?.content.length) {
+      setSelectedPosts([]);
+    } else {
+      setSelectedPosts(posts?.content.map((post: Post) => post.id));
+    }
+  };
+
   return (
     <section className="flex flex-col gap-y-6">
       <PostFilters
         showFilters={showFilters}
         setShowFilters={setShowFilters}
         posts={posts?.content}
+        selectedCount={selectedPosts.length}
+        totalCount={posts?.content.length}
+        toggleSelectAll={toggleSelectAll}
       />
 
       <div className="flex flex-col gap-4">
@@ -41,6 +61,8 @@ export default function Posts() {
               key={post.id}
               showFilters={showFilters}
               post={post}
+              isSelected={selectedPosts.includes(post.id)}
+              togglePostSelection={() => togglePostSelection(post.id)}
             />
           ))
         ) : (

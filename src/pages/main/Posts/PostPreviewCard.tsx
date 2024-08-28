@@ -17,9 +17,16 @@ import { usePOST } from '@/hooks/usePOST.hook';
 type Props = {
   showFilters: boolean;
   post: Post;
+  isSelected: boolean; // Whether the post is selected
+  togglePostSelection: () => void; // Function to toggle selection
 };
 
-function PostPreviewCard({ showFilters, post }: Props) {
+function PostPreviewCard({
+  showFilters,
+  post,
+  isSelected,
+  togglePostSelection,
+}: Props) {
   const navigate = useNavigate();
 
   const { mutate: publishPost } = usePOST(
@@ -30,22 +37,20 @@ function PostPreviewCard({ showFilters, post }: Props) {
       toast.success('Post published successfully');
     }
   );
+  const { mutate: archivePost } = usePOST(
+    `admin/posts/${post.id}/archive`,
+    true,
+    'multipart/form-data',
+    () => {
+      toast.success('Post has been archived');
+    }
+  );
 
   const handleArchivePost = (id: number) => {
     try {
-      toast.success(`Post ${id} archived`);
-      // Implement actual archiving logic here
+      archivePost(id);
     } catch (error) {
       console.error('Archive error:', error);
-    }
-  };
-
-  const handleDeletePost = (id: number) => {
-    try {
-      toast.success(`Post ${id} deleted`);
-      // Implement actual deleting logic here
-    } catch (error) {
-      console.error('Delete error:', error);
     }
   };
 
@@ -66,12 +71,15 @@ function PostPreviewCard({ showFilters, post }: Props) {
   const formattedDate = date.toISOString().split('T')[0];
 
   return (
-    <div className="font-inter hover:border-secondary/70 group flex w-full items-center rounded-xl border-2 border-white bg-white p-4 shadow-sm">
-      {showFilters && (
-        <div className="w-[4rem]">
-          <Checkbox></Checkbox>
-        </div>
-      )}
+    <div className="font-inter hover:border-secondary/70 group flex w-full items-center gap-x-4 rounded-xl border-2 border-white bg-white p-4 shadow-sm">
+      <div className="">
+        {showFilters && (
+          <Checkbox
+            checked={isSelected}
+            onCheckedChange={togglePostSelection}
+          />
+        )}
+      </div>
       <div className={`grid w-full grid-cols-10 gap-6`}>
         <picture className="col-span-1 aspect-square w-full">
           <img src={Thumbnail} alt="Thumbnail" />
@@ -89,8 +97,14 @@ function PostPreviewCard({ showFilters, post }: Props) {
             </span>
             <p
               className={cn(
-                'text-xs font-bold capitalize',
-                post?.status === 'DRAFT' ? 'text-secondary' : 'text-textPrimary'
+                'fontlight text-xs capitalize',
+                post?.status === 'DRAFT'
+                  ? 'text-secondary'
+                  : post?.status === 'PUBLISHED'
+                    ? 'text-textPrimary'
+                    : post?.status === 'ARCHIVED'
+                      ? ' text-yellow-400'
+                      : 'text-textPrimary'
               )}
             >
               {post?.status?.toLocaleLowerCase() || 'Unknown Status'}
@@ -109,14 +123,14 @@ function PostPreviewCard({ showFilters, post }: Props) {
       >
         <div className="flex items-center justify-between gap-6">
           <span className="invisible flex items-center justify-start gap-2 group-hover:visible">
-            {post.status === 'PUBLISHED' && (
+            {post?.status === 'PUBLISHED' && (
               <PostButtons
                 icon={<Icon name="archivePostIcon" />}
                 label="Archive"
                 onClick={() => handleArchivePost(post?.id)}
               />
             )}
-            {post.status === 'DRAFT' && (
+            {post?.status === 'DRAFT' && (
               <PostButtons
                 icon={<Icon name="publishPostIcon" />}
                 label="Publish"
@@ -128,11 +142,11 @@ function PostPreviewCard({ showFilters, post }: Props) {
               label="View"
               onClick={() => handleViewPost(post?.id)}
             />
-            <PostButtons
+            {/* <PostButtons
               icon={<Icon name="deletePostIcon" />}
               label="Delete"
               onClick={() => handleDeletePost(post?.id)}
-            />
+            /> */}
           </span>
           <p className="text-textPrimary font-normal text-xs">
             {post?.author || 'No Author'}
@@ -170,7 +184,7 @@ export const PostButtons: React.FC<PostButtonActions> = ({
   onClick,
 }) => {
   return (
-    <button onClick={onClick} className={''}>
+    <button onClick={onClick} className={'group'}>
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
