@@ -189,7 +189,7 @@ hr {
     border-top-color: rgba(196, 193, 193, 0.5);
   }
 }
-
+/* 
 table {
   border-collapse: collapse;
   margin: 0;
@@ -274,9 +274,9 @@ table {
     line-height: 1;
     text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
   }
-}
+} */
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   table {
     td,
     th {
@@ -295,7 +295,7 @@ table {
       background-color: #60a5fa;
     }
   }
-}
+} */
 
 a {
   cursor: pointer;
