@@ -3,6 +3,7 @@ import Icon from "@/components/icons/Icon";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
+import Back from "@/components/shared/backButton/Back";
 
 type Props = {
   step: number;
@@ -29,13 +30,14 @@ const Header = ({ step, title, handleGoBack }: Props) => {
   ];
 
   return (
-    <header className="flex items-center justify-between min-h-[5rem] p-4">
+    <header className="flex items-center bg-white w-full rounded-lg justify-between min-h-[5rem] p-4">
       <div className="w-full max-w-sm flex items-center justify-start gap-4">
         <div className="w-[20px] h-[40px] bg-[#B5E4CA] rounded"></div>
         <h2 className="text-xl font-semibold w-full max-w-lg truncate">
           {title}
         </h2>
       </div>
+      <Back />
       {step > 1 && (
         <div className="flex items-center gap-3">
           <button>

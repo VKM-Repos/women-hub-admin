@@ -8,17 +8,28 @@ type Props = {
 function TicketPreviewCard({ data }: Props) {
   return (
     <div className=" bg-white rounded-lg px-6 py-4 mt-3 border-2 border-zinc-100">
-      <TagCircle
-        title={`Ticket# ${data.id}`}
-        color={
-          data?.status === "New"
-            ? "bg-[#FF0835]"
-            : data?.status === "Ongoing"
-            ? "bg-[#FF7400]"
-            : "bg-[#65B891]"
-        }
-      />
-      <hr className="mb-4 m-0" />
+      <div className="flex justify-between">
+        <div className="self-center">
+          <TagCircle
+            title={`Ticket# ${data.id}`}
+            color={
+              data?.status === "New"
+                ? "bg-[#FF0835]"
+                : data?.status === "Ongoing"
+                ? "bg-[#FF7400]"
+                : "bg-[#65B891]"
+            }
+          />
+        </div>
+
+        <div>
+          <p className="font-inter text-[#65655E] text-[12px]">
+            Submitted at 12:45 AM
+          </p>
+        </div>
+      </div>
+
+      <hr className="mb-4 mt-2 m-0" />
       <h1 className="font-medium font-inter text-[14px] mt-2">
         Issue with {data.issue}
       </h1>

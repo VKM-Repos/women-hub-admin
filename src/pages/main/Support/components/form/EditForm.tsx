@@ -12,9 +12,6 @@ type Props = {
 };
 
 const EditForm = ({ data }: Props) => {
-  // Assuming you have the logged-in user data available
-  const loggedInUser = { firstName: "Jane", lastName: "Doe" };
-
   const form = useForm<z.infer<typeof createGuideSchema>>({
     resolver: zodResolver(createGuideSchema),
     defaultValues: {

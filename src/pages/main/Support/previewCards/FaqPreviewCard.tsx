@@ -1,42 +1,46 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import Avatar from "@/assets/icons/avatar.svg";
 import { useNavigate } from "react-router-dom";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
 import { Faq } from "@/types/faqs.type";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
-import Icon from '@/components/icons/Icon';
+import Icon from "@/components/icons/Icon";
 import { SupportButtons } from "../components/SupportButtons";
 
 type Props = {
   showFilters: boolean;
   data: Faq;
-  checkedAll:boolean;
+  checkedAll: boolean;
 };
 
 function FaqPreviewCard({ showFilters, data, checkedAll }: Props) {
   const navigate = useNavigate();
 
   const handleArchiveFAQ = (id: string) => {
-    toast.success('FAQ archived');
+    console.log(id);
+    toast.success("FAQ archived");
   };
   const handleDeleteFAQ = (id: string) => {
-    toast.success('FAQ deleted');
+    console.log(id);
+    toast.success("FAQ deleted");
   };
   const handleViewFAQ = (id: string) => {
+    console.log(id);
     navigate(`/FAQs/${id}`);
   };
   const handlePublishFAQ = (id: string) => {
-    toast.success('FAQ published');
+    console.log(id);
+    toast.success("FAQ published");
   };
 
-  const [isSelected, setIsSelected] = useState(false)
+  const [isSelected, setIsSelected] = useState(false);
   return (
     <div className="font-inter hover:border-secondary/70 group flex w-full items-center rounded-xl border-2 border-white bg-white px-[20px] py-[30px] shadow-sm">
       {showFilters && (
         <div className="w-[4rem]">
           <Checkbox
-            checked={checkedAll? checkedAll: isSelected}
+            checked={checkedAll ? checkedAll : isSelected}
             onCheckedChange={(checked: boolean) => {
               // toggleSelected(data.id, checked)
               setIsSelected(checked);
@@ -72,21 +76,21 @@ function FaqPreviewCard({ showFilters, data, checkedAll }: Props) {
         className={`flex w-full max-w-60 flex-col items-end justify-end gap-y-2`}
       >
         <div className="flex items-center justify-between gap-6">
-        <span className="invisible flex items-center justify-start gap-2 group-hover:visible">
+          <span className="invisible flex items-center justify-start gap-2 group-hover:visible">
             {data?.status === "PUBLISHED" && (
               <SupportButtons
-              icon={<Icon name="archivePostIcon" />}
-              label="Archive"
-              onClick={() => handleArchiveFAQ(data?.id)}
-            />
+                icon={<Icon name="archivePostIcon" />}
+                label="Archive"
+                onClick={() => handleArchiveFAQ(data?.id)}
+              />
             )}
             {data?.status === "DRAFT" && (
-            <SupportButtons
-              icon={<Icon name="publishPostIcon" />}
-              label="Publish"
-              onClick={() => handlePublishFAQ(data?.id)}
-            />
-            )}  
+              <SupportButtons
+                icon={<Icon name="publishPostIcon" />}
+                label="Publish"
+                onClick={() => handlePublishFAQ(data?.id)}
+              />
+            )}
             <SupportButtons
               icon={<Icon name="viewPostIcon" />}
               label="View"
@@ -112,5 +116,3 @@ function FaqPreviewCard({ showFilters, data, checkedAll }: Props) {
 }
 
 export default FaqPreviewCard;
-
-

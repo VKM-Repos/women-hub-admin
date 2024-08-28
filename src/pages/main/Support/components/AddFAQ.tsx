@@ -1,12 +1,10 @@
 import Header from "../components/Header";
-import Footer from "../components/Footer";
 import MDEditor from "../components/form/MDEditor";
 import { useEditSupportHeaderForm } from "@/store/useEditSupportHeaderForm.store";
 import CreateFAQForm from "./form/CreateFAQForm";
 
 const AddFAQ = () => {
-  const { step, setStep, data, setData, resetStore } =
-    useEditSupportHeaderForm();
+  const { step, setStep } = useEditSupportHeaderForm();
 
   const handleNext = () => {
     setStep(step + 1);
@@ -32,16 +30,9 @@ const AddFAQ = () => {
 
   return (
     <section className="mx-auto w-full space-y-1 md:w-[95%] pb-[5rem]">
-      <div className="rounded-lg bg-white w-full pb-[4rem]">
-        <Header
-          step={step}
-          title={data?.headerDetails?.title}
-          handleGoBack={handleGoBack}
-        />
+      <Header step={step} title={"Add FAQ"} handleGoBack={handleGoBack} />
 
-        {RenderSteps()}
-      </div>
-      {step === 1 && <Footer handleNext={handleNext} />}
+      {RenderSteps()}
     </section>
   );
 };

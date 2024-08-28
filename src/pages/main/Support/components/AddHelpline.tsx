@@ -1,13 +1,11 @@
 import Header from "../components/Header";
-import Footer from "../components/Footer";
 import MDEditor from "../components/form/MDEditor";
 import { useEditSupportHeaderForm } from "@/store/useEditSupportHeaderForm.store";
 
-import CreateGuidelineForm from "./form/CreateGuidelineForm";
+import CreateHelplineForm from "./form/CreateHelplineForm";
 
 const AddHelpline = () => {
-  const { step, setStep, data, setData, resetStore } =
-    useEditSupportHeaderForm();
+  const { step, setStep } = useEditSupportHeaderForm();
 
   const handleNext = () => {
     setStep(step + 1);
@@ -22,7 +20,7 @@ const AddHelpline = () => {
   const RenderSteps = () => {
     switch (step) {
       case 1:
-        return <CreateGuidelineForm />;
+        return <CreateHelplineForm />;
       case 2:
         return <MDEditor handleNext={handleNext} handleGoBack={handleGoBack} />;
 
@@ -33,16 +31,12 @@ const AddHelpline = () => {
 
   return (
     <section className="mx-auto w-full space-y-1 md:w-[95%] pb-[5rem]">
-      <div className="rounded-lg bg-white w-full pb-[4rem]">
-        <Header
-          step={step}
-          title={data?.headerDetails?.title}
-          handleGoBack={handleGoBack}
-        />
+      {/* <div className="rounded-lg bg-white w-full pb-[4rem]"> */}
+      <Header step={step} title={"Add Helpline"} handleGoBack={handleGoBack} />
 
-        {RenderSteps()}
-      </div>
-      {step === 1 && <Footer handleNext={handleNext} />}
+      {RenderSteps()}
+      {/* </div>
+      {step === 1 && <Footer handleNext={handleNext} />} */}
     </section>
   );
 };

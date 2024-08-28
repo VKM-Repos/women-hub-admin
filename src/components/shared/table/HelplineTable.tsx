@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -11,12 +11,11 @@ import {
   getSortedRowModel,
   getGroupedRowModel,
   useReactTable,
-} from '@tanstack/react-table';
+} from "@tanstack/react-table";
 
-import { Button } from '@/components/ui/button';
-import Icon from '@/components/icons/Icon';
-import { useLocation } from 'react-router-dom';
-import { Input } from '@/components/ui/input';
+import { Button } from "@/components/ui/button";
+import { useLocation } from "react-router-dom";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -24,8 +23,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import GuideHeroSection from '@/pages/main/Support/components/GuideHeroSection';
+} from "@/components/ui/table";
+import GuideHeroSection from "@/pages/main/Support/components/GuideHeroSection";
+import { Link } from "react-router-dom";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { PlusIcon } from "lucide-react";
 
 type tableProps = {
   columns: ColumnDef<string>[];
@@ -89,30 +92,36 @@ export default function HelplineTable({ columns, data }: tableProps) {
             <Input
               placeholder="Search Articles"
               value={
-                (table.getColumn('helpline')?.getFilterValue() as string) ?? ''
+                (table.getColumn("helpline")?.getFilterValue() as string) ?? ""
               }
-              onChange={event =>
-                table.getColumn('helpline')?.setFilterValue(event.target.value)
+              onChange={(event) =>
+                table.getColumn("helpline")?.setFilterValue(event.target.value)
               }
               className="w-full border-none bg-transparent focus:outline-none"
             />
           </div>
           <div>
-            <Button className="bg-secondary flex h-12 w-[150px] items-center gap-2 rounded-lg text-white">
-              <span>
-                <Icon name="plus" />
-              </span>
+            <Link
+              to={`/support/create-helpline`}
+              className={cn(
+                buttonVariants({ variant: "secondary", size: "lg" }),
+                "flex gap-2 text-white rounded-[12px]"
+              )}
+            >
+              {/* <Button className="text-white bg-secondary rounded-lg h-12 w-[150px] flex items-center gap-2"> */}
+              <PlusIcon />
               Add new
-            </Button>
+              {/* </Button> */}
+            </Link>
           </div>
         </div>
       </div>
       <div className="font-inter rounded-md border bg-white">
         <Table>
           <TableHeader>
-            {table.getHeaderGroups().map(headerGroup => (
+            {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map(header => {
+                {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id} className="py-4">
                       <span className="text-base">
@@ -134,10 +143,10 @@ export default function HelplineTable({ columns, data }: tableProps) {
               table.getRowModel().rows.map((row, index) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                  className={`${index % 2 == 0 ? 'bg-[#EAEAEA]' : ''}`}
+                  data-state={row.getIsSelected() && "selected"}
+                  className={`${index % 2 == 0 ? "bg-[#EAEAEA]" : ""}`}
                 >
-                  {row.getVisibleCells().map(cell => (
+                  {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,

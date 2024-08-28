@@ -11,35 +11,38 @@ import { SupportButtons } from "../components/SupportButtons";
 type Props = {
   showFilters: boolean;
   data: any;
-  checkedAll:boolean;
+  checkedAll: boolean;
 };
 
 function GuidePreviewCard({ showFilters, data, checkedAll }: Props) {
   const navigate = useNavigate();
 
   const handleArchiveGuide = (id: string) => {
+    console.log(id);
     toast.success("Guide archived");
   };
   const handleDeleteGuide = (id: string) => {
+    console.log(id);
     toast.success("Guide deleted");
   };
   const handleViewGuide = (id: string) => {
+    console.log(id);
     navigate(`/guide/${id}`);
   };
   const handlePublishGuide = (id: string) => {
+    console.log(id);
     toast.success("Guide published");
   };
 
-  const [isSelected, setIsSelected] = useState(false)
+  const [isSelected, setIsSelected] = useState(false);
 
   return (
     <div className="font-inter hover:border-secondary/70 group flex w-full items-center rounded-xl border-2 border-white bg-white px-[20px] py-[30px] shadow-sm">
       {showFilters && (
         <div className="w-[4rem]">
           <Checkbox
-            checked={checkedAll? checkedAll: isSelected}
+            checked={checkedAll ? checkedAll : isSelected}
             onCheckedChange={(checked: boolean) => {
-              // toggleSelected(data.id, checked)
               setIsSelected(checked);
             }}
             aria-label="Select all"
@@ -74,20 +77,20 @@ function GuidePreviewCard({ showFilters, data, checkedAll }: Props) {
       >
         <div className="flex items-center justify-between gap-6">
           <span className="invisible flex items-center justify-start gap-2 group-hover:visible">
-          {data?.status === "PUBLISHED" && (
+            {data?.status === "PUBLISHED" && (
               <SupportButtons
-              icon={<Icon name="archivePostIcon" />}
-              label="Archive"
-              onClick={() => handleArchiveGuide(data?.id)}
-            />
+                icon={<Icon name="archivePostIcon" />}
+                label="Archive"
+                onClick={() => handleArchiveGuide(data?.id)}
+              />
             )}
             {data?.status === "DRAFT" && (
-            <SupportButtons
-              icon={<Icon name="publishPostIcon" />}
-              label="Publish"
-              onClick={() => handlePublishGuide(data?.id)}
-            />
-            )}  
+              <SupportButtons
+                icon={<Icon name="publishPostIcon" />}
+                label="Publish"
+                onClick={() => handlePublishGuide(data?.id)}
+              />
+            )}
             <SupportButtons
               icon={<Icon name="viewPostIcon" />}
               label="View"
@@ -113,5 +116,3 @@ function GuidePreviewCard({ showFilters, data, checkedAll }: Props) {
 }
 
 export default GuidePreviewCard;
-
-
