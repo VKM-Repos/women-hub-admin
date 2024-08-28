@@ -56,7 +56,7 @@ export default function Guidelines() {
               />
             ))
           ) : (
-            <>No Guide yet</>
+            <>No Result</>
           )}
         </div>
         <div className="flex items-center justify-end space-x-2 py-4">

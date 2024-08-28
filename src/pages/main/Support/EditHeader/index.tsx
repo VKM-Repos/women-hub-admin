@@ -9,8 +9,7 @@ const EditHeader = () => {
   const location = useLocation();
   const guide = location.state?.data;
 
-  const { step, setStep, data, setData, resetStore } =
-    useEditSupportHeaderForm();
+  const { step, setStep, data } = useEditSupportHeaderForm();
 
   const handleNext = () => {
     setStep(step + 1);

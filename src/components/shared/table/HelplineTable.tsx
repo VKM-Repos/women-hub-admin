@@ -12,9 +12,7 @@ import {
   getGroupedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-
 import { Button } from "@/components/ui/button";
-import Icon from "@/components/icons/Icon";
 import { useLocation } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import {
@@ -26,6 +24,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import GuideHeroSection from "@/pages/main/Support/components/GuideHeroSection";
+import { Link } from "react-router-dom";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { PlusIcon } from "lucide-react";
 
 type tableProps = {
   columns: ColumnDef<string>[];
@@ -98,12 +100,18 @@ export default function HelplineTable({ columns, data }: tableProps) {
             />
           </div>
           <div>
-            <Button className="text-white bg-secondary rounded-lg h-12 w-[150px] flex items-center gap-2">
-              <span>
-                <Icon name="plus" />
-              </span>
+            <Link
+              to={`/support/create-helpline`}
+              className={cn(
+                buttonVariants({ variant: "secondary", size: "lg" }),
+                "flex gap-2 text-white rounded-[12px]"
+              )}
+            >
+              {/* <Button className="text-white bg-secondary rounded-lg h-12 w-[150px] flex items-center gap-2"> */}
+              <PlusIcon />
               Add new
-            </Button>
+              {/* </Button> */}
+            </Link>
           </div>
         </div>
       </div>

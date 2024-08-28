@@ -4,7 +4,6 @@ import {
   ColumnFiltersState,
   SortingState,
   VisibilityState,
-  flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
@@ -17,14 +16,6 @@ import { Button } from "@/components/ui/button";
 import Icon from "@/components/icons/Icon";
 
 import { Input } from "@/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 
 import GUIDELINE from "@/assets/images/Getting started.png";
 
