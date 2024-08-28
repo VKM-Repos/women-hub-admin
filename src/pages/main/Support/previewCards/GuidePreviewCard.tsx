@@ -43,7 +43,6 @@ function GuidePreviewCard({ showFilters, data, checkedAll }: Props) {
           <Checkbox
             checked={checkedAll ? checkedAll : isSelected}
             onCheckedChange={(checked: boolean) => {
-              // toggleSelected(data.id, checked)
               setIsSelected(checked);
             }}
             aria-label="Select all"
