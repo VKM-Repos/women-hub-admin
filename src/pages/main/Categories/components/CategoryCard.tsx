@@ -12,13 +12,15 @@ export default function CategoryCard({
   return (
     <div
       className={cn(
-        "flex flex-col items-center rounded-lg px-[58px] py-5 group hover:bg-gray-500 w-[235px]",
+        "flex flex-col items-center rounded-lg px-[58px] py-5 group hover:bg-gray-500 w-[235px] max-w-[235px]",
         bg
       )}
     >
       <img src={image} alt="" className="aspect-square object-cover" />
-      <span className="font-semibold font-quicksand">{title}</span>
-      <Button className="absolute mt-16  group-hover:flex   hidden">
+      <span className="font-semibold font-quicksand text-base mt-2 text-center">
+        {title}
+      </span>
+      <Button className="absolute mt-16 group-hover:flex hidden">
         <svg
           width="60"
           height="60"
