@@ -110,7 +110,7 @@ const PostDetailsPage = () => {
             handlePublish={handlePublish}
             handleUpdate={handleUpdate}
           />
-          {RenderSteps()}
+          {<RenderSteps />}
         </div>
       </section>
     </>
