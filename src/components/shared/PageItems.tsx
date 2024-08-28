@@ -9,7 +9,7 @@ export const PAGE_ITEMS: SideNavItem[] = [
   },
   {
     title: "Category",
-    path: "/#",
+    path: "/categories",
     icon: <Icon name="pages" />,
   },
   {

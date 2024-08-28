@@ -1,41 +1,36 @@
-/* eslint-disable no-unused-vars */
-// import { E164Number } from "libphonenumber-js/core";
-// import ReactDatePicker from "react-datepicker";
-import { Control } from "react-hook-form";
-// import PhoneInput from "react-phone-number-input";
-
-import { Checkbox } from "../ui/checkbox";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useState } from 'react';
+import Dropzone, { DropzoneInputProps } from 'react-dropzone';
+import { cn } from '@/lib/utils';
+import { UploadIcon } from 'lucide-react';
+import { Control } from 'react-hook-form';
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
+} from '../ui/form';
+import { Input } from '../ui/input';
 import {
   Select,
   SelectContent,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
-import { Textarea } from "../ui/textarea";
-import Dropzone, { DropzoneInputProps } from "react-dropzone";
-import { cn } from "@/lib/utils";
-import { UploadIcon } from "lucide-react";
-import { useState } from "react";
-import Editor from "@/pages/main/Posts/components/Editor";
+} from '../ui/select';
+import { Textarea } from '../ui/textarea';
+import { Checkbox } from '../ui/checkbox';
+import Editor from '@/pages/main/Posts/components/Editor';
 
 export enum FormFieldType {
-  INPUT = "input",
-  TEXTAREA = "textarea",
-  PHONE_INPUT = "phoneInput",
-  CHECKBOX = "checkbox",
-  EDITOR = "editor",
-  //   DATE_PICKER = "datePicker",
-  SELECT = "select",
-  SKELETON = "skeleton",
-  IMAGE_UPLOAD = "imageUpload",
+  INPUT = 'input',
+  TEXTAREA = 'textarea',
+  PHONE_INPUT = 'phoneInput',
+  CHECKBOX = 'checkbox',
+  EDITOR = 'editor',
+  SELECT = 'select',
+  SKELETON = 'skeleton',
+  IMAGE_UPLOAD = 'imageUpload',
 }
 
 interface CustomProps {
@@ -51,10 +46,18 @@ interface CustomProps {
   children?: React.ReactNode;
   renderSkeleton?: (field: any) => React.ReactNode;
   fieldType: FormFieldType;
+  initialImage?: string;
 }
 
 const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
-  const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
+  const [backgroundImage, setBackgroundImage] = useState<string | null>(
+    props.initialImage ?? null
+  );
+
+  useEffect(() => {
+    setBackgroundImage(props.initialImage ?? null);
+  }, [props.initialImage]);
+
   switch (props.fieldType) {
     case FormFieldType.INPUT:
       return (
@@ -64,7 +67,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
               src={props.iconSrc}
               height={24}
               width={24}
-              alt={props.iconAlt || "icon"}
+              alt={props.iconAlt || 'icon'}
               className="ml-2"
             />
           )}
@@ -83,23 +86,9 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
           <Textarea
             placeholder={props.placeholder}
             {...field}
-            className="min-h-[7rem] p-4 text-base caret-black focus:outline-none rounded-lg"
+            className="caret-black min-h-[7rem] rounded-lg p-4 text-base focus:outline-none"
             disabled={props.disabled}
           />
-        </FormControl>
-      );
-    case FormFieldType.PHONE_INPUT:
-      return (
-        <FormControl>
-          {/* <PhoneInput
-                        defaultCountry="US"
-                        placeholder={props.placeholder}
-                        international
-                        withCountryCallingCode
-                        value={field.value as E164Number | undefined}
-                        onChange={field.onChange}
-                        className="input-phone"
-                    /> */}
         </FormControl>
       );
     case FormFieldType.CHECKBOX:
@@ -117,28 +106,6 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
           </div>
         </FormControl>
       );
-    // case FormFieldType.DATE_PICKER:
-    //   return (
-    //     <div className="flex rounded-md border border-dark-500 bg-dark-400">
-    //       <img
-    //         src="/assets/icons/calendar.svg"
-    //         height={24}
-    //         width={24}
-    //         alt="user"
-    //         className="ml-2"
-    //       />
-    //       <FormControl>
-    //         <ReactDatePicker
-    //           showTimeSelect={props.showTimeSelect ?? false}
-    //           selected={field.value}
-    //           onChange={(date: Date) => field.onChange(date)}
-    //           timeInputLabel="Time:"
-    //           dateFormat={props.dateFormat ?? "MM/dd/yyyy"}
-    //           wrapperClassName="date-picker"
-    //         />
-    //       </FormControl>
-    //     </div>
-    //   );
     case FormFieldType.SELECT:
       return (
         <FormControl>
@@ -156,12 +123,10 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
       return (
         <FormControl>
           <Dropzone
-            accept={{
-              "image/*": [".jpg", ".jpeg", ".png"],
-            }}
+            accept={{ 'image/*': ['.jpg', '.jpeg', '.png'] }}
             multiple={false}
             maxSize={5000000}
-            onDrop={(acceptedFiles) => {
+            onDrop={acceptedFiles => {
               const file = acceptedFiles[0];
               const reader = new FileReader();
               reader.onloadend = () => {
@@ -176,8 +141,8 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
               <div
                 {...getRootProps({
                   className: cn(
-                    "mt-6 w-full min-h-[14rem] cursor-pointer flex items-center p-4 rounded-lg text-center",
-                    backgroundImage ? "bg-cover bg-center" : "bg-background"
+                    'mt-6 w-full min-h-[14rem] cursor-pointer flex items-center p-4 rounded-lg text-center',
+                    backgroundImage ? 'bg-cover bg-center' : 'bg-background'
                   ),
                   style: backgroundImage
                     ? { backgroundImage: `url(${backgroundImage})` }
@@ -185,11 +150,10 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
                 })}
               >
                 <input {...(getInputProps() as DropzoneInputProps)} />
-
-                <span className="w-fit flex items-center gap-2 mx-auto p-4 rounded-lg bg-white shadow-md">
+                <span className="mx-auto flex w-fit items-center gap-2 rounded-lg bg-white p-4 shadow-md">
                   <UploadIcon />
                   <p className="font-bold">
-                    {!backgroundImage ? "Click, or drop files" : "Change photo"}
+                    {!backgroundImage ? 'Click, or drop files' : 'Change photo'}
                   </p>
                 </span>
               </div>
@@ -200,7 +164,6 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
     case FormFieldType.EDITOR:
       return (
         <FormControl>
-          {/* <MDEditor body={field.value} onChange={field.onChange} /> */}
           <Editor body={field.value} onChange={field.onChange} />
         </FormControl>
       );

@@ -10,6 +10,7 @@ type User = {
   refreshToken: string;
   role: string;
   token: string;
+  bio: string;
 };
 interface UserState {
   user: User;
@@ -30,6 +31,7 @@ const useAppStore = create<UserState>()(
           refreshToken: "",
           role: "",
           token: "",
+          bio: "",
         },
         loggedIn: false,
         login: (user: User, loggedIn: boolean) =>
@@ -44,6 +46,7 @@ const useAppStore = create<UserState>()(
               refreshToken: "",
               role: "",
               token: "",
+              bio: "",
             },
             loggedIn: false,
           })),

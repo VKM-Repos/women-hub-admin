@@ -12,7 +12,7 @@ export default function UploadOrgPicture() {
   const profileInputRef = useRef<HTMLInputElement | null>(null);
   const logoInputRef = useRef<HTMLInputElement | null>(null);
   const coverInputRef = useRef<HTMLInputElement | null>(null);
-  const { orgId, userId, pathname } = useParams();
+  const { orgId, pathname } = useParams();
 
   const [selectedFile, setSelectedFile] = useState<File | string>("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -23,9 +23,9 @@ export default function UploadOrgPicture() {
   const [selectedOrgCover, setSelectedOrgCover] = useState<File | string>("");
   const [orgCoverPreview, setOrgCoverPreview] = useState<string | null>(null);
 
-  const [showModal, setShowModal] = useState(false);
-  const [validationError, setValidationError] = useState(false);
-  const { mutate, isPending } = usePOST(
+  const [showModal] = useState(false);
+  const [validationError] = useState(false);
+  const { isPending } = usePOST(
     `admin/users/${orgId}/profile-photo`,
     true,
     "multipart/form-data",

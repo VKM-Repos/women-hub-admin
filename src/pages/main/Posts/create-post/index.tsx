@@ -5,10 +5,20 @@ import EditorForm from '../components/form/EditorForm';
 import { usePOST } from '@/hooks/usePOST.hook';
 import toast from 'react-hot-toast';
 import Loading from '@/components/shared/Loading';
-
+import { useNavigate } from 'react-router-dom';
 
 const CreatePostPage = () => {
-  const { step, setStep, data} = useCreatePostFormStore();
+  const navigate = useNavigate();
+  const { step, setStep, data, resetStore } = useCreatePostFormStore();
+
+  const { mutate: createPost, isPending: isCreating } = usePOST(
+    'admin/posts',
+    true,
+    'multipart/form-data',
+    response => {
+      console.log(response);
+    }
+  );
 
   const handleNext = () => {
     setStep(step + 1);
@@ -20,16 +30,7 @@ const CreatePostPage = () => {
     }
   };
 
-  const { mutate, isPending } = usePOST(
-    'admin/posts',
-    true,
-    'multipart/form-data',
-    () => {
-      toast.success('Post created successfully');
-    }
-  );
-
-  const onsubmit = async () => {
+  const handleSaveToDraft = () => {
     try {
       const formData = new FormData();
       formData.append('title', data.title);
@@ -38,24 +39,37 @@ const CreatePostPage = () => {
       formData.append('categoryId', data.categoryId);
       formData.append('body', data.body);
       formData.append('coverImageUrl', data.coverImageUrl);
+      formData.append('publish', 'false');
 
-      mutate(formData);
-    } catch (error: any) {
+      createPost(formData);
+      toast.success('Saved to drafts');
+      resetStore();
+      navigate('/posts');
+    } catch (error) {
       console.log(error);
-      toast.error(error);
+      toast.error('Failed to create post');
     }
   };
 
-  const handleSaveToDraft = () => {
-    onsubmit();
-  };
-  const handlePublish = () => {
-    // onsubmit()
-    console.log('publish');
-  };
-  const handleUpdate = () => {
-    // onsubmit()
-    console.log('update');
+  const handlePublish = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('title', data.title);
+      formData.append('author', data.author);
+      formData.append('description', data.description);
+      formData.append('categoryId', data.categoryId);
+      formData.append('body', data.body);
+      formData.append('coverImageUrl', data.coverImageUrl);
+      formData.append('publish', 'true');
+
+      createPost(formData);
+      toast.success('Post has been published');
+      resetStore();
+      navigate('/posts');
+    } catch (error) {
+      console.log(error);
+      toast.error('Failed to publish post');
+    }
   };
 
   console.log(data);
@@ -73,16 +87,15 @@ const CreatePostPage = () => {
 
   return (
     <>
-      {isPending && <Loading />}
+      {isCreating && <Loading />}
       <section className="mx-auto w-full space-y-1 pb-[5rem] md:w-[95%]">
         <div className="relative w-full rounded-lg bg-white pb-[0rem]">
           <PostHeader
             step={step}
-            title={data?.title}
+            post={data}
             handleGoBack={handleGoBack}
             handleSaveToDraft={handleSaveToDraft}
             handlePublish={handlePublish}
-            handleUpdate={handleUpdate}
           />
           {RenderSteps()}
         </div>
