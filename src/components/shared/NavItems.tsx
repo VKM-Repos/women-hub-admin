@@ -5,7 +5,7 @@ import Icon from "../icons/Icon";
 export const SIDENAV_ITEMS: SideNavItem[] = [
   {
     title: "Dashboard",
-    path: "/home",
+    path: "/",
     icon: <Icon name="dashboard" />,
   },
   {

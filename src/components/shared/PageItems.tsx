@@ -4,7 +4,7 @@ import Icon from "../icons/Icon";
 export const PAGE_ITEMS: SideNavItem[] = [
   {
     title: "Landing Page",
-    path: "/home",
+    path: "/",
     icon: <Icon name="pages" />,
   },
   {
