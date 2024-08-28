@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -10,26 +10,14 @@ import {
   getSortedRowModel,
   getGroupedRowModel,
   useReactTable,
-} from '@tanstack/react-table';
+} from "@tanstack/react-table";
 
-import { Button } from '@/components/ui/button';
-import Icon from '@/components/icons/Icon';
+import { Button } from "@/components/ui/button";
+import Icon from "@/components/icons/Icon";
 
-<<<<<<< HEAD
 import { Input } from "@/components/ui/input";
-=======
-import { Input } from '@/components/ui/input';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
->>>>>>> 699e4d4bfb78f241019c46d13054bfeb86823cbd
 
-import GUIDELINE from '@/assets/images/Getting started.png';
+import GUIDELINE from "@/assets/images/Getting started.png";
 
 type tableProps = {
   columns: ColumnDef<string>[];
@@ -112,10 +100,10 @@ export default function GuidelineList({ columns, data }: tableProps) {
             <Input
               placeholder="Search Articles"
               value={
-                (table.getColumn('helpline')?.getFilterValue() as string) ?? ''
+                (table.getColumn("helpline")?.getFilterValue() as string) ?? ""
               }
-              onChange={event =>
-                table.getColumn('helpline')?.setFilterValue(event.target.value)
+              onChange={(event) =>
+                table.getColumn("helpline")?.setFilterValue(event.target.value)
               }
               className="max-w-sm border-0"
             />
