@@ -1,6 +1,5 @@
 import fileUpload from "@/assets/images/fileUpload.png";
 import { useState } from "react";
-import { useSessionStorage } from "usehooks-ts";
 
 const Ticket = () => {
   const [display, setDisplay] = useState(false);
