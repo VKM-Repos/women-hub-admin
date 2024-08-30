@@ -68,7 +68,7 @@ export default function HelplineTable({ columns, data }: tableProps) {
   const guide = location.state?.guide;
 
   return (
-    <div className="mx-20">
+    <div className="mx-10">
       <GuideHeroSection data={guide} />
       <div className="flex items-center justify-between py-4">
         <div className="flex w-full items-center justify-between">
