@@ -6,7 +6,7 @@ import Loading from "@/components/shared/Loading";
 import { Link } from "react-router-dom";
 export default function Categories() {
   const { data: categories, isPending: fetchingCategories } = useGET({
-    url: "categories",
+    url: "categories?size=100",
     queryKey: ["GET_CATEGORIES_IN_CATEGORIES_PAGE"],
     withAuth: true,
     enabled: true,
@@ -30,7 +30,11 @@ export default function Categories() {
               <Link
                 to="/categories-details"
                 className="bg-secondary text-white flex items-center px-3 py-2 rounded-md"
-                state={{ operation: "new" }}
+                state={{
+                  pageName: "Category",
+                  operation: "new",
+                  details: null,
+                }}
               >
                 <Icon name="plus" />
                 New Category
@@ -40,8 +44,7 @@ export default function Categories() {
           <div className="flex flex-wrap gap-5 justify-start mx-auto">
             {categories?.content?.map((category: any) => (
               <CategoryCard
-                image={`https://dev.womenhub.org/api${category?.imageUrl}`}
-                title={category?.name}
+                category={category}
                 key={category?.id}
                 bg="bg-[#E36B0C57]"
               />

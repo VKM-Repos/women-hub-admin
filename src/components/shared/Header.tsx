@@ -13,23 +13,23 @@ import ChevronDown from "@/assets/icons/chevron-down-icon.svg";
 
 import Icon from "../icons/Icon";
 import useAppStore from "@/lib/store/app.store";
+
+import { routess } from "@/routes";
+import useRouteName from "@/hooks/useRoutename";
 const Header = () => {
-  const { pathname } = useLocation();
   const { logout, user } = useAppStore();
-
-  let modifiedPath = pathname.replace("/", "");
-  modifiedPath = modifiedPath.replace("-", " ");
-  modifiedPath = modifiedPath.replace("-", " ");
-
+  const { state } = useLocation();
+  const routeName = useRouteName(routess);
   let modifiedUserRole = user?.role?.replace("_", " ");
   const handleLogout = () => {
     logout();
   };
+
   return (
     <div className="flex justify-end font-inter">
       <div className=" w-[80%] min-w-[80%] max-w-[80%] h-16 bg-white rounded-bl-3xl flex items-center justify-between px-10 fixed z-50">
         <span className="font-semibold text-[20px] capitalize static">
-          {modifiedPath}
+          {state?.operation ? state?.operation : ""} {routeName || ""}
         </span>
         <div className="flex items-center">
           <img src={NotificationIcon} alt="" />

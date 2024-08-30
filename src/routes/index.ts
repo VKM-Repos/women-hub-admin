@@ -34,6 +34,15 @@ import UploadOrgPicture from "@/pages/main/Users/UploadOrgPicture";
 import Categories from "@/pages/main/Categories/Index";
 import { CategoryDetails } from "@/pages/main/Categories/CategoryDetails";
 
+export interface Route {
+  name: string;
+  title: string;
+  path: string;
+  hasSiderLink?: boolean;
+  routes?: Route[]; // Nested routes
+  component: React.ComponentType<any>;
+}
+
 export const routess = [
   {
     layout: AnonymousLayout,
@@ -154,13 +163,13 @@ export const routess = [
         ],
       },
       {
-        name: "Categires",
+        name: "Category",
         title: "Categories",
         component: Categories,
         path: "/categories",
       },
       {
-        name: "Categires Details",
+        name: "Category",
         title: "Categories",
         component: CategoryDetails,
         path: "/categories-details",
