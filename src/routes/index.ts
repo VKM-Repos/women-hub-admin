@@ -35,6 +35,15 @@ import Categories from "@/pages/main/Categories/Index";
 import { CategoryDetails } from "@/pages/main/Categories/CategoryDetails";
 import Ticket from "@/pages/main/Support/components/Ticket";
 
+export interface Route {
+  name: string;
+  title: string;
+  path: string;
+  hasSiderLink?: boolean;
+  routes?: Route[]; // Nested routes
+  component: React.ComponentType<any>;
+}
+
 export const routess = [
   {
     layout: AnonymousLayout,
@@ -54,7 +63,7 @@ export const routess = [
         name: "home",
         title: "Home page",
         component: Home,
-        path: "/home",
+        path: "/",
       },
       {
         name: "users",
@@ -155,13 +164,13 @@ export const routess = [
         ],
       },
       {
-        name: "Categires",
+        name: "Category",
         title: "Categories",
         component: Categories,
         path: "/categories",
       },
       {
-        name: "Categires Details",
+        name: "Category",
         title: "Categories",
         component: CategoryDetails,
         path: "/categories-details",

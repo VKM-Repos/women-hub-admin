@@ -32,7 +32,7 @@ export default function Login() {
   const navigate = useNavigate();
   function loginCallBack(data: any) {
     login(data, true);
-    navigate("/home");
+    navigate("/");
   }
   const { mutate, isPending } = usePOST(
     "auth/admin/token",

@@ -19,7 +19,7 @@ export const renderRoutes = (mainRoutes: any) => {
         const subRoutes = generateFlattenRoutes(routes);
 
         return (
-          <Route key={index} element={<Layout />}>
+          <Route key={index} element={<Layout name={routes.name} />}>
             <Route
               element={
                 <ProtectedRoute

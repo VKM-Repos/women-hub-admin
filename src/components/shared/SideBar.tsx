@@ -14,7 +14,7 @@ const SideNav = () => {
     <div className="w-60 bg-primary flex font-inter pb-5">
       <div className="flex flex-col space-y-6 w-full">
         <Link
-          to="/home"
+          to="/"
           className="flex flex-row space-x-3 my-10 items-center justify-center px-6 h-12 w-full"
         >
           <img src={logo} alt="" className="aspect-square w-[80px]" />
@@ -161,6 +161,7 @@ const MenuItem = ({ item }: { item: SideNavItem }) => {
             className={`flex flex-row space-x-4 items-center p-2 rounded-lg hover:bg-white hover:bg-opacity-[10%] hover:text-white w-full ${
               item.path == pathname ? "bg-[#E3FFF4] text-primary" : ""
             }`}
+            state={{ pageName: item.title }}
           >
             {item.icon}
             <span className="font-medium flex">{item.title}</span>

@@ -1,24 +1,32 @@
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
 export default function CategoryCard({
   bg,
-  image,
-  title,
+  category,
 }: {
   bg: string;
-  image: string;
-  title: string;
+  category: { name: string; about: string; imageUrl: string };
 }) {
   return (
     <div
       className={cn(
-        "flex flex-col items-center rounded-lg px-[58px] py-5 group hover:bg-gray-500 w-[235px]",
+        "flex flex-col items-center rounded-lg px-[58px] py-5 group hover:bg-gray-500 w-[235px] max-w-[235px]",
         bg
       )}
     >
-      <img src={image} alt="" className="aspect-square object-cover" />
-      <span className="font-semibold font-quicksand">{title}</span>
-      <Button className="absolute mt-16  group-hover:flex   hidden">
+      <img
+        src={`https://dev.womenhub.org/api${category?.imageUrl}`}
+        alt=""
+        className="aspect-square object-cover"
+      />
+      <span className="font-semibold font-quicksand text-base mt-2 text-center">
+        {category.name}
+      </span>
+      <Link
+        to="/categories-details"
+        className="absolute mt-16 group-hover:flex hidden"
+        state={{ operation: "edit", details: category }}
+      >
         <svg
           width="60"
           height="60"
@@ -44,7 +52,7 @@ export default function CategoryCard({
             fill="#141B34"
           />
         </svg>
-      </Button>
+      </Link>
     </div>
   );
 }
