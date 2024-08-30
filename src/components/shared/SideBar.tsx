@@ -161,6 +161,7 @@ const MenuItem = ({ item }: { item: SideNavItem }) => {
             className={`flex flex-row space-x-4 items-center p-2 rounded-lg hover:bg-white hover:bg-opacity-[10%] hover:text-white w-full ${
               item.path == pathname ? "bg-[#E3FFF4] text-primary" : ""
             }`}
+            state={{ pageName: item.title }}
           >
             {item.icon}
             <span className="font-medium flex">{item.title}</span>
