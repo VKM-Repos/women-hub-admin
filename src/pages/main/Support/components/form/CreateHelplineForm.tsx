@@ -40,7 +40,7 @@ const CreateHelplineForm = () => {
         <div className="p-6 pb-[4rem] flex flex-col gap-y-6 bg-white">
           <FormField
             control={form.control}
-            name="state"
+            name="title"
             render={({ field }) => (
               <FormItem>
                 <Select
