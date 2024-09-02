@@ -32,16 +32,16 @@ const EditEditorForm = ({ handleNext, data }: Props) => {
     handleNext();
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const values = form.getValues();
-      setData({
-        body: values?.body,
-      });
-    }, 3000);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     const values = form.getValues();
+  //     setData({
+  //       body: values?.body,
+  //     });
+  //   }, 3000);
 
-    return () => clearInterval(interval);
-  }, [form, data]);
+  //   return () => clearInterval(interval);
+  // }, [form, data]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
