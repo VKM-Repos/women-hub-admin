@@ -35,6 +35,7 @@ const PostFilters = ({
 }: Props) => {
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState(search);
+  const [currentFilter, setCurrentFilter] = useState('All');
 
   const toggleFilters = () => setShowFilters(!showFilters);
 
@@ -74,6 +75,16 @@ const PostFilters = ({
       setSearchTerm(debouncedSearch);
     }
   }, [debouncedSearch, setSearchTerm]);
+
+  const handleStatusFilterChange = (status: string | null) => {
+    onStatusFilterChange(status);
+    const formatStatus = (status: string | null): string => {
+      if (!status) return 'All';
+      return status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
+    };
+
+    setCurrentFilter(formatStatus(status));
+  };
 
   return (
     <div className="w-full space-y-8">
@@ -131,8 +142,8 @@ const PostFilters = ({
             </span>
           ) : (
             <span className="text-textPrimary flex items-center gap-2">
-              {`All (${posts?.length ?? '0'})`}
-              <MoreFilter onStatusFilterChange={onStatusFilterChange} />
+              {`${currentFilter} (${posts?.length ?? '0'})`}
+              <MoreFilter onStatusFilterChange={handleStatusFilterChange} />
             </span>
           )}
         </>

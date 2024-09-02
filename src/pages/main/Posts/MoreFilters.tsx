@@ -18,6 +18,11 @@ export default function MoreFilter({ onStatusFilterChange }: Props) {
 
   const listOptions = [
     {
+      listType: 'ALL',
+      label: `All`,
+      action: () => handleStatusFilter(''),
+    },
+    {
       listType: 'PUBLISHED',
       label: `Published`,
       action: () => handleStatusFilter('PUBLISHED'),
