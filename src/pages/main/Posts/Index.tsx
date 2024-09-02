@@ -41,13 +41,15 @@ export default function Posts() {
     }
   };
 
+  console.log('<><><><><><<><><><><', selectedPosts);
+
   return (
     <section className="flex flex-col gap-y-6">
       <PostFilters
         showFilters={showFilters}
         setShowFilters={setShowFilters}
         posts={posts?.content}
-        selectedCount={selectedPosts.length}
+        selectedCount={selectedPosts}
         totalCount={posts?.content.length}
         toggleSelectAll={toggleSelectAll}
       />

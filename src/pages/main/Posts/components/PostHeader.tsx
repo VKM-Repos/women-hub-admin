@@ -31,10 +31,10 @@ const PostHeader = ({
 }: Props) => {
   const menu: OptionsMenu[] = [
     {
-      title: post?.id ? 'Update' : 'Save to drafts',
+      title: 'Save to drafts',
       isButton: true,
       onClick: () => {
-        post?.id ? handleUpdate?.() : handleSaveToDraft?.();
+        handleSaveToDraft?.();
       },
     },
   ];
@@ -75,12 +75,18 @@ const PostHeader = ({
             <span>Preview</span>
           </Link>
           <Button
-            onClick={handlePublish}
+            onClick={() => {
+              post?.id ? handleUpdate?.() : handlePublish?.();
+            }}
             variant="outline"
             className="flex items-center gap-1"
           >
-            <Icon name="publishIcon" />
-            <span>Publish</span>
+            {post?.id ? (
+              <Icon name="publishIcon" />
+            ) : (
+              <Icon name="publishIcon" />
+            )}
+            <span>{post?.id ? 'Update' : 'Publish'}</span>
           </Button>
           <MoreOptions label="more options" menu={menu} />
         </div>

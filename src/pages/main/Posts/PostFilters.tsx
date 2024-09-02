@@ -8,12 +8,14 @@ import { PostButtons } from './PostPreviewCard';
 import Icon from '@/components/icons/Icon';
 import { Post } from '@/types/posts.type';
 import MoreFilter from './MoreFilters';
+import { usePOST } from '@/hooks/usePOST.hook';
+import toast from 'react-hot-toast';
 
 type Props = {
   showFilters: boolean;
   setShowFilters: any;
   posts: Array<Post>;
-  selectedCount: number;
+  selectedCount: Array<number>;
   totalCount: number;
   toggleSelectAll: () => void;
 };
@@ -27,6 +29,23 @@ const PostFilters = ({
   toggleSelectAll,
 }: Props) => {
   const toggleFilters = () => setShowFilters(!showFilters);
+
+  const { mutate: archiveAll } = usePOST(
+    'admin/posts/archive',
+    true,
+    'application/json',
+    () => {
+      toast.success('Selected post(s) has been archived');
+    }
+  );
+  const { mutate: publishAll } = usePOST(
+    'admin/posts/publish',
+    true,
+    'application/json',
+    () => {
+      toast.success('Selected post(s) has been published');
+    }
+  );
 
   return (
     <div className="w-full space-y-8">
@@ -56,30 +75,28 @@ const PostFilters = ({
           {showFilters ? (
             <span className="flex items-center justify-start gap-4">
               <Checkbox
-                checked={selectedCount === totalCount}
+                checked={selectedCount.length === totalCount}
                 onCheckedChange={toggleSelectAll}
               />
               <p className="text-txtColor">
-                {`${selectedCount} of ${totalCount} items selected`}
+                {`${selectedCount.length} of ${totalCount} items selected`}
               </p>
 
               <span className="flex items-center justify-start gap-2">
                 <PostButtons
                   icon={<Icon name="archivePostIcon" />}
-                  label="Archive"
-                  onClick={() => {}}
+                  label="Archive selected"
+                  onClick={() => {
+                    archiveAll(selectedCount);
+                  }}
                 />
 
                 <PostButtons
                   icon={<Icon name="publishPostIcon" />}
-                  label="Publish"
-                  onClick={() => {}}
-                />
-
-                <PostButtons
-                  icon={<Icon name="deletePostIcon" />}
-                  label="Delete"
-                  onClick={() => {}}
+                  label="Publish selected"
+                  onClick={() => {
+                    publishAll(selectedCount);
+                  }}
                 />
               </span>
             </span>
