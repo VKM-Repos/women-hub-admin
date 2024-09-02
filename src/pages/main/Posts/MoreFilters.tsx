@@ -7,11 +7,31 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-export default function MoreFilter() {
+type Props = {
+  onStatusFilterChange: (status: string) => void;
+};
+
+export default function MoreFilter({ onStatusFilterChange }: Props) {
+  const handleStatusFilter = (status: string) => {
+    onStatusFilterChange(status);
+  };
+
   const listOptions = [
-    { listType: 'published', label: `Published`, action: () => {} },
-    { listType: 'draft', label: `Drafts`, action: () => {} },
-    { listType: 'archived', label: `Archived`, action: () => {} },
+    {
+      listType: 'PUBLISHED',
+      label: `Published`,
+      action: () => handleStatusFilter('PUBLISHED'),
+    },
+    {
+      listType: 'DRAFT',
+      label: `Drafts`,
+      action: () => handleStatusFilter('DRAFT'),
+    },
+    {
+      listType: 'ARCHIVED',
+      label: `Archived`,
+      action: () => handleStatusFilter('ARCHIVED'),
+    },
   ];
 
   return (
