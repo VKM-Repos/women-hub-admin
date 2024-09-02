@@ -33,6 +33,7 @@ import AddHelpline from "@/pages/main/Support/components/AddHelpline";
 import UploadOrgPicture from "@/pages/main/Users/UploadOrgPicture";
 import Categories from "@/pages/main/Categories/Index";
 import { CategoryDetails } from "@/pages/main/Categories/CategoryDetails";
+import Ticket from "@/pages/main/Support/components/Ticket";
 
 export interface Route {
   name: string;
@@ -261,6 +262,13 @@ export const routess = [
             hasSiderLink: false,
             component: EditHeader,
             path: "/support/editHeader",
+          },
+          {
+            name: "Ticket",
+            title: "Ticket",
+            hasSiderLink: false,
+            component: Ticket,
+            path: "/support/ticket",
           },
         ],
       },

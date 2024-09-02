@@ -133,10 +133,8 @@ const columns: ColumnDef<string>[] = [
             <div className="flex flex-col gap-2 font-medium font-inter text-sm px-5">
               <p>View</p>
               <p>Edit</p>
-              <p>Flag</p>
-              <p>Suspend</p>
+              <p>Deactived</p>
               <p>Active</p>
-              <p>Delete</p>
             </div>
           </DropdownMenuContent>
         </DropdownMenu>

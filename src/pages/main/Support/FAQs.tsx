@@ -32,7 +32,7 @@ export default function FAQs() {
   };
 
   return (
-    <div className="mx-24">
+    <div className="mx-10">
       <GuideHeroSection data={guide} />
       <section className="flex flex-col gap-y-6">
         <Filters

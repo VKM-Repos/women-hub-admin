@@ -1,5 +1,6 @@
 import TagCircle from "@/components/dashboard/TagCircle";
 import { Ticket } from "@/types/tickets.types";
+import { Link } from "react-router-dom";
 
 type Props = {
   data: Ticket;
@@ -37,9 +38,11 @@ function TicketPreviewCard({ data }: Props) {
       <hr className="mb-1 mt-4 m-0" />
       <div className="flex justify-between">
         <p className="self-center">-{data.email}</p>
-        <button className="border font-semibold rounded-xl mt-3 px-[20px] py-[12px]">
-          View ticket
-        </button>
+        <Link to={"/support/ticket"}>
+          <button className="border font-semibold rounded-xl mt-3 px-[20px] py-[12px]">
+            View ticket
+          </button>
+        </Link>
       </div>
     </div>
   );

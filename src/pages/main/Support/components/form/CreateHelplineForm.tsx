@@ -1,12 +1,28 @@
 import CustomFormField, {
   FormFieldType,
 } from "@/components/form/custom-form-fields";
+import Icon from "@/components/icons/Icon";
 import { useForm } from "react-hook-form";
 import { createGuideSchema } from "./validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
+import { stateList } from "@/lib/utils/stateList";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const CreateHelplineForm = () => {
   const form = useForm<z.infer<typeof createGuideSchema>>({
@@ -22,6 +38,39 @@ const CreateHelplineForm = () => {
     <Form {...form}>
       <form className="rounded-lg  w-full">
         <div className="p-6 pb-[4rem] flex flex-col gap-y-6 bg-white">
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  required
+                >
+                  <FormLabel className="flex gap-2 items-center font-bold mb-2">
+                    State <Icon name="info" />
+                    <FormMessage className="bg-black text-white px-3 py-1 rounded-md" />
+                  </FormLabel>
+                  <FormControl>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {stateList.map((state) => (
+                      <SelectItem value={state}>
+                        <span className="flex items-center gap-2">{state}</span>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           {/* Helpline Name */}
           <CustomFormField
             fieldType={FormFieldType.INPUT}
