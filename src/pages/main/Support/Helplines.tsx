@@ -11,7 +11,6 @@ import {
 import { useEffect, useState } from "react";
 import Loading from "@/components/shared/Loading";
 import { useGET } from "@/hooks/useGET.hook";
-import { date } from "zod";
 
 // const data: any[] | [string] = [
 //   {
