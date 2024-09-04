@@ -104,14 +104,14 @@ export default function CreateUserButton() {
                             <Icon name="users" /> User
                           </span>
                         </SelectItem>
-                        <hr />
+                        <hr className="m-0" />
                         <SelectItem value="organization">
                           <span className="flex items-center gap-2">
                             <Icon name="organization" />
                             Organization
                           </span>
                         </SelectItem>
-                        <hr />
+                        <hr className="m-0" />
                         <SelectItem value="editor">
                           <span className="flex items-center gap-2">
                             <Icon name="editor" /> Editor

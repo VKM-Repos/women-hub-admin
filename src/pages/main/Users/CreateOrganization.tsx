@@ -267,7 +267,7 @@ export default function CreateOrganization() {
                   )}
                 />
                 <Tag title="Organization information" color="bg-[#FF7400]" />
-                <ul className="w-full flex gap-2 flex-wrap">
+                <ul className="w-full flex gap-2 flex-wrap list-none">
                   {Array.isArray(categories?.content) &&
                     categories.content
                       .slice(0, displayedCategories)
