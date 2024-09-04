@@ -2,7 +2,7 @@ import loadingLogo from "@/assets/loading-logo.svg";
 import fixedLogo from "@/assets/fixedLogo.svg";
 export default function Loading() {
   return (
-    <div className="fixed w-screen h-screen inset-0 backdrop-brightness-50 flex items-center justify-center z-[2500]">
+    <div className="absolute w-screen max-w-screen h-screen max-h-screen inset-0 backdrop-brightness-50 flex items-center justify-center z-[2500]">
       <div className="relative flex justify-center items-center">
         <img
           src={loadingLogo}
