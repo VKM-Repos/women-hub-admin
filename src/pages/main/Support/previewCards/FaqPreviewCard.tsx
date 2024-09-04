@@ -11,10 +11,16 @@ import { SupportButtons } from "../components/SupportButtons";
 type Props = {
   showFilters: boolean;
   data: Faq;
-  checkedAll: boolean;
+  isSelected: boolean; // Whether the post is selected
+  toggleFAQSelection: () => void; // Function to toggle selection
 };
 
-function FaqPreviewCard({ showFilters, data, checkedAll }: Props) {
+function FaqPreviewCard({
+  showFilters,
+  data,
+  isSelected,
+  toggleFAQSelection,
+}: Props) {
   const navigate = useNavigate();
 
   const handleArchiveFAQ = (id: string) => {
@@ -34,17 +40,13 @@ function FaqPreviewCard({ showFilters, data, checkedAll }: Props) {
     toast.success("FAQ published");
   };
 
-  const [isSelected, setIsSelected] = useState(false);
   return (
     <div className="font-inter hover:border-secondary/70 group flex w-full items-center rounded-xl border-2 border-white bg-white px-[20px] py-[30px] shadow-sm">
       {showFilters && (
         <div className="w-[4rem]">
           <Checkbox
-            checked={checkedAll ? checkedAll : isSelected}
-            onCheckedChange={(checked: boolean) => {
-              // toggleSelected(data.id, checked)
-              setIsSelected(checked);
-            }}
+            checked={isSelected}
+            onCheckedChange={toggleFAQSelection}
             aria-label="Select all"
             className="text-white"
           />

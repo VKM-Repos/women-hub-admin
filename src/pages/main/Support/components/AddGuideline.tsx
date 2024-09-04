@@ -17,26 +17,10 @@ const AddGuideline = () => {
     }
   };
 
-  const RenderSteps = () => {
-    switch (step) {
-      case 1:
-        return <CreateGuidelineForm />;
-      case 2:
-        return <MDEditor handleNext={handleNext} handleGoBack={handleGoBack} />;
-
-      default:
-        return null;
-    }
-  };
-
   return (
     <section className="mx-auto w-full space-y-1 md:w-[95%] pb-[5rem]">
-      {/* <div className="rounded-lg bg-white w-full pb-[4rem]"> */}
       <Header step={step} title={"Add Guideline"} handleGoBack={handleGoBack} />
-
-      {RenderSteps()}
-      {/* </div> */}
-      {/* {step === 1 && <Footer handleNext={handleNext} />} */}
+      <CreateGuidelineForm />;
     </section>
   );
 };
