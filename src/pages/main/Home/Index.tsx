@@ -24,16 +24,16 @@ export default function Home() {
         </div>
       </div>
       <div className="flex gap-5 mt-10 mb-10">
-        <div className="bg-white rounded-md drop-shadow-lg w-[70%]">
+        <div className="bg-white rounded-md drop-shadow-lg w-[70%] h-fit">
           <LineChart />
         </div>
-        <div className="bg-white drop-shadow-lg rounded-md w-[30%] flex flex-col px-4 py-4">
+        <div className="bg-white drop-shadow-lg rounded-md w-[30%] flex flex-col px-4 py-4 h-fit">
           <h2 className="text-base font-bold">Recent Support Tickets</h2>
 
           {[1, 2, 3, 4].map((item) => (
             <>
               <SupportTicketCard key={item} />
-              <hr className="" />
+              <hr className="m-0" />
             </>
           ))}
           <button className="border py-2 rounded-xl mt-3">
