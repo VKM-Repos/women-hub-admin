@@ -10,6 +10,7 @@ import { Post } from '@/types/posts.type';
 import MoreFilter from './MoreFilters';
 import { usePOST } from '@/hooks/usePOST.hook';
 import toast from 'react-hot-toast';
+import { useEffect, useState } from 'react';
 
 type Props = {
   showFilters: boolean;
@@ -18,6 +19,8 @@ type Props = {
   selectedCount: Array<number>;
   totalCount: number;
   toggleSelectAll: () => void;
+  setSearchTerm: (e: string) => void;
+  onStatusFilterChange: (status: string | null) => void;
 };
 
 const PostFilters = ({
@@ -27,7 +30,13 @@ const PostFilters = ({
   selectedCount,
   totalCount,
   toggleSelectAll,
+  setSearchTerm,
+  onStatusFilterChange,
 }: Props) => {
+  const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState(search);
+  const [currentFilter, setCurrentFilter] = useState('All');
+
   const toggleFilters = () => setShowFilters(!showFilters);
 
   const { mutate: archiveAll } = usePOST(
@@ -47,6 +56,36 @@ const PostFilters = ({
     }
   );
 
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 2000);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [search]);
+
+  useEffect(() => {
+    if (debouncedSearch.trim() === '') {
+      setSearchTerm('');
+    } else {
+      setSearchTerm(debouncedSearch);
+    }
+  }, [debouncedSearch, setSearchTerm]);
+
+  const handleStatusFilterChange = (status: string | null) => {
+    onStatusFilterChange(status);
+    const formatStatus = (status: string | null): string => {
+      if (!status) return 'All';
+      return status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
+    };
+
+    setCurrentFilter(formatStatus(status));
+  };
+
   return (
     <div className="w-full space-y-8">
       <div className="flex w-full justify-between">
@@ -54,7 +93,8 @@ const PostFilters = ({
           <SearchIcon />
           <input
             type="text"
-            name=""
+            value={search}
+            onChange={handleSearch}
             placeholder="Search posts"
             className="w-full border-none bg-transparent focus:outline-none"
           />
@@ -102,8 +142,8 @@ const PostFilters = ({
             </span>
           ) : (
             <span className="text-textPrimary flex items-center gap-2">
-              {`All (${posts?.length ?? '0'})`}
-              <MoreFilter />
+              {`${currentFilter} (${posts?.length ?? '0'})`}
+              <MoreFilter onStatusFilterChange={handleStatusFilterChange} />
             </span>
           )}
         </>
