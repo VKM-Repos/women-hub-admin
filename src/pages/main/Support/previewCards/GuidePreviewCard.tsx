@@ -5,16 +5,21 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import Icon from "@/components/icons/Icon";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 import { SupportButtons } from "../components/SupportButtons";
 
 type Props = {
   showFilters: boolean;
   data: any;
-  checkedAll: boolean;
+  isSelected: boolean; // Whether the Guide is selected
+  toggleGuideSelection: () => void; // Function to toggle selection
 };
 
-function GuidePreviewCard({ showFilters, data, checkedAll }: Props) {
+function GuidePreviewCard({
+  showFilters,
+  data,
+  isSelected,
+  toggleGuideSelection,
+}: Props) {
   const navigate = useNavigate();
 
   const handleArchiveGuide = (id: string) => {
@@ -34,17 +39,13 @@ function GuidePreviewCard({ showFilters, data, checkedAll }: Props) {
     toast.success("Guide published");
   };
 
-  const [isSelected, setIsSelected] = useState(false);
-
   return (
     <div className="font-inter hover:border-secondary/70 group flex w-full items-center rounded-xl border-2 border-white bg-white px-[20px] py-[30px] shadow-sm">
       {showFilters && (
         <div className="w-[4rem]">
           <Checkbox
-            checked={checkedAll ? checkedAll : isSelected}
-            onCheckedChange={(checked: boolean) => {
-              setIsSelected(checked);
-            }}
+            checked={isSelected}
+            onCheckedChange={toggleGuideSelection}
             aria-label="Select all"
             className="text-white"
           />
@@ -79,26 +80,26 @@ function GuidePreviewCard({ showFilters, data, checkedAll }: Props) {
           <span className="invisible flex items-center justify-start gap-2 group-hover:visible">
             {data?.status === "PUBLISHED" && (
               <SupportButtons
-                icon={<Icon name="archivePostIcon" />}
+                icon={<Icon name="archiveGuideIcon" />}
                 label="Archive"
                 onClick={() => handleArchiveGuide(data?.id)}
               />
             )}
             {data?.status === "DRAFT" && (
               <SupportButtons
-                icon={<Icon name="publishPostIcon" />}
+                icon={<Icon name="publishGuideIcon" />}
                 label="Publish"
                 onClick={() => handlePublishGuide(data?.id)}
               />
             )}
             <SupportButtons
-              icon={<Icon name="viewPostIcon" />}
+              icon={<Icon name="viewGuideIcon" />}
               label="View"
               onClick={() => handleViewGuide(data?.id)}
             />
 
             <SupportButtons
-              icon={<Icon name="deletePostIcon" />}
+              icon={<Icon name="deleteGuideIcon" />}
               label="Delete"
               onClick={() => handleDeleteGuide(data?.id)}
             />

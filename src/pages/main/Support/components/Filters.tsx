@@ -12,7 +12,7 @@ type Props = {
   showFilters: boolean;
   setShowFilters: any;
   data: any;
-  selectedCount: Array<number>;
+  selectedCount: Array<string>;
   totalCount: number;
   toggleSelectAll: () => void;
   setSearchTerm: (e: string) => void;

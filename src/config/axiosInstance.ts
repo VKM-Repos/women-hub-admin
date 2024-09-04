@@ -4,9 +4,9 @@ import useAppStore from "@/lib/store/app.store";
 import axios, { AxiosInstance } from "axios";
 
 export const authApi: AxiosInstance = axios.create({
-  // baseURL: "https://dev.womenhub.org/api/",
-  baseURL:
-    "https://d201-2c0f-2a80-2e-f110-7908-83aa-1897-d3d1.ngrok-free.app/api/",
+  baseURL: "https://dev.womenhub.org/api/",
+  // baseURL:
+  //   "https://d201-2c0f-2a80-2e-f110-7908-83aa-1897-d3d1.ngrok-free.app/api/",
 });
 
 authApi.defaults.headers.common["Content-Type"] = "application/json";
@@ -22,9 +22,9 @@ authApi.interceptors.request.use(async (config) => {
 });
 
 export const publicApi: AxiosInstance = axios.create({
-  // baseURL: "https://dev.womenhub.org/api/",
-  baseURL:
-    "https://d201-2c0f-2a80-2e-f110-7908-83aa-1897-d3d1.ngrok-free.app/api/",
+  baseURL: "https://dev.womenhub.org/api/",
+  // baseURL:
+  //   "https://d201-2c0f-2a80-2e-f110-7908-83aa-1897-d3d1.ngrok-free.app/api/",
 });
 
 publicApi.defaults.headers.common["Content-Type"] = "application/json";

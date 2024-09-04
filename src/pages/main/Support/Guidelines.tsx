@@ -1,8 +1,6 @@
 import Filters from "./components/Filters";
 import GuidePreviewCard from "./previewCards/GuidePreviewCard";
 import { Guide } from "@/types/guides.type";
-import { guideData } from "./mockupData/guide-mockup-data";
-import { Button } from "@/components/ui/button";
 import { useLocation } from "react-router-dom";
 import GuideHeroSection from "./components/GuideHeroSection";
 import { useGET } from "@/hooks/useGET.hook";
@@ -15,9 +13,9 @@ export default function Guidelines() {
   const guide = location.state?.guide;
 
   const [showFilters, setShowFilters] = useState(false);
-  const [selectedGuidelines, setSelectedGuidelines] = useState<number[]>([]);
+  const [selectedGuidelines, setSelectedGuidelines] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [filteredGuidelines, setFilteredGuidelines] = useState<Post[]>([]);
+  const [filteredGuidelines, setFilteredGuidelines] = useState<Guide[]>([]);
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
 
   // Pagination states
@@ -70,11 +68,11 @@ export default function Guidelines() {
     }
   }, [guidelines, statusFilter]);
 
-  const togglePostSelection = (postId: number) => {
+  const toggleGuideSelection = (guideId: string) => {
     setSelectedGuidelines((prevSelected) =>
-      prevSelected.includes(postId)
-        ? prevSelected.filter((id) => id !== postId)
-        : [...prevSelected, postId]
+      prevSelected.includes(guideId)
+        ? prevSelected.filter((id) => id !== guideId)
+        : [...prevSelected, guideId]
     );
   };
 
@@ -105,25 +103,6 @@ export default function Guidelines() {
     }
   };
 
-  // let guides: Guide[] | any = guideData;
-
-  // const [guidesData, setGuidesData] = useState(guides);
-
-  // const handleFilter = (event: any) => {
-  //   const filterValue = event.target.value.toLowerCase();
-  //   const filteredData = guides.filter((guide: any) =>
-  //     guide.title.toLowerCase().includes(filterValue)
-  //   );
-
-  //   setGuidesData(filteredData);
-  // };
-
-  // const [checkedAll, setCheckedAll] = useState(false);
-
-  // const toggleCheckedAll = (value: boolean) => {
-  //   setCheckedAll(value);
-  // };
-
   return (
     <div className="mx-10">
       <GuideHeroSection data={guide} />
@@ -150,7 +129,7 @@ export default function Guidelines() {
                 showFilters={showFilters}
                 data={guide}
                 isSelected={selectedGuidelines.includes(guide.id)}
-                togglePostSelection={() => togglePostSelection(guide.id)}
+                toggleGuideSelection={() => toggleGuideSelection(guide.id)}
               />
             ))
           ) : (

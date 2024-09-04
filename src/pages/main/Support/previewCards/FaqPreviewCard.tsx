@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Faq } from "@/types/faqs.type";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 import Icon from "@/components/icons/Icon";
 import { SupportButtons } from "../components/SupportButtons";
 

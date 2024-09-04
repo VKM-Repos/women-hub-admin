@@ -8,45 +8,49 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useEffect, useState } from "react";
+import Loading from "@/components/shared/Loading";
+import { useGET } from "@/hooks/useGET.hook";
+import { date } from "zod";
 
-const data: any[] | [string] = [
-  {
-    id: "m5gr84i9",
-    helpline: "For counselling",
-    state: "Oyo",
-    status: "Active",
-  },
-  {
-    id: "3u1reuv4",
-    helpline: "Sexual Abuse",
-    state: "Oyo",
-    status: "Suspended",
-  },
-  {
-    id: "derv1ws0",
-    helpline: "For counselling",
-    state: "Oyo",
-    status: "Active",
-  },
-  {
-    id: "5kma53ae",
-    helpline: "Sexual Abuse",
-    state: "Oyo",
-    status: "Suspended",
-  },
-  {
-    id: "bhqecj4p",
-    helpline: "For counselling",
-    state: "Oyo",
-    status: "Active",
-  },
-  {
-    id: "6kvk93ae",
-    helpline: "Sexual Abuse",
-    state: "Oyo",
-    status: "Suspended",
-  },
-];
+// const data: any[] | [string] = [
+//   {
+//     id: "m5gr84i9",
+//     helpline: "For counselling",
+//     state: "Oyo",
+//     status: "Active",
+//   },
+//   {
+//     id: "3u1reuv4",
+//     helpline: "Sexual Abuse",
+//     state: "Oyo",
+//     status: "Suspended",
+//   },
+//   {
+//     id: "derv1ws0",
+//     helpline: "For counselling",
+//     state: "Oyo",
+//     status: "Active",
+//   },
+//   {
+//     id: "5kma53ae",
+//     helpline: "Sexual Abuse",
+//     state: "Oyo",
+//     status: "Suspended",
+//   },
+//   {
+//     id: "bhqecj4p",
+//     helpline: "For counselling",
+//     state: "Oyo",
+//     status: "Active",
+//   },
+//   {
+//     id: "6kvk93ae",
+//     helpline: "Sexual Abuse",
+//     state: "Oyo",
+//     status: "Suspended",
+//   },
+// ];
 
 export type Help = {
   id: string;
@@ -142,10 +146,66 @@ const columns: ColumnDef<string>[] = [
     },
   },
 ];
+
 export default function Helplines() {
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [pageSize] = useState<number>(10);
+
+  // Construct the URL based on pagination and search term
+  const apiUrl = searchTerm
+    ? `helplines/search?title=${searchTerm}&page=${currentPage}&size=${pageSize}`
+    : `helplines?page=${currentPage}&size=${pageSize}`;
+
+  const {
+    data: helplines,
+    isLoading,
+    refetch,
+    isRefetching,
+  } = useGET({
+    url: apiUrl,
+    queryKey: [
+      searchTerm ? "Helplines-search" : "Helplines",
+      searchTerm,
+      currentPage,
+    ],
+    withAuth: true,
+    enabled: true,
+  });
+
+  useEffect(() => {
+    // The query URL will be updated when currentPage or searchTerm changes
+    refetch();
+  }, [searchTerm, currentPage]);
+
+  const handleNextPage = () => {
+    if (helplines?.totalElements && currentPage < helplines.totalElements - 1) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
   return (
     <div className="w-full">
-      <GenericTable columns={columns} data={data} />
+      {isLoading || isRefetching ? (
+        <Loading />
+      ) : (
+        <GenericTable
+          columns={columns}
+          data={helplines?.content || []}
+          handlePrevious={handlePreviousPage}
+          handleNext={handleNextPage}
+          currentPage={currentPage + 1}
+          numberOfElements={helplines?.numberOfElements ?? 0}
+          totalElements={helplines?.totalElements ?? 0}
+        />
+      )}
     </div>
   );
 }

@@ -1,20 +1,19 @@
 import Filters from "./components/Filters";
 import FaqPreviewCard from "./previewCards/FaqPreviewCard";
 import { Faq } from "@/types/faqs.type";
-import { faqData } from "./mockupData/faq-mockup-data";
-import { Button } from "@/components/ui/button";
 import { useLocation } from "react-router-dom";
 import GuideHeroSection from "./components/GuideHeroSection";
 import { useGET } from "@/hooks/useGET.hook";
 import Loading from "@/components/shared/Loading";
 import { useEffect, useState } from "react";
+import Pagination from "./components/Pagination";
 
 export default function FAQs() {
   const location = useLocation();
   const guide = location.state?.guide;
 
   const [showFilters, setShowFilters] = useState(false);
-  const [selectedFAQs, setSelectedFAQs] = useState<number[]>([]);
+  const [selectedFAQs, setSelectedFAQs] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filteredFAQs, setFilteredFAQs] = useState<Faq[]>([]);
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
@@ -124,9 +123,6 @@ export default function FAQs() {
                 key={faq.id}
                 showFilters={showFilters}
                 data={faq}
-                // isSelected={selectedFAQs.filter((faq: any) =>
-                //   faq.id.includes(faq.id)
-                // )}
                 isSelected={selectedFAQs.includes(faq.id)}
                 toggleFAQSelection={() => toggleFAQSelection(faq.id)}
               />
@@ -136,53 +132,13 @@ export default function FAQs() {
           )}
         </div>
         <div className="flex items-center justify-end space-x-2 py-4">
-          <div className="flex-1 text-sm text-muted-foreground">
-            Showing 1-10 of {filteredFAQs.length}
-          </div>
-          <div className="space-x-0">
-            <Button
-              variant="outline"
-              size="sm"
-              // onClick={() => table.previousPage()}
-              // disabled={!table.getCanPreviousPage()}
-            >
-              <span>
-                <svg
-                  width="8"
-                  height="12"
-                  viewBox="0 0 8 12"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M7.41 10.4008L2.83 5.99438L7.41 1.58798L6 0.234375L0 5.99438L6 11.7544L7.41 10.4008Z"
-                    fill="#202224"
-                  />
-                </svg>
-              </span>
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              // onClick={() => table.nextPage()}
-              // disabled={!table.getCanNextPage()}
-            >
-              <span>
-                <svg
-                  width="8"
-                  height="12"
-                  viewBox="0 0 8 12"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M0.59 10.4008L5.17 5.99438L0.59 1.58798L2 0.234375L8 5.99438L2 11.7544L0.59 10.4008Z"
-                    fill="#202224"
-                  />
-                </svg>
-              </span>
-            </Button>
-          </div>
+          <Pagination
+            handlePrevious={handlePreviousPage}
+            handleNext={handleNextPage}
+            currentPage={currentPage + 1}
+            numberOfElements={FAQs?.numberOfElements ?? 0}
+            totalElements={FAQs?.totalElements ?? 0}
+          />
         </div>
       </section>
     </div>
