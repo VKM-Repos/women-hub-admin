@@ -1,17 +1,28 @@
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
-import { authApi, publicApi } from "@/config/axiosInstance";
-
+import { createApiInstance } from "@/config/axiosInstance";
+export interface PatchOptions {
+  baseURL?: string;
+  withAuth?: boolean;
+  method?: string;
+  contentType?: string;
+  callback?: (data: any) => void;
+}
 export const usePATCH = (
   url: string,
-  withAuth = true,
-  callback: (data: any) => void,
-  contentType = "application/json",
-  method = "PUT"
+  {
+    baseURL,
+    // withAuth = true, // Default to true, but can be overridden
+    method = "PUT",
+    contentType = "application/json",
+    callback,
+  }: PatchOptions = {}
 ) => {
   const { mutate, isPending, isError, isSuccess, data, error } = useMutation({
     mutationFn: async (values: any) => {
-      const axiosInstance = withAuth ? authApi : publicApi;
+      const axiosInstance = createApiInstance(
+        baseURL || "https://dev.womenhub.org/api/"
+      );
       const response =
         method == "PUT"
           ? await axiosInstance.put(url, values, {

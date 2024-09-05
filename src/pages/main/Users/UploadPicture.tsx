@@ -16,12 +16,9 @@ export default function UploadPicture() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [validationError, setValidationError] = useState(false);
-  const { mutate, isPending } = usePOST(
-    `admin/users/${id}/profile-photo`,
-    true,
-    "multipart/form-data",
-    () => {}
-  );
+  const { mutate, isPending } = usePOST(`admin/users/${id}/profile-photo`, {
+    contentType: "multipart/form-data",
+  });
   const handleChooseFile = () => {
     inputRef.current?.click();
   };

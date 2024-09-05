@@ -132,8 +132,6 @@ export default function Users() {
   const { data: users, isPending } = useGET({
     url: `admin/users`,
     queryKey: ["GET_USERS_LIST"],
-    withAuth: true,
-    enabled: true,
   });
 
   return (

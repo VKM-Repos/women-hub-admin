@@ -22,12 +22,7 @@ import { useState } from "react";
 
 export function UpdatePasswordForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const { mutate } = usePOST(
-    "admin/settings/password",
-    true,
-    "application/json",
-    () => {}
-  );
+  const { mutate } = usePOST("admin/settings/password");
   const form = useForm<z.infer<typeof PasswordFormSchema>>({
     resolver: zodResolver(PasswordFormSchema),
     defaultValues: {

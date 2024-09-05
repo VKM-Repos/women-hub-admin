@@ -1,19 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
-import { authApi, publicApi } from "@/config/axiosInstance";
+import { createApiInstance } from "@/config/axiosInstance";
 
 export const useGET = ({
+  baseURL,
   url,
   queryKey,
-  withAuth = false,
-  enabled,
+  enabled = true,
 }: {
+  baseURL?: string;
   url: string;
   queryKey: any[];
-  withAuth: boolean;
-  enabled: boolean;
+  withAuth?: boolean;
+  enabled?: boolean;
 }) => {
   const fetch = async () => {
-    const axiosInstance = withAuth ? authApi : publicApi;
+    const axiosInstance = createApiInstance(
+      baseURL || "https://dev.womenhub.org/api/"
+    );
     const response = await axiosInstance.get(url);
     return response?.data;
   };

@@ -25,12 +25,9 @@ export default function UploadOrgPicture() {
 
   const [showModal] = useState(false);
   const [validationError] = useState(false);
-  const { isPending } = usePOST(
-    `admin/users/${orgId}/profile-photo`,
-    true,
-    "multipart/form-data",
-    () => {}
-  );
+  const { isPending } = usePOST(`admin/users/${orgId}/profile-photo`, {
+    contentType: "multipart/form-data",
+  });
   const handleChooseFile = (type: "profile" | "logo" | "cover") => {
     switch (type) {
       case "profile":
