@@ -19,7 +19,7 @@ const CreateFAQForm = () => {
   const navigate = useNavigate();
   const { mutate, isPending: pendingCreatingFAQ } = usePOST(
     "faqs",
-    false,
+    true,
     "application/json",
     () => {}
   );
@@ -27,7 +27,7 @@ const CreateFAQForm = () => {
   const { data: categories } = useGET({
     url: "categories",
     queryKey: ["categories"],
-    withAuth: false,
+    withAuth: true,
     enabled: true,
   });
 
