@@ -34,12 +34,9 @@ export default function Login() {
     login(data, true);
     navigate("/");
   }
-  const { mutate, isPending } = usePOST(
-    "auth/admin/token",
-    false,
-    "application/json",
-    loginCallBack
-  );
+  const { mutate, isPending } = usePOST("auth/admin/token", {
+    callback: loginCallBack,
+  });
   const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({

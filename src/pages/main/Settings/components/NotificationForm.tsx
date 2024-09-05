@@ -42,7 +42,7 @@ const FormSchema = z.object({
 });
 
 export function NotificationForm({ notifications }: { notifications: any }) {
-  const { mutate } = usePATCH("admin/settings/notification", true, () => {});
+  const { mutate } = usePATCH("admin/settings/notification");
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {

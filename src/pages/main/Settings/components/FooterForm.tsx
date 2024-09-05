@@ -21,7 +21,7 @@ import { Switch } from "@/components/ui/switch";
 import { usePATCH } from "@/hooks/usePATCH.hook";
 
 export function FooterForm({ footerData }: { footerData: any }) {
-  const { mutate } = usePATCH("admin/settings/footer", true, () => {});
+  const { mutate } = usePATCH("admin/settings/footer");
   const form = useForm<z.infer<typeof FooterFormSchema>>({
     resolver: zodResolver(FooterFormSchema),
     defaultValues: {

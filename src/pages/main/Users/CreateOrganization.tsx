@@ -74,12 +74,7 @@ export default function CreateOrganization() {
   const [user, setUser] = useState("");
   const [orgId, setOrgId] = useState("");
 
-  const { mutate, isPending } = usePOST(
-    "admin/organizations",
-    true,
-    "application/json",
-    () => {}
-  );
+  const { mutate, isPending } = usePOST("admin/organizations");
   const { data: categories, isPending: fetchingCategories } = useGET({
     url: "categories",
     queryKey: ["GET_CATEGORIES_IN_CREATE_ORG"],

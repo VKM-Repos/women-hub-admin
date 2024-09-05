@@ -37,12 +37,7 @@ export default function CreateUser() {
   const [showModal, setShowModal] = useState(false);
   const [user, setUser] = useState("");
   const { pathname } = useLocation();
-  const { mutate, isPending } = usePOST(
-    "admin/users",
-    true,
-    "application/json",
-    () => {}
-  );
+  const { mutate, isPending } = usePOST("admin/users");
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {

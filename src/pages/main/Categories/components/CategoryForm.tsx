@@ -48,21 +48,18 @@ export function CategoryForm({ state }: { state: any }) {
   const navigate = useNavigate();
   const { mutate, isPending: pendingCreatingCategory } = usePOST(
     "admin/categories",
-    true,
-    "multipart/form-data",
-    () => {}
+    {
+      contentType: "multipart/form-data",
+    }
   );
 
   const { mutate: updateCategory, isPending: pendingUpdatingCategory } =
-    usePATCH(
-      `admin/categories/${state.details?.id}`,
-      true,
-      () => {},
-      "multipart/form-data",
-      "PATCH"
-    );
+    usePATCH(`admin/categories/${state.details?.id}`, {
+      method: "PATCH",
+      contentType: "multipart/form-data",
+    });
   const { mutate: deleteCategory, isPending: pendingDeletingCategory } =
-    useDELETE(`admin/categories/${state.details?.id}`, true, () => {});
+    useDELETE(`admin/categories/${state.details?.id}`);
 
   const handleChooseFile = () => {
     inputRef.current?.click();
