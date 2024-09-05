@@ -1,30 +1,36 @@
-// import "dotenv/config";
-
 import useAppStore from "@/lib/store/app.store";
 import axios, { AxiosInstance } from "axios";
 
-export const authApi: AxiosInstance = axios.create({
-  baseURL: "https://dev.womenhub.org/api/",
-});
+// Dynamic axios instance function
+export const createApiInstance = (baseURL: string): AxiosInstance => {
+  const apiInstance = axios.create({
+    baseURL,
+  });
 
-authApi.defaults.headers.common["Content-Type"] = "application/json";
+  // Set default headers
+  apiInstance.defaults.headers.common["Content-Type"] = "application/json";
 
-authApi.interceptors.request.use(async (config) => {
-  const userToken = useAppStore.getState().user?.token;
+  // Request interceptor to add Authorization header if token exists
+  apiInstance.interceptors.request.use(async (config) => {
+    const userToken = useAppStore.getState().user?.token;
 
-  if (userToken) {
-    config.headers["Authorization"] = `Bearer ${userToken}`;
-  }
+    if (userToken) {
+      config.headers["Authorization"] = `Bearer ${userToken}`;
+    }
 
-  return config;
-});
+    return config;
+  });
 
-export const publicApi: AxiosInstance = axios.create({
-  baseURL: "https://dev.womenhub.org/api/",
-});
+  // Response interceptor for handling errors
+  apiInstance.interceptors.response.use(
+    (response) => response,
+    (error) => handleApiError(error)
+  );
 
-publicApi.defaults.headers.common["Content-Type"] = "application/json";
+  return apiInstance;
+};
 
+// Shared error handler
 export const handleApiError = (error: any) => {
   if (error.response) {
     console.error("Request failed with status code:", error.response.status);
@@ -36,12 +42,3 @@ export const handleApiError = (error: any) => {
   }
   return Promise.reject(error);
 };
-
-authApi.interceptors.response.use(
-  (response) => response,
-  (error) => handleApiError(error)
-);
-publicApi.interceptors.response.use(
-  (response) => response,
-  (error) => handleApiError(error)
-);

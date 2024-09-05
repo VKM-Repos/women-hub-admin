@@ -1,15 +1,25 @@
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
-import { authApi, publicApi } from "@/config/axiosInstance";
+import { createApiInstance } from "@/config/axiosInstance";
 
+interface DeleteOptions {
+  withAuth?: boolean;
+  callback?: (data: any) => void;
+  baseURL?: string;
+}
 export const useDELETE = (
   url: string,
-  withAuth = true,
-  callback: (data: any) => void
+  {
+    callback,
+    // withAuth = true,
+    baseURL = "https://dev.womenhub.org/api/",
+  }: DeleteOptions = {}
 ) => {
   const { mutate, isPending, isError, isSuccess, data, error } = useMutation({
     mutationFn: async (values: any) => {
-      const axiosInstance = withAuth ? authApi : publicApi;
+      const axiosInstance = createApiInstance(
+        baseURL || "https://dev.womenhub.org/api/"
+      );
       const response = await axiosInstance.delete(url, { data: values });
       return response;
     },
