@@ -21,12 +21,7 @@ import { Label } from "@/components/ui/label";
 import { usePOST } from "@/hooks/usePOST.hook";
 
 export function ProfileForm({ user }: { user: any }) {
-  const { mutate } = usePOST(
-    "admin/settings/profile",
-    true,
-    "application/json",
-    () => {}
-  );
+  const { mutate } = usePOST("admin/settings/profile");
   const form = useForm<z.infer<typeof ProfileFormSchema>>({
     resolver: zodResolver(ProfileFormSchema),
     defaultValues: {
