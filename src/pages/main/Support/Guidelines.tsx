@@ -7,6 +7,7 @@ import { useGET } from "@/hooks/useGET.hook";
 import Loading from "@/components/shared/Loading";
 import { useEffect, useState } from "react";
 import Pagination from "./components/Pagination";
+import { API_BASE_URLS } from "@/config/api.config";
 
 export default function Guidelines() {
   const location = useLocation();
@@ -39,6 +40,7 @@ export default function Guidelines() {
       searchTerm,
       currentPage,
     ],
+    baseURL: API_BASE_URLS.supportServive,
     withAuth: true,
     enabled: true,
   });
@@ -110,7 +112,7 @@ export default function Guidelines() {
         <Filters
           showFilters={showFilters}
           setShowFilters={setShowFilters}
-          data={filteredGuidelines}
+          data={guidelines}
           selectedCount={selectedGuidelines}
           totalCount={filteredGuidelines.length}
           toggleSelectAll={toggleSelectAll}
@@ -122,8 +124,8 @@ export default function Guidelines() {
         <div className="flex flex-col gap-4">
           {isLoading || isRefetching ? (
             <Loading />
-          ) : filteredGuidelines.length > 0 ? (
-            filteredGuidelines.map((guide) => (
+          ) : guidelines.length > 0 ? (
+            guidelines.map((guide: any) => (
               <GuidePreviewCard
                 key={guide.id}
                 showFilters={showFilters}

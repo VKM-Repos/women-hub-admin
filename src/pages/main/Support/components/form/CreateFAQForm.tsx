@@ -14,15 +14,13 @@ import { SelectItem } from "@/components/ui/select";
 import { useGET } from "@/hooks/useGET.hook";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { API_BASE_URLS } from "@/config/api.config";
 
 const CreateFAQForm = () => {
   const navigate = useNavigate();
-  const { mutate, isPending: pendingCreatingFAQ } = usePOST(
-    "faqs",
-    true,
-    "application/json",
-    () => {}
-  );
+  const { mutate, isPending: pendingCreatingFAQ } = usePOST("faqs", {
+    baseURL: API_BASE_URLS.supportServive,
+  });
 
   const { data: categories } = useGET({
     url: "categories",
@@ -79,44 +77,6 @@ const CreateFAQForm = () => {
       },
     });
   }
-
-  // function onSubmit(data: z.infer<typeof createFAQSchema>) {
-  //   navigate("/");
-  //   console.log(data);
-  //   toast.success(`Added FAQ.........`, {
-  //     position: "bottom-right",
-  //     style: {
-  //       backgroundColor: "green",
-  //       color: "white",
-  //       textAlign: "left",
-  //     },
-  //     icon: "",
-  //   });
-
-  //   // let formData = new FormData();
-  //   // formData.append("name", data.question);
-  //   // formData.append("about", data.answer);
-
-  //   // mutate(formData, {
-  //   //   onSuccess: () => {
-  //   //     toast.success("Published", {
-  //   //       position: "bottom-right",
-  //   //       style: {
-  //   //         backgroundColor: "green",
-  //   //         color: "white",
-  //   //         textAlign: "left",
-  //   //       },
-  //   //       icon: "",
-  //   //     });
-
-  //   //     form.reset();
-  //   //   },
-  //   //   onError: (error) => {
-  //   //     console.error("Error creating FAQ:", error);
-  //   //     alert("Error creating FAQ.");
-  //   //   },
-  //   // });
-  // }
 
   return (
     <Form {...form}>

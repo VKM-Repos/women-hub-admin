@@ -39,6 +39,10 @@ function GuidePreviewCard({
     toast.success("Guide published");
   };
 
+  const date = new Date(data?.created_at);
+  date.setDate(date.getDate() - 4);
+  const formattedDate = date.toISOString().split("T")[0];
+
   return (
     <div className="font-inter hover:border-secondary/70 group flex w-full items-center rounded-xl border-2 border-white bg-white px-[20px] py-[30px] shadow-sm">
       {showFilters && (
@@ -66,10 +70,13 @@ function GuidePreviewCard({
                 data?.status === "DRAFT" ? "text-secondary" : "text-[#106840]"
               )}
             >
-              {data?.status?.toLocaleLowerCase()}
+              {/* {data?.status?.toLocaleLowerCase()} */}
+              Published
             </p>
             &bull;
-            <p className="font-normal text-[#65655E] text-xs">{data?.date}</p>
+            <p className="font-normal text-[#65655E] text-xs">
+              {formattedDate}
+            </p>
           </div>
         </div>
       </div>

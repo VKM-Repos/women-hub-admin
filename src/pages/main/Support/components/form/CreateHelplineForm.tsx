@@ -26,15 +26,13 @@ import {
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { usePOST } from "@/hooks/usePOST.hook";
+import { API_BASE_URLS } from "@/config/api.config";
 
 const CreateHelplineForm = () => {
   const navigate = useNavigate();
-  const { mutate, isPending: pendingCreatingFAQ } = usePOST(
-    "helplines",
-    false,
-    "application/json",
-    () => {}
-  );
+  const { mutate, isPending: pendingCreatingFAQ } = usePOST("helplines", {
+    baseURL: API_BASE_URLS.supportServive,
+  });
 
   const form = useForm<z.infer<typeof createHelplineSchema>>({
     resolver: zodResolver(createHelplineSchema),

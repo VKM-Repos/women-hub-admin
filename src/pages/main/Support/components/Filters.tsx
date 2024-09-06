@@ -143,7 +143,7 @@ const Filters = ({
             <span className="text-textPrimary flex items-center gap-2">
               {`${
                 page === "FAQs" ? "Questions & Answer" : "Articles"
-              } (${currentFilter} (${data?.length ?? "0"})`}
+              } (${currentFilter} (${data?.length ?? "0"}))`}
               <MoreFilter onStatusFilterChange={handleStatusFilterChange} />
               {/* <>
                 <svg

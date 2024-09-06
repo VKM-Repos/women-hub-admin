@@ -11,6 +11,7 @@ import {
 import { useEffect, useState } from "react";
 import Loading from "@/components/shared/Loading";
 import { useGET } from "@/hooks/useGET.hook";
+import { API_BASE_URLS } from "@/config/api.config";
 
 // const data: any[] | [string] = [
 //   {
@@ -170,6 +171,7 @@ export default function Helplines() {
       searchTerm,
       currentPage,
     ],
+    baseURL: API_BASE_URLS.supportServive,
     withAuth: true,
     enabled: true,
   });
@@ -197,7 +199,7 @@ export default function Helplines() {
       ) : (
         <GenericTable
           columns={columns}
-          data={helplines?.content || []}
+          data={helplines || []}
           handlePrevious={handlePreviousPage}
           handleNext={handleNextPage}
           currentPage={currentPage + 1}

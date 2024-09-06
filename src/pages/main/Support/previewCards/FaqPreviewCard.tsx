@@ -39,6 +39,10 @@ function FaqPreviewCard({
     toast.success("FAQ published");
   };
 
+  const date = new Date(data?.created_at);
+  date.setDate(date.getDate() - 4);
+  const formattedDate = date.toISOString().split("T")[0];
+
   return (
     <div className="font-inter hover:border-secondary/70 group flex w-full items-center rounded-xl border-2 border-white bg-white px-[20px] py-[30px] shadow-sm">
       {showFilters && (
@@ -54,7 +58,7 @@ function FaqPreviewCard({
       <div className={`grid w-full grid-cols-10 gap-6`}>
         <div className="col-span-9 space-y-1">
           <h5 className="font-normal text-[#106840] w-full max-w-xl truncate text-base">
-            {data?.title}
+            {data?.question}
           </h5>
           <div className="flex items-center justify-start gap-2">
             <span className="border-secondary text-secondary font-light flex w-fit items-center justify-center rounded-sm border bg-white p-0 px-2 text-xs">
@@ -66,10 +70,13 @@ function FaqPreviewCard({
                 data?.status === "DRAFT" ? "text-secondary" : "text-[#106840]"
               )}
             >
-              {data?.status?.toLocaleLowerCase()}
+              {/* {data?.status?.toLocaleLowerCase()} */}
+              Published
             </p>
             &bull;
-            <p className="font-normal text-[#65655E] text-xs">{data?.date}</p>
+            <p className="font-normal text-[#65655E] text-xs">
+              {formattedDate}
+            </p>
           </div>
         </div>
       </div>

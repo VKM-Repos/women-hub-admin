@@ -76,18 +76,18 @@ import {
   toolbarPlugin,
 } from "@mdxeditor/editor";
 import "@mdxeditor/editor/style.css";
+import { API_BASE_URLS } from "@/config/api.config";
 
 const CreateGuidelineForm = () => {
   const [selectedFile, setSelectedFile] = useState<File | string>("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [validationError, setValidationError] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const { mutate, isPending: pendingCreatingGuideline } = usePOST(
-    "guides",
-    true,
-    "multipart/form-data",
-    () => {}
-  );
+  const { mutate, isPending: pendingCreatingGuideline } = usePOST("guides", {
+    baseURL: API_BASE_URLS.supportServive,
+    contentType: "multipart/form-data",
+  });
+
   const form = useForm<z.infer<typeof createGuideSchema>>({
     resolver: zodResolver(createGuideSchema),
     defaultValues: {
@@ -112,12 +112,7 @@ const CreateGuidelineForm = () => {
       setValidationError(true);
       return;
     }
-    // else {
-    //   // Update the logo in the store with the URL
-    //   const imageUrl = URL.createObjectURL(data.coverImageUrl);
-    //   setImagePreview(imageUrl);
-    //   setSelectedFile(imageUrl);
-    // }
+
     let formData = new FormData();
     formData.append("title", data.title || "");
     formData.append("content", data.body || "");
