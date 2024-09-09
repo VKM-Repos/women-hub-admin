@@ -45,7 +45,7 @@ const PostForm = ({ handleNext }: Props) => {
       author: data?.author ?? '',
       description: data.description ?? '',
       externalEditorName: '',
-      coverImageUrl: data.coverImageUrl ?? '',
+      coverImage: data.coverImage ?? '',
       categoryId: data.categoryId ?? '',
       body: '',
     },
@@ -71,8 +71,8 @@ const PostForm = ({ handleNext }: Props) => {
       title: values.title,
       author: author,
       description: values.description,
-      coverImageUrl: values.coverImageUrl,
-      coverImageUrlPreview: values.coverImageUrl,
+      coverImage: values.coverImage,
+      coverImagePreview: values.coverImage,
       categoryId: values.categoryId,
     });
     handleNext();
@@ -144,7 +144,7 @@ const PostForm = ({ handleNext }: Props) => {
         <CustomFormField
           fieldType={FormFieldType.IMAGE_UPLOAD}
           control={form.control}
-          name="coverImageUrl"
+          name="coverImage"
           label="Cover Picture"
         />
 

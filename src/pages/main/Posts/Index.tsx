@@ -39,9 +39,8 @@ export default function Posts() {
   }, [posts]);
 
   useEffect(() => {
-    // The query URL will be updated when currentPage or searchTerm changes
     refetch();
-  }, [searchTerm, currentPage]); // Refetch when search term or page changes
+  }, [searchTerm, currentPage]);
 
   useEffect(() => {
     if (posts?.content) {
@@ -91,6 +90,10 @@ export default function Posts() {
     }
   };
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  }, [currentPage]);
+
   return (
     <section className="flex flex-col gap-y-6">
       <PostFilters
@@ -126,6 +129,7 @@ export default function Posts() {
           currentPage={currentPage + 1}
           numberOfElements={posts?.numberOfElements ?? 0}
           totalElements={posts?.totalElements ?? 0}
+          pageSize={pageSize}
         />
       </div>
     </section>

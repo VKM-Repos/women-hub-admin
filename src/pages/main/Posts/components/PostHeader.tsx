@@ -6,6 +6,7 @@ import { useCreatePostFormStore } from '@/store/useCreatePostForm.store';
 import { useEditPostFormStore } from '@/store/useEditPostForm.store';
 import { Post } from '@/types/posts.type';
 import { Link } from 'react-router-dom';
+import { AlertGoBack } from './AlertGoBack';
 
 type Props = {
   step: number;
@@ -47,23 +48,18 @@ const PostHeader = ({
       <div className="col-span-1 flex w-full items-center justify-start gap-4">
         <div className="h-[40px] w-[20px] rounded bg-[#B5E4CA]"></div>
         <h2 className="w-full max-w-[300px] truncate text-xl font-semibold">
-          {data?.title
-            ? data.title
-            : editData.title
-              ? editData.title
-              : 'Add post'}
+          {post?.title
+            ? post.title
+            : data?.title
+              ? data.title
+              : editData?.title
+                ? editData.title
+                : 'Add post'}
         </h2>
       </div>
       {step > 1 && (
         <div className=" col-span-1 flex items-center justify-end gap-x-4">
-          <Button
-            onClick={handleGoBack}
-            variant="outline"
-            className="flex items-center gap-1"
-          >
-            <Icon name="arrowLeft" />
-            <span>Back</span>
-          </Button>
+          <AlertGoBack onClick={handleGoBack} />
           <Link
             to={`/posts/${post?.id}/preview`}
             className={cn(

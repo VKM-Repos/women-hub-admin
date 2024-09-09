@@ -1,14 +1,13 @@
-
-import "./editor.css"
-import { EditorContent, useEditor } from "@tiptap/react"
-import Bubble from "./Bubble"
-import EditorToolbar from "./EditorToolbar"
-import defaultExtensions from "./extensions"
+import './editor.css';
+import { EditorContent, useEditor } from '@tiptap/react';
+import Bubble from './Bubble';
+import EditorToolbar from './EditorToolbar';
+import defaultExtensions from './extensions';
 
 type Props = {
-   onChange: (richText: string) => void;
-   body: string;
-}
+  onChange: (richText: string) => void;
+  body: string;
+};
 
 export default function Editor({ body, onChange }: Props) {
   const editor = useEditor({
@@ -16,15 +15,16 @@ export default function Editor({ body, onChange }: Props) {
     extensions: [...defaultExtensions],
     onCreate({}) {},
     onUpdate({ editor }) {
-      onChange(editor.getHTML());
+      const newContent = editor.getHTML();
+      onChange(newContent);
     },
     editorProps: {
       attributes: {
         class:
-          "h-[90dvh] !p-[1.5rem] overflow-y-auto border-none focus:outline-none space-y-6",
+          'h-[90dvh] !p-[1.5rem] overflow-y-auto border-none focus:outline-none space-y-6',
       },
     },
-  })
+  });
 
   return (
     <div className="bg-background mx-auto min-h-screen w-[95%] overflow-hidden rounded-[1rem] border-2">
@@ -38,5 +38,5 @@ export default function Editor({ body, onChange }: Props) {
         <EditorContent editor={editor} />
       </div>
     </div>
-  )
+  );
 }

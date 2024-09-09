@@ -7,8 +7,8 @@ import EditPostForm from './form/EditPostForm';
 import { useGET } from '@/hooks/useGET.hook';
 import { useEditPostFormStore } from '@/store/useEditPostForm.store';
 import { usePOST } from '@/hooks/usePOST.hook';
-import { useRealPATCH } from '@/hooks/useRealPATCH.hook';
 import { useEffect } from 'react';
+import { usePATCH } from '@/hooks/usePATCH.hook';
 
 const PostDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -30,25 +30,27 @@ const PostDetailsPage = () => {
     refetch();
   }, []);
 
-  const { mutate: updatePost, isPending: isUpdating } = useRealPATCH(
+  const { mutate: updatePost, isPending: isUpdating } = usePATCH(
     `admin/posts/${id}`,
-    true,
-    () => {
-      toast.success('Post updated');
-      resetStore();
-      navigate('/posts');
-    },
-    'multipart/form-data'
+    {
+      callback: () => {
+        toast.success('Post updated');
+        resetStore();
+        navigate('/posts');
+      },
+      contentType: 'multipart/form-data',
+      method: 'PATCH',
+    }
   );
 
   const { mutate: publishPost, isPending: isPublishing } = usePOST(
     `admin/posts/${id}/publish`,
-    true,
-    '',
-    () => {
-      toast.success('Post published');
-      resetStore();
-      navigate('/posts');
+    {
+      callback: () => {
+        toast.success('Post published');
+        resetStore();
+        navigate('/posts');
+      },
     }
   );
 
@@ -68,7 +70,9 @@ const PostDetailsPage = () => {
       formData.append('description', data.description);
       formData.append('categoryId', data.categoryId);
       formData.append('body', data.body);
-      formData.append('coverImageUrl', data.coverImageUrl);
+      if (data?.coverImage) {
+        formData.append('coverImage', data.coverImage);
+      }
 
       updatePost(formData);
     } catch (error) {
@@ -82,6 +86,7 @@ const PostDetailsPage = () => {
   };
 
   const handleGoBack = () => {
+    resetStore;
     if (step > 1) {
       setStep(step - 1);
     }

@@ -2,7 +2,7 @@ import CustomFormField, {
   FormFieldType,
 } from '@/components/form/custom-form-fields';
 import { useForm } from 'react-hook-form';
-import { createBlogPostSchema } from './validation';
+import { editBlogPostSchema } from './validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Form } from '@/components/ui/form';
@@ -17,14 +17,14 @@ type Props = {
 
 const EditEditorForm = ({ handleNext, data }: Props) => {
   const { setData } = useEditPostFormStore();
-  const form = useForm<z.infer<typeof createBlogPostSchema>>({
-    resolver: zodResolver(createBlogPostSchema),
+  const form = useForm<z.infer<typeof editBlogPostSchema>>({
+    resolver: zodResolver(editBlogPostSchema),
     defaultValues: {
       body: data?.body || '',
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof createBlogPostSchema>) => {
+  const onSubmit = async (values: z.infer<typeof editBlogPostSchema>) => {
     setData({
       ...values,
       body: values?.body,

@@ -9,8 +9,8 @@ export interface EditPostFormStore {
     description: string;
     categoryId: string;
     body: string;
-    coverImageUrl: string;
-    coverImageUrlPreview: string;
+    coverImage: string | File | undefined;
+    coverImagePreview: string | File | undefined;
   };
   setStep: (step: number) => void;
   setData: (data: Partial<EditPostFormStore['data']>) => void;
@@ -32,8 +32,8 @@ export const useEditPostFormStore = create<EditPostFormStore>(
         description: '',
         categoryId: '',
         body: '',
-        coverImageUrl: '',
-        coverImageUrlPreview: '',
+        coverImage: '',
+        coverImagePreview: '',
       },
       setStep: step => set({ step }),
       setData: data => set(state => ({ data: { ...state.data, ...data } })),
@@ -46,8 +46,8 @@ export const useEditPostFormStore = create<EditPostFormStore>(
             description: '',
             categoryId: '',
             body: '',
-            coverImageUrl: '',
-            coverImageUrlPreview: '',
+            coverImage: '',
+            coverImagePreview: '',
           },
         });
         localStorage.removeItem('EditPostFormStore');
