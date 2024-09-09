@@ -7,6 +7,7 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
     title: "Dashboard",
     path: "/",
     icon: <Icon name="dashboard" />,
+    access: ["SUPER_ADMIN", "EDITOR"],
   },
   {
     title: "Users",
@@ -26,10 +27,12 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
         path: "/editors",
       },
     ],
+    access: ["SUPER_ADMIN"],
   },
   {
     title: "Posts",
     path: "/posts",
     icon: <Icon name="posts" />,
+    access: ["SUPER_ADMIN", "EDITOR"],
   },
 ];

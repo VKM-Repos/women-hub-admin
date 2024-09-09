@@ -9,7 +9,6 @@ import Admin from "@/pages/main/Users/Admin";
 import Login from "@/pages/auth/Login/Index";
 import Posts from "@/pages/main/Posts/Index";
 import CreatePosts from "@/pages/main/Posts/create-post/index";
-import NewsLetter from "@/pages/main/NewsLetter/Index";
 import Analytics from "@/pages/main/Analytics/Index";
 import AuditLog from "@/pages/main/AuditLog/Index";
 import Settings from "@/pages/main/Settings/Index";
@@ -34,6 +33,11 @@ import UploadOrgPicture from "@/pages/main/Users/UploadOrgPicture";
 import Categories from "@/pages/main/Categories/Index";
 import { CategoryDetails } from "@/pages/main/Categories/CategoryDetails";
 import Ticket from "@/pages/main/Support/components/Ticket";
+import Subscribers from "@/pages/main/NewsLetter/Subscribers";
+import Messages from "@/pages/main/NewsLetter/Messages";
+import LegalCompiance from "@/pages/main/Legal-Compliance/Index";
+import ComposeMessage from "@/pages/main/NewsLetter/ComposeMessage";
+import ChooseTemplate from "@/pages/main/NewsLetter/ChooseTemplate";
 
 export interface Route {
   name: string;
@@ -176,10 +180,35 @@ export const routess = [
         path: "/categories-details",
       },
       {
-        name: "News Letter",
-        title: "News Letter",
-        component: NewsLetter,
-        path: "/news-letter",
+        name: "Newsletter",
+        title: "Newsletter",
+        hasSiderLink: true,
+        routes: [
+          {
+            name: "Subscribers",
+            title: "Subscribers",
+            component: Subscribers,
+            path: "/subscribers",
+          },
+          {
+            name: "Messages",
+            title: "Messages",
+            component: Messages,
+            path: "/messages",
+          },
+          {
+            name: "Newsletter",
+            title: "Choose template",
+            component: ChooseTemplate,
+            path: "/choose-template",
+          },
+          {
+            name: "Newsletter",
+            title: "comose meesage",
+            component: ComposeMessage,
+            path: "/compose-message",
+          },
+        ],
       },
       {
         name: "Analytics",
@@ -271,6 +300,12 @@ export const routess = [
             path: "/support/ticket",
           },
         ],
+      },
+      {
+        name: "Legal & Compliance",
+        title: "Legal & Compliance",
+        component: LegalCompiance,
+        path: "legal-compliance",
       },
     ],
   },
