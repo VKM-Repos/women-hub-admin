@@ -128,13 +128,14 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
             maxSize={5000000}
             onDrop={acceptedFiles => {
               const file = acceptedFiles[0];
-              const reader = new FileReader();
-              reader.onloadend = () => {
-                const base64String = reader.result as string;
-                setBackgroundImage(base64String);
-                field.onChange(base64String);
-              };
-              reader.readAsDataURL(file);
+              if (file) {
+                // Create a preview URL for the image to be shown as a background
+                const imageUrl = URL.createObjectURL(file);
+                setBackgroundImage(imageUrl);
+
+                // Send the file to the form handler (like a FormData object)
+                field.onChange(file); // Ensure the raw file is passed here for backend consumption
+              }
             }}
           >
             {({ getRootProps, getInputProps }) => (

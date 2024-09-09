@@ -3,7 +3,7 @@ import CustomFormField, {
   FormFieldType,
 } from '@/components/form/custom-form-fields';
 import { useForm, useWatch } from 'react-hook-form';
-import { createBlogPostSchema } from './validation';
+import { editBlogPostSchema } from './validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Form } from '@/components/ui/form';
@@ -44,14 +44,14 @@ const EditPostForm = ({ handleNext, data }: Props) => {
     enabled: true,
   });
 
-  const form = useForm<z.infer<typeof createBlogPostSchema>>({
-    resolver: zodResolver(createBlogPostSchema),
+  const form = useForm<z.infer<typeof editBlogPostSchema>>({
+    resolver: zodResolver(editBlogPostSchema),
     defaultValues: {
       title: data?.title,
       author: data?.author,
       description: data?.description,
-      externalEditorName: '',
-      coverImageUrl: data?.coverImageUrl,
+      externalEditorName: data?.author,
+      coverImage: data?.coverImageUrl,
       categoryId: data?.category.id.toString(),
       body: data?.body,
     },
@@ -68,7 +68,7 @@ const EditPostForm = ({ handleNext, data }: Props) => {
     setIsExternalEditor(selectedAuthor === 'Other Editors');
   }, [selectedAuthor]);
 
-  const onSubmit = async (values: z.infer<typeof createBlogPostSchema>) => {
+  const onSubmit = async (values: z.infer<typeof editBlogPostSchema>) => {
     const author = isExternalEditor
       ? values.externalEditorName
       : selectedAuthor;
@@ -77,8 +77,8 @@ const EditPostForm = ({ handleNext, data }: Props) => {
       title: values.title,
       author: author,
       description: values.description,
-      coverImageUrl: values.coverImageUrl,
-      coverImageUrlPreview: values.coverImageUrl,
+      coverImage: values.coverImage,
+      coverImagePreview: values.coverImage,
       categoryId: values.categoryId,
     });
     handleNext();
@@ -146,7 +146,7 @@ const EditPostForm = ({ handleNext, data }: Props) => {
         <CustomFormField
           fieldType={FormFieldType.IMAGE_UPLOAD}
           control={form.control}
-          name="coverImageUrl"
+          name="coverImage"
           label="Cover Picture"
           initialImage={data?.coverImageUrl}
         />

@@ -11,20 +11,19 @@ const CreatePostPage = () => {
   const navigate = useNavigate();
   const { step, setStep, data, resetStore } = useCreatePostFormStore();
 
-  const { mutate: createPost, isPending: isCreating } = usePOST(
-    'admin/posts',
-    true,
-    'multipart/form-data',
-    response => {
+  const { mutate: createPost, isPending: isCreating } = usePOST('admin/posts', {
+    callback: response => {
       console.log(response);
-    }
-  );
+    },
+    contentType: 'multipart/form-data',
+  });
 
   const handleNext = () => {
     setStep(step + 1);
   };
 
   const handleGoBack = () => {
+    resetStore;
     if (step > 1) {
       setStep(step - 1);
     }
@@ -38,7 +37,9 @@ const CreatePostPage = () => {
       formData.append('description', data.description);
       formData.append('categoryId', data.categoryId);
       formData.append('body', data.body);
-      formData.append('coverImageUrl', data.coverImageUrl);
+      if (data?.coverImage) {
+        formData.append('coverImage', data.coverImage);
+      }
       formData.append('publish', 'false');
 
       createPost(formData);
@@ -59,7 +60,7 @@ const CreatePostPage = () => {
       formData.append('description', data.description);
       formData.append('categoryId', data.categoryId);
       formData.append('body', data.body);
-      formData.append('coverImageUrl', data.coverImageUrl);
+      formData.append('coverImage', data.coverImage);
       formData.append('publish', 'true');
 
       createPost(formData);
