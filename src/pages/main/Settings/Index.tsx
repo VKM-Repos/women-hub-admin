@@ -10,10 +10,12 @@ import { ProfileForm } from "./components/ProfileForm";
 import { UpdatePasswordForm } from "./components/UpdatePasswordForm";
 import { NotificationForm } from "./components/NotificationForm";
 import { FooterForm } from "./components/FooterForm";
+import useAppStore from "@/lib/store/app.store";
 
 export default function Settings() {
   const [notification, setNotification] = useState(false);
   const location = useLocation();
+  const { user } = useAppStore();
   const { data: notifications } = useGET({
     url: "admin/settings/notification",
     queryKey: ["GET_NOTIFICATION_SETTINGS"],
@@ -36,12 +38,12 @@ export default function Settings() {
   const handleCheckNotification = () => {
     setNotification(!notification);
   };
-  console.log(footerData, "??????");
+  console.log(userProfile);
 
   return (
     <div className="bg-white flex  w-[76.5%] h-[80vh] drop-shadow-md rounded-lg px-10 py-5 fixed">
       <div className="w-[30%] sticky">
-        <ul className="flex flex-col gap-4">
+        <ul className="flex flex-col gap-4 list-none">
           <li>
             <a
               className={`flex items-center gap-5 py-1 px-4 rounded-lg ${
@@ -62,27 +64,31 @@ export default function Settings() {
               <Icon name="resetPassword" /> Password Reset
             </a>
           </li>
-          <li>
-            <a
-              className={`flex items-center gap-5 py-1 px-4 rounded-lg ${
-                location.hash == "#notofication" ? "bg-[#E3FFF4]" : ""
-              }`}
-              href="#notofication"
-            >
-              <Icon name="notification" /> Notification
-            </a>
-          </li>
-          <li>
-            <a
-              className={`flex items-center gap-5 py-1 px-4 rounded-lg ${
-                location.hash == "#footer" ? "bg-[#E3FFF4]" : ""
-              }`}
-              href="#footer"
-            >
-              {" "}
-              <Icon name="link" /> Footer
-            </a>
-          </li>
+          {user?.role === "SUPER_ADMIN" && (
+            <li>
+              <a
+                className={`flex items-center gap-5 py-1 px-4 rounded-lg ${
+                  location.hash == "#notofication" ? "bg-[#E3FFF4]" : ""
+                }`}
+                href="#notofication"
+              >
+                <Icon name="notification" /> Notification
+              </a>
+            </li>
+          )}
+          {user?.role === "SUPER_ADMIN" && (
+            <li>
+              <a
+                className={`flex items-center gap-5 py-1 px-4 rounded-lg ${
+                  location.hash == "#footer" ? "bg-[#E3FFF4]" : ""
+                }`}
+                href="#footer"
+              >
+                {" "}
+                <Icon name="link" /> Footer
+              </a>
+            </li>
+          )}
         </ul>
       </div>
       <div className="w-[70%] overflow-y-scroll no-scrollbar smooth">
@@ -102,27 +108,33 @@ export default function Settings() {
           <Tag title="Password  Reset" color="bg-[#CABDFF]" />
           <UpdatePasswordForm />
         </div>
-        <hr />
-        <div id="notofication" className="my-10">
-          <Tag title="Notifications" color="bg-[#FFBC99]" />
 
-          <div className="font-inter flex justify-between gap-7 mt-5 -mb-3 w-full">
-            <span className="text-txtColor text-sm font-semibold flex gap-3 items-center">
-              Email Whenever <Icon name="info" />
-            </span>
-            <Switch
-              id="websiteExist"
-              checked={notification}
-              onCheckedChange={handleCheckNotification}
-            />
-          </div>
-          {notification && (
-            <div className="mt-5">
-              <NotificationForm notifications={notifications} />
+        {user?.role === "SUPER_ADMIN" && (
+          <>
+            <hr />
+            <div id="notofication" className="my-10">
+              <Tag title="Notifications" color="bg-[#FFBC99]" />
+
+              <div className="font-inter flex justify-between gap-7 mt-5 -mb-3 w-full">
+                <span className="text-txtColor text-sm font-semibold flex gap-3 items-center">
+                  Email Whenever <Icon name="info" />
+                </span>
+                <Switch
+                  id="websiteExist"
+                  checked={notification}
+                  onCheckedChange={handleCheckNotification}
+                />
+              </div>
+              {notification && (
+                <div className="mt-5">
+                  <NotificationForm notifications={notifications} />
+                </div>
+              )}
             </div>
-          )}
-        </div>
-        <hr />
+            <hr />
+          </>
+        )}
+
         <div id="footer" className="my-10">
           {footerData && <FooterForm footerData={footerData} />}
         </div>

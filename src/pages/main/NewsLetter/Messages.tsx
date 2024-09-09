@@ -1,73 +1,77 @@
-import { ColumnDef } from "@tanstack/react-table";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
-import { MoreVertical } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import NewsLetterTable from "./components/NewsLetterTable";
+import MessagesTable from "./components/MessagesTable";
+import { Button } from "@/components/ui/button";
+import { MoreVertical } from "lucide-react";
 import Icon from "@/components/icons/Icon";
+import { Checkbox } from "@/components/ui/checkbox";
+import { ColumnDef } from "@tanstack/react-table";
 
 const data: any[] | [string] = [
   {
     id: "m5gr84i9",
-    name: "Salis Sadiq",
-    email: "salissadiq@gmail.com",
+    subject: "Happy Women's Day",
     timeStamp: "21 MAR 24",
-    userType: "Guest",
-    tags: ["Guest", "News subscriber"],
+    status: "Scheduled",
   },
   {
     id: "3u1reuv4",
-    name: "Salis Sadiq",
-    email: "salissadiq@gmail.com",
+    subject: "Happy Women's Day",
     timeStamp: "21 MAR 24",
-    userType: "Guest",
-    tags: ["Guest", "News subscriber"],
+    status: "Scheduled",
   },
   {
     id: "derv1ws0",
-    name: "Salis Sadiq",
-    email: "salissadiq@gmail.com",
+    subject: "Happy Women's Day",
     timeStamp: "21 MAR 24",
-    userType: "Guest",
-    tags: ["Guest", "News subscriber"],
+    status: "Scheduled",
   },
   {
     id: "5kma53ae",
-    name: "Salis Sadiq",
-    email: "salissadiq@gmail.com",
+    subject: "Happy Women's Day",
     timeStamp: "21 MAR 24",
-    userType: "Guest",
-    tags: ["Guest", "News subscriber"],
+    status: "Scheduled",
   },
   {
     id: "bhqecj4p",
-    name: "Salis Sadiq",
-    email: "salissadiq@gmail.com",
+    subject: "Happy Women's Day",
     timeStamp: "21 MAR 24",
-    userType: "Guest",
-    tags: ["Guest", "News subscriber"],
+    status: "Scheduled",
   },
   {
     id: "6kvk93ae",
-    name: "Salis Sadiq",
-    email: "salissadiq@gmail.com",
+    subject: "Happy Women's Day",
     timeStamp: "21 MAR 24",
-    userType: "Guest",
-    tags: ["Guest", "News subscriber"],
+    status: "Scheduled",
+  },
+  {
+    id: "6kvk93ae",
+    subject: "Happy Women's Day",
+    timeStamp: "21 MAR 24",
+    status: "Scheduled",
+  },
+  {
+    id: "6kvk93ae",
+    subject: "Happy Women's Day",
+    timeStamp: "21 MAR 24",
+    status: "Scheduled",
+  },
+  {
+    id: "6kvk93ae",
+    subject: "Happy Women's Day",
+    timeStamp: "21 MAR 24",
+    status: "Scheduled",
   },
 ];
 
-export type Help = {
+export type Message = {
   id: string;
-  name: string;
-  email: string;
+  subject: string;
   timeStamp: string;
-  userType: string;
-  tags: [string];
+  status: string;
 };
 
 const columns: ColumnDef<string>[] = [
@@ -96,15 +100,10 @@ const columns: ColumnDef<string>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "name",
-    header: "Name",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
-  },
-  {
-    accessorKey: "email",
-    header: "Email",
+    accessorKey: "subject",
+    header: "Subject",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("email")}</div>
+      <div className="capitalize">{row.getValue("subject")}</div>
     ),
   },
   {
@@ -115,29 +114,12 @@ const columns: ColumnDef<string>[] = [
     ),
   },
   {
-    accessorKey: "userType",
-    header: "User Type",
+    accessorKey: "status",
+    header: "Status",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("userType")}</div>
+      <div className="capitalize">{row.getValue("status")}</div>
     ),
   },
-  {
-    accessorKey: "tags",
-    header: "Tags",
-    cell: ({ row }) => {
-      const tags: [] = row.getValue("tags");
-      return (
-        <div className="capitalize flex gap-2">
-          {tags.map((tag) => (
-            <span className="inline-block bg-[#EFCBAB] rounded-full px-3 py-1 text-xs text-[#106840] ">
-              {tag}
-            </span>
-          ))}
-        </div>
-      );
-    },
-  },
-
   {
     id: "actions",
     header: "Action",
@@ -168,10 +150,10 @@ const columns: ColumnDef<string>[] = [
     },
   },
 ];
-export default function Helplines() {
+export default function Messages() {
   return (
-    <div className="w-full">
-      <NewsLetterTable data={data} columns={columns} />
+    <div>
+      <MessagesTable data={data || []} columns={columns} />
     </div>
   );
 }
