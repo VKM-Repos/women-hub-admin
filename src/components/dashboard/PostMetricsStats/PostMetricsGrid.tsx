@@ -9,25 +9,25 @@ export default function PostMetricsGrid() {
       <StatisticsCard
         title="Blog Posts"
         count={250}
-        color="bg-[#FFBC99]"
+        color="#FFBC99"
         icon={<img src={PostIcon} />}
       />
       <StatisticsCard
         title="Editors"
         count={180}
-        color="bg-[##82E1CA78]"
+        color="#82E1CA78"
         icon={<img src={EditorIcon} />}
       />
       <StatisticsCard
         title="Total Comments"
         count={612}
-        color="bg-[#A1BF4A2B]"
+        color="#A1BF4A2B"
         icon={<img src={PostIcon} />}
       />
       <StatisticsCard
         title="Total Likes"
         count={"2,135"}
-        color="bg-[#FC32252B]"
+        color="#FC32252B"
         icon={<img src={LikeIcon} />}
       />
     </div>

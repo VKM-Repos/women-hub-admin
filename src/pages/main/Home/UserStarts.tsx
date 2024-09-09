@@ -13,24 +13,24 @@ export const userStarts: userTypes[] = [
     title: "Users",
     count: 180,
     icon: <img src={UsersIcon} />,
-    color: "bg-[#B5FFE1]",
+    color: "#B5FFE1",
   },
   {
     title: "Organizations",
     count: 160,
     icon: <img src={Organization} />,
-    color: "bg-[#F1EAE4]",
+    color: "#F1EAE4",
   },
   {
     title: "Events",
     count: 160,
     icon: <img src={Events} />,
-    color: "bg-[#DFE2FF]",
+    color: "#DFE2FF",
   },
   {
     title: "Projects",
     count: 260,
     icon: <img src={Project} />,
-    color: "bg-[#E9FEFF]",
+    color: "#E9FEFF",
   },
 ];

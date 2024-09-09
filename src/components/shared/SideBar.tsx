@@ -9,9 +9,11 @@ import { SideNavItem } from "@/types";
 import chevron from "@/assets/icons/chevron-down-icon.svg";
 import footerImg from "@/assets/sidbar-footer-img.svg";
 import logo from "@/assets/logo.svg";
+import useAppStore from "@/lib/store/app.store";
 const SideNav = () => {
+  const { user } = useAppStore();
   return (
-    <div className="w-60 bg-primary flex font-inter pb-5">
+    <div className="w-60 h-screen max-h-screen sticky no-scrollbar overflow-y-scroll bg-primary flex font-inter pb-5">
       <div className="flex flex-col space-y-6 w-full">
         <Link
           to="/"
@@ -25,25 +27,35 @@ const SideNav = () => {
             HOME
           </span>
           {SIDENAV_ITEMS.map((item, idx) => {
-            return <MenuItem key={idx} item={item} />;
+            if (user?.role === "EDITOR" && item.access?.includes("EDITOR")) {
+              return <MenuItem key={idx} item={item} />;
+            } else if (user?.role === "SUPER_ADMIN") {
+              return <MenuItem key={idx} item={item} />;
+            }
           })}
         </div>
 
-        <div className="flex flex-col space-y-2 pr-5">
-          <span className="text-[10px] font-semibold text-white pl-3">
-            PAGES
-          </span>
-          {PAGE_ITEMS.map((item, idx) => {
-            return <MenuItem key={idx} item={item} />;
-          })}
-        </div>
+        {user?.role === "SUPER_ADMIN" && (
+          <div className="flex flex-col space-y-2 pr-5">
+            <span className="text-[10px] font-semibold text-white pl-3">
+              PAGES
+            </span>
+            {PAGE_ITEMS.map((item, idx) => {
+              return <MenuItem key={idx} item={item} />;
+            })}
+          </div>
+        )}
 
         <div className="flex flex-col space-y-2 pr-5">
           <span className="text-[10px] font-semibold text-white pl-3">
             TOOLS
           </span>
           {TOOLS_ITEMS.map((item, idx) => {
-            return <MenuItem key={idx} item={item} />;
+            if (user?.role === "EDITOR" && item.access?.includes("EDITOR")) {
+              return <MenuItem key={idx} item={item} />;
+            } else if (user?.role === "SUPER_ADMIN") {
+              return <MenuItem key={idx} item={item} />;
+            }
           })}
         </div>
 
