@@ -14,9 +14,9 @@ export default function StatisticsCard({
 }: cardProps) {
   return (
     <div
+      style={{ backgroundColor: color }}
       className={cn(
-        "flex items-center cursor-pointer justify-between w-[220px] max-w-[220px] drop-shadow-lg skewmorphism rounded-md px-4 py-5 bg-opacity-[17%] font-inter",
-        color
+        "flex items-center cursor-pointer justify-between w-full drop-shadow-lg skewmorphism rounded-md px-4 py-5 bg-opacity-[17%] font-inter"
       )}
     >
       <div>

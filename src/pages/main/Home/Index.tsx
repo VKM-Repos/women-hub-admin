@@ -16,7 +16,7 @@ export default function Home() {
         <>
           <div>
             <Tag title="Users Statistics" color="bg-[#FFBC99]" />
-            <div className="flex gap-5 mt-10 w-full">
+            <div className="flex justify-stretch gap-5 mt-10 w-full">
               {userStarts?.map((stats) => (
                 <StatisticsCard
                   title={stats?.title}
