@@ -47,6 +47,7 @@ interface CustomProps {
   renderSkeleton?: (field: any) => React.ReactNode;
   fieldType: FormFieldType;
   initialImage?: string;
+  onAutoSave?: (content: string) => void;
 }
 
 const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
@@ -165,7 +166,11 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
     case FormFieldType.EDITOR:
       return (
         <FormControl>
-          <Editor body={field.value} onChange={field.onChange} />
+          <Editor
+            body={field.value}
+            onChange={field.onChange}
+            onAutoSave={props.onAutoSave || (() => {})}
+          />
         </FormControl>
       );
     case FormFieldType.SKELETON:
@@ -176,7 +181,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
 };
 
 const CustomFormField = (props: CustomProps) => {
-  const { control, name, label } = props;
+  const { control, name, label, onAutoSave } = props;
 
   return (
     <FormField
@@ -187,7 +192,7 @@ const CustomFormField = (props: CustomProps) => {
           {props.fieldType !== FormFieldType.CHECKBOX && label && (
             <FormLabel className="shad-input-label">{label}</FormLabel>
           )}
-          <RenderInput field={field} props={props} />
+          <RenderInput field={field} props={{ ...props, onAutoSave }} />
           <FormMessage className="" />
         </FormItem>
       )}

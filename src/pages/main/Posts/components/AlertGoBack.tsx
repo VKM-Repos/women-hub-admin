@@ -10,15 +10,18 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 type Props = {
   onClick?: () => void;
+  isOpen?: boolean;
+  setIsOpen?: any;
 };
 
-export function AlertGoBack({ onClick }: Props) {
+export function AlertGoBack({ onClick, isOpen, setIsOpen }: Props) {
   return (
-    <AlertDialog>
+    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogTrigger asChild>
         <Button variant="outline" className="flex items-center gap-1">
           <Icon name="arrowLeft" />
@@ -33,8 +36,26 @@ export function AlertGoBack({ onClick }: Props) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={onClick}>Confirm</AlertDialogAction>
+          <AlertDialogCancel
+            className={cn(
+              buttonVariants({
+                variant: 'outline',
+              }),
+              'border-gray-300 border'
+            )}
+          >
+            Cancel
+          </AlertDialogCancel>
+          <AlertDialogAction
+            onClick={onClick}
+            className={cn(
+              buttonVariants({
+                variant: 'secondary',
+              })
+            )}
+          >
+            Confirm
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
