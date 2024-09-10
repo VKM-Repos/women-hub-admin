@@ -29,13 +29,22 @@ const EditPostForm = ({ handleNext, data }: Props) => {
   useEffect(() => {
     // 👇️ Scroll to top on page load
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-  }, []);
+  }, [data]);
 
-  const authors = [
+  const authorsList = [
     { name: 'Women Hub' },
-    { name: `${user.name}` },
+    { name: user.name },
+    ...(data?.author && data.author !== user.name
+      ? [{ name: data.author }]
+      : []),
     { name: 'Other Editors' },
   ];
+
+  // Create a Set to ensure unique names
+  const authorsSet = new Set(authorsList.map(author => author.name));
+
+  // Convert the Set back to an array of objects
+  const authors = Array.from(authorsSet).map(name => ({ name }));
 
   const { data: categories } = useGET({
     url: 'categories',

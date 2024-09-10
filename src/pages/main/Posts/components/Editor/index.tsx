@@ -1,19 +1,19 @@
-import './editor.css';
+import { useRef, useEffect, useCallback } from 'react';
 import { EditorContent, useEditor } from '@tiptap/react';
-import Bubble from './Bubble';
-import EditorToolbar from './EditorToolbar';
 import defaultExtensions from './extensions';
+import EditorToolbar from './EditorToolbar';
+import Bubble from './Bubble';
 
 type Props = {
   onChange: (richText: string) => void;
   body: string;
+  onAutoSave: (content: string) => void;
 };
 
-export default function Editor({ body, onChange }: Props) {
+export default function Editor({ body, onChange, onAutoSave }: Props) {
   const editor = useEditor({
     content: body,
     extensions: [...defaultExtensions],
-    onCreate({}) {},
     onUpdate({ editor }) {
       const newContent = editor.getHTML();
       onChange(newContent);
@@ -26,6 +26,39 @@ export default function Editor({ body, onChange }: Props) {
     },
   });
 
+  const timeoutIdRef = useRef<NodeJS.Timeout | null>(null);
+
+  const autoSave = useCallback(() => {
+    if (editor) {
+      const content = editor.getHTML();
+      onAutoSave(content);
+      console.log(content);
+    }
+  }, [editor, onAutoSave]);
+
+  useEffect(() => {
+    if (editor) {
+      const handleEditorChange = () => {
+        if (timeoutIdRef.current) {
+          clearTimeout(timeoutIdRef.current);
+        }
+
+        timeoutIdRef.current = setTimeout(() => {
+          autoSave();
+        }, 2000);
+      };
+
+      editor.on('update', handleEditorChange);
+
+      return () => {
+        editor.off('update', handleEditorChange);
+        if (timeoutIdRef.current) {
+          clearTimeout(timeoutIdRef.current);
+        }
+      };
+    }
+  }, [editor, autoSave]);
+
   return (
     <div className="bg-background mx-auto min-h-screen w-[95%] overflow-hidden rounded-[1rem] border-2">
       {editor && (
@@ -34,7 +67,7 @@ export default function Editor({ body, onChange }: Props) {
           <EditorToolbar editor={editor} />
         </>
       )}
-      <div className="mx-auto mt-[1rem] w-[85%] bg-white ">
+      <div className="mx-auto mt-[1rem] w-[85%] bg-white">
         <EditorContent editor={editor} />
       </div>
     </div>

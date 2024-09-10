@@ -6,10 +6,15 @@ import { usePOST } from '@/hooks/usePOST.hook';
 import toast from 'react-hot-toast';
 import Loading from '@/components/shared/Loading';
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useEditPostFormStore } from '@/store/useEditPostForm.store';
+import { AlertGoBack } from '../components/AlertGoBack';
 
 const CreatePostPage = () => {
   const navigate = useNavigate();
   const { step, setStep, data, resetStore } = useCreatePostFormStore();
+  const { resetStore: clearLog } = useEditPostFormStore();
+  const [showDialog, setShowDialog] = useState(false);
 
   const { mutate: createPost, isPending: isCreating } = usePOST('admin/posts', {
     callback: response => {
@@ -23,7 +28,7 @@ const CreatePostPage = () => {
   };
 
   const handleGoBack = () => {
-    resetStore;
+    resetStore();
     if (step > 1) {
       setStep(step - 1);
     }
@@ -73,7 +78,25 @@ const CreatePostPage = () => {
     }
   };
 
-  console.log(data);
+  const handleConfirmLeave = () => {
+    navigate('/posts');
+    resetStore();
+    clearLog();
+  };
+
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      event.preventDefault();
+      setShowDialog(true);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    window.history.pushState({ modalOpened: false }, '');
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
 
   const RenderSteps = () => {
     switch (step) {
@@ -98,9 +121,16 @@ const CreatePostPage = () => {
             handleSaveToDraft={handleSaveToDraft}
             handlePublish={handlePublish}
           />
-          {RenderSteps()}
+          {<RenderSteps />}
         </div>
       </section>
+      {showDialog && (
+        <AlertGoBack
+          onClick={handleConfirmLeave}
+          isOpen={showDialog}
+          setIsOpen={setShowDialog}
+        />
+      )}
     </>
   );
 };

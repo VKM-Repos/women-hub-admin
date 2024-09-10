@@ -1,11 +1,11 @@
-import CustomFormField, {
-  FormFieldType,
-} from '@/components/form/custom-form-fields';
 import { useForm } from 'react-hook-form';
-import { createBlogPostSchema } from './validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Form } from '@/components/ui/form';
+import CustomFormField, {
+  FormFieldType,
+} from '@/components/form/custom-form-fields';
+import { createBlogPostSchema } from './validation';
 import { useCreatePostFormStore } from '@/store/useCreatePostForm.store';
 import { useEffect } from 'react';
 
@@ -31,17 +31,12 @@ const EditorForm = ({ handleNext }: Props) => {
     handleNext();
   };
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const values = form.getValues();
-      setData({
-        ...data,
-        body: values.body,
-      });
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [form, data, setData]);
+  const handleAutoSave = (content: string) => {
+    setData({
+      ...data,
+      body: content,
+    });
+  };
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
@@ -53,11 +48,12 @@ const EditorForm = ({ handleNext }: Props) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-y-6 p-6"
       >
-        {/* Editor */}
+        {/* Editor with auto-save */}
         <CustomFormField
           fieldType={FormFieldType.EDITOR}
           control={form.control}
           name="body"
+          onAutoSave={handleAutoSave}
         />
       </form>
     </Form>

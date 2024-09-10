@@ -7,13 +7,17 @@ import EditPostForm from './form/EditPostForm';
 import { useGET } from '@/hooks/useGET.hook';
 import { useEditPostFormStore } from '@/store/useEditPostForm.store';
 import { usePOST } from '@/hooks/usePOST.hook';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { usePATCH } from '@/hooks/usePATCH.hook';
+import { useCreatePostFormStore } from '@/store/useCreatePostForm.store';
+import { AlertGoBack } from '../components/AlertGoBack';
 
 const PostDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { step, setStep, data, resetStore } = useEditPostFormStore();
+  const { resetStore: clearLog } = useCreatePostFormStore();
+  const [showDialog, setShowDialog] = useState(false);
 
   const {
     data: post,
@@ -28,6 +32,8 @@ const PostDetailsPage = () => {
 
   useEffect(() => {
     refetch();
+    clearLog();
+    // setStep(1);
   }, []);
 
   const { mutate: updatePost, isPending: isUpdating } = usePATCH(
@@ -37,6 +43,7 @@ const PostDetailsPage = () => {
         toast.success('Post updated');
         resetStore();
         navigate('/posts');
+        refetch();
       },
       contentType: 'multipart/form-data',
       method: 'PATCH',
@@ -50,6 +57,7 @@ const PostDetailsPage = () => {
         toast.success('Post published');
         resetStore();
         navigate('/posts');
+        refetch();
       },
     }
   );
@@ -75,22 +83,66 @@ const PostDetailsPage = () => {
       }
 
       updatePost(formData);
+      refetch();
     } catch (error) {
       console.log(error);
       toast.error('Failed to update post');
     }
   };
 
+  // const handleSaveToDraft = () => {
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append('title', data.title);
+  //     formData.append('author', data.author);
+  //     formData.append('description', data.description);
+  //     formData.append('categoryId', data.categoryId);
+  //     formData.append('body', data.body);
+  //     if (data?.coverImage) {
+  //       formData.append('coverImage', data.coverImage);
+  //     }
+  //     formData.append('publish', 'false');
+
+  //     // createPost(formData);
+  //     toast.success('Saved to drafts');
+  //     resetStore();
+  //     navigate('/posts');
+  //   } catch (error) {
+  //     console.log(error);
+  //     toast.error('Failed to create post');
+  //   }
+  // };
+
   const handleNext = () => {
     setStep(step + 1);
   };
 
   const handleGoBack = () => {
-    resetStore;
+    resetStore();
     if (step > 1) {
       setStep(step - 1);
     }
   };
+
+  const handleConfirmLeave = () => {
+    navigate('/posts');
+    resetStore();
+    clearLog();
+  };
+
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      event.preventDefault();
+      setShowDialog(true);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    window.history.pushState({ modalOpened: false }, '');
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
 
   const RenderSteps = () => {
     switch (step) {
@@ -114,10 +166,18 @@ const PostDetailsPage = () => {
             handleGoBack={handleGoBack}
             handlePublish={handlePublish}
             handleUpdate={handleUpdate}
+            // handleSaveToDraft={}
           />
-          {<RenderSteps />}
+          <RenderSteps />
         </div>
       </section>
+      {showDialog && (
+        <AlertGoBack
+          onClick={handleConfirmLeave}
+          isOpen={showDialog}
+          setIsOpen={setShowDialog}
+        />
+      )}
     </>
   );
 };
