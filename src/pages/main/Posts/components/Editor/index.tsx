@@ -45,7 +45,7 @@ export default function Editor({ body, onChange, onAutoSave }: Props) {
 
         timeoutIdRef.current = setTimeout(() => {
           autoSave();
-        }, 2000);
+        }, 1500);
       };
 
       editor.on('update', handleEditorChange);

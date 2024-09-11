@@ -83,29 +83,22 @@ const PostPreview = () => {
                     : BlogImage
               }
               alt=""
+              loading="lazy"
               className="relative z-[15] mx-auto aspect-video w-[28rem] rounded-[1rem] object-cover"
             />
           </picture>
         </div>
       </section>
 
-      <article className="mx-auto mt-[5rem] w-[80%] space-y-10">
+      <article className="mx-auto mt-[5rem] w-[95%] max-w-[80%] space-y-10">
         <div
-          className="!tiptap space-y-6 text-base md:text-lg"
+          className="!tiptap space-y-6 overflow-hidden text-base md:text-lg"
           dangerouslySetInnerHTML={{
             __html: data.body ? data.body : editData?.body,
           }}
         />
       </article>
-      <section className="space-y-10">
-        <div className="flex items-center justify-between">
-          <span className=" text-textPrimary text-base font-semibold underline">
-            {'< Older post'}
-          </span>
-          <span className=" text-textPrimary text-base font-semibold underline">
-            {'> Newer post'}
-          </span>
-        </div>
+      <section className="mx-auto mt-[5rem] w-[95%] max-w-[80%] space-y-10">
         <div className="flex items-center justify-between border-y py-2">
           <span className=" text-textPrimary text-base font-semibold underline">
             <svg
@@ -172,7 +165,7 @@ const PostPreview = () => {
           </span>
         </div>
       </section>
-      <section className="space-y-10">
+      <section className="mx-auto mt-[5rem] w-[95%] max-w-[80%] space-y-10">
         <NewsLetterSVG />
       </section>
     </div>
