@@ -38,6 +38,17 @@ const PostHeader = ({
         handleSaveToDraft?.();
       },
     },
+    ...(post?.status === 'DRAFT'
+      ? [
+          {
+            title: 'Update',
+            isButton: true,
+            onClick: () => {
+              handleUpdate?.();
+            },
+          },
+        ]
+      : []),
   ];
 
   const { data } = useCreatePostFormStore();
