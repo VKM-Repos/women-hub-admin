@@ -6,12 +6,10 @@ import { createGuideSchema } from "./validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form } from "@/components/ui/form";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import "@mdxeditor/editor/style.css";
 
 import { Button } from "@/components/ui/button";
 import { usePOST } from "@/hooks/usePOST.hook";
-import { useGET } from "@/hooks/useGET.hook";
 import {
   DialogHeader,
   DialogFooter,
@@ -25,54 +23,13 @@ import Tag from "@/components/dashboard/Tag";
 import Icon from "@/components/icons/Icon";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
-import Dropzone, { DropzoneInputProps } from "react-dropzone";
 
-const defaultSnippetContent = `
-export default function App() {
-return (
-<div className="App">
-<h1>Hello CodeSandbox</h1>
-<h2>Start editing to see some magic happen!</h2>
-</div>
-);
-}
-`.trim();
-
-const simpleSandpackConfig: SandpackConfig = {
-  defaultPreset: "react",
-  presets: [
-    {
-      label: "React",
-      name: "react",
-      meta: "live react",
-      sandpackTemplate: "react",
-      sandpackTheme: "light",
-      snippetFileName: "/App.js",
-      snippetLanguage: "jsx",
-      initialSnippetContent: defaultSnippetContent,
-    },
-  ],
-};
-
-import {
-  MDXEditor,
-  ChangeCodeMirrorLanguage,
-  ConditionalContents,
-  InsertCodeBlock,
-  InsertSandpack,
-  SandpackConfig,
-  ShowSandpackInfo,
-  codeBlockPlugin,
-  codeMirrorPlugin,
-  sandpackPlugin,
-  toolbarPlugin,
-} from "@mdxeditor/editor";
 import "@mdxeditor/editor/style.css";
 import { API_BASE_URLS } from "@/config/api.config";
 
 const CreateGuidelineForm = () => {
   const [selectedFile, setSelectedFile] = useState<File | string>("");
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  // const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [validationError, setValidationError] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [coverPreview, setCoverPreview] = useState<string | null>(null);
@@ -142,7 +99,7 @@ const CreateGuidelineForm = () => {
     mutate(formData, {
       onSuccess: () => {
         setSelectedFile("");
-        setImagePreview(null);
+        // setImagePreview(null);
         toast.success("Published", {
           position: "bottom-right",
           style: {

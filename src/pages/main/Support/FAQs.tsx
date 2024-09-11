@@ -8,7 +8,6 @@ import Loading from "@/components/shared/Loading";
 import { useEffect, useState } from "react";
 import Pagination from "./components/Pagination";
 import { API_BASE_URLS } from "@/config/api.config";
-import useAppStore from "@/lib/store/app.store";
 
 export default function FAQs() {
   const location = useLocation();

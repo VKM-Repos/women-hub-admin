@@ -151,8 +151,8 @@ const columns: ColumnDef<string>[] = [
 ];
 
 export default function Helplines() {
-  const [searchTerm, setSearchTerm] = useState<string>("");
-
+  // const [searchTerm, setSearchTerm] = useState<string>("");
+  const searchTerm = useState<string>("");
   // Pagination states
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [pageSize] = useState<number>(10);
