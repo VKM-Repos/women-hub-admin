@@ -68,40 +68,42 @@ const PostHeader = ({
                 : 'Add post'}
         </h2>
       </div>
-      {step > 1 && editData && (
-        <div className=" col-span-1 flex items-center justify-end gap-x-4">
-          <AlertGoBack onClick={handleGoBack} />
-          <Link
-            to={`/posts/${post?.id}/preview`}
-            className={cn(
-              buttonVariants({ variant: 'outline' }),
-              'flex items-center gap-1'
-            )}
-          >
-            <Icon name="eyeIcon" />
-            <span>Preview</span>
-          </Link>
-          <Button
-            onClick={() => {
-              post?.id && post?.status !== 'DRAFT'
-                ? handleUpdate?.()
-                : handlePublish?.();
-            }}
-            variant="outline"
-            className="flex items-center gap-1"
-          >
-            {post?.id && post?.status !== 'DRAFT' ? (
-              <Icon name="publishIcon" />
-            ) : (
-              <Icon name="publishIcon" />
-            )}
-            <span>
-              {post?.id && post?.status !== 'DRAFT' ? 'Update' : 'Publish'}
-            </span>
-          </Button>
-          <MoreOptions label="more options" menu={menu} />
-        </div>
-      )}
+      <div className=" col-span-1 flex items-center justify-end gap-x-4">
+        <AlertGoBack onClick={handleGoBack} />
+        {step > 1 && (
+          <>
+            <Link
+              to={`/posts/${post?.id}/preview`}
+              className={cn(
+                buttonVariants({ variant: 'outline' }),
+                'flex items-center gap-1'
+              )}
+            >
+              <Icon name="eyeIcon" />
+              <span>Preview</span>
+            </Link>
+            <Button
+              onClick={() => {
+                post?.id && post?.status !== 'DRAFT'
+                  ? handleUpdate?.()
+                  : handlePublish?.();
+              }}
+              variant="outline"
+              className="flex items-center gap-1"
+            >
+              {post?.id && post?.status !== 'DRAFT' ? (
+                <Icon name="publishIcon" />
+              ) : (
+                <Icon name="publishIcon" />
+              )}
+              <span>
+                {post?.id && post?.status !== 'DRAFT' ? 'Update' : 'Publish'}
+              </span>
+            </Button>
+            <MoreOptions label="more options" menu={menu} />
+          </>
+        )}
+      </div>
     </header>
   );
 };
