@@ -4,15 +4,19 @@ import { cn } from "@/lib/utils";
 import { PlusIcon, SearchIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import Icon from "@/components/icons/Icon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SupportButtons } from "./SupportButtons";
+import MoreFilter from "./MoreFilters";
 
 type Props = {
   showFilters: boolean;
   setShowFilters: any;
   data: any;
-  handleFilter: Function;
-  toggleCheckedAll: Function;
+  selectedCount: Array<string>;
+  totalCount: number;
+  toggleSelectAll: () => void;
+  setSearchTerm: (e: string) => void;
+  onStatusFilterChange: (status: string | null) => void;
   page: string;
 };
 
@@ -20,15 +24,49 @@ const Filters = ({
   showFilters,
   setShowFilters,
   data,
-  handleFilter,
-  toggleCheckedAll,
+  selectedCount,
+  totalCount,
+  toggleSelectAll,
+  setSearchTerm,
+  onStatusFilterChange,
   page,
 }: Props) => {
   const toggleFilters = () => {
     setShowFilters(!showFilters);
   };
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState(search);
+  const [currentFilter, setCurrentFilter] = useState("All");
 
-  const [isChecked, setIsChecked] = useState(false);
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 2000);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [search]);
+
+  useEffect(() => {
+    if (debouncedSearch.trim() === "") {
+      setSearchTerm("");
+    } else {
+      setSearchTerm(debouncedSearch);
+    }
+  }, [debouncedSearch, setSearchTerm]);
+
+  const handleStatusFilterChange = (status: string | null) => {
+    onStatusFilterChange(status);
+    const formatStatus = (status: string | null): string => {
+      if (!status) return "All";
+      return status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
+    };
+
+    setCurrentFilter(formatStatus(status));
+  };
 
   return (
     <div className="w-full space-y-8">
@@ -37,10 +75,11 @@ const Filters = ({
           <SearchIcon />
           <input
             type="text"
-            name=""
+            value={search}
+            onChange={handleSearch}
             placeholder="Search"
             className="w-full border-none bg-transparent focus:outline-none"
-            onChange={() => handleFilter(event)}
+            // onChange={() => handleFilter(event)}
           />
         </div>
         {page === "FAQs" ? (
@@ -50,6 +89,11 @@ const Filters = ({
               buttonVariants({ variant: "secondary", size: "lg" }),
               "flex gap-2 text-white rounded-[12px]"
             )}
+            state={{
+              pageName: { page },
+              operation: "new",
+              details: null,
+            }}
           >
             <PlusIcon />
             Add New
@@ -61,6 +105,11 @@ const Filters = ({
               buttonVariants({ variant: "secondary", size: "lg" }),
               "flex gap-2 text-white rounded-[12px]"
             )}
+            state={{
+              pageName: { page },
+              operation: "new",
+              details: null,
+            }}
           >
             <PlusIcon />
             Add New
@@ -72,17 +121,13 @@ const Filters = ({
           {showFilters ? (
             <span className="flex items-center justify-start gap-4">
               <Checkbox
-                onCheckedChange={(isChecked) => {
-                  setIsChecked(!isChecked);
-                  toggleCheckedAll(isChecked);
-                }}
+                checked={selectedCount.length === totalCount}
+                onCheckedChange={toggleSelectAll}
                 aria-label="Select all"
                 className="text-white"
               />
               <p className="text-txtColor">
-                {isChecked
-                  ? `0 of ${data.length}`
-                  : `${data.length} of ${data.length}`}
+                {`${selectedCount.length} of ${totalCount} items selected`}
               </p>
               <span className="flex items-center justify-start gap-2">
                 <SupportButtons
@@ -106,10 +151,11 @@ const Filters = ({
             </span>
           ) : (
             <span className="text-textPrimary flex items-center gap-2">
-              {`${page === "FAQs" ? "Questions & Answer" : "Articles"} (${
-                data.length
-              })`}
-              <>
+              {`${
+                page === "FAQs" ? "Questions & Answer" : "Articles"
+              } (${currentFilter} (${data?.length ?? "0"}))`}
+              <MoreFilter onStatusFilterChange={handleStatusFilterChange} />
+              {/* <>
                 <svg
                   width="20"
                   height="20"
@@ -127,7 +173,7 @@ const Filters = ({
                     fill="#1B1B1B"
                   />
                 </svg>
-              </>
+              </> */}
             </span>
           )}
         </>

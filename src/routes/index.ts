@@ -299,6 +299,27 @@ export const routess = [
             component: Ticket,
             path: "/support/ticket",
           },
+          {
+            name: "Guideline details",
+            title: "Guideline details",
+            hasSiderLink: true,
+            component: AddGuideline,
+            path: "/support/guide/:id",
+          },
+          {
+            name: "FAQ details",
+            title: "FAQ details",
+            hasSiderLink: true,
+            component: AddFAQ,
+            path: "/support/faq/:id",
+          },
+          {
+            name: "Helpline details",
+            title: "Helpline details",
+            hasSiderLink: true,
+            component: AddHelpline,
+            path: "/support/helpline/:id",
+          },
         ],
       },
       {

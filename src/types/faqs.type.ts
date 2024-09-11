@@ -1,7 +1,9 @@
 export type Faq = {
   id: string;
-  title: string;
-  date: string;
+  question: string;
+  answer: string;
+  created_at: string;
+  updated_at: string;
   status: FaqStatus;
   editor: string;
   category: string;

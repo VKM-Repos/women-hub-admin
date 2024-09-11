@@ -1,35 +1,108 @@
-import { useState } from "react";
 import Filters from "./components/Filters";
 import GuidePreviewCard from "./previewCards/GuidePreviewCard";
 import { Guide } from "@/types/guides.type";
-import { guideData } from "./mockupData/guide-mockup-data";
-import { Button } from "@/components/ui/button";
 import { useLocation } from "react-router-dom";
 import GuideHeroSection from "./components/GuideHeroSection";
+import { useGET } from "@/hooks/useGET.hook";
+import Loading from "@/components/shared/Loading";
+import { useEffect, useState } from "react";
+import Pagination from "./components/Pagination";
+import { API_BASE_URLS } from "@/config/api.config";
 
 export default function Guidelines() {
   const location = useLocation();
   const guide = location.state?.guide;
 
   const [showFilters, setShowFilters] = useState(false);
+  const [selectedGuidelines, setSelectedGuidelines] = useState<string[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [filteredGuidelines, setFilteredGuidelines] = useState<Guide[]>([]);
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
 
-  let guides: Guide[] | any = guideData;
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [pageSize] = useState<number>(10);
 
-  const [guidesData, setGuidesData] = useState(guides);
+  // Construct the URL based on pagination and search term
+  const apiUrl = searchTerm
+    ? `guides/search?title=${searchTerm}&page=${currentPage}&size=${pageSize}`
+    : `guides?page=${currentPage}&size=${pageSize}`;
 
-  const handleFilter = (event: any) => {
-    const filterValue = event.target.value.toLowerCase();
-    const filteredData = guides.filter((guide: any) =>
-      guide.title.toLowerCase().includes(filterValue)
+  const {
+    data: guidelines,
+    isLoading,
+    refetch,
+    isRefetching,
+  } = useGET({
+    url: apiUrl,
+    queryKey: [
+      searchTerm ? "Guidelines-search" : "Guidelines",
+      searchTerm,
+      currentPage,
+    ],
+    baseURL: API_BASE_URLS.supportServive,
+    withAuth: true,
+    enabled: true,
+  });
+
+  useEffect(() => {
+    console.log("Fetched Guidelines:", guidelines);
+  }, [guidelines]);
+
+  useEffect(() => {
+    // The query URL will be updated when currentPage or searchTerm changes
+    refetch();
+  }, [searchTerm, currentPage]); // Refetch when search term or page changes
+
+  useEffect(() => {
+    if (guidelines?.content) {
+      const applyFilters = () => {
+        let updatedGuidelines = guidelines.content;
+        if (statusFilter) {
+          updatedGuidelines = updatedGuidelines.filter(
+            (guide: Guide) => guide.status === statusFilter
+          );
+        }
+        setFilteredGuidelines(updatedGuidelines);
+      };
+
+      applyFilters();
+    }
+  }, [guidelines, statusFilter]);
+
+  const toggleGuideSelection = (guideId: string) => {
+    setSelectedGuidelines((prevSelected) =>
+      prevSelected.includes(guideId)
+        ? prevSelected.filter((id) => id !== guideId)
+        : [...prevSelected, guideId]
     );
-
-    setGuidesData(filteredData);
   };
 
-  const [checkedAll, setCheckedAll] = useState(false);
+  const toggleSelectAll = () => {
+    if (selectedGuidelines.length === filteredGuidelines.length) {
+      setSelectedGuidelines([]);
+    } else {
+      setSelectedGuidelines(filteredGuidelines.map((guide: Guide) => guide.id));
+    }
+  };
 
-  const toggleCheckedAll = (value: boolean) => {
-    setCheckedAll(value);
+  const handleStatusFilterChange = (status: string | null) => {
+    setStatusFilter(status);
+  };
+
+  const handleNextPage = () => {
+    if (
+      guidelines?.totalElements &&
+      currentPage < guidelines.totalElements - 1
+    ) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
   };
 
   return (
@@ -39,20 +112,26 @@ export default function Guidelines() {
         <Filters
           showFilters={showFilters}
           setShowFilters={setShowFilters}
-          data={guidesData}
-          handleFilter={handleFilter}
-          toggleCheckedAll={toggleCheckedAll}
+          data={guidelines}
+          selectedCount={selectedGuidelines}
+          totalCount={filteredGuidelines.length}
+          toggleSelectAll={toggleSelectAll}
+          setSearchTerm={setSearchTerm}
+          onStatusFilterChange={handleStatusFilterChange}
           page="Guidelines"
         />
 
         <div className="flex flex-col gap-4">
-          {Array.isArray(guidesData) && guidesData.length > 0 ? (
-            guidesData.map((guide) => (
+          {isLoading || isRefetching ? (
+            <Loading />
+          ) : guidelines?.length > 0 ? (
+            guidelines?.map((guide: any) => (
               <GuidePreviewCard
                 key={guide.id}
                 showFilters={showFilters}
                 data={guide}
-                checkedAll={checkedAll}
+                isSelected={selectedGuidelines.includes(guide.id)}
+                toggleGuideSelection={() => toggleGuideSelection(guide.id)}
               />
             ))
           ) : (
@@ -60,48 +139,13 @@ export default function Guidelines() {
           )}
         </div>
         <div className="flex items-center justify-end space-x-2 py-4">
-          <div className="flex-1 text-sm text-muted-foreground">
-            Showing 1-10 of {guidesData.length}
-          </div>
-          <div className="space-x-0">
-            <Button
-              variant="outline"
-              size="sm"
-              // onClick={() => table.previousPage()}
-              // disabled={!table.getCanPreviousPage()}
-            >
-              <span>
-                <svg
-                  width="8"
-                  height="12"
-                  viewBox="0 0 8 12"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M7.41 10.4008L2.83 5.99438L7.41 1.58798L6 0.234375L0 5.99438L6 11.7544L7.41 10.4008Z"
-                    fill="#202224"
-                  />
-                </svg>
-              </span>
-            </Button>
-            <Button variant="outline" size="sm">
-              <span>
-                <svg
-                  width="8"
-                  height="12"
-                  viewBox="0 0 8 12"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M0.59 10.4008L5.17 5.99438L0.59 1.58798L2 0.234375L8 5.99438L2 11.7544L0.59 10.4008Z"
-                    fill="#202224"
-                  />
-                </svg>
-              </span>
-            </Button>
-          </div>
+          <Pagination
+            handlePrevious={handlePreviousPage}
+            handleNext={handleNextPage}
+            currentPage={currentPage + 1}
+            numberOfElements={guidelines?.numberOfElements ?? 0}
+            totalElements={guidelines?.totalElements ?? 0}
+          />
         </div>
       </section>
     </div>
