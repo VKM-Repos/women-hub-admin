@@ -15,8 +15,11 @@ import { useGET } from "@/hooks/useGET.hook";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { API_BASE_URLS } from "@/config/api.config";
+import { useLocation } from "react-router-dom";
 
 const CreateFAQForm = () => {
+  const { state } = useLocation();
+
   const navigate = useNavigate();
   const { mutate, isPending: pendingCreatingFAQ } = usePOST("faqs", {
     baseURL: API_BASE_URLS.supportServive,
@@ -33,10 +36,10 @@ const CreateFAQForm = () => {
     resolver: zodResolver(createFAQSchema),
 
     defaultValues: {
-      question: "",
-      answer: "",
-      created_at: "",
-      updated_at: "",
+      question: state.details?.question ? state.details.question : "",
+      answer: state.details?.answer ? state.details.answer : "",
+      created_at: state.details?.created_at ? state.details.created_at : "",
+      updated_at: state.details?.updated_at ? state.details.updated_at : "",
     },
   });
 

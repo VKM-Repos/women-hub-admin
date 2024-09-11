@@ -25,9 +25,9 @@ export default function FAQs() {
   const [pageSize] = useState<number>(10);
 
   // Construct the URL based on pagination and search term
-  // const apiUrl = searchTerm
-  //   ? `faqs/search?title=${searchTerm}&page=${currentPage}&size=${pageSize}`
-  //   : `faqs?page=${currentPage}&size=${pageSize}`;
+  const apiUrl = searchTerm
+    ? `faqs/search?title=${searchTerm}&page=${currentPage}&size=${pageSize}`
+    : `faqs?page=${currentPage}&size=${pageSize}`;
 
   const {
     data: FAQs,
@@ -35,7 +35,7 @@ export default function FAQs() {
     refetch,
     isRefetching,
   } = useGET({
-    url: "faqs",
+    url: apiUrl,
     queryKey: [searchTerm ? "FAQs-search" : "FAQs", searchTerm, currentPage],
     baseURL: API_BASE_URLS.supportServive,
   });

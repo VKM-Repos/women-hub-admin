@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Icon from "@/components/icons/Icon";
 import { cn } from "@/lib/utils";
 import { SupportButtons } from "../components/SupportButtons";
+import { Link } from "react-router-dom";
 
 type Props = {
   showFilters: boolean;
@@ -55,31 +56,47 @@ function GuidePreviewCard({
           />
         </div>
       )}
-      <div className={`grid w-full grid-cols-10 gap-6`}>
-        <picture className="col-span-1 aspect-square w-full">
-          <img src={Thumbnail} alt="" />
-        </picture>
-        <div className="col-span-9 space-y-1">
-          <h5 className="font-normal text-[#65655E] w-full max-w-xl truncate text-base">
-            {data?.title}
-          </h5>
-          <div className="flex items-center justify-start gap-2">
-            <p
-              className={cn(
-                "text-xs font-bold capitalize",
-                data?.status === "DRAFT" ? "text-secondary" : "text-[#106840]"
-              )}
-            >
-              {/* {data?.status?.toLocaleLowerCase()} */}
-              Published
-            </p>
-            &bull;
-            <p className="font-normal text-[#65655E] text-xs">
-              {formattedDate}
-            </p>
+      <Link
+        to={`/support/guide/${data?.id}`}
+        state={{
+          pageName: "guideline",
+          operation: "Edit",
+          details: data,
+        }}
+      >
+        <div className={`grid w-full grid-cols-10 gap-6`}>
+          <picture className="col-span-1 aspect-square w-full">
+            <img src={Thumbnail} alt="" />
+          </picture>
+          <div className="col-span-9 space-y-1">
+            <h5 className="font-normal text-[#65655E] w-full max-w-xl truncate text-base">
+              {data?.title}
+            </h5>
+            <div className="flex items-center justify-start gap-2">
+              <p
+                className={cn(
+                  "fontlight text-xs capitalize",
+                  data?.status === "DRAFT"
+                    ? "text-secondary"
+                    : data?.status === "PUBLISHED"
+                    ? "text-textPrimary"
+                    : data?.status === "ARCHIVED"
+                    ? " text-yellow-400"
+                    : "text-textPrimary"
+                )}
+              >
+                {data?.status?.toLocaleLowerCase()}
+                {/* Published */}
+              </p>
+              &bull;
+              <p className="font-normal text-[#65655E] text-xs">
+                {formattedDate}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      </Link>
+
       <div
         className={`flex w-full max-w-60 flex-col items-end justify-end gap-y-2`}
       >

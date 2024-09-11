@@ -6,6 +6,7 @@ import { Faq } from "@/types/faqs.type";
 import { cn } from "@/lib/utils";
 import Icon from "@/components/icons/Icon";
 import { SupportButtons } from "../components/SupportButtons";
+import { Link } from "react-router-dom";
 
 type Props = {
   showFilters: boolean;
@@ -55,31 +56,33 @@ function FaqPreviewCard({
           />
         </div>
       )}
-      <div className={`grid w-full grid-cols-10 gap-6`}>
-        <div className="col-span-9 space-y-1">
-          <h5 className="font-normal text-[#106840] w-full max-w-xl truncate text-base">
-            {data?.question}
-          </h5>
-          <div className="flex items-center justify-start gap-2">
-            <span className="border-secondary text-secondary font-light flex w-fit items-center justify-center rounded-sm border bg-white p-0 px-2 text-xs">
-              {data?.category}
-            </span>
-            <p
-              className={cn(
-                "text-xs font-semibold capitalize",
-                data?.status === "DRAFT" ? "text-secondary" : "text-[#106840]"
-              )}
-            >
-              {/* {data?.status?.toLocaleLowerCase()} */}
-              Published
-            </p>
-            &bull;
-            <p className="font-normal text-[#65655E] text-xs">
-              {formattedDate}
-            </p>
+      <Link to={`/support/faq/${data.id}`}>
+        <div className={`grid w-full grid-cols-10 gap-6`}>
+          <div className="col-span-9 space-y-1">
+            <h5 className="font-normal text-[#106840] w-full max-w-xl truncate text-base">
+              {data?.question}
+            </h5>
+            <div className="flex items-center justify-start gap-2">
+              <span className="border-secondary text-secondary font-light flex w-fit items-center justify-center rounded-sm border bg-white p-0 px-2 text-xs">
+                {data?.category}
+              </span>
+              <p
+                className={cn(
+                  "text-xs font-semibold capitalize",
+                  data?.status === "DRAFT" ? "text-secondary" : "text-[#106840]"
+                )}
+              >
+                {/* {data?.status?.toLocaleLowerCase()} */}
+                Published
+              </p>
+              &bull;
+              <p className="font-normal text-[#65655E] text-xs">
+                {formattedDate}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      </Link>
       <div
         className={`flex w-full max-w-60 flex-col items-end justify-end gap-y-2`}
       >

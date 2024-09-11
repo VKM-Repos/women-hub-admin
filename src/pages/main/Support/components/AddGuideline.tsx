@@ -7,10 +7,6 @@ import CreateGuidelineForm from "./form/CreateGuidelineForm";
 const AddGuideline = () => {
   const { step, setStep } = useEditSupportHeaderForm();
 
-  const handleNext = () => {
-    setStep(step + 1);
-  };
-
   const handleGoBack = () => {
     if (step > 1) {
       setStep(step - 1);

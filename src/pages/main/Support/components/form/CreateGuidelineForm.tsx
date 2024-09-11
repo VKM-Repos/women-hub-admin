@@ -8,16 +8,7 @@ import { z } from "zod";
 import { Form } from "@/components/ui/form";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import "@mdxeditor/editor/style.css";
-import {
-  AlignCenter,
-  Bold,
-  Italic,
-  Link2,
-  List,
-  SmileIcon,
-  Strikethrough,
-  Underline,
-} from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { usePOST } from "@/hooks/usePOST.hook";
 import { useGET } from "@/hooks/useGET.hook";
@@ -32,8 +23,9 @@ import {
 } from "@/components/ui/dialog";
 import Tag from "@/components/dashboard/Tag";
 import Icon from "@/components/icons/Icon";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import toast from "react-hot-toast";
+import Dropzone, { DropzoneInputProps } from "react-dropzone";
 
 const defaultSnippetContent = `
 export default function App() {
@@ -83,10 +75,30 @@ const CreateGuidelineForm = () => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [validationError, setValidationError] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const { mutate, isPending: pendingCreatingGuideline } = usePOST("guides", {
-    baseURL: API_BASE_URLS.supportServive,
-    contentType: "multipart/form-data",
-  });
+  const [coverPreview, setCoverPreview] = useState<string | null>(null);
+  const coverInputRef = useRef<HTMLInputElement | null>(null);
+
+  const { mutate, isPending: pendingCreatingGuideline } = usePOST(
+    "guides-with-file",
+    {
+      baseURL: API_BASE_URLS.supportServive,
+      contentType: "multipart/form-data",
+    }
+  );
+
+  // Handle image change
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const imageFile = e.target.files?.[0];
+
+    if (imageFile) {
+      const imageUrl = URL.createObjectURL(imageFile);
+
+      // Set the corresponding state based on the type
+
+      setCoverPreview(imageUrl);
+      setSelectedFile(imageFile);
+    }
+  };
 
   const form = useForm<z.infer<typeof createGuideSchema>>({
     resolver: zodResolver(createGuideSchema),
@@ -97,8 +109,15 @@ const CreateGuidelineForm = () => {
     },
   });
 
+  const handleChooseFile = () => {
+    coverInputRef.current?.click();
+  };
+
   function onSubmit(data: z.infer<typeof createGuideSchema>) {
-    console.log(data);
+    if (!selectedFile) {
+      setValidationError(true);
+      return;
+    }
     toast.success(`Added new guideline.........`, {
       position: "bottom-right",
       style: {
@@ -108,15 +127,17 @@ const CreateGuidelineForm = () => {
       },
       icon: "",
     });
-    if (!data.coverImageUrl) {
-      setValidationError(true);
-      return;
-    }
 
     let formData = new FormData();
-    formData.append("title", data.title || "");
-    formData.append("content", data.body || "");
-    formData.append("picture_path", data.coverImageUrl || "");
+    formData.append("title", data.title);
+    formData.append("content", data.body);
+    if (selectedFile instanceof File) {
+      formData.append("file", selectedFile);
+    }
+    formData.append("status", "Draft");
+
+    console.log(selectedFile);
+    console.log(formData);
 
     mutate(formData, {
       onSuccess: () => {
@@ -158,13 +179,42 @@ const CreateGuidelineForm = () => {
             placeholder=""
             label="Title"
           />
-          {/* UPLOAD FILE */}
-          <CustomFormField
-            fieldType={FormFieldType.IMAGE_UPLOAD}
-            control={form.control}
-            name="coverImageUrl"
-            label="Cover Picture"
-          />
+
+          {/* Image */}
+          <div className="rounded-md w-full ">
+            <div className="bg-gray-200 h-[200px] rounded-md flex justify-center items-center w-full">
+              <img
+                src={
+                  coverPreview ||
+                  "https://placehold.co/400x400?text=Cover%20Picture"
+                }
+                alt=""
+                className="h-[200px] max-h-[200px] w-full object-cover rounded-md aspect-auto"
+              />
+              <input
+                ref={coverInputRef}
+                type="file"
+                onChange={(e) => handleImageChange(e)}
+                name="image"
+                className="hidden"
+                accept="image/*"
+              />
+              <Button
+                variant="outline"
+                className="flex items-center gap-2 absolute"
+                onClick={() => handleChooseFile()}
+                type="button"
+              >
+                <Icon name="upload" /> Click or drop image
+              </Button>
+            </div>
+            {validationError && (
+              <p className="text-xs text-red-500 px-1 mt-1">
+                Image field is required
+              </p>
+            )}
+          </div>
+
           {/* Editor */}
           <CustomFormField
             fieldType={FormFieldType.EDITOR}
@@ -271,7 +321,7 @@ const CreateGuidelineForm = () => {
                 <hr />
                 <DialogDescription>
                   <span className="text-[14px] mt-4 text-txtColor font-inter">
-                    This will publish this post to the blog page.
+                    This will publish this Guide to the Guidelines page.
                   </span>
                 </DialogDescription>
               </DialogHeader>

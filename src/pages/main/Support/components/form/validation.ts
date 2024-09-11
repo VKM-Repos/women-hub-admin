@@ -17,7 +17,7 @@ export const createGuideSchema = z.object({
     .string()
     .min(2, "Description must be at least 2 characters")
     .max(1500, "Description must be at most 1500 characters"),
-  coverImageUrl: z.string().optional(),
+  coverImageUrl: z.union([z.string(), z.instanceof(File)]).optional(), // Accept both string and File
 });
 
 export const createHelplineSchema = z.object({

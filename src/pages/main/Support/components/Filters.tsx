@@ -89,6 +89,11 @@ const Filters = ({
               buttonVariants({ variant: "secondary", size: "lg" }),
               "flex gap-2 text-white rounded-[12px]"
             )}
+            state={{
+              pageName: { page },
+              operation: "new",
+              details: null,
+            }}
           >
             <PlusIcon />
             Add New
@@ -100,6 +105,11 @@ const Filters = ({
               buttonVariants({ variant: "secondary", size: "lg" }),
               "flex gap-2 text-white rounded-[12px]"
             )}
+            state={{
+              pageName: { page },
+              operation: "new",
+              details: null,
+            }}
           >
             <PlusIcon />
             Add New

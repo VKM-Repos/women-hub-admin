@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import Loading from "@/components/shared/Loading";
 import { useGET } from "@/hooks/useGET.hook";
 import { API_BASE_URLS } from "@/config/api.config";
+import { Link } from "react-router-dom";
 
 // const data: any[] | [string] = [
 //   {
@@ -124,7 +125,7 @@ const columns: ColumnDef<string>[] = [
     id: "actions",
     header: "Action",
     enableHiding: false,
-    cell: ({}) => {
+    cell: ({ row }) => {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -136,7 +137,9 @@ const columns: ColumnDef<string>[] = [
           <DropdownMenuContent align="end">
             <div className="flex flex-col gap-2 font-medium font-inter text-sm px-5">
               <p>View</p>
-              <p>Edit</p>
+              <p>
+                <Link to={`/support/guide/${row.getValue("id")}`}>Edit</Link>
+              </p>
               <p>Deactived</p>
               <p>Active</p>
             </div>

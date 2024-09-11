@@ -124,8 +124,8 @@ export default function Guidelines() {
         <div className="flex flex-col gap-4">
           {isLoading || isRefetching ? (
             <Loading />
-          ) : guidelines.length > 0 ? (
-            guidelines.map((guide: any) => (
+          ) : guidelines?.length > 0 ? (
+            guidelines?.map((guide: any) => (
               <GuidePreviewCard
                 key={guide.id}
                 showFilters={showFilters}
