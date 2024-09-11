@@ -1,20 +1,20 @@
 import CustomFormField, {
   FormFieldType,
-} from "@/components/form/custom-form-fields";
-import { useForm } from "react-hook-form";
-import { createGuideSchema } from "./validation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { Form } from "@/components/ui/form";
-import { SelectItem } from "@/components/ui/select";
-import { useGET } from "@/hooks/useGET.hook";
-import { Category } from "@/types/category.types";
-import { Button } from "@/components/ui/button";
+} from '@/components/form/custom-form-fields';
+import { useForm } from 'react-hook-form';
+import { createGuideSchema } from './validation';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { Form } from '@/components/ui/form';
+import { SelectItem } from '@/components/ui/select';
+import { useGET } from '@/hooks/useGET.hook';
+import { Category } from '@/types/category.types';
+import { Button } from '@/components/ui/button';
 
 const CreateFAQForm = () => {
   const { data: categories } = useGET({
-    url: "categories",
-    queryKey: ["categories"],
+    url: 'categories',
+    queryKey: ['categories'],
     withAuth: false,
     enabled: true,
   });
@@ -22,16 +22,16 @@ const CreateFAQForm = () => {
   const form = useForm<z.infer<typeof createGuideSchema>>({
     resolver: zodResolver(createGuideSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      coverImageUrl: "",
+      title: '',
+      description: '',
+      coverImageUrl: '',
     },
   });
 
   return (
     <Form {...form}>
-      <form className="rounded-lg  w-full">
-        <div className="p-6 pb-[4rem] flex flex-col gap-y-6 bg-white">
+      <form className="w-full  rounded-lg">
+        <div className="flex flex-col gap-y-6 bg-white p-6 pb-[4rem]">
           {/* CATEGORY */}
           <CustomFormField
             fieldType={FormFieldType.SELECT}
@@ -67,7 +67,7 @@ const CreateFAQForm = () => {
             placeholder="Enter description"
           />
         </div>
-        <section className="flex h-full min-h-[5rem] w-full items-center mt-2 justify-between rounded-br-lg rounded-bl-lg bg-white shadow p-6">
+        <section className="mt-2 flex h-full min-h-[5rem] w-full items-center justify-between rounded-bl-lg rounded-br-lg bg-white p-6 shadow">
           <span className="w-fit">
             <svg
               width="24"
@@ -85,8 +85,8 @@ const CreateFAQForm = () => {
                 fill="#6F767E"
               />
               <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M21.7063 7.24602C22.0968 7.63654 22.0968 8.26971 21.7063 8.66023L14.0705 16.296C12.899 17.4676 10.9995 17.4676 9.8279 16.296L7.24211 13.7102C6.85159 13.3197 6.85159 12.6865 7.24211 12.296C7.63264 11.9055 8.2658 11.9055 8.65633 12.296L11.2421 14.8818C11.6326 15.2723 12.2658 15.2723 12.6563 14.8818L20.2921 7.24602C20.6826 6.85549 21.3158 6.85549 21.7063 7.24602Z"
                 fill="#6F767E"
               />

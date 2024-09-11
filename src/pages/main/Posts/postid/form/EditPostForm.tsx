@@ -30,7 +30,7 @@ const EditPostForm = ({ handleNext, data }: Props) => {
   useEffect(() => {
     // 👇️ Scroll to top on page load
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-  }, []);
+  }, [data]);
 
   const authorsList = [
     { name: 'Women Hub' },
@@ -41,8 +41,10 @@ const EditPostForm = ({ handleNext, data }: Props) => {
     { name: 'Other Editors' },
   ];
 
+  // Create a Set to ensure unique names
   const authorsSet = new Set(authorsList.map(author => author.name));
 
+  // Convert the Set back to an array of objects
   const authors = Array.from(authorsSet).map(name => ({ name }));
 
   const { data: categories } = useGET({
@@ -77,30 +79,18 @@ const EditPostForm = ({ handleNext, data }: Props) => {
   }, [selectedAuthor]);
 
   const onSubmit = async (values: z.infer<typeof editBlogPostSchema>) => {
-    const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
-    const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/png'];
-
     const author = isExternalEditor
       ? values.externalEditorName
       : selectedAuthor;
 
     let imageUrl: string | undefined;
-
     if (typeof values.coverImage === 'string') {
       imageUrl = values.coverImage;
     } else if (values.coverImage instanceof File) {
-      if (
-        ACCEPTED_IMAGE_TYPES.includes(values.coverImage.type) &&
-        values.coverImage.size <= MAX_IMAGE_SIZE
-      ) {
-        imageUrl = URL.createObjectURL(values.coverImage);
-      } else {
-        console.error('Cover image does not meet the validation criteria.');
-        return;
-      }
+      imageUrl = URL.createObjectURL(values.coverImage);
     } else {
       console.error('Invalid cover image type.');
-      return;
+      return; // Exit if the coverImage type is invalid
     }
 
     setData({
@@ -109,9 +99,11 @@ const EditPostForm = ({ handleNext, data }: Props) => {
       author: author,
       description: values.description,
       coverImage: values.coverImage,
-      coverImagePreview: data?.coverImageUrl ? data?.coverImageUrl : imageUrl,
+      coverImagePreview: imageUrl,
       categoryId: values.categoryId,
     });
+
+    console.log(data);
 
     handleNext();
   };
@@ -191,7 +183,7 @@ const EditPostForm = ({ handleNext, data }: Props) => {
           label="Category"
           placeholder="Select a category"
         >
-          {categories?.content.map((category: Category) => (
+          {categories?.content?.map((category: Category) => (
             <SelectItem key={category.id} value={category.id.toString()}>
               <div className="flex cursor-pointer items-center gap-2">
                 <p>{category.name}</p>
