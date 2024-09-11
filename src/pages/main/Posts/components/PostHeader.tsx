@@ -68,7 +68,7 @@ const PostHeader = ({
                 : 'Add post'}
         </h2>
       </div>
-      {step > 1 && (
+      {step > 1 && editData && (
         <div className=" col-span-1 flex items-center justify-end gap-x-4">
           <AlertGoBack onClick={handleGoBack} />
           <Link
