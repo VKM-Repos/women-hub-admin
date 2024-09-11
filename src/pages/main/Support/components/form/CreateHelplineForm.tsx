@@ -87,9 +87,9 @@ const CreateHelplineForm = () => {
                   defaultValue={field.value}
                   required
                 >
-                  <FormLabel className="flex gap-2 items-center font-bold mb-2">
+                  <FormLabel className="mb-2 flex items-center gap-2 font-bold">
                     State <Icon name="info" />
-                    <FormMessage className="bg-black text-white px-3 py-1 rounded-md" />
+                    <FormMessage className="bg-black rounded-md px-3 py-1 text-white" />
                   </FormLabel>
                   <FormControl>
                     <SelectTrigger className="w-full">

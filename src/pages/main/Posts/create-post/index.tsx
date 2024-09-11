@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useCreatePostFormStore } from "@/store/useCreatePostForm.store";
 import PostHeader from "../components/PostHeader";
 import PostForm from "../components/form/PostForm";
@@ -6,19 +7,30 @@ import { usePOST } from "@/hooks/usePOST.hook";
 import toast from "react-hot-toast";
 import Loading from "@/components/shared/Loading";
 import { useNavigate } from "react-router-dom";
+=======
+import { useCreatePostFormStore } from '@/store/useCreatePostForm.store';
+import PostHeader from '../components/PostHeader';
+import PostForm from '../components/form/PostForm';
+import EditorForm from '../components/form/EditorForm';
+import { usePOST } from '@/hooks/usePOST.hook';
+import toast from 'react-hot-toast';
+import Loading from '@/components/shared/Loading';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { AlertGoBack } from '../components/AlertGoBack';
+>>>>>>> 79e3e9c9205fee39ecf9eb5987896fdead955b3f
 
 const CreatePostPage = () => {
   const navigate = useNavigate();
   const { step, setStep, data, resetStore } = useCreatePostFormStore();
+  const [showDialog, setShowDialog] = useState(false);
 
-  const { mutate: createPost, isPending: isCreating } = usePOST(
-    "admin/posts",
-    true,
-    "multipart/form-data",
-    (response) => {
+  const { mutate: createPost, isPending: isCreating } = usePOST('admin/posts', {
+    callback: response => {
       console.log(response);
-    }
-  );
+    },
+    contentType: 'multipart/form-data',
+  });
 
   const handleNext = () => {
     setStep(step + 1);
@@ -33,13 +45,15 @@ const CreatePostPage = () => {
   const handleSaveToDraft = () => {
     try {
       const formData = new FormData();
-      formData.append("title", data.title);
-      formData.append("author", data.author);
-      formData.append("description", data.description);
-      formData.append("categoryId", data.categoryId);
-      formData.append("body", data.body);
-      formData.append("coverImageUrl", data.coverImageUrl);
-      formData.append("publish", "false");
+      formData.append('title', data.title);
+      formData.append('author', data.author);
+      formData.append('description', data.description);
+      formData.append('categoryId', data.categoryId);
+      formData.append('body', data.body);
+      if (data?.coverImage) {
+        formData.append('coverImage', data.coverImage);
+      }
+      formData.append('publish', 'false');
 
       createPost(formData);
       toast.success("Saved to drafts");
@@ -54,13 +68,13 @@ const CreatePostPage = () => {
   const handlePublish = async () => {
     try {
       const formData = new FormData();
-      formData.append("title", data.title);
-      formData.append("author", data.author);
-      formData.append("description", data.description);
-      formData.append("categoryId", data.categoryId);
-      formData.append("body", data.body);
-      formData.append("coverImageUrl", data.coverImageUrl);
-      formData.append("publish", "true");
+      formData.append('title', data.title);
+      formData.append('author', data.author);
+      formData.append('description', data.description);
+      formData.append('categoryId', data.categoryId);
+      formData.append('body', data.body);
+      formData.append('coverImage', data.coverImage);
+      formData.append('publish', 'true');
 
       createPost(formData);
       toast.success("Post has been published");
@@ -72,7 +86,24 @@ const CreatePostPage = () => {
     }
   };
 
-  console.log(data);
+  const handleConfirmLeave = () => {
+    navigate('/posts');
+    resetStore();
+  };
+
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      event.preventDefault();
+      setShowDialog(true);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    window.history.pushState({ modalOpened: false }, '');
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
 
   const RenderSteps = () => {
     switch (step) {
@@ -88,7 +119,7 @@ const CreatePostPage = () => {
   return (
     <>
       {isCreating && <Loading />}
-      <section className="mx-auto w-full space-y-1 pb-[5rem] md:w-[95%]">
+      <section className=" mx-auto w-full space-y-1 pb-[5rem] md:w-[95%] ">
         <div className="relative w-full rounded-lg bg-white pb-[0rem]">
           <PostHeader
             step={step}
@@ -97,9 +128,16 @@ const CreatePostPage = () => {
             handleSaveToDraft={handleSaveToDraft}
             handlePublish={handlePublish}
           />
-          {RenderSteps()}
+          {<RenderSteps />}
         </div>
       </section>
+      {showDialog && (
+        <AlertGoBack
+          onClick={handleConfirmLeave}
+          isOpen={showDialog}
+          setIsOpen={setShowDialog}
+        />
+      )}
     </>
   );
 };

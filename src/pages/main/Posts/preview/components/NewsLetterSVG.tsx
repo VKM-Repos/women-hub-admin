@@ -433,7 +433,7 @@ const NewsLetterSVG = () => {
           height="48.1588"
           rx="7.52481"
           stroke="black"
-          stroke-opacity="0.15"
+          strokeOpacity="0.15"
           strokeWidth="1.00331"
         />
         <path

@@ -27,4 +27,9 @@ export const PAGE_ITEMS: SideNavItem[] = [
     path: "/support",
     icon: <Icon name="pages" />,
   },
+  {
+    title: "Legal & Compliance",
+    path: "legal-compliance",
+    icon: <Icon name="pages" />,
+  },
 ];

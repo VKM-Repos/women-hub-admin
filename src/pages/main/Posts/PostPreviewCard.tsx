@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Checkbox } from '@/components/ui/checkbox';
 import Thumbnail from '@/assets/images/women-hub-img-thumbnail.png';
 import Avatar from '@/assets/icons/avatar.svg';
@@ -13,6 +14,7 @@ import Icon from '@/components/icons/Icon';
 import { Post } from '@/types/posts.type';
 import { cn } from '@/lib/utils';
 import { usePOST } from '@/hooks/usePOST.hook';
+import { useRef, useState, useEffect } from 'react';
 
 type Props = {
   showFilters: boolean;
@@ -29,22 +31,19 @@ function PostPreviewCard({
 }: Props) {
   const navigate = useNavigate();
 
-  const { mutate: publishPost } = usePOST(
-    `admin/posts/${post.id}/publish`,
-    true,
-    'multipart/form-data',
-    () => {
+  const { mutate: publishPost } = usePOST(`admin/posts/${post.id}/publish`, {
+    contentType: 'multipart/form-data',
+    callback: () => {
       toast.success('Post published successfully');
-    }
-  );
-  const { mutate: archivePost } = usePOST(
-    `admin/posts/${post.id}/archive`,
-    true,
-    'multipart/form-data',
-    () => {
+    },
+  });
+
+  const { mutate: archivePost } = usePOST(`admin/posts/${post.id}/archive`, {
+    contentType: 'multipart/form-data',
+    callback: () => {
       toast.success('Post has been archived');
-    }
-  );
+    },
+  });
 
   const handleArchivePost = (id: number) => {
     try {
@@ -70,8 +69,32 @@ function PostPreviewCard({
   date.setDate(date.getDate() - 4);
   const formattedDate = date.toISOString().split('T')[0];
 
+  const buttonRef = useRef<any>(null);
+  const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    const handleMouseEnter = () => setIsHovered(true);
+    const handleMouseLeave = () => setIsHovered(false);
+
+    const buttonElement = buttonRef.current;
+    if (buttonElement) {
+      buttonElement.addEventListener('mouseenter', handleMouseEnter);
+      buttonElement.addEventListener('mouseleave', handleMouseLeave);
+    }
+
+    return () => {
+      if (buttonElement) {
+        buttonElement.removeEventListener('mouseenter', handleMouseEnter);
+        buttonElement.removeEventListener('mouseleave', handleMouseLeave);
+      }
+    };
+  }, []);
+
   return (
-    <div className="font-inter hover:border-secondary/70 group flex w-full items-center gap-x-4 rounded-xl border-2 border-white bg-white p-4 shadow-sm">
+    <div
+      ref={buttonRef}
+      className="font-inter hover:border-secondary/70 group flex w-full items-center gap-x-4 rounded-xl border-2 border-white bg-white p-4 shadow-sm"
+    >
       <div className="">
         {showFilters && (
           <Checkbox
@@ -122,12 +145,13 @@ function PostPreviewCard({
         className={`flex w-full max-w-60 flex-col items-end justify-end gap-y-2`}
       >
         <div className="flex items-center justify-between gap-6">
-          <span className="invisible flex items-center justify-start gap-2 group-hover:visible">
+          <span className="flex items-center justify-start gap-2">
             {post?.status === 'PUBLISHED' && (
               <PostButtons
                 icon={<Icon name="archivePostIcon" />}
                 label="Archive"
                 onClick={() => handleArchivePost(post?.id)}
+                isHovered={isHovered}
               />
             )}
             {post?.status === 'DRAFT' && (
@@ -135,18 +159,15 @@ function PostPreviewCard({
                 icon={<Icon name="publishPostIcon" />}
                 label="Publish"
                 onClick={() => handlePublishPost(post?.id)}
+                isHovered={isHovered}
               />
             )}
             <PostButtons
               icon={<Icon name="viewPostIcon" />}
               label="View"
               onClick={() => handleViewPost(post?.id)}
+              isHovered={isHovered}
             />
-            {/* <PostButtons
-              icon={<Icon name="deletePostIcon" />}
-              label="Delete"
-              onClick={() => handleDeletePost(post?.id)}
-            /> */}
           </span>
           <p className="text-textPrimary font-normal text-xs">
             {post?.author || 'No Author'}
@@ -176,30 +197,34 @@ type PostButtonActions = {
   icon: React.ReactNode;
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   label: string;
+  isHovered: boolean;
 };
 
 export const PostButtons: React.FC<PostButtonActions> = ({
   icon,
   label,
   onClick,
+  isHovered,
 }) => {
   return (
-    <button onClick={onClick} className={'group'}>
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <span className="relative flex aspect-square w-fit items-center justify-center ">
-              {icon}
-            </span>
-          </TooltipTrigger>
-          <TooltipContent
-            side="top"
-            className="bg-secondary border-none text-xs text-white"
-          >
-            {label}
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+    <button onClick={onClick} className="relative">
+      {isHovered && (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span className="relative flex aspect-square w-fit items-center justify-center">
+                {icon}
+              </span>
+            </TooltipTrigger>
+            <TooltipContent
+              side="top"
+              className="bg-secondary border-none text-xs text-white"
+            >
+              {label}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      )}
     </button>
   );
 };

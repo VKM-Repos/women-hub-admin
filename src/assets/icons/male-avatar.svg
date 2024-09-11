@@ -1,10 +1,10 @@
 <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_9899_30640)">
+<g clipPath="url(#clip0_9899_30640)">
 <rect x="0.65625" y="0.101562" width="20" height="20" rx="10" fill="#106840"/>
-<rect x="0.65625" y="0.101562" width="20" height="20" rx="10" fill="black" fill-opacity="0.2"/>
-<rect x="0.65625" y="0.101562" width="20" height="20" rx="10" fill="black" fill-opacity="0.2"/>
-<rect x="0.65625" y="0.101562" width="20" height="20" rx="10" fill="black" fill-opacity="0.2"/>
-<rect x="0.65625" y="0.101562" width="20" height="20" rx="10" fill="black" fill-opacity="0.2"/>
+<rect x="0.65625" y="0.101562" width="20" height="20" rx="10" fill="black" fillOpacity="0.2"/>
+<rect x="0.65625" y="0.101562" width="20" height="20" rx="10" fill="black" fillOpacity="0.2"/>
+<rect x="0.65625" y="0.101562" width="20" height="20" rx="10" fill="black" fillOpacity="0.2"/>
+<rect x="0.65625" y="0.101562" width="20" height="20" rx="10" fill="black" fillOpacity="0.2"/>
 <circle cx="10.6562" cy="10.1016" r="10" fill="#DEF4FF"/>
 <path d="M14.9224 7.82387C14.9224 7.82387 15.6304 7.73787 15.6944 8.41187C15.7584 9.08587 15.5324 9.60387 15.1124 9.82787C15.1124 9.82787 15.0224 9.87187 14.8164 9.90787L14.9224 7.82587V7.82387Z" fill="#FFB69F"/>
 <path d="M6.91163 7.82387C6.91163 7.82387 6.20363 7.73787 6.13963 8.41187C6.07563 9.08587 6.30163 9.60387 6.72163 9.82787C6.72163 9.82787 6.81163 9.87187 7.01763 9.90787L6.91163 7.82587V7.82387Z" fill="#FFB69F"/>
@@ -28,10 +28,10 @@
 <path d="M11.2943 15.4219L11.1543 16.1399L11.5463 16.0739L11.2943 15.4219Z" fill="#F49037"/>
 <path d="M11.2949 15.4216L12.7529 14.3516L14.1189 15.4476L12.0869 17.4776L11.2949 15.4216Z" fill="#FFA242"/>
 <path d="M11.1524 16.4023H10.4824V21.0443H11.1524V16.4023Z" fill="#106840"/>
-<path d="M11.1524 16.4023H10.4824V21.0443H11.1524V16.4023Z" fill="black" fill-opacity="0.2"/>
-<path d="M11.1524 16.4023H10.4824V21.0443H11.1524V16.4023Z" fill="black" fill-opacity="0.2"/>
-<path d="M11.1524 16.4023H10.4824V21.0443H11.1524V16.4023Z" fill="black" fill-opacity="0.2"/>
-<path d="M11.1524 16.4023H10.4824V21.0443H11.1524V16.4023Z" fill="black" fill-opacity="0.2"/>
+<path d="M11.1524 16.4023H10.4824V21.0443H11.1524V16.4023Z" fill="black" fillOpacity="0.2"/>
+<path d="M11.1524 16.4023H10.4824V21.0443H11.1524V16.4023Z" fill="black" fillOpacity="0.2"/>
+<path d="M11.1524 16.4023H10.4824V21.0443H11.1524V16.4023Z" fill="black" fillOpacity="0.2"/>
+<path d="M11.1524 16.4023H10.4824V21.0443H11.1524V16.4023Z" fill="black" fillOpacity="0.2"/>
 <path d="M10.4668 16.045L10.4808 16.453C10.4808 16.453 10.7928 16.589 11.1508 16.453L11.1608 16.083L10.4648 16.043L10.4668 16.045Z" fill="#FFB69F"/>
 <path d="M11.1524 17.3828H10.4824V17.5828H11.1524V17.3828Z" fill="#D6D6D6"/>
 <path d="M11.1524 18.2852H10.4824V18.4852H11.1524V18.2852Z" fill="#D6D6D6"/>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { create, StateCreator } from 'zustand';
 import { persist, PersistOptions } from 'zustand/middleware';
 
@@ -9,8 +10,8 @@ export interface EditPostFormStore {
     description: string;
     categoryId: string;
     body: string;
-    coverImageUrl: string;
-    coverImageUrlPreview: string;
+    coverImage: string | File | undefined;
+    coverImagePreview: any;
   };
   setStep: (step: number) => void;
   setData: (data: Partial<EditPostFormStore['data']>) => void;
@@ -32,22 +33,22 @@ export const useEditPostFormStore = create<EditPostFormStore>(
         description: '',
         categoryId: '',
         body: '',
-        coverImageUrl: '',
-        coverImageUrlPreview: '',
+        coverImage: '',
+        coverImagePreview: '',
       },
       setStep: step => set({ step }),
       setData: data => set(state => ({ data: { ...state.data, ...data } })),
       resetStore: () => {
         set({
-          step: 9,
+          step: 1,
           data: {
             title: '',
             author: '',
             description: '',
             categoryId: '',
             body: '',
-            coverImageUrl: '',
-            coverImageUrlPreview: '',
+            coverImage: '',
+            coverImagePreview: '',
           },
         });
         localStorage.removeItem('EditPostFormStore');

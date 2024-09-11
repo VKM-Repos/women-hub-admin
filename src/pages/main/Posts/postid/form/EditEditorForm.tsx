@@ -2,7 +2,7 @@ import CustomFormField, {
   FormFieldType,
 } from '@/components/form/custom-form-fields';
 import { useForm } from 'react-hook-form';
-import { createBlogPostSchema } from './validation';
+import { editBlogPostSchema } from './validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Form } from '@/components/ui/form';
@@ -16,15 +16,15 @@ type Props = {
 };
 
 const EditEditorForm = ({ handleNext, data }: Props) => {
-  const { setData } = useEditPostFormStore();
-  const form = useForm<z.infer<typeof createBlogPostSchema>>({
-    resolver: zodResolver(createBlogPostSchema),
+  const { setData, data: editData } = useEditPostFormStore();
+  const form = useForm<z.infer<typeof editBlogPostSchema>>({
+    resolver: zodResolver(editBlogPostSchema),
     defaultValues: {
-      body: data?.body || '',
+      body: editData?.body ? editData?.body : data?.body,
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof createBlogPostSchema>) => {
+  const onSubmit = async (values: z.infer<typeof editBlogPostSchema>) => {
     setData({
       ...values,
       body: values?.body,
@@ -32,20 +32,16 @@ const EditEditorForm = ({ handleNext, data }: Props) => {
     handleNext();
   };
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     const values = form.getValues();
-  //     setData({
-  //       body: values?.body,
-  //     });
-  //   }, 3000);
-
-  //   return () => clearInterval(interval);
-  // }, [form, data]);
+  const handleAutoSave = (content: string) => {
+    setData({
+      ...data,
+      body: content,
+    });
+  };
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-  }, []);
+  }, [data]);
 
   return (
     <Form {...form}>
@@ -58,6 +54,7 @@ const EditEditorForm = ({ handleNext, data }: Props) => {
           fieldType={FormFieldType.EDITOR}
           control={form.control}
           name="body"
+          onAutoSave={handleAutoSave}
         />
       </form>
     </Form>

@@ -39,22 +39,19 @@ const PostFilters = ({
 
   const toggleFilters = () => setShowFilters(!showFilters);
 
-  const { mutate: archiveAll } = usePOST(
-    'admin/posts/archive',
-    true,
-    'application/json',
-    () => {
+  const { mutate: archiveAll } = usePOST('admin/posts/archive', {
+    callback: () => {
       toast.success('Selected post(s) has been archived');
-    }
-  );
-  const { mutate: publishAll } = usePOST(
-    'admin/posts/publish',
-    true,
-    'application/json',
-    () => {
+    },
+    contentType: 'application/json',
+  });
+
+  const { mutate: publishAll } = usePOST('admin/posts/publish', {
+    callback: () => {
       toast.success('Selected post(s) has been published');
-    }
-  );
+    },
+    contentType: 'application/json',
+  });
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -103,7 +100,7 @@ const PostFilters = ({
           to={'/posts/create-post'}
           className={cn(
             buttonVariants({ variant: 'secondary', size: 'lg' }),
-            'flex gap-2'
+            'flex gap-2 '
           )}
         >
           <PlusIcon />
@@ -129,6 +126,7 @@ const PostFilters = ({
                   onClick={() => {
                     archiveAll(selectedCount);
                   }}
+                  isHovered={true}
                 />
 
                 <PostButtons
@@ -137,6 +135,7 @@ const PostFilters = ({
                   onClick={() => {
                     publishAll(selectedCount);
                   }}
+                  isHovered={true}
                 />
               </span>
             </span>

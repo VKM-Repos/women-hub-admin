@@ -47,6 +47,7 @@ interface CustomProps {
   renderSkeleton?: (field: any) => React.ReactNode;
   fieldType: FormFieldType;
   initialImage?: string;
+  onAutoSave?: (content: string) => void;
 }
 
 const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
@@ -128,13 +129,14 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
             maxSize={5000000}
             onDrop={acceptedFiles => {
               const file = acceptedFiles[0];
-              const reader = new FileReader();
-              reader.onloadend = () => {
-                const base64String = reader.result as string;
-                setBackgroundImage(base64String);
-                field.onChange(base64String);
-              };
-              reader.readAsDataURL(file);
+              if (file) {
+                // Create a preview URL for the image to be shown as a background
+                const imageUrl = URL.createObjectURL(file);
+                setBackgroundImage(imageUrl);
+
+                // Send the file to the form handler (like a FormData object)
+                field.onChange(file); // Ensure the raw file is passed here for backend consumption
+              }
             }}
           >
             {({ getRootProps, getInputProps }) => (
@@ -164,7 +166,11 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
     case FormFieldType.EDITOR:
       return (
         <FormControl>
-          <Editor body={field.value} onChange={field.onChange} />
+          <Editor
+            body={field.value}
+            onChange={field.onChange}
+            onAutoSave={props?.onAutoSave ?? (() => {})}
+          />
         </FormControl>
       );
     case FormFieldType.SKELETON:
@@ -175,7 +181,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
 };
 
 const CustomFormField = (props: CustomProps) => {
-  const { control, name, label } = props;
+  const { control, name, label, onAutoSave } = props;
 
   return (
     <FormField
@@ -186,7 +192,7 @@ const CustomFormField = (props: CustomProps) => {
           {props.fieldType !== FormFieldType.CHECKBOX && label && (
             <FormLabel className="shad-input-label">{label}</FormLabel>
           )}
-          <RenderInput field={field} props={props} />
+          <RenderInput field={field} props={{ ...props, onAutoSave }} />
           <FormMessage className="" />
         </FormItem>
       )}

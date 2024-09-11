@@ -6,6 +6,7 @@ import { useCreatePostFormStore } from '@/store/useCreatePostForm.store';
 import { useEditPostFormStore } from '@/store/useEditPostForm.store';
 import { Post } from '@/types/posts.type';
 import { Link } from 'react-router-dom';
+import { AlertGoBack } from './AlertGoBack';
 
 type Props = {
   step: number;
@@ -37,6 +38,17 @@ const PostHeader = ({
         handleSaveToDraft?.();
       },
     },
+    ...(post?.status === 'DRAFT'
+      ? [
+          {
+            title: 'Update',
+            isButton: true,
+            onClick: () => {
+              handleUpdate?.();
+            },
+          },
+        ]
+      : []),
   ];
 
   const { data } = useCreatePostFormStore();
@@ -47,23 +59,18 @@ const PostHeader = ({
       <div className="col-span-1 flex w-full items-center justify-start gap-4">
         <div className="h-[40px] w-[20px] rounded bg-[#B5E4CA]"></div>
         <h2 className="w-full max-w-[300px] truncate text-xl font-semibold">
-          {data?.title
-            ? data.title
-            : editData.title
-              ? editData.title
-              : 'Add post'}
+          {post?.title
+            ? post.title
+            : data?.title
+              ? data.title
+              : editData?.title
+                ? editData.title
+                : 'Add post'}
         </h2>
       </div>
-      {step > 1 && (
+      {step > 1 && editData && (
         <div className=" col-span-1 flex items-center justify-end gap-x-4">
-          <Button
-            onClick={handleGoBack}
-            variant="outline"
-            className="flex items-center gap-1"
-          >
-            <Icon name="arrowLeft" />
-            <span>Back</span>
-          </Button>
+          <AlertGoBack onClick={handleGoBack} />
           <Link
             to={`/posts/${post?.id}/preview`}
             className={cn(
@@ -76,17 +83,21 @@ const PostHeader = ({
           </Link>
           <Button
             onClick={() => {
-              post?.id ? handleUpdate?.() : handlePublish?.();
+              post?.id && post?.status !== 'DRAFT'
+                ? handleUpdate?.()
+                : handlePublish?.();
             }}
             variant="outline"
             className="flex items-center gap-1"
           >
-            {post?.id ? (
+            {post?.id && post?.status !== 'DRAFT' ? (
               <Icon name="publishIcon" />
             ) : (
               <Icon name="publishIcon" />
             )}
-            <span>{post?.id ? 'Update' : 'Publish'}</span>
+            <span>
+              {post?.id && post?.status !== 'DRAFT' ? 'Update' : 'Publish'}
+            </span>
           </Button>
           <MoreOptions label="more options" menu={menu} />
         </div>

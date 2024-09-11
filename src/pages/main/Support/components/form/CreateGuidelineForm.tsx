@@ -264,22 +264,21 @@ const CreateGuidelineForm = () => {
               <MDXEditor
                 markdown=""
                 plugins={[
-                  codeBlockPlugin({ defaultCodeBlockLanguage: "js" }),
+                  codeBlockPlugin({ defaultCodeBlockLanguage: 'js' }),
                   sandpackPlugin({ sandpackConfig: simpleSandpackConfig }),
                   codeMirrorPlugin({
-                    codeBlockLanguages: { js: "JavaScript", css: "CSS" },
+                    codeBlockLanguages: { js: 'JavaScript', css: 'CSS' },
                   }),
                   toolbarPlugin({
                     toolbarContents: () => (
                       <ConditionalContents
                         options={[
                           {
-                            when: (editor) =>
-                              editor?.editorType === "codeblock",
+                            when: editor => editor?.editorType === 'codeblock',
                             contents: () => <ChangeCodeMirrorLanguage />,
                           },
                           {
-                            when: (editor) => editor?.editorType === "sandpack",
+                            when: editor => editor?.editorType === 'sandpack',
                             contents: () => <ShowSandpackInfo />,
                           },
                           {

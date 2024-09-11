@@ -95,7 +95,7 @@ export default function NewsLetterTable({ columns, data }: tableProps) {
           </div>
           <div>
             <Link
-              to={`/support/create-helpline`}
+              to={`/choose-template`}
               className={cn(
                 buttonVariants({ variant: "secondary", size: "lg" }),
                 "flex gap-2 text-white rounded-[12px]"

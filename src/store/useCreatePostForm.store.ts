@@ -9,8 +9,8 @@ export interface CreatePostFormStore {
     description: string;
     categoryId: string;
     body: string;
-    coverImageUrl: string;
-    coverImageUrlPreview: string;
+    coverImage: string;
+    coverImagePreview: string;
   };
   setStep: (step: number) => void;
   setData: (data: Partial<CreatePostFormStore['data']>) => void;
@@ -32,22 +32,22 @@ export const useCreatePostFormStore = create<CreatePostFormStore>(
         description: '',
         categoryId: '',
         body: '',
-        coverImageUrl: '',
-        coverImageUrlPreview: '',
+        coverImage: '',
+        coverImagePreview: '',
       },
       setStep: step => set({ step }),
       setData: data => set(state => ({ data: { ...state.data, ...data } })),
       resetStore: () => {
         set({
-          step: 9,
+          step: 1,
           data: {
             title: '',
             author: '',
             description: '',
             categoryId: '',
             body: '',
-            coverImageUrl: '',
-            coverImageUrlPreview: '',
+            coverImage: '',
+            coverImagePreview: '',
           },
         });
         localStorage.removeItem('CreatePostFormStore');
