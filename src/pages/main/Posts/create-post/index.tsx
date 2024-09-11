@@ -7,13 +7,11 @@ import toast from 'react-hot-toast';
 import Loading from '@/components/shared/Loading';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useEditPostFormStore } from '@/store/useEditPostForm.store';
 import { AlertGoBack } from '../components/AlertGoBack';
 
 const CreatePostPage = () => {
   const navigate = useNavigate();
   const { step, setStep, data, resetStore } = useCreatePostFormStore();
-  const { resetStore: clearLog } = useEditPostFormStore();
   const [showDialog, setShowDialog] = useState(false);
 
   const { mutate: createPost, isPending: isCreating } = usePOST('admin/posts', {
@@ -28,7 +26,6 @@ const CreatePostPage = () => {
   };
 
   const handleGoBack = () => {
-    resetStore();
     if (step > 1) {
       setStep(step - 1);
     }
@@ -81,7 +78,6 @@ const CreatePostPage = () => {
   const handleConfirmLeave = () => {
     navigate('/posts');
     resetStore();
-    clearLog();
   };
 
   useEffect(() => {
@@ -112,7 +108,7 @@ const CreatePostPage = () => {
   return (
     <>
       {isCreating && <Loading />}
-      <section className="mx-auto w-full space-y-1 pb-[5rem] md:w-[95%]">
+      <section className=" mx-auto w-full space-y-1 pb-[5rem] md:w-[95%] ">
         <div className="relative w-full rounded-lg bg-white pb-[0rem]">
           <PostHeader
             step={step}

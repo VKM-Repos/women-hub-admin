@@ -72,17 +72,21 @@ const PostHeader = ({
           </Link>
           <Button
             onClick={() => {
-              post?.id ? handleUpdate?.() : handlePublish?.();
+              post?.id && post?.status !== 'DRAFT'
+                ? handleUpdate?.()
+                : handlePublish?.();
             }}
             variant="outline"
             className="flex items-center gap-1"
           >
-            {post?.id ? (
+            {post?.id && post?.status !== 'DRAFT' ? (
               <Icon name="publishIcon" />
             ) : (
               <Icon name="publishIcon" />
             )}
-            <span>{post?.id ? 'Update' : 'Publish'}</span>
+            <span>
+              {post?.id && post?.status !== 'DRAFT' ? 'Update' : 'Publish'}
+            </span>
           </Button>
           <MoreOptions label="more options" menu={menu} />
         </div>

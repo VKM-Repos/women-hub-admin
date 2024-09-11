@@ -169,7 +169,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
           <Editor
             body={field.value}
             onChange={field.onChange}
-            onAutoSave={props.onAutoSave || (() => {})}
+            onAutoSave={props?.onAutoSave ?? (() => {})}
           />
         </FormControl>
       );

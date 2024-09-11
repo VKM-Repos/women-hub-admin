@@ -100,7 +100,7 @@ const PostFilters = ({
           to={'/posts/create-post'}
           className={cn(
             buttonVariants({ variant: 'secondary', size: 'lg' }),
-            'flex gap-2'
+            'flex gap-2 '
           )}
         >
           <PlusIcon />

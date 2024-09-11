@@ -11,6 +11,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button, buttonVariants } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 
 type Props = {
@@ -28,14 +29,17 @@ export function AlertGoBack({ onClick, isOpen, setIsOpen }: Props) {
           <span>Back</span>
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className="w-full">
         <AlertDialogHeader>
-          <AlertDialogTitle>Leaving this page?</AlertDialogTitle>
-          <AlertDialogDescription>
+          <AlertDialogTitle className="text-textPrimary text-center text-lg font-semibold lg:text-2xl">
+            Leaving this page?
+          </AlertDialogTitle>
+          <Separator className="bg-black/40" />
+          <AlertDialogDescription className="text-txtColor py-5 text-center text-base lg:text-lg">
             If you leave now, your changes won’t be saved
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
+        <AlertDialogFooter className="flex w-full !items-center !justify-center gap-5">
           <AlertDialogCancel
             className={cn(
               buttonVariants({

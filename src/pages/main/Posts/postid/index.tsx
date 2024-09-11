@@ -9,14 +9,12 @@ import { useEditPostFormStore } from '@/store/useEditPostForm.store';
 import { usePOST } from '@/hooks/usePOST.hook';
 import { useEffect, useState } from 'react';
 import { usePATCH } from '@/hooks/usePATCH.hook';
-import { useCreatePostFormStore } from '@/store/useCreatePostForm.store';
 import { AlertGoBack } from '../components/AlertGoBack';
 
 const PostDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { step, setStep, data, resetStore } = useEditPostFormStore();
-  const { resetStore: clearLog } = useCreatePostFormStore();
   const [showDialog, setShowDialog] = useState(false);
 
   const {
@@ -32,8 +30,6 @@ const PostDetailsPage = () => {
 
   useEffect(() => {
     refetch();
-    clearLog();
-    // setStep(1);
   }, []);
 
   const { mutate: updatePost, isPending: isUpdating } = usePATCH(
@@ -55,6 +51,17 @@ const PostDetailsPage = () => {
     {
       callback: () => {
         toast.success('Post published');
+        resetStore();
+        navigate('/posts');
+        refetch();
+      },
+    }
+  );
+  const { mutate: draftPost, isPending: isDrafting } = usePOST(
+    `admin/posts/${id}/drafts`,
+    {
+      callback: () => {
+        toast.success('Post saved to draft');
         resetStore();
         navigate('/posts');
         refetch();
@@ -90,35 +97,19 @@ const PostDetailsPage = () => {
     }
   };
 
-  // const handleSaveToDraft = () => {
-  //   try {
-  //     const formData = new FormData();
-  //     formData.append('title', data.title);
-  //     formData.append('author', data.author);
-  //     formData.append('description', data.description);
-  //     formData.append('categoryId', data.categoryId);
-  //     formData.append('body', data.body);
-  //     if (data?.coverImage) {
-  //       formData.append('coverImage', data.coverImage);
-  //     }
-  //     formData.append('publish', 'false');
-
-  //     // createPost(formData);
-  //     toast.success('Saved to drafts');
-  //     resetStore();
-  //     navigate('/posts');
-  //   } catch (error) {
-  //     console.log(error);
-  //     toast.error('Failed to create post');
-  //   }
-  // };
+  const handleSaveToDraft = () => {
+    try {
+      draftPost(id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleNext = () => {
     setStep(step + 1);
   };
 
   const handleGoBack = () => {
-    resetStore();
     if (step > 1) {
       setStep(step - 1);
     }
@@ -127,7 +118,6 @@ const PostDetailsPage = () => {
   const handleConfirmLeave = () => {
     navigate('/posts');
     resetStore();
-    clearLog();
   };
 
   useEffect(() => {
@@ -157,7 +147,7 @@ const PostDetailsPage = () => {
 
   return (
     <>
-      {(isLoading || isUpdating || isPublishing) && <Loading />}
+      {(isLoading || isUpdating || isPublishing || isDrafting) && <Loading />}
       <section className="mx-auto w-full space-y-1 pb-[5rem] md:w-[95%]">
         <div className="relative w-full rounded-lg bg-white pb-[0rem]">
           <PostHeader
@@ -166,7 +156,7 @@ const PostDetailsPage = () => {
             handleGoBack={handleGoBack}
             handlePublish={handlePublish}
             handleUpdate={handleUpdate}
-            // handleSaveToDraft={}
+            handleSaveToDraft={handleSaveToDraft}
           />
           <RenderSteps />
         </div>
