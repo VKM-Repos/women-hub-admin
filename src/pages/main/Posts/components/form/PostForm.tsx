@@ -67,13 +67,15 @@ const PostForm = ({ handleNext }: Props) => {
     const author = isExternalEditor
       ? values.externalEditorName
       : selectedAuthor;
+
+    const imageUrl = URL.createObjectURL(values?.coverImage as File);
     setData({
       ...values,
       title: values.title,
       author: author,
       description: values.description,
       coverImage: values.coverImage,
-      coverImagePreview: values.coverImage,
+      coverImagePreview: imageUrl,
       categoryId: values.categoryId,
     });
     handleNext();

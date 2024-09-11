@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Icon from '@/components/icons/Icon';
 import {
   AlertDialog,

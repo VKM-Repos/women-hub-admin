@@ -5,6 +5,8 @@ import NewsLetterSVG from './components/NewsLetterSVG';
 import { useCreatePostFormStore } from '@/store/useCreatePostForm.store';
 import './tiptap.css';
 import { useEditPostFormStore } from '@/store/useEditPostForm.store';
+import ImageWithFallback from '@/components/shared/ImageWithFallBack';
+import { useGET } from '@/hooks/useGET.hook';
 
 const PostPreview = () => {
   useEffect(() => {
@@ -40,9 +42,16 @@ const PostPreview = () => {
     navigate(-1);
   };
 
+  const { data: category } = useGET({
+    url: `admin/categories/${data?.categoryId ? data?.categoryId : editData?.categoryId}`,
+    queryKey: ['categories'],
+    withAuth: false,
+    enabled: true,
+  });
+
   return (
     <div className="absolute inset-0 !z-[1000] !min-h-screen w-screen overflow-y-scroll bg-white pb-[4rem]">
-      <section className="bg-textPrimary mx-auto mt-[2rem] grid h-[25rem] w-full grid-cols-1 rounded-[1rem] p-4 md:grid-cols-2 md:p-12 lg:w-[90%]">
+      <section className="bg-textPrimary mx-auto mt-[2rem] grid h-[28rem] w-full grid-cols-1 rounded-[1rem] p-4 md:grid-cols-2 md:p-12 lg:w-[90%]">
         <div className=" relative col-span-1 flex flex-col items-start justify-center gap-2">
           <button onClick={goBack} className="absolute -top-5 left-0">
             <svg
@@ -59,34 +68,37 @@ const PostPreview = () => {
             </svg>
           </button>
           <span className="bg-secondary rounded-lg p-1 px-2 text-xs text-white">
-            Education
+            {category?.name}
           </span>
-          <h2 className="max-w-md text-pretty text-[2.5rem] font-semibold text-white">
+          <h2 className="font-sora max-w-md text-pretty text-[2.5rem] font-semibold text-white">
             {data.title ? data.title : editData.title}
           </h2>
-          <p className="font-light text-sm text-white">
+          <p className="font-light font-quicksand text-sm text-white">
             Published by:{' '}
             <strong>{data.author ? data.author : editData.author}</strong> •{' '}
             {today}
           </p>
-          <p className="font-light text-sm text-white">{readTime} mins Read</p>
+          <p className="font-light font-quickSand text-sm text-white">
+            {readTime} mins Read
+          </p>
         </div>
         <div className="relative col-span-1">
-          <div className="absolute bottom-10 right-14 z-[10] mx-auto aspect-video w-[28rem] rounded-[1rem] bg-[#B5FFE1]" />
-          <picture>
-            <img
+          <div className="absolute left-5 top-3 z-[10] mx-auto hidden aspect-video w-full rounded-[1rem] bg-[#B5FFE1] md:block" />
+          <span className="relative z-[15] w-full overflow-hidden ">
+            <ImageWithFallback
               src={
-                data?.coverImage
-                  ? data?.coverImage
-                  : editData?.coverImage
-                    ? (editData?.coverImage as string)
-                    : BlogImage
+                data?.coverImagePreview
+                  ? data?.coverImagePreview
+                  : (editData?.coverImagePreview as string)
+                    ? (editData?.coverImagePreview as string)
+                    : 'https://placehold.co/500x500?text=Women\n Hub'
               }
-              alt=""
-              loading="lazy"
-              className="relative z-[15] mx-auto aspect-video w-[28rem] rounded-[1rem] object-cover"
+              fallbackSrc={BlogImage}
+              aspectRatio={{ width: 100, height: 55 }}
+              alt={data?.title}
+              className="relative z-[15] mx-auto aspect-video w-full overflow-hidden rounded-[1rem] bg-white object-cover p-0.5"
             />
-          </picture>
+          </span>
         </div>
       </section>
 
