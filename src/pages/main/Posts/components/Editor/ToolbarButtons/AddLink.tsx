@@ -1,23 +1,26 @@
 import { Button } from '@/components/ui/button';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 import { Toggle } from '@/components/ui/toggle';
 import { type Editor } from '@tiptap/react';
 import { Link2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 type AddLinkProps = {
-  setUrl: (url: string) => void;
   editor: Editor | null;
 };
 
-const AddLink = ({ setUrl, editor }: AddLinkProps) => {
+const AddLink = ({ editor }: AddLinkProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [inputUrl, setInputUrl] = useState("");
-  const [error, setError] = useState("");
+  const [inputUrl, setInputUrl] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     if (isOpen && editor) {
-      const previousUrl = editor.getAttributes('link').href || "";
+      const previousUrl = editor.getAttributes('link').href || '';
       setInputUrl(previousUrl);
     }
   }, [isOpen, editor]);
@@ -36,25 +39,38 @@ const AddLink = ({ setUrl, editor }: AddLinkProps) => {
     if (url) {
       url = validateUrl(url);
       if (/^https?:\/\//i.test(url)) {
-        setUrl(url);
-        editor?.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
-        setError(""); 
+        setInputUrl(url);
+        editor
+          ?.chain()
+          .focus()
+          .extendMarkRange('link')
+          .setLink({ href: url })
+          .run();
+        setError('');
       } else {
-        setError("Invalid URL format");
+        setError('Invalid URL format');
         return;
       }
     } else {
       editor?.chain().focus().extendMarkRange('link').unsetLink().run();
     }
     setIsOpen(false);
-    setInputUrl("");
+    setInputUrl('');
   };
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger className="border-none" asChild>
-        <Button className="flex gap-2 items-center justify-center w-[40px] p-0" variant="outline">
-          <Toggle size='sm' aria-label="Toggle link" pressed={editor?.isActive("link")}>
+        <Button
+          className="flex w-[40px] items-center justify-center gap-2 p-0"
+          variant="outline"
+        >
+          <Toggle
+            size="sm"
+            aria-label="Toggle link"
+            pressed={editor?.isActive('link')}
+            title="link"
+          >
             <Link2 className="h-5 w-5" />
           </Toggle>
         </Button>
@@ -65,12 +81,12 @@ const AddLink = ({ setUrl, editor }: AddLinkProps) => {
             type="text"
             placeholder="Add or paste link here"
             value={inputUrl}
-            onChange={(e) => setInputUrl(e.target.value)}
-            className="border rounded-md px-2 py-1 mb-2"
+            onChange={e => setInputUrl(e.target.value)}
+            className="mb-2 rounded-md border px-2 py-1"
           />
           {error && <span className="text-red-500 text-xs">{error}</span>}
           <Button type="submit" variant="primary" size="sm">
-            {inputUrl ? "Update Link" : "Add Link"}
+            {inputUrl ? 'Update Link' : 'Add Link'}
           </Button>
         </form>
       </PopoverContent>

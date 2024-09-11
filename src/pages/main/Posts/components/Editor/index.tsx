@@ -21,7 +21,7 @@ export default function Editor({ body, onChange, onAutoSave }: Props) {
     editorProps: {
       attributes: {
         class:
-          'h-[90dvh] !p-[1.5rem] overflow-y-auto border-none focus:outline-none space-y-6',
+          'h-[90dvh] !p-[1.5rem] !tiptap overflow-y-auto border-none focus:outline-none space-y-6',
       },
     },
   });

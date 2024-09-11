@@ -1,28 +1,27 @@
-import { BubbleMenu, Editor } from "@tiptap/react"
-import Bold from "./ToolbarButtons/bold"
-import BulletList from "./ToolbarButtons/bullet-list"
-import Heading from "./ToolbarButtons/title"
-import Italic from "./ToolbarButtons/italic"
-import Link from "./ToolbarButtons/link"
-import OrderedList from "./ToolbarButtons/ordered-list"
-import Strikethrough from "./ToolbarButtons/strikethrough"
+import { BubbleMenu, Editor } from '@tiptap/react';
+import Bold from './ToolbarButtons/bold';
+import BulletList from './ToolbarButtons/bullet-list';
+import Heading from './ToolbarButtons/title';
+import Italic from './ToolbarButtons/italic';
+import OrderedList from './ToolbarButtons/ordered-list';
+import Strikethrough from './ToolbarButtons/strikethrough';
 
 interface BubbleProps {
-  editor: Editor | null
+  editor: Editor | null;
 }
 
 export default function Bubble({ editor }: BubbleProps) {
   if (!editor) {
-    return null
+    return null;
   }
 
   return (
     <BubbleMenu
       editor={editor}
       tippyOptions={{ duration: 100 }}
-      className="px-2"
+      className=" px-2"
     >
-      <div className="bg-white border-2 rounded-[1rem] p-1 space-x-2 flex justify-center items-center">
+      <div className="min-w-2xl flex  items-center justify-center space-x-1 rounded-[1rem] border-2 bg-white p-2">
         <Heading editor={editor} level={1} isIcon />
         <Heading editor={editor} level={2} isIcon />
         <Heading editor={editor} level={3} isIcon />
@@ -31,8 +30,7 @@ export default function Bubble({ editor }: BubbleProps) {
         <Strikethrough editor={editor} />
         <BulletList editor={editor} />
         <OrderedList editor={editor} />
-        <Link editor={editor} />
       </div>
     </BubbleMenu>
-  )
+  );
 }
