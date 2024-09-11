@@ -26,7 +26,7 @@ const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
       <div className="h-0 w-full">
         <img
           src={src}
-          onError={e => {
+          onError={() => {
             const img = document.getElementById(alt) as HTMLImageElement;
             img.src = fallbackSrc;
           }}
