@@ -1,14 +1,14 @@
 import CustomFormField, {
   FormFieldType,
-} from "@/components/form/custom-form-fields";
-import { useForm } from "react-hook-form";
-import { createGuideSchema } from "./validation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { Form } from "@/components/ui/form";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+} from '@/components/form/custom-form-fields';
+import { useForm } from 'react-hook-form';
+import { createGuideSchema } from './validation';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { Form } from '@/components/ui/form';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
-import "@mdxeditor/editor/style.css";
+import '@mdxeditor/editor/style.css';
 import {
   AlignCenter,
   Bold,
@@ -18,8 +18,8 @@ import {
   SmileIcon,
   Strikethrough,
   Underline,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const defaultSnippetContent = `
 export default function App() {
@@ -33,16 +33,16 @@ return (
 `.trim();
 
 const simpleSandpackConfig: SandpackConfig = {
-  defaultPreset: "react",
+  defaultPreset: 'react',
   presets: [
     {
-      label: "React",
-      name: "react",
-      meta: "live react",
-      sandpackTemplate: "react",
-      sandpackTheme: "light",
-      snippetFileName: "/App.js",
-      snippetLanguage: "jsx",
+      label: 'React',
+      name: 'react',
+      meta: 'live react',
+      sandpackTemplate: 'react',
+      sandpackTheme: 'light',
+      snippetFileName: '/App.js',
+      snippetLanguage: 'jsx',
       initialSnippetContent: defaultSnippetContent,
     },
   ],
@@ -60,23 +60,23 @@ import {
   codeMirrorPlugin,
   sandpackPlugin,
   toolbarPlugin,
-} from "@mdxeditor/editor";
-import "@mdxeditor/editor/style.css";
+} from '@mdxeditor/editor';
+import '@mdxeditor/editor/style.css';
 
 const CreateGuidelineForm = () => {
   const form = useForm<z.infer<typeof createGuideSchema>>({
     resolver: zodResolver(createGuideSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      coverImageUrl: "",
+      title: '',
+      description: '',
+      coverImageUrl: '',
     },
   });
 
   return (
     <Form {...form}>
-      <form className=" rounded-lg  w-full">
-        <div className="p-6 pb-[4rem] flex flex-col gap-y-6 bg-white">
+      <form className=" w-full  rounded-lg">
+        <div className="flex flex-col gap-y-6 bg-white p-6 pb-[4rem]">
           {/* TITLE */}
           <CustomFormField
             fieldType={FormFieldType.INPUT}
@@ -92,9 +92,9 @@ const CreateGuidelineForm = () => {
             name="coverImageUrl"
             label="Cover Picture"
           />
-          <section className="w-full mx-auto border-2 bg-background rounded-[1rem] min-h-screen overflow-hidden">
+          <section className="bg-background mx-auto min-h-screen w-full overflow-hidden rounded-[1rem] border-2">
             {/* markdown header */}
-            <div className="w-full min-h-[4rem] flex gap-4 items-center justify-start px-2 bg-white">
+            <div className="flex min-h-[4rem] w-full items-center justify-start gap-4 bg-white px-2">
               <ToggleGroup type="multiple">
                 <ToggleGroupItem value="bold" aria-label="Toggle bold">
                   <Bold className="h-5 w-5" />
@@ -130,26 +130,25 @@ const CreateGuidelineForm = () => {
             </div>
 
             {/* markdown body */}
-            <div className="w-[75%] mt-[2rem] mx-auto bg-white min-h-[120dvh] ">
+            <div className="mx-auto mt-[2rem] min-h-[120dvh] w-[75%] bg-white ">
               <MDXEditor
                 markdown=""
                 plugins={[
-                  codeBlockPlugin({ defaultCodeBlockLanguage: "js" }),
+                  codeBlockPlugin({ defaultCodeBlockLanguage: 'js' }),
                   sandpackPlugin({ sandpackConfig: simpleSandpackConfig }),
                   codeMirrorPlugin({
-                    codeBlockLanguages: { js: "JavaScript", css: "CSS" },
+                    codeBlockLanguages: { js: 'JavaScript', css: 'CSS' },
                   }),
                   toolbarPlugin({
                     toolbarContents: () => (
                       <ConditionalContents
                         options={[
                           {
-                            when: (editor) =>
-                              editor?.editorType === "codeblock",
+                            when: editor => editor?.editorType === 'codeblock',
                             contents: () => <ChangeCodeMirrorLanguage />,
                           },
                           {
-                            when: (editor) => editor?.editorType === "sandpack",
+                            when: editor => editor?.editorType === 'sandpack',
                             contents: () => <ShowSandpackInfo />,
                           },
                           {
@@ -170,7 +169,7 @@ const CreateGuidelineForm = () => {
           </section>
         </div>
 
-        <section className="flex h-full min-h-[5rem] w-full items-center mt-2 justify-between rounded-br-lg rounded-bl-lg bg-white shadow p-6">
+        <section className="mt-2 flex h-full min-h-[5rem] w-full items-center justify-between rounded-bl-lg rounded-br-lg bg-white p-6 shadow">
           <span className="w-fit">
             <svg
               width="24"
@@ -188,8 +187,8 @@ const CreateGuidelineForm = () => {
                 fill="#6F767E"
               />
               <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M21.7063 7.24602C22.0968 7.63654 22.0968 8.26971 21.7063 8.66023L14.0705 16.296C12.899 17.4676 10.9995 17.4676 9.8279 16.296L7.24211 13.7102C6.85159 13.3197 6.85159 12.6865 7.24211 12.296C7.63264 11.9055 8.2658 11.9055 8.65633 12.296L11.2421 14.8818C11.6326 15.2723 12.2658 15.2723 12.6563 14.8818L20.2921 7.24602C20.6826 6.85549 21.3158 6.85549 21.7063 7.24602Z"
                 fill="#6F767E"
               />
