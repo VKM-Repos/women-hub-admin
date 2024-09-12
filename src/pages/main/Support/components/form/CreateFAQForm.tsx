@@ -11,7 +11,6 @@ import { Category } from "@/types/category.types";
 import Icon from "@/components/icons/Icon";
 import { Button } from "@/components/ui/button";
 import { SelectItem } from "@/components/ui/select";
-import { useGET } from "@/hooks/useGET.hook";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { API_BASE_URLS } from "@/config/api.config";

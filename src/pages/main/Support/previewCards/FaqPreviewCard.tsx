@@ -7,10 +7,8 @@ import { cn } from "@/lib/utils";
 import Icon from "@/components/icons/Icon";
 import { SupportButtons } from "../components/SupportButtons";
 import { Link } from "react-router-dom";
-import { usePOST } from "@/hooks/usePOST.hook";
 import { API_BASE_URLS } from "@/config/api.config";
 import { usePATCH } from "@/hooks/usePATCH.hook";
-import { useState } from "react";
 
 type Props = {
   showFilters: boolean;
@@ -49,9 +47,7 @@ function FaqPreviewCard({
     console.log(id);
     navigate(`/FAQs/${id}`);
   };
-  const handlePublishFAQ = (id: string) => {
-    // console.log(data);
-
+  const handlePublishFAQ = () => {
     try {
       // data.question = "updated2";
       data.status = "Published";
@@ -126,7 +122,7 @@ function FaqPreviewCard({
               <SupportButtons
                 icon={<Icon name="publishingIcon" />}
                 label="Publish"
-                onClick={() => handlePublishFAQ(data?.id)}
+                onClick={handlePublishFAQ}
               />
             )}
             <SupportButtons

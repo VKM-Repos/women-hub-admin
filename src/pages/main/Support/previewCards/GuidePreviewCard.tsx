@@ -7,7 +7,6 @@ import Icon from "@/components/icons/Icon";
 import { cn } from "@/lib/utils";
 import { SupportButtons } from "../components/SupportButtons";
 import { Link } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
 import { usePATCH } from "@/hooks/usePATCH.hook";
 import { API_BASE_URLS } from "@/config/api.config";
 
@@ -49,7 +48,7 @@ function GuidePreviewCard({
     console.log(id);
     navigate(`/guide/${id}`);
   };
-  const handlePublishGuide = (id: string) => {
+  const handlePublishGuide = () => {
     try {
       // data.question = "updated2";
       data.status = "Published";
@@ -131,7 +130,7 @@ function GuidePreviewCard({
               <SupportButtons
                 icon={<Icon name="publishingIcon" />}
                 label="Publish"
-                onClick={() => handlePublishGuide(data?.id)}
+                onClick={handlePublishGuide}
               />
             )}
             <SupportButtons
