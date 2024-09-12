@@ -8,6 +8,7 @@ import Loading from "@/components/shared/Loading";
 import { useEffect, useState } from "react";
 import Pagination from "./components/Pagination";
 import { API_BASE_URLS } from "@/config/api.config";
+import { faqData } from "./mockupData/faq-mockup-data";
 
 export default function FAQs() {
   const location = useLocation();
@@ -96,10 +97,12 @@ export default function FAQs() {
     setStatusFilter(status);
   };
 
+  const test = faqData;
+
   return (
     <div className="mx-10">
       <GuideHeroSection data={guide} />
-      <section className="flex flex-col gap-y-6">
+      {/* <section className="flex flex-col gap-y-6">
         <Filters
           showFilters={showFilters}
           setShowFilters={setShowFilters}
@@ -109,8 +112,6 @@ export default function FAQs() {
           toggleSelectAll={toggleSelectAll}
           setSearchTerm={setSearchTerm}
           onStatusFilterChange={handleStatusFilterChange}
-          // handleFilter={handleFilter}
-          // toggleCheckedAll={toggleCheckedAll}
           page="FAQs"
         />
 
@@ -119,6 +120,47 @@ export default function FAQs() {
             <Loading />
           ) : Array.isArray(FAQs) && FAQs.length > 0 ? (
             FAQs.map((faq: Faq) => (
+              <FaqPreviewCard
+                key={faq.id}
+                showFilters={showFilters}
+                data={faq}
+                isSelected={selectedFAQs.includes(faq.id)}
+                toggleFAQSelection={() => toggleFAQSelection(faq.id)}
+              />
+            ))
+          ) : (
+            <>No Result</>
+          )}
+        </div>
+        <div className="flex items-center justify-end space-x-2 py-4">
+          <Pagination
+            handlePrevious={handlePreviousPage}
+            handleNext={handleNextPage}
+            currentPage={currentPage + 1}
+            numberOfElements={FAQs?.numberOfElements ?? 0}
+            totalElements={FAQs?.totalElements ?? 0}
+          />
+        </div>
+      </section> */}
+
+      <section className="flex flex-col gap-y-6">
+        <Filters
+          showFilters={showFilters}
+          setShowFilters={setShowFilters}
+          data={test}
+          selectedCount={selectedFAQs}
+          totalCount={filteredFAQs.length}
+          toggleSelectAll={toggleSelectAll}
+          setSearchTerm={setSearchTerm}
+          onStatusFilterChange={handleStatusFilterChange}
+          page="FAQs"
+        />
+
+        <div className="flex flex-col gap-4">
+          {isLoading || isRefetching ? (
+            <Loading />
+          ) : Array.isArray(test) && test.length > 0 ? (
+            test.map((faq: any) => (
               <FaqPreviewCard
                 key={faq.id}
                 showFilters={showFilters}

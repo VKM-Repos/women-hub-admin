@@ -25,12 +25,71 @@ const CreateFAQForm = () => {
     baseURL: API_BASE_URLS.supportServive,
   });
 
-  const { data: categories } = useGET({
-    url: "categories",
-    queryKey: ["categories"],
-    withAuth: true,
-    enabled: true,
-  });
+  const categories = [
+    {
+      id: 1,
+      name: "Getting Started",
+      imageUrl: "May 8, 2024",
+      createdAt: "May 8, 2024",
+      updatedAt: "May 8, 2024",
+    },
+    {
+      id: 2,
+      name: "User Profiles",
+      imageUrl: "May 8, 2024",
+      createdAt: "May 8, 2024",
+      updatedAt: "May 8, 2024",
+    },
+    {
+      id: 3,
+      name: "Features and Services",
+      imageUrl: "May 8, 2024",
+      createdAt: "May 8, 2024",
+      updatedAt: "May 8, 2024",
+    },
+    {
+      id: 4,
+      name: "Community Engagement",
+      imageUrl: "May 8, 2024",
+      createdAt: "May 8, 2024",
+      updatedAt: "May 8, 2024",
+    },
+    {
+      id: 5,
+      name: "Resources",
+      imageUrl: "May 8, 2024",
+      createdAt: "May 8, 2024",
+      updatedAt: "May 8, 2024",
+    },
+    {
+      id: 6,
+      name: "Health and Wellness",
+      imageUrl: "May 8, 2024",
+      createdAt: "May 8, 2024",
+      updatedAt: "May 8, 2024",
+    },
+    {
+      id: 7,
+      name: "Technology and Tools",
+      imageUrl: "May 8, 2024",
+      createdAt: "May 8, 2024",
+      updatedAt: "May 8, 2024",
+    },
+    {
+      id: 8,
+      name: "Policies and Guidelines",
+      imageUrl: "May 8, 2024",
+      createdAt: "May 8, 2024",
+      updatedAt: "May 8, 2024",
+    },
+  ];
+
+  // const { data: categories } = useGET({
+  //   url: "categories",
+  //   queryKey: ["categories"],
+  //   withAuth: true,
+  //   enabled: true,
+  // });
 
   const form = useForm<z.infer<typeof createFAQSchema>>({
     resolver: zodResolver(createFAQSchema),
@@ -40,6 +99,7 @@ const CreateFAQForm = () => {
       answer: state.details?.answer ? state.details.answer : "",
       created_at: state.details?.created_at ? state.details.created_at : "",
       updated_at: state.details?.updated_at ? state.details.updated_at : "",
+      status: "",
     },
   });
 
@@ -56,8 +116,7 @@ const CreateFAQForm = () => {
     const timestamp = new Date().toISOString();
     data.created_at = timestamp;
     data.updated_at = timestamp;
-
-    console.log(data);
+    data.status = "Draft";
 
     mutate(data, {
       onSuccess: () => {
@@ -96,7 +155,8 @@ const CreateFAQForm = () => {
             label="Category"
             placeholder="Select a category"
           >
-            {categories?.content.map((category: Category) => (
+            {/* categories?.content.map((category: Category) */}
+            {categories?.map((category: Category) => (
               <SelectItem key={category.name} value={category.name}>
                 <div className="flex cursor-pointer items-center gap-2">
                   <p>{category.name}</p>

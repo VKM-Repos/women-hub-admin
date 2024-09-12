@@ -9,6 +9,7 @@ export const createFAQSchema = z.object({
   category: z.string(),
   created_at: z.string(),
   updated_at: z.string(),
+  status: z.string(),
 });
 
 export const createGuideSchema = z.object({

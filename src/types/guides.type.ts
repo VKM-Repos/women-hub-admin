@@ -7,4 +7,4 @@ export type Guide = {
   editor: string;
 };
 
-type GuideStatus = "DRAFT" | "PUBLISH" | "ARCHIVED" | null;
+type GuideStatus = "Draft" | "Published" | "Archived" | null;

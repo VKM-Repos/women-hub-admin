@@ -139,7 +139,7 @@ const CreateGuidelineForm = () => {
 
           {/* Image */}
           <div className="rounded-md w-full ">
-            <div className="bg-gray-200 h-[200px] rounded-md flex justify-center items-center w-full">
+            <div className="bg-gray-200 h-[200px] rounded-md flex justify-center items-center w-full relative">
               <img
                 src={
                   coverPreview ||
@@ -159,6 +159,7 @@ const CreateGuidelineForm = () => {
               <Button
                 variant="outline"
                 className="flex items-center gap-2 absolute"
+                // style={{ position: "fixed" }}
                 onClick={() => handleChooseFile()}
                 type="button"
               >

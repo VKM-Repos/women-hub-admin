@@ -9,4 +9,4 @@ export type Faq = {
   category: string;
 };
 
-type FaqStatus = "DRAFT" | "PUBLISHED" | "ARCHIVED" | null;
+type FaqStatus = "Draft" | "Published" | "Archived" | null;
