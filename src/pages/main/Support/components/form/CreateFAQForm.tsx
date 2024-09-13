@@ -15,13 +15,26 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { API_BASE_URLS } from "@/config/api.config";
 import { useLocation } from "react-router-dom";
+import { usePATCH } from "@/hooks/usePATCH.hook";
 
 const CreateFAQForm = () => {
+  // fetch the data attach to the link
   const { state } = useLocation();
 
   const navigate = useNavigate();
   const { mutate, isPending: pendingCreatingFAQ } = usePOST("faqs", {
     baseURL: API_BASE_URLS.supportServive,
+  });
+
+  const { mutate: updPublishFAQ } = usePATCH(`faqs/${state.details?.id}`, {
+    baseURL: API_BASE_URLS.supportServive,
+    method: "PATCH",
+    callback: () => {
+      toast.success("FAQ Published");
+      setTimeout(() => {
+        navigate("/support");
+      }, 1000);
+    },
   });
 
   const categories = [
@@ -96,6 +109,7 @@ const CreateFAQForm = () => {
     defaultValues: {
       question: state.details?.question ? state.details.question : "",
       answer: state.details?.answer ? state.details.answer : "",
+      category: state.details?.category ? state.details.category : "",
       created_at: state.details?.created_at ? state.details.created_at : "",
       updated_at: state.details?.updated_at ? state.details.updated_at : "",
       status: "",
@@ -103,40 +117,68 @@ const CreateFAQForm = () => {
   });
 
   function onSubmit(data: z.infer<typeof createFAQSchema>) {
-    toast.success(`Added FAQ.........`, {
-      position: "bottom-right",
-      style: {
-        backgroundColor: "green",
-        color: "white",
-        textAlign: "left",
-      },
-      icon: "",
-    });
-    const timestamp = new Date().toISOString();
-    data.created_at = timestamp;
-    data.updated_at = timestamp;
-    data.status = "Draft";
+    if (state?.operation === "Edit") {
+      const timestamp = new Date().toISOString();
 
-    mutate(data, {
-      onSuccess: () => {
-        toast.success("Published", {
-          position: "bottom-right",
-          style: {
-            backgroundColor: "green",
-            color: "white",
-            textAlign: "left",
-          },
-          icon: "",
-        });
+      data.updated_at = timestamp;
+      data.status = "Published";
 
-        form.reset();
-        navigate("/"); // Navigate after successful submission
-      },
-      onError: (error) => {
-        console.error("Error creating FAQ:", error);
-        toast.error("Error creating FAQ.");
-      },
-    });
+      updPublishFAQ(data, {
+        onSuccess: () => {
+          toast.success("Published", {
+            position: "bottom-right",
+            style: {
+              backgroundColor: "green",
+              color: "white",
+              textAlign: "left",
+            },
+            icon: "",
+          });
+
+          form.reset();
+          navigate("/support");
+        },
+        onError: (error) => {
+          console.error("Error Updating and publishing FAQ:", error);
+          alert("Error Updating and publishing FAQ.");
+        },
+      });
+    } else {
+      toast.success(`Added FAQ.........`, {
+        position: "bottom-right",
+        style: {
+          backgroundColor: "green",
+          color: "white",
+          textAlign: "left",
+        },
+        icon: "",
+      });
+      const timestamp = new Date().toISOString();
+      data.created_at = timestamp;
+      data.updated_at = timestamp;
+      data.status = "Published";
+
+      mutate(data, {
+        onSuccess: () => {
+          toast.success("Published", {
+            position: "bottom-right",
+            style: {
+              backgroundColor: "green",
+              color: "white",
+              textAlign: "left",
+            },
+            icon: "",
+          });
+
+          form.reset();
+          navigate("/support"); // Navigate after successful submission
+        },
+        onError: (error) => {
+          console.error("Error creating FAQ:", error);
+          toast.error("Error creating FAQ.");
+        },
+      });
+    }
   }
 
   return (
@@ -190,8 +232,18 @@ const CreateFAQForm = () => {
             type="submit"
             onClick={form.handleSubmit(onSubmit)}
             disabled={pendingCreatingFAQ}
+            className="w-[117px] h-[48px]"
           >
-            Save
+            {state.operation === "Edit" ? (
+              "Update"
+            ) : (
+              <div className="flex items-center">
+                <div className="mr-2">
+                  <Icon name="saveSupportIcon" />
+                </div>
+                <span>Save</span>
+              </div>
+            )}
           </Button>
         </section>
       </form>

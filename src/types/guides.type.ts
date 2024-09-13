@@ -1,6 +1,7 @@
 export type Guide = {
   id: string;
   title: string;
+  content: string;
   image: string;
   date: string;
   status: GuideStatus;

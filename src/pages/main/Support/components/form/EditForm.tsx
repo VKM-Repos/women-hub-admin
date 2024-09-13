@@ -16,8 +16,8 @@ const EditForm = ({ data }: Props) => {
     resolver: zodResolver(createGuideSchema),
     defaultValues: {
       title: data.title,
-      body: data.description,
-      coverImageUrl: data.coverImageUrl,
+      content: data.content,
+      coverImage: data.coverImage,
     },
   });
 

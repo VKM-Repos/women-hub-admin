@@ -2,6 +2,7 @@ export const guideData = [
   {
     id: "1",
     title: "How to Create an organization on WomenHu",
+    content: "sdjfgubswvyhdgbsyubudsayvchsd",
     image: "test.jn",
     date: "May 8, 2024",
     status: "Draft",
@@ -13,6 +14,7 @@ export const guideData = [
   {
     id: "2",
     title: "How to Create an organization on WomenHu",
+    content: "sdjfgubswvyhdgbsyubudsayvchsd",
     image: "test.jn",
     date: "May 8, 2024",
     status: "Draft",
@@ -24,6 +26,7 @@ export const guideData = [
   {
     id: "3",
     title: "How to Create an organization on WomenHu",
+    content: "sdjfgubswvyhdgbsyubudsayvchsd",
     image: "test.jn",
     date: "May 8, 2024",
     status: "Draft",

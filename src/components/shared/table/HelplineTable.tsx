@@ -29,10 +29,11 @@ import { Link } from "react-router-dom";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { PlusIcon } from "lucide-react";
+import { Help } from "@/types/hepline.types";
 
 type tableProps = {
-  columns: ColumnDef<string>[];
-  data: any[] | string[];
+  columns: ColumnDef<Help>[];
+  data: Help[];
   handlePrevious: () => void;
   handleNext: () => void;
   currentPage: number;
@@ -105,17 +106,17 @@ export default function HelplineTable({
             <Input
               placeholder="Search Articles"
               value={
-                (table.getColumn("helpline")?.getFilterValue() as string) ?? ""
+                (table.getColumn("name")?.getFilterValue() as string) ?? ""
               }
               onChange={(event) =>
-                table.getColumn("helpline")?.setFilterValue(event.target.value)
+                table.getColumn("name")?.setFilterValue(event.target.value)
               }
               className="w-full border-none bg-transparent focus:outline-none"
             />
           </div>
           <div>
             <Link
-              to={`/support/create-helpline`}
+              to={`/support/addHelpline`}
               className={cn(
                 buttonVariants({ variant: "secondary", size: "lg" }),
                 "flex gap-2 text-white rounded-[12px]"

@@ -1,15 +1,15 @@
-import { useNavigate, useParams } from 'react-router-dom';
-import PostHeader from '../components/PostHeader';
-import toast from 'react-hot-toast';
-import Loading from '@/components/shared/Loading';
-import EditEditorForm from './form/EditEditorForm';
-import EditPostForm from './form/EditPostForm';
-import { useGET } from '@/hooks/useGET.hook';
-import { useEditPostFormStore } from '@/store/useEditPostForm.store';
-import { usePOST } from '@/hooks/usePOST.hook';
-import { useEffect, useState } from 'react';
-import { usePATCH } from '@/hooks/usePATCH.hook';
-import { AlertGoBack } from '../components/AlertGoBack';
+import { useNavigate, useParams } from "react-router-dom";
+import PostHeader from "../components/PostHeader";
+import toast from "react-hot-toast";
+import Loading from "@/components/shared/Loading";
+import EditEditorForm from "./form/EditEditorForm";
+import EditPostForm from "./form/EditPostForm";
+import { useGET } from "@/hooks/useGET.hook";
+import { useEditPostFormStore } from "@/store/useEditPostForm.store";
+import { usePOST } from "@/hooks/usePOST.hook";
+import { useEffect, useState } from "react";
+import { usePATCH } from "@/hooks/usePATCH.hook";
+import { AlertGoBack } from "../components/AlertGoBack";
 
 const PostDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -23,7 +23,7 @@ const PostDetailsPage = () => {
     refetch,
   } = useGET({
     url: `admin/posts/${id}`,
-    queryKey: ['posts details'],
+    queryKey: ["posts details"],
     withAuth: true,
     enabled: true,
   });
@@ -36,13 +36,13 @@ const PostDetailsPage = () => {
     `admin/posts/${id}`,
     {
       callback: () => {
-        toast.success('Post updated');
+        toast.success("Post updated");
         resetStore();
-        navigate('/posts');
+        navigate("/posts");
         refetch();
       },
-      contentType: 'multipart/form-data',
-      method: 'PATCH',
+      contentType: "multipart/form-data",
+      method: "PATCH",
     }
   );
 
@@ -50,9 +50,9 @@ const PostDetailsPage = () => {
     `admin/posts/${id}/publish`,
     {
       callback: () => {
-        toast.success('Post published');
+        toast.success("Post published");
         resetStore();
-        navigate('/posts');
+        navigate("/posts");
         refetch();
       },
     }
@@ -61,9 +61,9 @@ const PostDetailsPage = () => {
     `admin/posts/${id}/drafts`,
     {
       callback: () => {
-        toast.success('Post saved to draft');
+        toast.success("Post saved to draft");
         resetStore();
-        navigate('/posts');
+        navigate("/posts");
         refetch();
       },
     }
@@ -80,20 +80,20 @@ const PostDetailsPage = () => {
   const handleUpdate = () => {
     try {
       const formData = new FormData();
-      formData.append('title', data.title);
-      formData.append('author', data.author);
-      formData.append('description', data.description);
-      formData.append('categoryId', data.categoryId);
-      formData.append('body', data.body);
+      formData.append("title", data.title);
+      formData.append("author", data.author);
+      formData.append("description", data.description);
+      formData.append("categoryId", data.categoryId);
+      formData.append("body", data.body);
       if (data?.coverImage) {
-        formData.append('coverImage', data.coverImage);
+        formData.append("coverImage", data.coverImage);
       }
 
       updatePost(formData);
       refetch();
     } catch (error) {
       console.log(error);
-      toast.error('Failed to update post');
+      toast.error("Failed to update post");
     }
   };
 
@@ -116,7 +116,7 @@ const PostDetailsPage = () => {
   };
 
   const handleConfirmLeave = () => {
-    navigate('/posts');
+    navigate("/posts");
     resetStore();
   };
 
@@ -126,11 +126,11 @@ const PostDetailsPage = () => {
       setShowDialog(true);
     };
 
-    window.addEventListener('popstate', handlePopState);
-    window.history.pushState({ modalOpened: false }, '');
+    window.addEventListener("popstate", handlePopState);
+    window.history.pushState({ modalOpened: false }, "");
 
     return () => {
-      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener("popstate", handlePopState);
     };
   }, []);
 

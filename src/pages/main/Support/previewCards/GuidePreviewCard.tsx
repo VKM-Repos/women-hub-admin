@@ -25,9 +25,8 @@ function GuidePreviewCard({
 }: Props) {
   const navigate = useNavigate();
 
-  const { mutate: publishGuide } = usePATCH(`guides/${data.id}`, {
+  const { mutate: publishGuide } = usePATCH(`guides-with-file/${data.id}`, {
     baseURL: API_BASE_URLS.supportServive,
-    method: "PATCH",
     callback: () => {
       toast.success("Guide Published");
       setTimeout(() => {
@@ -97,7 +96,7 @@ function GuidePreviewCard({
                   "fontlight text-xs capitalize",
                   data?.status === "Draft"
                     ? "text-secondary"
-                    : data?.status === "Publish"
+                    : data?.status === "Published"
                     ? "text-textPrimary"
                     : data?.status === "Archived"
                     ? " text-yellow-400"

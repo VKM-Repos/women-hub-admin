@@ -74,7 +74,14 @@ function FaqPreviewCard({
           />
         </div>
       )}
-      <Link to={`/support/faq/${data.id}`}>
+      <Link
+        to={`/support/faq/${data.id}`}
+        state={{
+          pageName: "faq",
+          operation: "Edit",
+          details: data,
+        }}
+      >
         <div className={`flex  grid w-full grid-cols-10 gap-6`}>
           <div className="col-span-9 space-y-1">
             <h5 className="font-normal text-[#106840] w-full max-w-xl truncate text-base">

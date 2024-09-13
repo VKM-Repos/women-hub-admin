@@ -8,7 +8,7 @@ import Loading from "@/components/shared/Loading";
 import { useEffect, useState } from "react";
 import Pagination from "./components/Pagination";
 import { API_BASE_URLS } from "@/config/api.config";
-import { faqData } from "./mockupData/faq-mockup-data";
+// import { faqData } from "./mockupData/faq-mockup-data";
 
 export default function FAQs() {
   const location = useLocation();
@@ -97,12 +97,12 @@ export default function FAQs() {
     setStatusFilter(status);
   };
 
-  const test = faqData;
+  // const test = faqData;
 
   return (
     <div className="mx-10">
       <GuideHeroSection data={guide} />
-      {/* <section className="flex flex-col gap-y-6">
+      <section className="flex flex-col gap-y-6">
         <Filters
           showFilters={showFilters}
           setShowFilters={setShowFilters}
@@ -141,9 +141,9 @@ export default function FAQs() {
             totalElements={FAQs?.totalElements ?? 0}
           />
         </div>
-      </section> */}
+      </section>
 
-      <section className="flex flex-col gap-y-6">
+      {/* <section className="flex flex-col gap-y-6">
         <Filters
           showFilters={showFilters}
           setShowFilters={setShowFilters}
@@ -182,7 +182,7 @@ export default function FAQs() {
             totalElements={FAQs?.totalElements ?? 0}
           />
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }
