@@ -112,6 +112,9 @@ const PostDetailsPage = () => {
   const handleGoBack = () => {
     if (step > 1) {
       setStep(step - 1);
+    } else {
+      resetStore();
+      navigate('/posts');
     }
   };
 
