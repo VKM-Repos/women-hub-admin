@@ -120,10 +120,11 @@ import { useNavigate } from "react-router-dom";
 export default function Helplines() {
   const navigate = useNavigate();
   // const [searchTerm, setSearchTerm] = useState<string>("");
-  const searchTerm = useState<string>("");
-  // Pagination states
-  const [currentPage, setCurrentPage] = useState<number>(0);
-  const [pageSize] = useState<number>(10);
+  // State for search term and pagination
+  const [searchTerm] = useState<string>(""); // Destructuring state and setter
+  const [currentPage, setCurrentPage] = useState<number>(0); // For pagination
+  const [pageSize] = useState<number>(10); // Static page size
+
   const [id, setId] = useState<{ id: string }>();
 
   const { mutate: changeHelpline } = usePATCH(`helpline/${id}`, {
@@ -287,6 +288,7 @@ export default function Helplines() {
     ? `helplines/search?title=${searchTerm}&page=${currentPage}&size=${pageSize}`
     : `helplines?page=${currentPage}&size=${pageSize}`;
 
+  // Fetching helplines data using the GET request hook
   const {
     data: helplines,
     isLoading,
@@ -304,13 +306,22 @@ export default function Helplines() {
     enabled: true,
   });
 
+  // Log fetched data to the console for debugging
   useEffect(() => {
-    // The query URL will be updated when currentPage or searchTerm changes
-    refetch();
-  }, [searchTerm, currentPage]);
+    console.log("Fetched Helplines:", helplines);
+  }, [helplines]);
 
+  // Refetch data when searchTerm or currentPage changes
+  useEffect(() => {
+    refetch();
+  }, [searchTerm, currentPage, refetch]);
+
+  // Handlers for pagination
   const handleNextPage = () => {
-    if (helplines?.totalElements && currentPage < helplines.totalElements - 1) {
+    if (
+      helplines?.totalElements &&
+      currentPage < helplines.totalElements / pageSize - 1
+    ) {
       setCurrentPage((prevPage) => prevPage + 1);
     }
   };
