@@ -34,7 +34,6 @@ const EditEditorForm = ({ handleNext, data }: Props) => {
 
   const handleAutoSave = (content: string) => {
     setData({
-      ...data,
       body: content,
     });
   };

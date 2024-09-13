@@ -78,32 +78,67 @@ const EditPostForm = ({ handleNext, data }: Props) => {
     setIsExternalEditor(selectedAuthor === 'Other Editors');
   }, [selectedAuthor]);
 
+  type DataToSend = {
+    title: string;
+    author?: string;
+    description: string;
+    coverImage?: string;
+    coverImagePreview: string;
+    categoryId: string;
+    externalEditorName?: string;
+    body: string;
+  };
+
   const onSubmit = async (values: z.infer<typeof editBlogPostSchema>) => {
     const author = isExternalEditor
       ? values.externalEditorName
       : selectedAuthor;
 
-    let imageUrl: string | undefined;
-    if (typeof values.coverImage === 'string') {
-      imageUrl = values.coverImage;
-    } else if (values.coverImage instanceof File) {
-      imageUrl = URL.createObjectURL(values.coverImage);
+    const existingCoverImage = data.coverImageUrl;
+    const currentCoverImage = values.coverImage;
+    let previewUrl: string | undefined;
+    let imageUrl: any;
+
+    if (currentCoverImage !== existingCoverImage) {
+      // If the cover image has changed
+      if (currentCoverImage instanceof File) {
+        // The cover image is a file
+        previewUrl = URL.createObjectURL(currentCoverImage);
+        imageUrl = values.coverImage;
+      } else if (typeof currentCoverImage === 'string') {
+        previewUrl = currentCoverImage;
+        imageUrl = currentCoverImage;
+      } else {
+        console.error('Invalid cover image type.');
+        return;
+      }
     } else {
-      console.error('Invalid cover image type.');
-      return; // Exit if the coverImage type is invalid
+      // If the cover image has not changed
+      previewUrl = existingCoverImage;
+      imageUrl = undefined;
     }
 
-    setData({
-      ...values,
+    // Create the data object with optional fields
+    const dataToSend: DataToSend = {
       title: values.title,
       author: author,
       description: values.description,
-      coverImage: values.coverImage,
-      coverImagePreview: imageUrl,
+      coverImage: imageUrl, // Only include coverImage if it's new
+      coverImagePreview: previewUrl,
       categoryId: values.categoryId,
-    });
+      externalEditorName: isExternalEditor
+        ? values.externalEditorName
+        : undefined,
+      body: values.body,
+    };
 
-    console.log(data);
+    // Only include fields that are not undefined
+    const finalDataToSend = Object.fromEntries(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      Object.entries(dataToSend).filter(([_, value]) => value !== undefined)
+    );
+
+    setData(finalDataToSend as DataToSend);
 
     handleNext();
   };
