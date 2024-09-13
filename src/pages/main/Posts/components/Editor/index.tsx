@@ -1,8 +1,7 @@
-import { useRef, useEffect, useCallback } from 'react';
-import { EditorContent, useEditor } from '@tiptap/react';
-import defaultExtensions from './extensions';
+import { EditorContent } from '@tiptap/react';
 import EditorToolbar from './EditorToolbar';
 import Bubble from './Bubble';
+import { useEditorWithDebounce } from './use-editor-with-debounce';
 
 type Props = {
   onChange: (richText: string) => void;
@@ -11,56 +10,29 @@ type Props = {
 };
 
 export default function Editor({ body, onChange, onAutoSave }: Props) {
-  const editor = useEditor({
-    content: body,
-    extensions: [...defaultExtensions],
-    onUpdate({ editor }) {
-      const newContent = editor.getHTML();
-      onChange(newContent);
-    },
-    editorProps: {
-      attributes: {
-        class:
-          'h-[90dvh] !p-[1.5rem] !tiptap overflow-y-auto border-none focus:outline-none space-y-6',
-      },
-    },
-  });
-
-  const timeoutIdRef = useRef<NodeJS.Timeout | null>(null);
-
-  const autoSave = useCallback(() => {
-    if (editor) {
-      const content = editor.getHTML();
-      onAutoSave(content);
-      console.log(content);
-    }
-  }, [editor, onAutoSave]);
-
-  useEffect(() => {
-    if (editor) {
-      const handleEditorChange = () => {
-        if (timeoutIdRef.current) {
-          clearTimeout(timeoutIdRef.current);
-        }
-
-        timeoutIdRef.current = setTimeout(() => {
-          autoSave();
-        }, 1500);
-      };
-
-      editor.on('update', handleEditorChange);
-
-      return () => {
-        editor.off('update', handleEditorChange);
-        if (timeoutIdRef.current) {
-          clearTimeout(timeoutIdRef.current);
-        }
-      };
-    }
-  }, [editor, autoSave]);
+  const { editor, charsCount, saveStatus } = useEditorWithDebounce(
+    body,
+    onChange,
+    onAutoSave
+  );
 
   return (
-    <div className="bg-background mx-auto min-h-screen w-[95%] overflow-hidden rounded-[1rem] border-2">
+    <div className="bg-background relative mx-auto min-h-screen w-[95%] overflow-hidden rounded-[1rem] border-2">
+      <div className="absolute right-5 top-5 z-10 mb-5 flex gap-2">
+        <div className="bg-accent text-muted-foreground rounded-lg px-2 py-1 text-xs">
+          {saveStatus}
+        </div>
+        <div
+          className={
+            charsCount
+              ? 'bg-accent text-muted-foreground rounded-lg px-2 py-1 text-xs'
+              : 'hidden'
+          }
+        >
+          {charsCount} Words
+        </div>
+      </div>
+
       {editor && (
         <>
           <Bubble editor={editor} />

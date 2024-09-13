@@ -14,22 +14,42 @@ import { Form } from '@/components/ui/form';
 import CustomFormField, {
   FormFieldType,
 } from '@/components/form/custom-form-fields';
+import { useState } from 'react';
 
 type Props = {
   editor?: Editor | null;
 };
 
-export function AddImage(editor: Props) {
-  const form = useForm();
+type FormData = {
+  image: File | null;
+};
 
-  const onSubmit = () => {
-    console.log('hello');
+export function AddImage({ editor }: Props) {
+  const [isOpen, setIsOpen] = useState(false);
+  const form = useForm<FormData>({
+    defaultValues: {
+      image: null,
+    },
+  });
+
+  const onSubmit = (data: FormData) => {
+    if (data.image && editor) {
+      // Create a URL for the uploaded image
+      const imageUrl = URL.createObjectURL(data.image);
+
+      // Insert the image into the editor at the current position
+      editor.chain().focus().setImage({ src: imageUrl }).run();
+
+      console.log('Image added to editor:', imageUrl);
+      setIsOpen(false);
+    }
   };
+
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild className="border-none">
         <Toggle size="sm" aria-label="Toggle image" title="image">
-          <Icons.imagePlus className="h-4 w-4" />
+          <Icons.picture className="h-5 w-5" />
         </Toggle>
       </DialogTrigger>
       <DialogContent className="w-full max-w-2xl bg-white">
@@ -47,14 +67,18 @@ export function AddImage(editor: Props) {
                 <CustomFormField
                   fieldType={FormFieldType.IMAGE_UPLOAD}
                   control={form.control}
-                  name=""
-                  label=""
-                  // initialImage={data?.coverImageUrl}
+                  name="image"
+                  label="Upload Image"
                 />
               </div>
 
               <div className="flex w-full place-content-end">
-                <Button variant="secondary" size="lg" className="w-fit">
+                <Button
+                  variant="secondary"
+                  size="lg"
+                  className="w-fit"
+                  type="submit"
+                >
                   Add
                 </Button>
               </div>

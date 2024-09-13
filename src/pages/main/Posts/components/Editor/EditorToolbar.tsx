@@ -33,6 +33,7 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
       <AddLink editor={editor} />
       <TextAlignGroup editor={editor} />
       <ListGroup editor={editor} />
+      {/*here is where i want to implement adding image  */}
       <AddImage editor={editor} />
       <Embed editor={editor} />
       <Typography editor={editor} />

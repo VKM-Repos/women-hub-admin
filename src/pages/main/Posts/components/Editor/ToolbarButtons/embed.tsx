@@ -14,32 +14,63 @@ import { Form } from '@/components/ui/form';
 import CustomFormField, {
   FormFieldType,
 } from '@/components/form/custom-form-fields';
-import { Code } from 'lucide-react';
+import { Code, EyeIcon } from 'lucide-react';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Icons } from '../icons';
 
 type Props = {
   editor?: Editor | null;
 };
 
-export function Embed(editor: Props) {
-  const form = useForm();
-  const [youtubeUrl, setYoutubeUrl] = useState<string>('');
+type FormData = {
+  videoUrl: string;
+};
 
-  // Function to extract video ID and validate the URL
+export function Embed({ editor }: Props) {
+  const form = useForm<FormData>({
+    defaultValues: {
+      videoUrl: '',
+    },
+  });
+  const [embedUrl, setEmbedUrl] = useState<string>('');
+  const [activeTab, setActiveTab] = useState<string>('youtube');
+
+  // Functions to extract and validate video IDs from different platforms
   const getYouTubeEmbedUrl = (url: string) => {
     const regExp =
-      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
     const match = url.match(regExp);
     return match && match[2].length === 11
       ? `https://www.youtube.com/embed/${match[2]}`
       : null;
   };
 
-  const onSubmit = (data: { videoUrl: string }) => {
-    const embedUrl = getYouTubeEmbedUrl(data.videoUrl);
-    if (embedUrl) {
-      setYoutubeUrl(embedUrl);
+  const getTwitterEmbedUrl = (url: string) => {
+    // Implement Twitter URL validation logic
+    return url ? `https://twitter.com/embed/${url}` : null;
+  };
+
+  const getFacebookEmbedUrl = (url: string) => {
+    // Implement Facebook URL validation logic
+    return url ? `https://facebook.com/embed/${url}` : null;
+  };
+
+  const onSubmit = (data: FormData) => {
+    let embedUrl: string | null = null;
+
+    if (activeTab === 'youtube') {
+      embedUrl = getYouTubeEmbedUrl(data.videoUrl);
+    } else if (activeTab === 'twitter') {
+      embedUrl = getTwitterEmbedUrl(data.videoUrl);
+    } else if (activeTab === 'facebook') {
+      embedUrl = getFacebookEmbedUrl(data.videoUrl);
+    }
+
+    if (embedUrl && editor) {
+      // editor.chain().focus().setEmbed({ src: embedUrl }).run();
+      setEmbedUrl(embedUrl);
     } else {
-      console.error('Invalid YouTube URL');
+      console.error('Invalid URL');
     }
   };
 
@@ -52,38 +83,60 @@ export function Embed(editor: Props) {
       </DialogTrigger>
       <DialogContent className="w-full max-w-2xl bg-white">
         <DialogHeader>
-          <DialogTitle>Embed YouTube Video</DialogTitle>
+          <DialogTitle className="flex items-center justify-start gap-5">
+            <span>Embed Type</span>
+            <Tabs
+              defaultValue="youtube"
+              onValueChange={value => setActiveTab(value)}
+            >
+              <TabsList className="flex w-fit items-center justify-center gap-1">
+                <TabsTrigger value="youtube">
+                  <Icons.youtube />
+                </TabsTrigger>
+                <TabsTrigger value="twitter">
+                  <Icons.x />
+                </TabsTrigger>
+                <TabsTrigger value="facebook">
+                  <Icons.facebook />
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </DialogTitle>
         </DialogHeader>
 
+        {/* Tab Content */}
         <div className="flex flex-col gap-6 p-6">
-          {/* Section 1: YouTube Preview */}
-          <div className="youtube-preview mb-4">
-            {youtubeUrl ? (
+          {/* Section 1: Embed Preview */}
+          <div className="bg-background mx-auto mb-4 flex h-[10rem] w-full items-center justify-center overflow-hidden rounded-md">
+            {embedUrl ? (
               <iframe
                 width="100%"
                 height="250"
-                src={youtubeUrl}
+                src={embedUrl}
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
-                title="YouTube video preview"
+                title="Embed preview"
               />
             ) : (
-              <p>No video to preview. Paste a YouTube URL below.</p>
+              <span className="mx-auto flex w-fit items-center gap-2 rounded-lg bg-white p-4 shadow-md">
+                <EyeIcon />
+                <p className="text-sm font-bold">{`Preview here`}</p>
+              </span>
             )}
           </div>
 
-          {/* Section 2: Form Input for YouTube URL */}
+          {/* Section 2: Form Input */}
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
               className="flex flex-col gap-y-6"
             >
               <CustomFormField
-                label="YouTube Video URL"
+                label={`${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} URL`}
                 control={form.control}
                 name="videoUrl"
-                placeholder="Paste YouTube link here"
+                placeholder={`Paste ${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} link here`}
                 fieldType={FormFieldType.INPUT}
               />
 
@@ -94,7 +147,8 @@ export function Embed(editor: Props) {
                   type="submit"
                   className="w-fit"
                 >
-                  Add Video
+                  Add {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}{' '}
+                  Embed
                 </Button>
               </div>
             </form>
