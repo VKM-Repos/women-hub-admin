@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import BlogImage from '@/assets/sample-blog-image.png';
 import NewsLetterSVG from './components/NewsLetterSVG';
 import { useCreatePostFormStore } from '@/store/useCreatePostForm.store';
-import './tiptap.css';
 import { useEditPostFormStore } from '@/store/useEditPostForm.store';
 import ImageWithFallback from '@/components/shared/ImageWithFallBack';
 import { useGET } from '@/hooks/useGET.hook';
@@ -104,7 +103,7 @@ const PostPreview = () => {
 
       <article className=" mx-auto mt-[5rem] w-[95%] max-w-[80%] space-y-10">
         <div
-          className="!tiptap font-quicksand space-y-6 overflow-hidden text-base font-medium md:text-lg"
+          className="tiptap font-quicksand space-y-6 overflow-hidden text-base font-medium md:text-lg"
           dangerouslySetInnerHTML={{
             __html: data.body ? data.body : editData?.body,
           }}

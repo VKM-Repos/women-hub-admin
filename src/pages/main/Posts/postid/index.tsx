@@ -80,17 +80,46 @@ const PostDetailsPage = () => {
   const handleUpdate = () => {
     try {
       const formData = new FormData();
-      formData.append("title", data.title);
-      formData.append("author", data.author);
-      formData.append("description", data.description);
-      formData.append("categoryId", data.categoryId);
-      formData.append("body", data.body);
-      if (data?.coverImage) {
+
+      // Only append fields that have been changed
+      if (data.title && data.title !== post.title) {
+        formData.append("title", data.title);
+      }
+
+      if (data.author && data.author !== post.author) {
+        formData.append("author", data.author);
+      }
+
+      if (data.description && data.description !== post.description) {
+        formData.append("description", data.description);
+      }
+
+      if (data.categoryId && data.categoryId !== post.categoryId) {
+        formData.append("categoryId", data.categoryId);
+      }
+
+      if (data.body && data.body !== post.body) {
+        formData.append("body", data.body);
+      }
+
+      if (data.coverImage && data.coverImage !== post.coverImage) {
         formData.append("coverImage", data.coverImage);
       }
 
-      updatePost(formData);
-      refetch();
+      // Only call the update API if there are fields to update
+      if (
+        formData.has("title") ||
+        formData.has("author") ||
+        formData.has("description") ||
+        formData.has("categoryId") ||
+        formData.has("body") ||
+        formData.has("coverImage")
+      ) {
+        updatePost(formData);
+        refetch();
+      } else {
+        toast.error("No changes made to update");
+      }
     } catch (error) {
       console.log(error);
       toast.error("Failed to update post");
@@ -114,7 +143,7 @@ const PostDetailsPage = () => {
       setStep(step - 1);
     } else {
       resetStore();
-      navigate('/posts');
+      navigate("/posts");
     }
   };
 
