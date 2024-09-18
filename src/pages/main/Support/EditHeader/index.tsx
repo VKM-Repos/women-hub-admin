@@ -38,7 +38,7 @@ const EditHeader = () => {
       <div className="rounded-lg bg-white w-full pb-[4rem]">
         <Header
           step={step}
-          title={data?.headerDetails?.title}
+          data={data?.headerDetails?.title}
           handleGoBack={handleGoBack}
         />
 

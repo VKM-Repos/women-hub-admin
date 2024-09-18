@@ -19,6 +19,7 @@ import Icon from "@/components/icons/Icon";
 import toast from "react-hot-toast";
 import { usePATCH } from "@/hooks/usePATCH.hook";
 import { useNavigate } from "react-router-dom";
+import { useDELETE } from "@/hooks/useDelete.hook";
 
 // type helpType = {
 //   id: string;
@@ -138,6 +139,16 @@ export default function Helplines() {
     },
   });
 
+  const { mutate: deleteHelpline } = useDELETE(`helplines/${id}`, {
+    baseURL: API_BASE_URLS.supportServive,
+    callback: () => {
+      toast.success("Helpline deleted successfully");
+      setTimeout(() => {
+        navigate("/support");
+      }, 1000);
+    },
+  });
+
   const handleActivateHelpline = (row: any) => {
     try {
       row.original.status = "Activate";
@@ -152,13 +163,33 @@ export default function Helplines() {
   const handleDeactivateHelpline = (row: any) => {
     try {
       row.original.status = "Suspended"; // Modify status
-      changeHelpline(row.original);
+      setId(row.original.id);
       changeHelpline(row.original); // Trigger the mutation for deactivation
     } catch (error) {
       console.error("Error Deactivating Helpline:", error);
       toast.error("Error Deactivating Helpline.");
     }
   };
+
+  const handleDeleteHelpline = (row: any) => {
+    // console.log(row);
+    try {
+      setId(row.original.id);
+      let formData = new FormData();
+      formData.append("faq_id", row.original.id);
+      formData.append("created_at", row.original.created_at);
+      formData.append("name", row.original.name);
+      formData.append("phone", row.original.phone);
+      formData.append("state_id", row.original.state_id);
+      formData.append("status", row.original.status);
+      formData.append("updated_at", row.original.updated_at);
+      deleteHelpline(formData);
+    } catch (error) {
+      console.error("Error Deactivating Helpline:", error);
+      toast.error("Error Deactivating Helpline.");
+    }
+  };
+
   const columns: ColumnDef<Help>[] = [
     {
       id: "select",
@@ -192,12 +223,22 @@ export default function Helplines() {
       ),
     },
     {
-      accessorKey: "state",
+      accessorKey: "state_id",
       header: "State",
-      cell: ({ row }) => (
-        <div className="capitalize">{row.getValue("state")} state</div>
-      ),
+      cell: ({ row }) => {
+        const stateId = row.getValue("state_id");
+        return (
+          <div className="capitalize">
+            {typeof stateId === "string"
+              ? stateId.charAt(0).toUpperCase() +
+                stateId.slice(1).toLowerCase() +
+                " state"
+              : "Unknown State"}
+          </div>
+        );
+      },
     },
+
     {
       accessorKey: "status",
       header: "Status",
@@ -274,6 +315,16 @@ export default function Helplines() {
                     <Icon name="activateIcon" />
                   </div>
                   <span>Activate</span>
+                </div>
+
+                <div
+                  className="flex flex-row items-center"
+                  onClick={() => handleDeleteHelpline(row)}
+                >
+                  <div className="mr-2">
+                    <Icon name="deletingIcon" />
+                  </div>
+                  <span>Delete</span>
                 </div>
               </div>
             </DropdownMenuContent>
