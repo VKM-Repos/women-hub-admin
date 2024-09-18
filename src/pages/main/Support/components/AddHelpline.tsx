@@ -1,10 +1,11 @@
 import Header from "../components/Header";
 
 import { useEditSupportHeaderForm } from "@/store/useEditSupportHeaderForm.store";
-
+import { useLocation } from "react-router-dom";
 import CreateHelplineForm from "./form/CreateHelplineForm";
 
 const AddHelpline = () => {
+  const { state } = useLocation();
   const { step, setStep } = useEditSupportHeaderForm();
 
   const handleGoBack = () => {
@@ -15,7 +16,7 @@ const AddHelpline = () => {
 
   return (
     <section className="mx-auto w-full space-y-1 md:w-[95%] pb-[5rem]">
-      <Header step={step} title={"Add Helpline"} handleGoBack={handleGoBack} />
+      <Header step={step} data={state} handleGoBack={handleGoBack} />
       <CreateHelplineForm />;
     </section>
   );

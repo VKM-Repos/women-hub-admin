@@ -28,6 +28,7 @@ import { useNavigate } from "react-router-dom";
 import { usePOST } from "@/hooks/usePOST.hook";
 import { API_BASE_URLS } from "@/config/api.config";
 import { useLocation } from "react-router-dom";
+import { usePATCH } from "@/hooks/usePATCH.hook";
 
 const CreateHelplineForm = () => {
   const { state } = useLocation();
@@ -39,21 +40,34 @@ const CreateHelplineForm = () => {
     baseURL: API_BASE_URLS.supportServive,
   });
 
+  const { mutate: updHelpline } = usePATCH(`helplines/${state.details?.id}`, {
+    baseURL: API_BASE_URLS.supportServive,
+    method: "PATCH",
+    callback: () => {
+      toast.success("Helpline Published");
+      setTimeout(() => {
+        navigate("/support");
+      }, 1000);
+    },
+  });
+
   const form = useForm<z.infer<typeof createHelplineSchema>>({
     resolver: zodResolver(createHelplineSchema),
     defaultValues: {
       name: state?.details.name ? state.details.name : "",
       phone: state?.details.phone ? state.details.phone : "",
-      state_id: state?.details.state ? state.details.state : "",
+      state_id: state?.details.state_id
+        ? state.details.state_id.charAt(0).toUpperCase() +
+          state.details.state_id.slice(1).toLowerCase()
+        : "",
       status: state?.details.status ? state.details.status : "",
     },
   });
 
   function onSubmit(data: z.infer<typeof createHelplineSchema>) {
-    console.log(data);
-    mutate(
-      { phone: data.phone, state_id: data.state_id, status: "Active" },
-      {
+    if (state?.operation === "Edit") {
+      data.status = "Active";
+      updHelpline(data, {
         onSuccess: () => {
           toast.success("Published", {
             position: "bottom-right",
@@ -66,14 +80,38 @@ const CreateHelplineForm = () => {
           });
 
           form.reset();
-          navigate("/"); // Navigate after successful submission
+          navigate("/support");
         },
         onError: (error) => {
-          console.error("Error creating Helpline:", error);
-          toast.error("Error creating Helpline.");
+          console.error("Error Updating and publishing Helpline:", error);
+          alert("Error Updating and publishing Helpline.");
         },
-      }
-    );
+      });
+    } else {
+      mutate(
+        { ...data, state_id: data.state_id.toUpperCase(), status: "Active" },
+        {
+          onSuccess: () => {
+            toast.success("Published", {
+              position: "bottom-right",
+              style: {
+                backgroundColor: "green",
+                color: "white",
+                textAlign: "left",
+              },
+              icon: "",
+            });
+
+            form.reset();
+            navigate("/"); // Navigate after successful submission
+          },
+          onError: (error) => {
+            console.error("Error creating Helpline:", error);
+            toast.error("Error creating Helpline.");
+          },
+        }
+      );
+    }
   }
 
   return (
