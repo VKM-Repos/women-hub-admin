@@ -282,12 +282,12 @@ export const routess = [
             title: "Create Helpline",
             hasSiderLink: false,
             component: AddHelpline,
-            path: "/support/create-helpline",
+            path: "/support/addHelpline",
           },
 
           {
             name: "Edit Header",
-            title: "EDit Header",
+            title: "Edit Header",
             hasSiderLink: false,
             component: EditHeader,
             path: "/support/editHeader",

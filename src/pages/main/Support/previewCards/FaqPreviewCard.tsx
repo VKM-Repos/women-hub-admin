@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 import Icon from "@/components/icons/Icon";
 import { SupportButtons } from "../components/SupportButtons";
 import { Link } from "react-router-dom";
+import { API_BASE_URLS } from "@/config/api.config";
+import { usePATCH } from "@/hooks/usePATCH.hook";
 
 type Props = {
   showFilters: boolean;
@@ -23,9 +25,19 @@ function FaqPreviewCard({
 }: Props) {
   const navigate = useNavigate();
 
+  const { mutate: publishFAQ } = usePATCH(`faqs/${data.id}`, {
+    baseURL: API_BASE_URLS.supportServive,
+    method: "PATCH",
+    callback: () => {
+      toast.success("FAQ Published");
+      setTimeout(() => {
+        navigate("/support");
+      }, 1000);
+    },
+  });
   const handleArchiveFAQ = (id: string) => {
     console.log(id);
-    toast.success("FAQ archived");
+    toast.success("FAQ Archived");
   };
   const handleDeleteFAQ = (id: string) => {
     console.log(id);
@@ -35,9 +47,15 @@ function FaqPreviewCard({
     console.log(id);
     navigate(`/FAQs/${id}`);
   };
-  const handlePublishFAQ = (id: string) => {
-    console.log(id);
-    toast.success("FAQ published");
+  const handlePublishFAQ = () => {
+    try {
+      // data.question = "updated2";
+      data.status = "Published";
+      publishFAQ(data);
+    } catch (error) {
+      console.error("Error Publishing FAQ:", error);
+      toast.error("Error Publishing FAQ.");
+    }
   };
 
   const date = new Date(data?.created_at);
@@ -45,7 +63,7 @@ function FaqPreviewCard({
   const formattedDate = date.toISOString().split("T")[0];
 
   return (
-    <div className="font-inter hover:border-secondary/70 group flex w-full items-center rounded-xl border-2 border-white bg-white px-[20px] py-[30px] shadow-sm">
+    <div className="font-inter hover:border-secondary/70 group flex justify-between w-full items-center rounded-xl border-2 border-white bg-white px-[20px] py-[30px] shadow-sm">
       {showFilters && (
         <div className="w-[4rem]">
           <Checkbox
@@ -56,8 +74,15 @@ function FaqPreviewCard({
           />
         </div>
       )}
-      <Link to={`/support/faq/${data.id}`}>
-        <div className={`grid w-full grid-cols-10 gap-6`}>
+      <Link
+        to={`/support/faq/${data.id}`}
+        state={{
+          pageName: "faq",
+          operation: "Edit",
+          details: data,
+        }}
+      >
+        <div className={`flex  grid w-full grid-cols-10 gap-6`}>
           <div className="col-span-9 space-y-1">
             <h5 className="font-normal text-[#106840] w-full max-w-xl truncate text-base">
               {data?.question}
@@ -68,12 +93,17 @@ function FaqPreviewCard({
               </span>
               <p
                 className={cn(
-                  "text-xs font-semibold capitalize",
-                  data?.status === "DRAFT" ? "text-secondary" : "text-[#106840]"
+                  "fontlight text-xs capitalize",
+                  data?.status === "Draft"
+                    ? "text-secondary"
+                    : data?.status === "Published"
+                    ? "text-textPrimary"
+                    : data?.status === "Archived"
+                    ? " text-yellow-400"
+                    : "text-textPrimary"
                 )}
               >
-                {/* {data?.status?.toLocaleLowerCase()} */}
-                Published
+                {data?.status?.toLocaleLowerCase()}
               </p>
               &bull;
               <p className="font-normal text-[#65655E] text-xs">
@@ -88,28 +118,28 @@ function FaqPreviewCard({
       >
         <div className="flex items-center justify-between gap-6">
           <span className="invisible flex items-center justify-start gap-2 group-hover:visible">
-            {data?.status === "PUBLISHED" && (
+            {data?.status === "Published" && (
               <SupportButtons
-                icon={<Icon name="archivePostIcon" />}
+                icon={<Icon name="archivingIcon" />}
                 label="Archive"
                 onClick={() => handleArchiveFAQ(data?.id)}
               />
             )}
-            {data?.status === "DRAFT" && (
+            {data?.status === "Draft" && (
               <SupportButtons
-                icon={<Icon name="publishPostIcon" />}
+                icon={<Icon name="publishingIcon" />}
                 label="Publish"
-                onClick={() => handlePublishFAQ(data?.id)}
+                onClick={handlePublishFAQ}
               />
             )}
             <SupportButtons
-              icon={<Icon name="viewPostIcon" />}
+              icon={<Icon name="viewingIcon" />}
               label="View"
               onClick={() => handleViewFAQ(data?.id)}
             />
 
             <SupportButtons
-              icon={<Icon name="deletePostIcon" />}
+              icon={<Icon name="deletingIcon" />}
               label="Delete"
               onClick={() => handleDeleteFAQ(data?.id)}
             />

@@ -27,8 +27,13 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { usePOST } from "@/hooks/usePOST.hook";
 import { API_BASE_URLS } from "@/config/api.config";
+import { useLocation } from "react-router-dom";
 
 const CreateHelplineForm = () => {
+  const { state } = useLocation();
+
+  console.log(state);
+
   const navigate = useNavigate();
   const { mutate, isPending: pendingCreatingFAQ } = usePOST("helplines", {
     baseURL: API_BASE_URLS.supportServive,
@@ -37,16 +42,17 @@ const CreateHelplineForm = () => {
   const form = useForm<z.infer<typeof createHelplineSchema>>({
     resolver: zodResolver(createHelplineSchema),
     defaultValues: {
-      name: "",
-      phone: "",
-      state_id: "",
+      name: state?.details.name ? state.details.name : "",
+      phone: state?.details.phone ? state.details.phone : "",
+      state_id: state?.details.state ? state.details.state : "",
+      status: state?.details.status ? state.details.status : "",
     },
   });
 
   function onSubmit(data: z.infer<typeof createHelplineSchema>) {
     console.log(data);
     mutate(
-      { phone: data.phone, state_id: data.state_id },
+      { phone: data.phone, state_id: data.state_id, status: "Active" },
       {
         onSuccess: () => {
           toast.success("Published", {
@@ -138,7 +144,19 @@ const CreateHelplineForm = () => {
             onClick={form.handleSubmit(onSubmit)}
             disabled={pendingCreatingFAQ}
           >
-            Save
+            <div className="mr-2">
+              <Icon name="saveSupportIcon" />
+            </div>
+            {state?.operation === "Edit" ? (
+              "Update"
+            ) : (
+              <div className="flex items-center">
+                <div className="mr-2">
+                  <Icon name="saveSupportIcon" />
+                </div>
+                <span>Save</span>
+              </div>
+            )}
           </Button>
         </section>
       </form>

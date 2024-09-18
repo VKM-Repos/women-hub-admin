@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form } from "@/components/ui/form";
 import "@mdxeditor/editor/style.css";
-
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { usePOST } from "@/hooks/usePOST.hook";
 import {
@@ -21,19 +21,24 @@ import {
 } from "@/components/ui/dialog";
 import Tag from "@/components/dashboard/Tag";
 import Icon from "@/components/icons/Icon";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
-
+import { useLocation } from "react-router-dom";
 import "@mdxeditor/editor/style.css";
 import { API_BASE_URLS } from "@/config/api.config";
+import { usePATCH } from "@/hooks/usePATCH.hook";
 
 const CreateGuidelineForm = () => {
-  const [selectedFile, setSelectedFile] = useState<File | string>("");
+  const navigate = useNavigate();
+
+  // fetch the data attach to the link
+  const { state } = useLocation();
+  // const [selectedFile, setSelectedFile] = useState<File | string>("");
   // const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [validationError, setValidationError] = useState(false);
+  // const [validationError, setValidationError] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [coverPreview, setCoverPreview] = useState<string | null>(null);
-  const coverInputRef = useRef<HTMLInputElement | null>(null);
+  // const [coverPreview, setCoverPreview] = useState<string | null>(null);
+  // const coverInputRef = useRef<HTMLInputElement | null>(null);
 
   const { mutate, isPending: pendingCreatingGuideline } = usePOST(
     "guides-with-file",
@@ -43,81 +48,110 @@ const CreateGuidelineForm = () => {
     }
   );
 
-  // Handle image change
-  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const imageFile = e.target.files?.[0];
-
-    if (imageFile) {
-      const imageUrl = URL.createObjectURL(imageFile);
-
-      // Set the corresponding state based on the type
-
-      setCoverPreview(imageUrl);
-      setSelectedFile(imageFile);
+  const { mutate: updPublishGuide } = usePATCH(
+    `guides-with-file/${state.details?.id}`,
+    {
+      baseURL: API_BASE_URLS.supportServive,
+      callback: () => {
+        toast.success("Guide Published");
+        setTimeout(() => {
+          navigate("/support");
+        }, 1000);
+      },
     }
-  };
+  );
 
   const form = useForm<z.infer<typeof createGuideSchema>>({
     resolver: zodResolver(createGuideSchema),
     defaultValues: {
-      title: "",
-      body: "",
-      coverImageUrl: "",
+      title: state.details?.title ? state.details.title : "",
+      content: state.details?.content ? state.details.content : "",
+      coverImage: state.details?.picture_path ? state.details.picture_path : "",
     },
   });
 
-  const handleChooseFile = () => {
-    coverInputRef.current?.click();
+  const handleAutoSave = (content: string) => {
+    console.log(content);
+    // setData({
+    //   ...data,
+    //   body: content,
+    // });
   };
 
   function onSubmit(data: z.infer<typeof createGuideSchema>) {
-    if (!selectedFile) {
-      setValidationError(true);
-      return;
+    if (state?.operation === "Edit") {
+      let formData = new FormData();
+      formData.append("title", data.title);
+      formData.append("content", data.content);
+
+      formData.append("file", data.coverImage);
+
+      formData.append("status", "Published");
+
+      updPublishGuide(formData, {
+        onSuccess: () => {
+          // setSelectedFile("");
+          // setImagePreview(null);
+          toast.success("Published", {
+            position: "bottom-right",
+            style: {
+              backgroundColor: "green",
+              color: "white",
+              textAlign: "left",
+            },
+            icon: "",
+          });
+
+          setIsOpen(false);
+          form.reset();
+        },
+        onError: (error) => {
+          console.error("Error Updating and publishing Guideline:", error);
+          alert("Error Updating and publishing Guideline.");
+        },
+      });
+    } else {
+      toast.success(`Added new guideline.........`, {
+        position: "bottom-right",
+        style: {
+          backgroundColor: "green",
+          color: "white",
+          textAlign: "left",
+        },
+        icon: "",
+      });
+
+      let formData = new FormData();
+      formData.append("title", data.title);
+      formData.append("content", data.content);
+
+      formData.append("file", data.coverImage);
+
+      formData.append("status", "Draft");
+
+      mutate(formData, {
+        onSuccess: () => {
+          // setSelectedFile("");
+          // setImagePreview(null);
+          toast.success("Published", {
+            position: "bottom-right",
+            style: {
+              backgroundColor: "green",
+              color: "white",
+              textAlign: "left",
+            },
+            icon: "",
+          });
+
+          setIsOpen(false);
+          form.reset();
+        },
+        onError: (error) => {
+          console.error("Error creating Guideline:", error);
+          alert("Error creating Guideline.");
+        },
+      });
     }
-    toast.success(`Added new guideline.........`, {
-      position: "bottom-right",
-      style: {
-        backgroundColor: "green",
-        color: "white",
-        textAlign: "left",
-      },
-      icon: "",
-    });
-
-    let formData = new FormData();
-    formData.append("title", data.title);
-    formData.append("content", data.body);
-    if (selectedFile instanceof File) {
-      formData.append("file", selectedFile);
-    }
-    formData.append("status", "Draft");
-
-    console.log(selectedFile);
-    console.log(formData);
-
-    mutate(formData, {
-      onSuccess: () => {
-        setSelectedFile("");
-        // setImagePreview(null);
-        toast.success("Published", {
-          position: "bottom-right",
-          style: {
-            backgroundColor: "green",
-            color: "white",
-            textAlign: "left",
-          },
-          icon: "",
-        });
-
-        setIsOpen(false);
-        form.reset();
-      },
-      onError: (error) => {
-        console.error("Error creating Guideline:", error);
-        alert("Error creating Guideline.");
-      },
-    });
   }
 
   return (
@@ -137,123 +171,34 @@ const CreateGuidelineForm = () => {
             label="Title"
           />
 
-          {/* Image */}
-          <div className="rounded-md w-full ">
-            <div className="bg-gray-200 h-[200px] rounded-md flex justify-center items-center w-full">
-              <img
-                src={
-                  coverPreview ||
-                  "https://placehold.co/400x400?text=Cover%20Picture"
-                }
-                alt=""
-                className="h-[200px] max-h-[200px] w-full object-cover rounded-md aspect-auto"
-              />
-              <input
-                ref={coverInputRef}
-                type="file"
-                onChange={(e) => handleImageChange(e)}
-                name="image"
-                className="hidden"
-                accept="image/*"
-              />
-              <Button
-                variant="outline"
-                className="flex items-center gap-2 absolute"
-                onClick={() => handleChooseFile()}
-                type="button"
-              >
-                <Icon name="upload" /> Click or drop image
-              </Button>
-            </div>
-            {validationError && (
-              <p className="text-xs text-red-500 px-1 mt-1">
-                Image field is required
-              </p>
-            )}
-          </div>
+          {/* UPLOAD FILE */}
+          {state?.operation === "Edit" ? (
+            <CustomFormField
+              fieldType={FormFieldType.IMAGE_UPLOAD}
+              control={form.control}
+              name="coverImage"
+              label="Cover Picture"
+              initialImage={state.details?.picture_path}
+              // initialImage={
+              //   "https://dev.womenhub.org/api/images/7a88a52f-5967-4b94-8921-83d521df6b46.jpeg"
+              // }
+            />
+          ) : (
+            <CustomFormField
+              fieldType={FormFieldType.IMAGE_UPLOAD}
+              control={form.control}
+              name="coverImage"
+              label="Cover Picture"
+            />
+          )}
 
           {/* Editor */}
           <CustomFormField
             fieldType={FormFieldType.EDITOR}
             control={form.control}
-            name="body"
+            name="content"
+            onAutoSave={handleAutoSave}
           />
-
-          {/* <section className="w-full mx-auto border-2 bg-background rounded-[1rem] min-h-screen overflow-hidden">
-            
-            <div className="w-full min-h-[4rem] flex gap-4 items-center justify-start px-2 bg-white">
-              <ToggleGroup type="multiple">
-                <ToggleGroupItem value="bold" aria-label="Toggle bold">
-                  <Bold className="h-5 w-5" />
-                </ToggleGroupItem>
-                <ToggleGroupItem value="italic" aria-label="Toggle italic">
-                  <Italic className="h-5 w-5" />
-                </ToggleGroupItem>
-                <ToggleGroupItem
-                  value="underline"
-                  aria-label="Toggle underline"
-                >
-                  <Underline className="h-5 w-5" />
-                </ToggleGroupItem>
-                <ToggleGroupItem
-                  value="strikethrough"
-                  aria-label="Toggle strikethrough"
-                >
-                  <Strikethrough className="h-5 w-5" />
-                </ToggleGroupItem>
-                <ToggleGroupItem value="emoticon" aria-label="Toggle emoticon">
-                  <SmileIcon className="h-5 w-5" />
-                </ToggleGroupItem>
-                <ToggleGroupItem value="link" aria-label="Toggle link">
-                  <Link2 className="h-5 w-5" />
-                </ToggleGroupItem>
-                <ToggleGroupItem value="list" aria-label="Toggle list">
-                  <List className="h-5 w-5" />
-                </ToggleGroupItem>
-                <ToggleGroupItem value="align" aria-label="Toggle align">
-                  <AlignCenter className="h-5 w-5" />
-                </ToggleGroupItem>
-              </ToggleGroup>
-            </div>
-
-            
-            <div className="w-[75%] mt-[2rem] mx-auto bg-white min-h-[120dvh] ">
-              <MDXEditor
-                markdown=""
-                plugins={[
-                  codeBlockPlugin({ defaultCodeBlockLanguage: 'js' }),
-                  sandpackPlugin({ sandpackConfig: simpleSandpackConfig }),
-                  codeMirrorPlugin({
-                    codeBlockLanguages: { js: 'JavaScript', css: 'CSS' },
-                  }),
-                  toolbarPlugin({
-                    toolbarContents: () => (
-                      <ConditionalContents
-                        options={[
-                          {
-                            when: editor => editor?.editorType === 'codeblock',
-                            contents: () => <ChangeCodeMirrorLanguage />,
-                          },
-                          {
-                            when: editor => editor?.editorType === 'sandpack',
-                            contents: () => <ShowSandpackInfo />,
-                          },
-                          {
-                            fallback: () => (
-                              <>
-                                <InsertCodeBlock />
-                                <InsertSandpack />
-                              </>
-                            ),
-                          },
-                        ]}
-                      />
-                    ),
-                  }),
-                ]}
-              />
-            </div>
-          </section> */}
         </div>
 
         <div className="flex h-full min-h-[5rem] w-full items-center mt-2 justify-between rounded-br-lg rounded-bl-lg bg-white shadow p-6">
@@ -261,12 +206,21 @@ const CreateGuidelineForm = () => {
           <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
               <Button variant="secondary" size="lg">
-                Save
+                {state?.operation === "Edit" ? (
+                  "Update and Save"
+                ) : (
+                  <div className="flex items-center">
+                    <div className="mr-2">
+                      <Icon name="saveSupportIcon" />
+                    </div>
+                    <span>Save</span>
+                  </div>
+                )}
               </Button>
             </DialogTrigger>
             <DialogContent
               className="sm:max-w-[425px]"
-              onInteractOutside={(e) => e.preventDefault()}
+              onInteractOutside={(e: any) => e.preventDefault()}
             >
               <DialogHeader>
                 <DialogTitle>
@@ -277,7 +231,9 @@ const CreateGuidelineForm = () => {
                 <hr />
                 <DialogDescription>
                   <span className="text-[14px] mt-4 text-txtColor font-inter">
-                    This will publish this Guide to the Guidelines page.
+                    {state?.operation === "Edit"
+                      ? "Do you want to save the changes and publish the guideline?"
+                      : "This will publish this Guide to the Guidelines page."}
                   </span>
                 </DialogDescription>
               </DialogHeader>
