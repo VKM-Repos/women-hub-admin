@@ -6,28 +6,41 @@ import Back from "@/components/shared/backButton/Back";
 import MoreOptions from "@/components/common/dropdowns/MoreOptions";
 
 type Props = {
-  step: number;
+  // step: number;
   data?: any;
-  handleGoBack: () => void;
+  setSaveDraft: (value: boolean) => void;
+  formRef: React.RefObject<HTMLFormElement>;
+  // handleSaveDraft: () => void;
+  // handleSaveDraft: (event: any) => void;
 };
 
 type OptionsMenu = {
   title: string;
   isButton: boolean;
+  type: string;
+
   onClick: () => void;
 };
 
-const Header = ({ data }: Props) => {
+const Header = ({ data, formRef, setSaveDraft }: Props) => {
   const handlePublish = () => {};
-  const handleSaveToDraft = () => {};
+
   const handleUpdate = () => {};
 
   const menu: OptionsMenu[] = [
     {
       title: "Save to drafts",
       isButton: true,
+      type: "submit",
       onClick: () => {
-        handleSaveToDraft?.();
+        if (formRef.current) {
+          setSaveDraft(true); // Set saveDraft to true
+
+          // Ensure form submits after the state change
+          setTimeout(() => {
+            formRef.current?.requestSubmit();
+          }, 0);
+        }
       },
     },
     ...(data?.details?.status === "Draft"
@@ -35,8 +48,16 @@ const Header = ({ data }: Props) => {
           {
             title: "Update",
             isButton: true,
+            type: "submit",
             onClick: () => {
-              handleUpdate?.();
+              if (formRef.current) {
+                setSaveDraft(true); // Set saveDraft to true
+
+                // Ensure form submits after the state change
+                setTimeout(() => {
+                  formRef.current?.requestSubmit();
+                }, 0);
+              }
             },
           },
         ]
@@ -54,39 +75,41 @@ const Header = ({ data }: Props) => {
       <div className=" col-span-1 flex items-center justify-end gap-x-4">
         <Back />
 
-        <>
-          <Link
-            to={`/preview/1`}
-            className={cn(
-              buttonVariants({ variant: "outline" }),
-              "flex items-center gap-1"
-            )}
-          >
-            <Icon name="eyeIcon" />
-            <span>Preview</span>
-          </Link>
-          <Button
-            onClick={() => {
-              data?.details?.id && data?.details?.status !== "DRAFT"
-                ? handleUpdate?.()
-                : handlePublish?.();
-            }}
-            variant="outline"
-            className="flex items-center gap-1"
-          >
-            {data?.details?.id && data?.details?.status !== "DRAFT" ? (
-              <Icon name="publishIcon" />
-            ) : (
-              <Icon name="publishIcon" />
-            )}
-            <span>
-              {data?.details?.id && data?.details?.status !== "Draft"
-                ? "Update"
-                : "Publish"}
-            </span>
-          </Button>
-          <MoreOptions label="more options" menu={menu} />
-        </>
+        {data?.pageName !== "helpline" ? (
+          <>
+            <Link
+              to={`/preview/1`}
+              className={cn(
+                buttonVariants({ variant: "outline" }),
+                "flex items-center gap-1"
+              )}
+            >
+              <Icon name="eyeIcon" />
+              <span>Preview</span>
+            </Link>
+            <Button
+              onClick={() => {
+                data?.details?.id && data?.details?.status !== "DRAFT"
+                  ? handleUpdate?.()
+                  : handlePublish?.();
+              }}
+              variant="outline"
+              className="flex items-center gap-1"
+            >
+              {data?.details?.id && data?.details?.status !== "DRAFT" ? (
+                <Icon name="publishIcon" />
+              ) : (
+                <Icon name="publishIcon" />
+              )}
+              <span>
+                {data?.details?.id && data?.details?.status !== "Draft"
+                  ? "Update"
+                  : "Publish"}
+              </span>
+            </Button>
+            <MoreOptions label="more options" menu={menu} />
+          </>
+        ) : null}
       </div>
     </header>
   );

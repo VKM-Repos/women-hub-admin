@@ -43,10 +43,10 @@ function FaqPreviewCard({
     console.log(id);
     toast.success("FAQ deleted");
   };
-  const handleViewFAQ = (id: string) => {
-    console.log(id);
-    navigate(`/FAQs/${id}`);
-  };
+  // const handleViewFAQ = (id: string) => {
+  //   console.log(id);
+  //   navigate(`/FAQs/${id}`);
+  // };
   const handlePublishFAQ = () => {
     try {
       // data.question = "updated2";
@@ -74,45 +74,38 @@ function FaqPreviewCard({
           />
         </div>
       )}
-      <Link
-        to={`/support/faq/${data.id}`}
-        state={{
-          pageName: "faq",
-          operation: "Edit",
-          details: data,
-        }}
-      >
-        <div className={`flex  grid w-full grid-cols-10 gap-6`}>
-          <div className="col-span-9 space-y-1">
-            <h5 className="font-normal text-[#106840] w-full max-w-xl truncate text-base">
-              {data?.question}
-            </h5>
-            <div className="flex items-center justify-start gap-2">
-              <span className="border-secondary text-secondary font-light flex w-fit items-center justify-center rounded-sm border bg-white p-0 px-2 text-xs">
-                {data?.category}
-              </span>
-              <p
-                className={cn(
-                  "fontlight text-xs capitalize",
-                  data?.status === "Draft"
-                    ? "text-secondary"
-                    : data?.status === "Published"
-                    ? "text-textPrimary"
-                    : data?.status === "Archived"
-                    ? " text-yellow-400"
-                    : "text-textPrimary"
-                )}
-              >
-                {data?.status?.toLocaleLowerCase()}
-              </p>
-              &bull;
-              <p className="font-normal text-[#65655E] text-xs">
-                {formattedDate}
-              </p>
-            </div>
+
+      <div className={`flex  grid w-full grid-cols-10 gap-6`}>
+        <div className="col-span-9 space-y-1">
+          <h5 className="font-normal text-[#106840] w-full max-w-xl truncate text-base">
+            {data?.question}
+          </h5>
+          <div className="flex items-center justify-start gap-2">
+            <span className="border-secondary text-secondary font-light flex w-fit items-center justify-center rounded-sm border bg-white p-0 px-2 text-xs">
+              {data?.category}
+            </span>
+            <p
+              className={cn(
+                "fontlight text-xs capitalize",
+                data?.status === "Draft"
+                  ? "text-secondary"
+                  : data?.status === "Published"
+                  ? "text-textPrimary"
+                  : data?.status === "Archived"
+                  ? " text-yellow-400"
+                  : "text-textPrimary"
+              )}
+            >
+              {data?.status?.toLocaleLowerCase()}
+            </p>
+            &bull;
+            <p className="font-normal text-[#65655E] text-xs">
+              {formattedDate}
+            </p>
           </div>
         </div>
-      </Link>
+      </div>
+
       <div
         className={`flex w-full max-w-60 flex-col items-end justify-end gap-y-2`}
       >
@@ -132,12 +125,20 @@ function FaqPreviewCard({
                 onClick={handlePublishFAQ}
               />
             )}
-            <SupportButtons
-              icon={<Icon name="viewingIcon" />}
-              label="View"
-              onClick={() => handleViewFAQ(data?.id)}
-            />
-
+            <Link
+              to={`/support/faq/${data.id}`}
+              state={{
+                pageName: "faq",
+                operation: "Edit",
+                details: data,
+              }}
+            >
+              <SupportButtons
+                icon={<Icon name="viewingIcon" />}
+                label="View"
+                onClick={() => true}
+              />
+            </Link>
             <SupportButtons
               icon={<Icon name="deletingIcon" />}
               label="Delete"

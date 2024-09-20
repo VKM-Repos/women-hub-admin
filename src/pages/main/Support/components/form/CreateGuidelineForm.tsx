@@ -2,7 +2,7 @@ import CustomFormField, {
   FormFieldType,
 } from "@/components/form/custom-form-fields";
 import { useForm } from "react-hook-form";
-import { createGuideSchema } from "./validation";
+import { createGuideSchema, editGuideSchema } from "./validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form } from "@/components/ui/form";
@@ -21,24 +21,21 @@ import {
 } from "@/components/ui/dialog";
 import Tag from "@/components/dashboard/Tag";
 import Icon from "@/components/icons/Icon";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { useLocation } from "react-router-dom";
 import "@mdxeditor/editor/style.css";
 import { API_BASE_URLS } from "@/config/api.config";
 import { usePATCH } from "@/hooks/usePATCH.hook";
+import Header from "../Header";
 
 const CreateGuidelineForm = () => {
   const navigate = useNavigate();
-
+  const [isOpen, setIsOpen] = useState(false);
+  const [saveDraft, setSaveDraft] = useState(false);
   // fetch the data attach to the link
   const { state } = useLocation();
-  // const [selectedFile, setSelectedFile] = useState<File | string>("");
-  // const [imagePreview, setImagePreview] = useState<string | null>(null);
-  // const [validationError, setValidationError] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  // const [coverPreview, setCoverPreview] = useState<string | null>(null);
-  // const coverInputRef = useRef<HTMLInputElement | null>(null);
+  const formRef = useRef<HTMLFormElement>(null); // Form reference
 
   const { mutate, isPending: pendingCreatingGuideline } = usePOST(
     "guides-with-file",
@@ -78,7 +75,9 @@ const CreateGuidelineForm = () => {
     // });
   };
 
-  function onSubmit(data: z.infer<typeof createGuideSchema>) {
+  function onSubmit(
+    data: z.infer<typeof createGuideSchema | typeof editGuideSchema>
+  ) {
     if (state?.operation === "Edit") {
       let formData = new FormData();
       formData.append("title", data.title);
@@ -127,12 +126,12 @@ const CreateGuidelineForm = () => {
 
       formData.append("file", data.coverImage);
 
-      formData.append("status", "Draft");
+      saveDraft
+        ? formData.append("status", "Draft")
+        : formData.append("status", "Published");
 
       mutate(formData, {
         onSuccess: () => {
-          // setSelectedFile("");
-          // setImagePreview(null);
           toast.success("Published", {
             position: "bottom-right",
             style: {
@@ -142,11 +141,13 @@ const CreateGuidelineForm = () => {
             },
             icon: "",
           });
-
+          setSaveDraft(false);
           setIsOpen(false);
           form.reset();
+          navigate("/support");
         },
         onError: (error) => {
+          setSaveDraft(false);
           console.error("Error creating Guideline:", error);
           alert("Error creating Guideline.");
         },
@@ -157,10 +158,13 @@ const CreateGuidelineForm = () => {
   return (
     <Form {...form}>
       <form
+        ref={formRef}
         className=" rounded-lg  w-full"
         onSubmit={form.handleSubmit(onSubmit)}
         encType="multipart/form-data"
       >
+        <Header data={state} formRef={formRef} setSaveDraft={setSaveDraft} />
+
         <div className="p-6 pb-[4rem] flex flex-col gap-y-6 bg-white">
           {/* TITLE */}
           <CustomFormField

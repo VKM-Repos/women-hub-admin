@@ -109,89 +109,93 @@ export default function Guidelines() {
   // const test = guideData;
 
   return (
-    <div className="mx-10">
-      <GuideHeroSection data={guide} />
-      <section className="flex flex-col gap-y-6">
-        <Filters
-          showFilters={showFilters}
-          setShowFilters={setShowFilters}
-          data={guidelines}
-          selectedCount={selectedGuidelines}
-          totalCount={filteredGuidelines.length}
-          toggleSelectAll={toggleSelectAll}
-          setSearchTerm={setSearchTerm}
-          onStatusFilterChange={handleStatusFilterChange}
-          page="Guidelines"
-        />
+    <>
+      {isLoading || isRefetching ? (
+        <Loading />
+      ) : (
+        <div className="mx-10">
+          <GuideHeroSection data={guide} />
+          <section className="flex flex-col gap-y-6">
+            <Filters
+              showFilters={showFilters}
+              setShowFilters={setShowFilters}
+              data={guidelines}
+              selectedCount={selectedGuidelines}
+              totalCount={filteredGuidelines.length}
+              toggleSelectAll={toggleSelectAll}
+              setSearchTerm={setSearchTerm}
+              onStatusFilterChange={handleStatusFilterChange}
+              page="Guidelines"
+            />
 
-        <div className="flex flex-col gap-4">
-          {isLoading || isRefetching ? (
-            <Loading />
-          ) : guidelines?.length > 0 ? (
-            guidelines?.map((guide: any) => (
-              <GuidePreviewCard
-                key={guide.id}
-                showFilters={showFilters}
-                data={guide}
-                isSelected={selectedGuidelines.includes(guide.id)}
-                toggleGuideSelection={() => toggleGuideSelection(guide.id)}
+            <div className="flex flex-col gap-4">
+              {isLoading || isRefetching ? (
+                <Loading />
+              ) : guidelines?.length > 0 ? (
+                guidelines?.map((guide: any) => (
+                  <GuidePreviewCard
+                    key={guide.id}
+                    showFilters={showFilters}
+                    data={guide}
+                    isSelected={selectedGuidelines.includes(guide.id)}
+                    toggleGuideSelection={() => toggleGuideSelection(guide.id)}
+                  />
+                ))
+              ) : (
+                <>No Result</>
+              )}
+            </div>
+            <div className="flex items-center justify-end space-x-2 py-4">
+              <Pagination
+                handlePrevious={handlePreviousPage}
+                handleNext={handleNextPage}
+                currentPage={currentPage + 1}
+                numberOfElements={guidelines?.numberOfElements ?? 0}
+                totalElements={guidelines?.totalElements ?? 0}
               />
-            ))
-          ) : (
-            <>No Result</>
-          )}
-        </div>
-        <div className="flex items-center justify-end space-x-2 py-4">
-          <Pagination
-            handlePrevious={handlePreviousPage}
-            handleNext={handleNextPage}
-            currentPage={currentPage + 1}
-            numberOfElements={guidelines?.numberOfElements ?? 0}
-            totalElements={guidelines?.totalElements ?? 0}
-          />
-        </div>
-      </section>
+            </div>
+          </section>
 
-      {/* <section className="flex flex-col gap-y-6">
-        <Filters
-          showFilters={showFilters}
-          setShowFilters={setShowFilters}
-          data={guidelines}
-          selectedCount={selectedGuidelines}
-          totalCount={filteredGuidelines.length}
-          toggleSelectAll={toggleSelectAll}
-          setSearchTerm={setSearchTerm}
-          onStatusFilterChange={handleStatusFilterChange}
-          page="Guidelines"
-        />
+          {/* <section className="flex flex-col gap-y-6">
+            <Filters
+              showFilters={showFilters}
+              setShowFilters={setShowFilters}
+              data={test}
+              selectedCount={selectedGuidelines}
+              totalCount={filteredGuidelines.length}
+              toggleSelectAll={toggleSelectAll}
+              setSearchTerm={setSearchTerm}
+              onStatusFilterChange={handleStatusFilterChange}
+              page="Guidelines"
+            />
 
-        <div className="flex flex-col gap-4">
-          {isLoading || isRefetching ? (
-            <Loading />
-          ) : guidelines?.length > 0 ? (
-            guidelines?.map((guide: any) => (
-              <GuidePreviewCard
-                key={guide.id}
-                showFilters={showFilters}
-                data={guide}
-                isSelected={selectedGuidelines.includes(guide.id)}
-                toggleGuideSelection={() => toggleGuideSelection(guide.id)}
+            <div className="flex flex-col gap-4">
+              {test?.length > 0 ? (
+                test?.map((guide: any) => (
+                  <GuidePreviewCard
+                    key={guide.id}
+                    showFilters={showFilters}
+                    data={guide}
+                    isSelected={selectedGuidelines.includes(guide.id)}
+                    toggleGuideSelection={() => toggleGuideSelection(guide.id)}
+                  />
+                ))
+              ) : (
+                <>No Result</>
+              )}
+            </div>
+            <div className="flex items-center justify-end space-x-2 py-4">
+              <Pagination
+                handlePrevious={handlePreviousPage}
+                handleNext={handleNextPage}
+                currentPage={currentPage + 1}
+                numberOfElements={guidelines?.numberOfElements ?? 0}
+                totalElements={guidelines?.totalElements ?? 0}
               />
-            ))
-          ) : (
-            <>No Result</>
-          )}
+            </div>
+          </section> */}
         </div>
-        <div className="flex items-center justify-end space-x-2 py-4">
-          <Pagination
-            handlePrevious={handlePreviousPage}
-            handleNext={handleNextPage}
-            currentPage={currentPage + 1}
-            numberOfElements={guidelines?.numberOfElements ?? 0}
-            totalElements={guidelines?.totalElements ?? 0}
-          />
-        </div>
-      </section> */}
-    </div>
+      )}
+    </>
   );
 }

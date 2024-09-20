@@ -175,14 +175,15 @@ export default function Helplines() {
     // console.log(row);
     try {
       setId(row.original.id);
-      let formData = new FormData();
-      formData.append("faq_id", row.original.id);
-      formData.append("created_at", row.original.created_at);
-      formData.append("name", row.original.name);
-      formData.append("phone", row.original.phone);
-      formData.append("state_id", row.original.state_id);
-      formData.append("status", row.original.status);
-      formData.append("updated_at", row.original.updated_at);
+      let formData = {
+        faq_id: row.original.id,
+        created_at: row.original.created_at,
+        name: row.original.name,
+        phone: row.original.phone,
+        state_id: row.original.state_id,
+        status: row.original.status,
+        updated_at: row.original.updated_at,
+      };
       deleteHelpline(formData);
     } catch (error) {
       console.error("Error Deactivating Helpline:", error);
@@ -298,24 +299,27 @@ export default function Helplines() {
                   </div>
                 </Link>
 
-                <div
-                  className="flex items-center"
-                  onClick={() => handleDeactivateHelpline(row)}
-                >
-                  <div className="mr-2">
-                    <Icon name="deactivateIcon" />
+                {row.original.status == "Active" ? (
+                  <div
+                    className="flex items-center"
+                    onClick={() => handleDeactivateHelpline(row)}
+                  >
+                    <div className="mr-2">
+                      <Icon name="deactivateIcon" />
+                    </div>
+                    <span>Deactivate</span>
                   </div>
-                  <span>Deactivate</span>
-                </div>
-                <div
-                  className="flex items-center"
-                  onClick={() => handleActivateHelpline(row)}
-                >
-                  <div className="mr-2">
-                    <Icon name="activateIcon" />
+                ) : (
+                  <div
+                    className="flex items-center"
+                    onClick={() => handleActivateHelpline(row)}
+                  >
+                    <div className="mr-2">
+                      <Icon name="activateIcon" />
+                    </div>
+                    <span>Activate</span>
                   </div>
-                  <span>Activate</span>
-                </div>
+                )}
 
                 <div
                   className="flex flex-row items-center"

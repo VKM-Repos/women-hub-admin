@@ -16,10 +16,15 @@ import toast from "react-hot-toast";
 import { API_BASE_URLS } from "@/config/api.config";
 import { useLocation } from "react-router-dom";
 import { usePATCH } from "@/hooks/usePATCH.hook";
+import Header from "../Header";
+import { useRef, useState } from "react";
 
 const CreateFAQForm = () => {
   // fetch the data attach to the link
   const { state } = useLocation();
+  const formRef = useRef<HTMLFormElement>(null); // Form reference
+
+  const [saveDraft, setSaveDraft] = useState(false);
 
   const navigate = useNavigate();
   const { mutate, isPending: pendingCreatingFAQ } = usePOST("faqs", {
@@ -156,7 +161,7 @@ const CreateFAQForm = () => {
       const timestamp = new Date().toISOString();
       data.created_at = timestamp;
       data.updated_at = timestamp;
-      data.status = "Published";
+      saveDraft ? (data.status = "Draft") : (data.status = "Published");
 
       mutate(data, {
         onSuccess: () => {
@@ -169,11 +174,12 @@ const CreateFAQForm = () => {
             },
             icon: "",
           });
-
+          setSaveDraft(false);
           form.reset();
           navigate("/support"); // Navigate after successful submission
         },
         onError: (error) => {
+          setSaveDraft(false);
           console.error("Error creating FAQ:", error);
           toast.error("Error creating FAQ.");
         },
@@ -184,9 +190,11 @@ const CreateFAQForm = () => {
   return (
     <Form {...form}>
       <form
+        ref={formRef}
         className="rounded-lg  w-full"
         onSubmit={form.handleSubmit(onSubmit)}
       >
+        <Header data={state} formRef={formRef} setSaveDraft={setSaveDraft} />
         <div className="p-6 pb-[4rem] flex flex-col gap-y-6 bg-white">
           {/* CATEGORY */}
           <CustomFormField
