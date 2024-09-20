@@ -29,18 +29,21 @@ import { usePOST } from "@/hooks/usePOST.hook";
 import { API_BASE_URLS } from "@/config/api.config";
 import { useLocation } from "react-router-dom";
 import { usePATCH } from "@/hooks/usePATCH.hook";
+import Header from "../Header";
+import { useRef, useState } from "react";
 
 const CreateHelplineForm = () => {
   const { state } = useLocation();
+  const formRef = useRef<HTMLFormElement>(null); // Form reference
 
-  console.log(state);
+  const [saveDraft, setSaveDraft] = useState(false);
 
   const navigate = useNavigate();
   const { mutate, isPending: pendingCreatingFAQ } = usePOST("helplines", {
     baseURL: API_BASE_URLS.supportServive,
   });
 
-  const { mutate: updHelpline } = usePATCH(`helplines/${state.details?.id}`, {
+  const { mutate: updHelpline } = usePATCH(`helplines/${state?.details?.id}`, {
     baseURL: API_BASE_URLS.supportServive,
     method: "PATCH",
     callback: () => {
@@ -51,16 +54,18 @@ const CreateHelplineForm = () => {
     },
   });
 
+  saveDraft ? console.log("test") : null;
+
   const form = useForm<z.infer<typeof createHelplineSchema>>({
     resolver: zodResolver(createHelplineSchema),
     defaultValues: {
-      name: state?.details.name ? state.details.name : "",
-      phone: state?.details.phone ? state.details.phone : "",
-      state_id: state?.details.state_id
+      name: state?.details?.name ? state.details.name : "",
+      phone: state?.details?.phone ? state.details.phone : "",
+      state_id: state?.details?.state_id
         ? state.details.state_id.charAt(0).toUpperCase() +
           state.details.state_id.slice(1).toLowerCase()
         : "",
-      status: state?.details.status ? state.details.status : "",
+      status: state?.details?.status ? state.details.status : "",
     },
   });
 
@@ -79,10 +84,12 @@ const CreateHelplineForm = () => {
             icon: "",
           });
 
+          setSaveDraft(false);
           form.reset();
           navigate("/support");
         },
         onError: (error) => {
+          setSaveDraft(false);
           console.error("Error Updating and publishing Helpline:", error);
           alert("Error Updating and publishing Helpline.");
         },
@@ -117,9 +124,11 @@ const CreateHelplineForm = () => {
   return (
     <Form {...form}>
       <form
+        ref={formRef}
         className="rounded-lg  w-full"
         onSubmit={form.handleSubmit(onSubmit)}
       >
+        <Header data={state} formRef={formRef} setSaveDraft={setSaveDraft} />
         <div className="p-6 pb-[4rem] flex flex-col gap-y-6 bg-white">
           <FormField
             control={form.control}
@@ -182,9 +191,9 @@ const CreateHelplineForm = () => {
             onClick={form.handleSubmit(onSubmit)}
             disabled={pendingCreatingFAQ}
           >
-            <div className="mr-2">
+            {/* <div className="mr-2">
               <Icon name="saveSupportIcon" />
-            </div>
+            </div> */}
             {state?.operation === "Edit" ? (
               "Update"
             ) : (

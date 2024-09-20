@@ -17,7 +17,7 @@ export const guideData = [
     content: "sdjfgubswvyhdgbsyubudsayvchsd",
     image: "test.jn",
     date: "May 8, 2024",
-    status: "Draft",
+    status: "Published",
     editor: `Editor s Name`,
     description: "brgtbnrgbrtgbrbgrrg",
     created_at: "2024-09-06T13:47:16.876Z",

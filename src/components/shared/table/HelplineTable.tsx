@@ -121,6 +121,11 @@ export default function HelplineTable({
                 buttonVariants({ variant: "secondary", size: "lg" }),
                 "flex gap-2 text-white rounded-[12px]"
               )}
+              state={{
+                pageName: "helpline",
+                operation: "new",
+                details: null,
+              }}
             >
               <PlusIcon />
               Add new
