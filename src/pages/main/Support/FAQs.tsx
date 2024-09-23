@@ -66,7 +66,7 @@ export default function FAQs() {
   }, [FAQs, statusFilter]);
 
   const handleNextPage = () => {
-    if (FAQs?.totalElements && currentPage < FAQs.totalElements - 1) {
+    if (FAQs?.length && currentPage < FAQs.length - 1) {
       setCurrentPage((prevPage) => prevPage + 1);
     }
   };
@@ -135,14 +135,13 @@ export default function FAQs() {
               ) : (
                 <>No Result</>
               )}
-            </div>
-            <div className="flex items-center justify-end space-x-2 py-4">
               <Pagination
                 handlePrevious={handlePreviousPage}
                 handleNext={handleNextPage}
                 currentPage={currentPage + 1}
-                numberOfElements={FAQs?.numberOfElements ?? 0}
-                totalElements={FAQs?.totalElements ?? 0}
+                // numberOfElements={FAQs?.numberOfElements ?? 0}
+                totalElements={FAQs?.length ?? 0}
+                pageSize={pageSize}
               />
             </div>
           </section>

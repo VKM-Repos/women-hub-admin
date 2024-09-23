@@ -128,7 +128,7 @@ export default function Helplines() {
 
   const [id, setId] = useState<{ id: string }>();
 
-  const { mutate: changeHelpline } = usePATCH(`helpline/${id}`, {
+  const { mutate: changeHelpline } = usePATCH(`helplines/${id}`, {
     baseURL: API_BASE_URLS.supportServive,
     method: "PATCH",
     callback: () => {

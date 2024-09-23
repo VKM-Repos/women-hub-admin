@@ -49,6 +49,7 @@ const CreateGuidelineForm = () => {
     `guides-with-file/${state.details?.id}`,
     {
       baseURL: API_BASE_URLS.supportServive,
+      contentType: "multipart/form-data",
       callback: () => {
         toast.success("Guide Published");
         setTimeout(() => {
@@ -58,8 +59,15 @@ const CreateGuidelineForm = () => {
     }
   );
 
-  const form = useForm<z.infer<typeof createGuideSchema>>({
-    resolver: zodResolver(createGuideSchema),
+  // Conditional schema selection based on the operation (Create or Edit)
+  const schema =
+    state?.operation === "Edit" ? editGuideSchema : createGuideSchema;
+
+  // Infer the form data type based on the schema
+  type FormData = z.infer<typeof schema>;
+
+  const form = useForm<FormData>({
+    resolver: zodResolver(schema),
     defaultValues: {
       title: state.details?.title ? state.details.title : "",
       content: state.details?.content ? state.details.content : "",
@@ -87,28 +95,36 @@ const CreateGuidelineForm = () => {
 
       formData.append("status", "Published");
 
-      updPublishGuide(formData, {
-        onSuccess: () => {
-          // setSelectedFile("");
-          // setImagePreview(null);
-          toast.success("Published", {
-            position: "bottom-right",
-            style: {
-              backgroundColor: "green",
-              color: "white",
-              textAlign: "left",
-            },
-            icon: "",
-          });
+      updPublishGuide(
+        {
+          title: data.title,
+          content: data.content,
+          file: null,
+          status: "Published",
+        },
+        {
+          onSuccess: () => {
+            // setSelectedFile("");
+            // setImagePreview(null);
+            toast.success("Published", {
+              position: "bottom-right",
+              style: {
+                backgroundColor: "green",
+                color: "white",
+                textAlign: "left",
+              },
+              icon: "",
+            });
 
-          setIsOpen(false);
-          form.reset();
-        },
-        onError: (error) => {
-          console.error("Error Updating and publishing Guideline:", error);
-          alert("Error Updating and publishing Guideline.");
-        },
-      });
+            setIsOpen(false);
+            form.reset();
+          },
+          onError: (error) => {
+            console.error("Error Updating and publishing Guideline:", error);
+            alert("Error Updating and publishing Guideline.");
+          },
+        }
+      );
     } else {
       toast.success(`Added new guideline.........`, {
         position: "bottom-right",

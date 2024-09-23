@@ -92,10 +92,7 @@ export default function Guidelines() {
   };
 
   const handleNextPage = () => {
-    if (
-      guidelines?.totalElements &&
-      currentPage < guidelines.totalElements - 1
-    ) {
+    if (guidelines?.length && currentPage < guidelines.length - 1) {
       setCurrentPage((prevPage) => prevPage + 1);
     }
   };
@@ -144,14 +141,13 @@ export default function Guidelines() {
               ) : (
                 <>No Result</>
               )}
-            </div>
-            <div className="flex items-center justify-end space-x-2 py-4">
               <Pagination
                 handlePrevious={handlePreviousPage}
                 handleNext={handleNextPage}
                 currentPage={currentPage + 1}
-                numberOfElements={guidelines?.numberOfElements ?? 0}
-                totalElements={guidelines?.totalElements ?? 0}
+                // numberOfElements={guidelines?.numberOfElements ?? 0}
+                totalElements={guidelines?.length ?? 0}
+                pageSize={pageSize}
               />
             </div>
           </section>
@@ -190,7 +186,7 @@ export default function Guidelines() {
                 handleNext={handleNextPage}
                 currentPage={currentPage + 1}
                 numberOfElements={guidelines?.numberOfElements ?? 0}
-                totalElements={guidelines?.totalElements ?? 0}
+                totalElements={guidelines?.length ?? 0}
               />
             </div>
           </section> */}

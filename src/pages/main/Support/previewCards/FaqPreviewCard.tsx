@@ -9,6 +9,7 @@ import { SupportButtons } from "../components/SupportButtons";
 import { Link } from "react-router-dom";
 import { API_BASE_URLS } from "@/config/api.config";
 import { usePATCH } from "@/hooks/usePATCH.hook";
+import { useEffect, useRef, useState } from "react";
 
 type Props = {
   showFilters: boolean;
@@ -43,13 +44,9 @@ function FaqPreviewCard({
     console.log(id);
     toast.success("FAQ deleted");
   };
-  // const handleViewFAQ = (id: string) => {
-  //   console.log(id);
-  //   navigate(`/FAQs/${id}`);
-  // };
+
   const handlePublishFAQ = () => {
     try {
-      // data.question = "updated2";
       data.status = "Published";
       publishFAQ(data);
     } catch (error) {
@@ -62,8 +59,32 @@ function FaqPreviewCard({
   date.setDate(date.getDate() - 4);
   const formattedDate = date.toISOString().split("T")[0];
 
+  const buttonRef = useRef<any>(null);
+  const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    const handleMouseEnter = () => setIsHovered(true);
+    const handleMouseLeave = () => setIsHovered(false);
+
+    const buttonElement = buttonRef.current;
+    if (buttonElement) {
+      buttonElement.addEventListener("mouseenter", handleMouseEnter);
+      buttonElement.addEventListener("mouseleave", handleMouseLeave);
+    }
+
+    return () => {
+      if (buttonElement) {
+        buttonElement.removeEventListener("mouseenter", handleMouseEnter);
+        buttonElement.removeEventListener("mouseleave", handleMouseLeave);
+      }
+    };
+  }, []);
+
   return (
-    <div className="font-inter hover:border-secondary/70 group flex justify-between w-full items-center rounded-xl border-2 border-white bg-white px-[20px] py-[30px] shadow-sm">
+    <div
+      ref={buttonRef}
+      className="font-inter hover:border-secondary/70 group flex justify-between w-full items-center rounded-xl border-2 border-white bg-white px-[20px] py-[30px] shadow-sm"
+    >
       {showFilters && (
         <div className="w-[4rem]">
           <Checkbox
@@ -116,6 +137,7 @@ function FaqPreviewCard({
                 icon={<Icon name="archivingIcon" />}
                 label="Archive"
                 onClick={() => handleArchiveFAQ(data?.id)}
+                isHovered={isHovered}
               />
             )}
             {data?.status === "Draft" && (
@@ -123,6 +145,7 @@ function FaqPreviewCard({
                 icon={<Icon name="publishingIcon" />}
                 label="Publish"
                 onClick={handlePublishFAQ}
+                isHovered={isHovered}
               />
             )}
             <Link
@@ -137,12 +160,14 @@ function FaqPreviewCard({
                 icon={<Icon name="viewingIcon" />}
                 label="View"
                 onClick={() => true}
+                isHovered={isHovered}
               />
             </Link>
             <SupportButtons
               icon={<Icon name="deletingIcon" />}
               label="Delete"
               onClick={() => handleDeleteFAQ(data?.id)}
+              isHovered={isHovered}
             />
           </span>
           <p className="text-[#106840] font-normal text-xs">

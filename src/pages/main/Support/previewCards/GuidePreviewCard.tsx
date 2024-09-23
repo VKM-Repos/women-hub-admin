@@ -9,6 +9,8 @@ import { SupportButtons } from "../components/SupportButtons";
 import { Link } from "react-router-dom";
 import { usePATCH } from "@/hooks/usePATCH.hook";
 import { API_BASE_URLS } from "@/config/api.config";
+import { useDELETE } from "@/hooks/useDelete.hook";
+import { useEffect, useRef, useState } from "react";
 
 type Props = {
   showFilters: boolean;
@@ -32,6 +34,19 @@ function GuidePreviewCard({
       toast.success("Guide Published");
       setTimeout(() => {
         navigate("/support");
+        // navigate("/support/a-guide-to-womenhub");
+      }, 1000);
+    },
+  });
+
+  const { mutate: deleteGuide } = useDELETE(`guides/${data.id}`, {
+    baseURL: API_BASE_URLS.supportServive,
+    // contentType: "multipart/form-data",
+    callback: () => {
+      toast.success("Delete Guide");
+      setTimeout(() => {
+        navigate("/support");
+        // navigate("/support/a-guide-to-womenhub");
       }, 1000);
     },
   });
@@ -40,18 +55,17 @@ function GuidePreviewCard({
     console.log(id);
     toast.success("Guide Archived");
   };
-  const handleDeleteGuide = (id: string) => {
-    console.log(id);
-    toast.success("Guide deleted");
+  const handleDeleteGuide = () => {
+    try {
+      deleteGuide(data.id);
+    } catch (error) {
+      console.error("Error Publishing FAQ:", error);
+      toast.error("Error Publishing FAQ.");
+    }
   };
-  // const handleViewGuide = (id: string) => {
-  //   console.log(id);
-  //   navigate(`/guide/${id}`);
-  // };
+
   const handlePublishGuide = () => {
     try {
-      // data.question = "updated2";
-      // data.status = "Published";
       publishGuide({
         title: data.title,
         content: data.content,
@@ -68,8 +82,32 @@ function GuidePreviewCard({
   date.setDate(date.getDate() - 4);
   const formattedDate = date.toISOString().split("T")[0];
 
+  const buttonRef = useRef<any>(null);
+  const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    const handleMouseEnter = () => setIsHovered(true);
+    const handleMouseLeave = () => setIsHovered(false);
+
+    const buttonElement = buttonRef.current;
+    if (buttonElement) {
+      buttonElement.addEventListener("mouseenter", handleMouseEnter);
+      buttonElement.addEventListener("mouseleave", handleMouseLeave);
+    }
+
+    return () => {
+      if (buttonElement) {
+        buttonElement.removeEventListener("mouseenter", handleMouseEnter);
+        buttonElement.removeEventListener("mouseleave", handleMouseLeave);
+      }
+    };
+  }, []);
+
   return (
-    <div className="font-inter hover:border-secondary/70 group flex justify-between w-full items-center rounded-xl border-2 border-white bg-white px-[20px] py-[30px] shadow-sm">
+    <div
+      ref={buttonRef}
+      className="font-inter hover:border-secondary/70 group flex justify-between w-full items-center rounded-xl border-2 border-white bg-white px-[20px] py-[30px] shadow-sm"
+    >
       {showFilters && (
         <div className="w-[4rem]">
           <Checkbox
@@ -122,6 +160,7 @@ function GuidePreviewCard({
                 icon={<Icon name="archivingIcon" />}
                 label="Archive"
                 onClick={() => handleArchiveGuide(data?.id)}
+                isHovered={isHovered}
               />
             )}
             {data?.status === "Draft" && (
@@ -129,6 +168,7 @@ function GuidePreviewCard({
                 icon={<Icon name="publishingIcon" />}
                 label="Publish"
                 onClick={handlePublishGuide}
+                isHovered={isHovered}
               />
             )}
             <Link
@@ -143,13 +183,15 @@ function GuidePreviewCard({
                 icon={<Icon name="viewingIcon" />}
                 label="View"
                 onClick={() => true}
+                isHovered={isHovered}
               />
             </Link>
 
             <SupportButtons
               icon={<Icon name="deletingIcon" />}
               label="Delete"
-              onClick={() => handleDeleteGuide(data?.id)}
+              onClick={() => handleDeleteGuide()}
+              isHovered={isHovered}
             />
           </span>
           <p className="text-[#106840] font-normal text-xs">
