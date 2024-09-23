@@ -39,7 +39,7 @@ export const useCreatePostFormStore = create<CreatePostFormStore>(
       setData: data => set(state => ({ data: { ...state.data, ...data } })),
       resetStore: () => {
         set({
-          step: 9,
+          step: 1,
           data: {
             title: '',
             author: '',

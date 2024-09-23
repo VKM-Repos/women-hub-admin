@@ -1,5 +1,5 @@
-import { create, StateCreator } from 'zustand';
-import { persist, PersistOptions } from 'zustand/middleware';
+import { create, StateCreator } from "zustand";
+import { persist, PersistOptions } from "zustand/middleware";
 
 export interface EditSupportHeaderForm {
   step: number;
@@ -7,14 +7,14 @@ export interface EditSupportHeaderForm {
     headerDetails: {
       title: string;
       description: string;
-      };
+    };
     coverPicture: File | null;
     image: File | null;
     imagePreview: string;
     coverPicturePreview: string;
   };
   setStep: (step: number) => void;
-  setData: (data: Partial<EditSupportHeaderForm['data']>) => void;
+  setData: (data: Partial<EditSupportHeaderForm["data"]>) => void;
   resetStore: () => void;
 }
 
@@ -25,39 +25,39 @@ type MyPersist = (
 
 export const useEditSupportHeaderForm = create<EditSupportHeaderForm>(
   (persist as MyPersist)(
-    set => ({
+    (set) => ({
       step: 1,
       data: {
         headerDetails: {
-          title: 'Header Information',
-          description: '',
-          },
+          title: "",
+          description: "",
+        },
         coverPicture: null,
         image: null,
-        imagePreview: '',
-        coverPicturePreview: '',
+        imagePreview: "",
+        coverPicturePreview: "",
       },
-      setStep: step => set({ step }),
-      setData: data => set(state => ({ data: { ...state.data, ...data } })),
+      setStep: (step) => set({ step }),
+      setData: (data) => set((state) => ({ data: { ...state.data, ...data } })),
       resetStore: () => {
         set({
           step: 9,
           data: {
             headerDetails: {
-              title: 'Header Information',
-              description: '',
-              },
+              title: "Header Information",
+              description: "",
+            },
             coverPicture: null,
             image: null,
-            imagePreview: '',
-            coverPicturePreview: '',
+            imagePreview: "",
+            coverPicturePreview: "",
           },
         });
-        localStorage.removeItem('EditSupportHeaderForm');
+        localStorage.removeItem("EditSupportHeaderForm");
       },
     }),
     {
-      name: 'EditSupportHeaderForm',
+      name: "EditSupportHeaderForm",
     }
   )
 );

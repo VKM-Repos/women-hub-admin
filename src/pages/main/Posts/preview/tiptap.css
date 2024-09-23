@@ -14,7 +14,18 @@
     line-height: 1.1;
     margin-top: 2.5rem;
     text-wrap: pretty;
+    font-family: sora;
   }
+
+  p {
+    font-family: quickSand;
+    font-weight: 600;
+  }
+
+  .tiptap a {
+  text-decoration: underline;
+  color: blue;
+}
 
   h1, 
   h2 {

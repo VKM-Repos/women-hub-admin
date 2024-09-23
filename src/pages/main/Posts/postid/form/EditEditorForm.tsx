@@ -16,11 +16,11 @@ type Props = {
 };
 
 const EditEditorForm = ({ handleNext, data }: Props) => {
-  const { setData } = useEditPostFormStore();
+  const { setData, data: editData } = useEditPostFormStore();
   const form = useForm<z.infer<typeof editBlogPostSchema>>({
     resolver: zodResolver(editBlogPostSchema),
     defaultValues: {
-      body: data?.body || '',
+      body: editData?.body ? editData?.body : data?.body,
     },
   });
 
@@ -32,20 +32,15 @@ const EditEditorForm = ({ handleNext, data }: Props) => {
     handleNext();
   };
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     const values = form.getValues();
-  //     setData({
-  //       body: values?.body,
-  //     });
-  //   }, 3000);
-
-  //   return () => clearInterval(interval);
-  // }, [form, data]);
+  const handleAutoSave = (content: string) => {
+    setData({
+      body: content,
+    });
+  };
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-  }, []);
+  }, [data]);
 
   return (
     <Form {...form}>
@@ -58,6 +53,7 @@ const EditEditorForm = ({ handleNext, data }: Props) => {
           fieldType={FormFieldType.EDITOR}
           control={form.control}
           name="body"
+          onAutoSave={handleAutoSave}
         />
       </form>
     </Form>

@@ -66,7 +66,7 @@ function PostPreviewCard({
   };
 
   const date = new Date(post.createdAt);
-  date.setDate(date.getDate() - 4);
+  date.setDate(date.getDate());
   const formattedDate = date.toISOString().split('T')[0];
 
   const buttonRef = useRef<any>(null);

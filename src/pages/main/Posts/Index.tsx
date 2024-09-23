@@ -95,7 +95,7 @@ export default function Posts() {
   }, [currentPage]);
 
   return (
-    <section className="flex flex-col gap-y-6">
+    <section className="font-sora flex flex-col gap-y-6">
       <PostFilters
         showFilters={showFilters}
         setShowFilters={setShowFilters}
