@@ -6,7 +6,7 @@ import women_day_pic from "@/assets/news_letter_template/womens_day.svg";
 import new_month_pic from "@/assets/news_letter_template/new_month.svg";
 import connected_pic from "@/assets/news_letter_template/stay_connected.svg";
 export default function ChooseTemplate() {
-  const [templates, setTemplates] = useState([
+  const [templates] = useState([
     {
       subject: "International Women's Day",
       heading: "Welcome ! 🎉",
