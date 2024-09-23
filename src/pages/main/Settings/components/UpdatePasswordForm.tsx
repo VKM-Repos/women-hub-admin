@@ -204,7 +204,7 @@ export function UpdatePasswordForm() {
                   validationStatus.minLength ? "text-secondary" : ""
                 } `}
               >
-                8 characters
+                8 characters minimum
               </label>
             </li>
           </ul>

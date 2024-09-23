@@ -10,17 +10,12 @@ interface PostOptions {
 }
 export const usePOST = (
   endPoint: string,
-  {
-    baseURL,
-    // withAuth = true, // Default to true, but can be overridden
-    contentType = "application/json",
-    callback,
-  }: PostOptions = {}
+  { baseURL, contentType = "application/json", callback }: PostOptions = {}
 ) => {
   const { mutate, isError, isPending, isSuccess, data, error } = useMutation({
     mutationFn: async (values: any) => {
       const axiosInstance = createApiInstance(
-        baseURL || "https://dev.womenhub.org/api/"
+        baseURL || import.meta.env.VITE_APP_BASE_URL
       );
 
       const response = await axiosInstance.post(endPoint, values, {
