@@ -15,7 +15,7 @@ export const useGET = ({
 }) => {
   const fetch = async () => {
     const axiosInstance = createApiInstance(
-      baseURL || "https://dev.womenhub.org/api/"
+      baseURL || import.meta.env.VITE_APP_BASE_URL
     );
     const response = await axiosInstance.get(url);
     return response?.data;
