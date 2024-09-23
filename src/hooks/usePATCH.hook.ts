@@ -12,7 +12,6 @@ export const usePATCH = (
   url: string,
   {
     baseURL,
-    // withAuth = true, // Default to true, but can be overridden
     method = "PUT",
     contentType = "application/json",
     callback,
@@ -21,7 +20,7 @@ export const usePATCH = (
   const { mutate, isPending, isError, isSuccess, data, error } = useMutation({
     mutationFn: async (values: any) => {
       const axiosInstance = createApiInstance(
-        baseURL || "https://dev.womenhub.org/api/"
+        baseURL || import.meta.env.VITE_APP_BASE_URL
       );
       const response =
         method == "PUT"
