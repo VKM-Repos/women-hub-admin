@@ -12,8 +12,8 @@ import {
   getGroupedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import Pagination from "@/pages/main/Support/components/Pagination";
 
-import { Button } from "@/components/ui/button";
 import { useLocation } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import {
@@ -29,13 +29,27 @@ import { Link } from "react-router-dom";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { PlusIcon } from "lucide-react";
+import { Help } from "@/types/hepline.types";
 
 type tableProps = {
-  columns: ColumnDef<string>[];
-  data: any[] | string[];
+  columns: ColumnDef<Help>[];
+  data: Help[];
+  handlePrevious: () => void;
+  handleNext: () => void;
+  currentPage: number;
+  numberOfElements: number;
+  totalElements: number;
 };
 
-export default function HelplineTable({ columns, data }: tableProps) {
+export default function HelplineTable({
+  columns,
+  data,
+  handlePrevious,
+  handleNext,
+  currentPage,
+  totalElements,
+  numberOfElements,
+}: tableProps) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -92,26 +106,29 @@ export default function HelplineTable({ columns, data }: tableProps) {
             <Input
               placeholder="Search Articles"
               value={
-                (table.getColumn("helpline")?.getFilterValue() as string) ?? ""
+                (table.getColumn("name")?.getFilterValue() as string) ?? ""
               }
               onChange={(event) =>
-                table.getColumn("helpline")?.setFilterValue(event.target.value)
+                table.getColumn("name")?.setFilterValue(event.target.value)
               }
               className="w-full border-none bg-transparent focus:outline-none"
             />
           </div>
           <div>
             <Link
-              to={`/support/create-helpline`}
+              to={`/support/addHelpline`}
               className={cn(
                 buttonVariants({ variant: "secondary", size: "lg" }),
                 "flex gap-2 text-white rounded-[12px]"
               )}
+              state={{
+                pageName: "helpline",
+                operation: "new",
+                details: null,
+              }}
             >
-              {/* <Button className="text-white bg-secondary rounded-lg h-12 w-[150px] flex items-center gap-2"> */}
               <PlusIcon />
               Add new
-              {/* </Button> */}
             </Link>
           </div>
         </div>
@@ -170,53 +187,13 @@ export default function HelplineTable({ columns, data }: tableProps) {
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="text-muted-foreground flex-1 text-sm">
-          Showing 1-10 of {table.getFilteredRowModel().rows.length}
-        </div>
-        <div className="space-x-0">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            <span>
-              <svg
-                width="8"
-                height="12"
-                viewBox="0 0 8 12"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M7.41 10.4008L2.83 5.99438L7.41 1.58798L6 0.234375L0 5.99438L6 11.7544L7.41 10.4008Z"
-                  fill="#202224"
-                />
-              </svg>
-            </span>
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            <span>
-              <svg
-                width="8"
-                height="12"
-                viewBox="0 0 8 12"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M0.59 10.4008L5.17 5.99438L0.59 1.58798L2 0.234375L8 5.99438L2 11.7544L0.59 10.4008Z"
-                  fill="#202224"
-                />
-              </svg>
-            </span>
-          </Button>
-        </div>
+        <Pagination
+          handlePrevious={handlePrevious}
+          handleNext={handleNext}
+          currentPage={currentPage}
+          numberOfElements={totalElements}
+          totalElements={numberOfElements}
+        />
       </div>
     </div>
   );

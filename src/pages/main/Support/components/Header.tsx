@@ -1,32 +1,67 @@
-import MoreOptions from "@/components/common/dropdowns/MoreOptions";
 import Icon from "@/components/icons/Icon";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
 import Back from "@/components/shared/backButton/Back";
+import MoreOptions from "@/components/common/dropdowns/MoreOptions";
 
 type Props = {
-  step: number;
-  title?: string;
-  handleGoBack: () => void;
+  // step: number;
+  data?: any;
+  setSaveDraft: (value: boolean) => void;
+  formRef: React.RefObject<HTMLFormElement>;
+  // handleSaveDraft: () => void;
+  // handleSaveDraft: (event: any) => void;
 };
 
-const Header = ({ step, title, handleGoBack }: Props) => {
+type OptionsMenu = {
+  title: string;
+  isButton: boolean;
+  type: string;
+
+  onClick: () => void;
+};
+
+const Header = ({ data, formRef, setSaveDraft }: Props) => {
   const handlePublish = () => {};
-  const handleSaveToDraft = () => {};
+
   const handleUpdate = () => {};
 
-  const menu: any[] = [
+  const menu: OptionsMenu[] = [
     {
       title: "Save to drafts",
       isButton: true,
-      onClick: () => handleSaveToDraft(),
+      type: "submit",
+      onClick: () => {
+        if (formRef.current) {
+          setSaveDraft(true); // Set saveDraft to true
+
+          // Ensure form submits after the state change
+          setTimeout(() => {
+            formRef.current?.requestSubmit();
+          }, 0);
+        }
+      },
     },
-    {
-      title: "Update",
-      isButton: true,
-      onClick: () => handleUpdate(),
-    },
+    ...(data?.details?.status === "Draft"
+      ? [
+          {
+            title: "Update",
+            isButton: true,
+            type: "submit",
+            onClick: () => {
+              if (formRef.current) {
+                setSaveDraft(true); // Set saveDraft to true
+
+                // Ensure form submits after the state change
+                setTimeout(() => {
+                  formRef.current?.requestSubmit();
+                }, 0);
+              }
+            },
+          },
+        ]
+      : []),
   ];
 
   return (
@@ -34,47 +69,48 @@ const Header = ({ step, title, handleGoBack }: Props) => {
       <div className="w-full max-w-sm flex items-center justify-start gap-4">
         <div className="w-[20px] h-[40px] bg-[#B5E4CA] rounded"></div>
         <h2 className="text-xl font-semibold w-full max-w-lg truncate">
-          {title}
+          {data?.operation === "new" ? "Add Article" : "Edit Article"}
         </h2>
       </div>
-      <Back />
-      {step > 1 && (
-        <div className="flex items-center gap-3">
-          <button>
-            <Icon name="undoIcon" />
-          </button>
-          <button>
-            <Icon name="redoIcon" />
-          </button>
-          <Button
-            onClick={handleGoBack}
-            variant="outline"
-            className="flex gap-1 items-center"
-          >
-            <Icon name="arrowLeft" />
-            <span>Back</span>
-          </Button>
-          <Link
-            to={"/posts/:postId/:previewId"}
-            className={cn(
-              buttonVariants({ variant: "outline" }),
-              "flex gap-1 items-center"
-            )}
-          >
-            <Icon name="eyeIcon" />
-            <span>Preview</span>
-          </Link>
-          <Button
-            onClick={handlePublish}
-            variant="outline"
-            className="flex gap-1 items-center"
-          >
-            <Icon name="publishIcon" />
-            <span>Publish</span>
-          </Button>
-          <MoreOptions label="more options" menu={menu} />
-        </div>
-      )}
+      <div className=" col-span-1 flex items-center justify-end gap-x-4">
+        <Back />
+
+        {data?.pageName !== "helpline" ? (
+          <>
+            <Link
+              to={`/preview/1`}
+              className={cn(
+                buttonVariants({ variant: "outline" }),
+                "flex items-center gap-1"
+              )}
+            >
+              <Icon name="eyeIcon" />
+              <span>Preview</span>
+            </Link>
+            <Button
+              onClick={() => {
+                data?.details?.id && data?.details?.status !== "DRAFT"
+                  ? handleUpdate?.()
+                  : handlePublish?.();
+              }}
+              variant="outline"
+              className="flex items-center gap-1"
+            >
+              {data?.details?.id && data?.details?.status !== "DRAFT" ? (
+                <Icon name="publishIcon" />
+              ) : (
+                <Icon name="publishIcon" />
+              )}
+              <span>
+                {data?.details?.id && data?.details?.status !== "Draft"
+                  ? "Update"
+                  : "Publish"}
+              </span>
+            </Button>
+            <MoreOptions label="more options" menu={menu} />
+          </>
+        ) : null}
+      </div>
     </header>
   );
 };

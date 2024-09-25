@@ -12,13 +12,13 @@ export const useDELETE = (
   {
     callback,
     // withAuth = true,
-    baseURL = "https://dev.womenhub.org/api/",
+    baseURL = import.meta.env.VITE_APP_BASE_URL,
   }: DeleteOptions = {}
 ) => {
   const { mutate, isPending, isError, isSuccess, data, error } = useMutation({
     mutationFn: async (values: any) => {
       const axiosInstance = createApiInstance(
-        baseURL || "https://dev.womenhub.org/api/"
+        baseURL || import.meta.env.VITE_APP_BASE_URL
       );
       const response = await axiosInstance.delete(url, { data: values });
       return response;

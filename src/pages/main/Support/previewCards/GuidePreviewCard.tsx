@@ -5,52 +5,83 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import Icon from "@/components/icons/Icon";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 import { SupportButtons } from "../components/SupportButtons";
+import { Link } from "react-router-dom";
+import { usePATCH } from "@/hooks/usePATCH.hook";
+import { API_BASE_URLS } from "@/config/api.config";
 
 type Props = {
   showFilters: boolean;
   data: any;
-  checkedAll: boolean;
+  isSelected: boolean; // Whether the Guide is selected
+  toggleGuideSelection: () => void; // Function to toggle selection
 };
 
-function GuidePreviewCard({ showFilters, data, checkedAll }: Props) {
+function GuidePreviewCard({
+  showFilters,
+  data,
+  isSelected,
+  toggleGuideSelection,
+}: Props) {
   const navigate = useNavigate();
+
+  const { mutate: publishGuide } = usePATCH(`guides-with-file/${data.id}`, {
+    baseURL: API_BASE_URLS.supportServive,
+    contentType: "multipart/form-data",
+    callback: () => {
+      toast.success("Guide Published");
+      setTimeout(() => {
+        navigate("/support");
+      }, 1000);
+    },
+  });
 
   const handleArchiveGuide = (id: string) => {
     console.log(id);
-    toast.success("Guide archived");
+    toast.success("Guide Archived");
   };
   const handleDeleteGuide = (id: string) => {
     console.log(id);
     toast.success("Guide deleted");
   };
-  const handleViewGuide = (id: string) => {
-    console.log(id);
-    navigate(`/guide/${id}`);
-  };
-  const handlePublishGuide = (id: string) => {
-    console.log(id);
-    toast.success("Guide published");
+  // const handleViewGuide = (id: string) => {
+  //   console.log(id);
+  //   navigate(`/guide/${id}`);
+  // };
+  const handlePublishGuide = () => {
+    try {
+      // data.question = "updated2";
+      // data.status = "Published";
+      publishGuide({
+        title: data.title,
+        content: data.content,
+        file: null,
+        status: "Published",
+      });
+    } catch (error) {
+      console.error("Error Publishing FAQ:", error);
+      toast.error("Error Publishing FAQ.");
+    }
   };
 
-  const [isSelected, setIsSelected] = useState(false);
+  const date = new Date(data?.created_at);
+  date.setDate(date.getDate() - 4);
+  const formattedDate = date.toISOString().split("T")[0];
 
   return (
-    <div className="font-inter hover:border-secondary/70 group flex w-full items-center rounded-xl border-2 border-white bg-white px-[20px] py-[30px] shadow-sm">
+    <div className="font-inter hover:border-secondary/70 group flex justify-between w-full items-center rounded-xl border-2 border-white bg-white px-[20px] py-[30px] shadow-sm">
       {showFilters && (
         <div className="w-[4rem]">
           <Checkbox
-            checked={checkedAll ? checkedAll : isSelected}
-            onCheckedChange={(checked: boolean) => {
-              setIsSelected(checked);
-            }}
+            checked={isSelected}
+            onCheckedChange={toggleGuideSelection}
             aria-label="Select all"
             className="text-white"
           />
         </div>
       )}
-      <div className={`grid w-full grid-cols-10 gap-6`}>
+
+      <div className={`flex grid w-full grid-cols-10 gap-6`}>
         <picture className="col-span-1 aspect-square w-full">
           <img src={Thumbnail} alt="" />
         </picture>
@@ -61,44 +92,62 @@ function GuidePreviewCard({ showFilters, data, checkedAll }: Props) {
           <div className="flex items-center justify-start gap-2">
             <p
               className={cn(
-                "text-xs font-bold capitalize",
-                data?.status === "DRAFT" ? "text-secondary" : "text-[#106840]"
+                "fontlight text-xs capitalize",
+                data?.status === "Draft"
+                  ? "text-secondary"
+                  : data?.status === "Published"
+                  ? "text-textPrimary"
+                  : data?.status === "Archived"
+                  ? " text-yellow-400"
+                  : "text-textPrimary"
               )}
             >
               {data?.status?.toLocaleLowerCase()}
             </p>
             &bull;
-            <p className="font-normal text-[#65655E] text-xs">{data?.date}</p>
+            <p className="font-normal text-[#65655E] text-xs">
+              {formattedDate}
+            </p>
           </div>
         </div>
       </div>
+
       <div
         className={`flex w-full max-w-60 flex-col items-end justify-end gap-y-2`}
       >
         <div className="flex items-center justify-between gap-6">
           <span className="invisible flex items-center justify-start gap-2 group-hover:visible">
-            {data?.status === "PUBLISHED" && (
+            {data?.status === "Published" && (
               <SupportButtons
-                icon={<Icon name="archivePostIcon" />}
+                icon={<Icon name="archivingIcon" />}
                 label="Archive"
                 onClick={() => handleArchiveGuide(data?.id)}
               />
             )}
-            {data?.status === "DRAFT" && (
+            {data?.status === "Draft" && (
               <SupportButtons
-                icon={<Icon name="publishPostIcon" />}
+                icon={<Icon name="publishingIcon" />}
                 label="Publish"
-                onClick={() => handlePublishGuide(data?.id)}
+                onClick={handlePublishGuide}
               />
             )}
-            <SupportButtons
-              icon={<Icon name="viewPostIcon" />}
-              label="View"
-              onClick={() => handleViewGuide(data?.id)}
-            />
+            <Link
+              to={`/support/guide/${data?.id}`}
+              state={{
+                pageName: "guideline",
+                operation: "Edit",
+                details: data,
+              }}
+            >
+              <SupportButtons
+                icon={<Icon name="viewingIcon" />}
+                label="View"
+                onClick={() => true}
+              />
+            </Link>
 
             <SupportButtons
-              icon={<Icon name="deletePostIcon" />}
+              icon={<Icon name="deletingIcon" />}
               label="Delete"
               onClick={() => handleDeleteGuide(data?.id)}
             />
@@ -112,6 +161,101 @@ function GuidePreviewCard({ showFilters, data, checkedAll }: Props) {
         </div>
       </div>
     </div>
+    // <div
+    //   ref={buttonRef}
+    //   className="font-inter hover:border-secondary/70 group flex w-full items-center gap-x-4 rounded-xl border-2 border-white bg-white p-4 shadow-sm"
+    // >
+    //   <div className="">
+    //     {showFilters && (
+    //       <Checkbox
+    //         checked={isSelected}
+    //         onCheckedChange={toggleGuideSelection}
+    //       />
+    //     )}
+    //   </div>
+    //   <div className={`grid w-full grid-cols-10 gap-6`}>
+    //     <picture className="col-span-1 aspect-square w-full">
+    //       <img src={Thumbnail} alt="Thumbnail" />
+    //     </picture>
+    //     <div className="col-span-9 space-y-1">
+    //       <h5 className="font-normal text-textPrimary w-full max-w-xl truncate text-base">
+    //         {data?.title
+    //           ? data.title.charAt(0).toUpperCase() + data.title.slice(1)
+    //           : "No Title"}
+    //       </h5>
+
+    //       <div className="flex items-center justify-start gap-2">
+    //         <span className="border-secondary text-secondary font-light flex w-fit items-center justify-center rounded-[4px] border bg-white p-0 px-2 text-xs">
+    //           {data?.category?.name || "No Category"}
+    //         </span>
+    //         <p
+    //           className={cn(
+    //             "fontlight text-xs capitalize",
+    //             data?.status === "Draft"
+    //               ? "text-secondary"
+    //               : data?.status === "Publish"
+    //               ? "text-textPrimary"
+    //               : data?.status === "Archive"
+    //               ? " text-yellow-400"
+    //               : "text-textPrimary"
+    //           )}
+    //         >
+    //           {data?.status?.toLocaleLowerCase() || "Unknown Status"}
+    //         </p>
+    //         &bull;
+    //         <p className="font-normal text-txtColor text-xs">
+    //           {data?.status === "Publish" ? data.datePublish : formattedDate}
+    //         </p>
+    //       </div>
+    //     </div>
+    //   </div>
+    //   <div
+    //     className={`flex w-full max-w-60 flex-col items-end justify-end gap-y-2`}
+    //   >
+    //     <div className="flex items-center justify-between gap-6">
+    //       <span className="flex items-center justify-start gap-2">
+    //         {data?.status === "Publish" && (
+    //           <SupportButtons
+    //             icon={<Icon name="archiveGuideIcon" />}
+    //             label="Archive"
+    //             onClick={() => handleArchiveGuide(data?.id)}
+    //             isHovered={isHovered}
+    //           />
+    //         )}
+    //         {data?.status === "Draft" && (
+    //           <SupportButtons
+    //             icon={<Icon name="publishGuideIcon" />}
+    //             label="Publish"
+    //             onClick={() => handlePublishGuide(data?.id)}
+    //             isHovered={isHovered}
+    //           />
+    //         )}
+    //         <SupportButtons
+    //           icon={<Icon name="viewGuideIcon" />}
+    //           label="View"
+    //           onClick={() => handleViewGuide(data?.id)}
+    //           isHovered={isHovered}
+    //         />
+    //       </span>
+    //       <p className="text-textPrimary font-normal text-xs">
+    //         {data?.author || "No Author"}
+    //       </p>
+    //       <picture className="aspect-square w-5">
+    //         <img src={Avatar} alt="Avatar" />
+    //       </picture>
+    //     </div>
+    //     <div className="text-txtColor flex items-start gap-4 text-xs font-semibold">
+    //       <span className="flex items-center gap-2">
+    //         {data.numberOfComments || 0}
+    //         <Icon name="GuideCommentIcon" />
+    //       </span>
+    //       <span className="flex items-center gap-2">
+    //         {data.numberOfLikes || 0}
+    //         <Icon name="GuideInteractionIcon" />
+    //       </span>
+    //     </div>
+    //   </div>
+    // </div>
   );
 }
 

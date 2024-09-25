@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import Icon from "@/components/icons/Icon";
+// import { Button } from "@/components/ui/button";
+// import Icon from "@/components/icons/Icon";
 import Tag from "@/components/dashboard/Tag";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -23,14 +23,6 @@ const Support = () => {
         <div className="flex justify-between">
           <div className="self-center">
             Manage and update the support content for WomenHub.
-          </div>
-          <div>
-            <Button className="text-white bg-secondary h-12 w-[150px] text-base flex items-center gap-2 rounded-[12px]">
-              <span>
-                <Icon name="plus" />
-              </span>
-              Add new
-            </Button>
           </div>
         </div>
         <div className="flex mt-10 mb-10 ">
