@@ -80,38 +80,38 @@ const AI: React.FC<AIProps> = ({ editor }) => {
       'Correct Phrase': {
         endpoint: `${api_endpoint}/api/ai/correct-phrase`,
         body: {
-          phrase: `Act as a grammar expert and correct the following phrase: "${text}"`,
+          phrase: `Act as a grammar expert and correct the following phrase: '${text}'`,
         },
       },
       'Translate Text': {
         endpoint: `${api_endpoint}/api/ai/translate-text`,
         body: {
-          text: `Translate this text into Spanish while preserving the original meaning: "${text}"`,
+          text: `Translate this text into Spanish while preserving the original meaning: '${text}'`,
           language: 'spanish',
         },
       },
       'Analyze Text': {
         endpoint: `${api_endpoint}/api/ai/analyze-text`,
         body: {
-          question: `Analyze the following text and provide insights on its themes and meanings: "${text}"`,
+          question: `Analyze the following text and provide insights on its themes and meanings: '${text}'`,
         },
       },
       'Health Query': {
         endpoint: `${api_endpoint}/api/ai/health-query`,
         body: {
-          question: `Act as a medical advisor and answer this health-related query: "${text}"`,
+          question: `Act as a medical advisor and answer this health-related query: '${text}'`,
         },
       },
       'Summarize Content': {
         endpoint: `${api_endpoint}/api/ai/summarize-content`,
         body: {
-          content: `Provide a detailed summary of the following content: "${text}"`,
+          content: `Provide a detailed summary of the following content: '${text}'`,
         },
       },
       'Generate Content': {
         endpoint: `${api_endpoint}/api/ai/generate-content`,
         body: {
-          topic: `Generate content based on this topic and ensure it is organized and comprehensive: "${text}"`,
+          topic: `Generate content based on this topic and ensure it is organized and comprehensive: '${text}'`,
         },
       },
     };
@@ -121,8 +121,14 @@ const AI: React.FC<AIProps> = ({ editor }) => {
 
   const processAIRequest = async (action: string) => {
     const selectedText = getSelectedText();
-    if (!selectedText)
-      return toast.error('No text selected for AI processing.');
+    const textareaText = getTextareaValue();
+
+    const textToProcess = selectedText || textareaText;
+
+    // Ensure some text is available
+    if (!textToProcess) {
+      return toast.error('No text selected or entered for AI processing.');
+    }
 
     const { endpoint, body } = getRequestDetails(action, selectedText);
     setAiTyping(true);
@@ -202,10 +208,30 @@ const AI: React.FC<AIProps> = ({ editor }) => {
     setAiResponse('');
   };
 
-  // Extract selected text from editor
+  // Extract selected text from editor or textarea
   const getSelectedText = (): string => {
     const { from, to } = editor.state.selection;
-    return editor.state.doc.textBetween(from, to, ' ');
+    const selectedText = editor.state.doc.textBetween(from, to, ' ');
+
+    // Ensure selected text is not empty
+    return selectedText.trim() ? selectedText : '';
+  };
+
+  // Get the value from the textarea
+  const getTextareaValue = (): string => {
+    const textarea = document.getElementById(
+      'ai-command-input'
+    ) as HTMLTextAreaElement;
+    return textarea?.value.trim() || '';
+  };
+
+  // Handle textarea change to enable dynamic AI request
+  const handleTextareaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    if (e.target.value.length > 0) {
+      setIsTextareaActive(true);
+    } else {
+      setIsTextareaActive(false);
+    }
   };
 
   const handleTextareaFocus = () => {
@@ -214,14 +240,6 @@ const AI: React.FC<AIProps> = ({ editor }) => {
 
   const handleTextareaBlur = () => {
     setIsTextareaActive(false);
-  };
-
-  const handleTextareaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    if (e.target.value.length > 0) {
-      setIsTextareaActive(true);
-    } else {
-      setIsTextareaActive(false);
-    }
   };
 
   return (
@@ -254,7 +272,9 @@ const AI: React.FC<AIProps> = ({ editor }) => {
               {!isTextareaActive && !aiTyping && (
                 <div className="text-txtColor z-4 absolute top-0 mt-2 flex items-center gap-2 text-xs">
                   <Wand2 size={14} />
-                  {aiTyping ? 'AI is typing...' : 'Ask AI to improve the text'}
+                  {aiResponse
+                    ? 'Ask AI what to do next'
+                    : 'Ask AI to improve the text'}
                 </div>
               )}
               <textarea
@@ -266,7 +286,7 @@ const AI: React.FC<AIProps> = ({ editor }) => {
                 onChange={handleTextareaChange}
                 onKeyDown={async e => {
                   if (e.key === 'Enter' && !aiTyping) {
-                    processAIRequest(`${api_endpoint}/api/ai/generate-content`);
+                    processAIRequest('Generate Content');
                   }
                 }}
               />
