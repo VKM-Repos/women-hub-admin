@@ -26,7 +26,7 @@ function FaqPreviewCard({
 }: Props) {
   const navigate = useNavigate();
 
-  const { mutate: publishFAQ } = usePATCH(`faqs/${data.id}`, {
+  const { mutate: updateFAQ } = usePATCH(`faqs/${data.id}`, {
     baseURL: API_BASE_URLS.supportServive,
     method: "PATCH",
     callback: () => {
@@ -48,7 +48,7 @@ function FaqPreviewCard({
   const handlePublishFAQ = () => {
     try {
       data.status = "Published";
-      publishFAQ(data);
+      updateFAQ(data);
     } catch (error) {
       console.error("Error Publishing FAQ:", error);
       toast.error("Error Publishing FAQ.");

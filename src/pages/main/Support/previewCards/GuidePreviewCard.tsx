@@ -27,15 +27,26 @@ function GuidePreviewCard({
 }: Props) {
   const navigate = useNavigate();
 
-  const { mutate: publishGuide } = usePATCH(`guides-with-file/${data.id}`, {
+  const { mutate: updateGuideline } = usePATCH(`guides-with-file/${data.id}`, {
     baseURL: API_BASE_URLS.supportServive,
     contentType: "multipart/form-data",
-    callback: () => {
-      toast.success("Guide Published");
+    callback: (variables: any) => {
+      console.log("after hereeeeee: ", variables.status);
+      const status = variables.status; // Get the status from the submitted data
+
+      // Dynamically set the toast message based on the status
+      if (status === "Published") {
+        toast.success("Guideline has been Published");
+      } else if (status === "Archived") {
+        toast.success("Guideline has been Archived");
+      }
+
+      // toast.success("Guideline has been Published");
+
+      // Delay the navigation to let the toast be visible for a while
       setTimeout(() => {
-        navigate("/support");
-        // navigate("/support/a-guide-to-womenhub");
-      }, 1000);
+        navigate(0); // Trigger the navigation after the toast is shown
+      }, 2000);
     },
   });
 
@@ -43,38 +54,49 @@ function GuidePreviewCard({
     baseURL: API_BASE_URLS.supportServive,
     // contentType: "multipart/form-data",
     callback: () => {
-      toast.success("Delete Guide");
+      // Show the toast first
+      toast.success("Guideline has been deleted");
+
+      // Delay the navigation to let the toast be visible for a while
       setTimeout(() => {
-        navigate("/support");
-        // navigate("/support/a-guide-to-womenhub");
-      }, 1000);
+        navigate(0); // Trigger the navigation after the toast is shown
+      }, 2000);
     },
   });
 
-  const handleArchiveGuide = (id: string) => {
-    console.log(id);
-    toast.success("Guide Archived");
+  const handleArchiveGuide = () => {
+    try {
+      updateGuideline({
+        title: data.title,
+        content: data.content,
+        file: null,
+        status: "Archived",
+      });
+    } catch (error) {
+      console.error("Error Archiving Guideline:", error);
+      toast.error("Failed to Archived Guideline.");
+    }
   };
   const handleDeleteGuide = () => {
     try {
       deleteGuide(data.id);
     } catch (error) {
-      console.error("Error Publishing FAQ:", error);
-      toast.error("Error Publishing FAQ.");
+      console.error("Error Deleting Guideline:", error);
+      toast.error("Failed to delete Guideline.");
     }
   };
 
   const handlePublishGuide = () => {
     try {
-      publishGuide({
+      updateGuideline({
         title: data.title,
         content: data.content,
         file: null,
         status: "Published",
       });
     } catch (error) {
-      console.error("Error Publishing FAQ:", error);
-      toast.error("Error Publishing FAQ.");
+      console.error("Error Publishing Guideline:", error);
+      toast.error("Failed to Publish Guideline.");
     }
   };
 
@@ -159,7 +181,7 @@ function GuidePreviewCard({
               <SupportButtons
                 icon={<Icon name="archivingIcon" />}
                 label="Archive"
-                onClick={() => handleArchiveGuide(data?.id)}
+                onClick={handleArchiveGuide}
                 isHovered={isHovered}
               />
             )}

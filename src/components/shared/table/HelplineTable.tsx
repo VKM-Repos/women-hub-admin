@@ -12,7 +12,7 @@ import {
   getGroupedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import Pagination from "@/pages/main/Support/components/Pagination";
+// import Pagination from "@/pages/main/Support/components/Pagination";
 
 import { useLocation } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -44,12 +44,12 @@ type tableProps = {
 export default function HelplineTable({
   columns,
   data,
-  handlePrevious,
-  handleNext,
-  currentPage,
-  totalElements,
-  numberOfElements,
-}: tableProps) {
+}: // handlePrevious,
+// handleNext,
+// currentPage,
+// totalElements,
+// numberOfElements,
+tableProps) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -187,13 +187,13 @@ export default function HelplineTable({
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <Pagination
+        {/* <Pagination
           handlePrevious={handlePrevious}
           handleNext={handleNext}
           currentPage={currentPage}
-          numberOfElements={totalElements}
+          // numberOfElements={totalElements}
           totalElements={numberOfElements}
-        />
+        /> */}
       </div>
     </div>
   );

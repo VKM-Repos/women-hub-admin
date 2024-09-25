@@ -37,7 +37,7 @@ const CreateFAQForm = () => {
     callback: () => {
       toast.success("FAQ Published");
       setTimeout(() => {
-        navigate("/support");
+        navigate(-1);
       }, 1000);
     },
   });
@@ -130,18 +130,8 @@ const CreateFAQForm = () => {
 
       updPublishFAQ(data, {
         onSuccess: () => {
-          toast.success("Published", {
-            position: "bottom-right",
-            style: {
-              backgroundColor: "green",
-              color: "white",
-              textAlign: "left",
-            },
-            icon: "",
-          });
-
           form.reset();
-          navigate("/support");
+          navigate(-1);
         },
         onError: (error) => {
           console.error("Error Updating and publishing FAQ:", error);
@@ -149,15 +139,6 @@ const CreateFAQForm = () => {
         },
       });
     } else {
-      toast.success(`Added FAQ.........`, {
-        position: "bottom-right",
-        style: {
-          backgroundColor: "green",
-          color: "white",
-          textAlign: "left",
-        },
-        icon: "",
-      });
       const timestamp = new Date().toISOString();
       data.created_at = timestamp;
       data.updated_at = timestamp;
@@ -165,18 +146,10 @@ const CreateFAQForm = () => {
 
       mutate(data, {
         onSuccess: () => {
-          toast.success("Published", {
-            position: "bottom-right",
-            style: {
-              backgroundColor: "green",
-              color: "white",
-              textAlign: "left",
-            },
-            icon: "",
-          });
           setSaveDraft(false);
           form.reset();
-          navigate("/support"); // Navigate after successful submission
+          navigate(-1); // Navigate after successful submission
+          toast.success("FAQ has been published");
         },
         onError: (error) => {
           setSaveDraft(false);
