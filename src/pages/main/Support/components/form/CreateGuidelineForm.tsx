@@ -49,17 +49,25 @@ const CreateGuidelineForm = () => {
     `guides-with-file/${state.details?.id}`,
     {
       baseURL: API_BASE_URLS.supportServive,
-      callback: () => {
-        toast.success("Guide Published");
-        setTimeout(() => {
-          navigate("/support");
-        }, 1000);
-      },
+      contentType: "multipart/form-data",
+      // callback: () => {
+      //   // toast.success("Guide Published");
+      //   setTimeout(() => {
+      //     navigate("/support");
+      //   }, 1000);
+      // },
     }
   );
 
-  const form = useForm<z.infer<typeof createGuideSchema>>({
-    resolver: zodResolver(createGuideSchema),
+  // Conditional schema selection based on the operation (Create or Edit)
+  const schema =
+    state?.operation === "Edit" ? editGuideSchema : createGuideSchema;
+
+  // Infer the form data type based on the schema
+  type FormData = z.infer<typeof schema>;
+
+  const form = useForm<FormData>({
+    resolver: zodResolver(schema),
     defaultValues: {
       title: state.details?.title ? state.details.title : "",
       content: state.details?.content ? state.details.content : "",
@@ -87,39 +95,29 @@ const CreateGuidelineForm = () => {
 
       formData.append("status", "Published");
 
-      updPublishGuide(formData, {
-        onSuccess: () => {
-          // setSelectedFile("");
-          // setImagePreview(null);
-          toast.success("Published", {
-            position: "bottom-right",
-            style: {
-              backgroundColor: "green",
-              color: "white",
-              textAlign: "left",
-            },
-            icon: "",
-          });
-
-          setIsOpen(false);
-          form.reset();
+      updPublishGuide(
+        {
+          title: data.title,
+          content: data.content,
+          file: null,
+          status: "Published",
         },
-        onError: (error) => {
-          console.error("Error Updating and publishing Guideline:", error);
-          alert("Error Updating and publishing Guideline.");
-        },
-      });
+        {
+          onSuccess: () => {
+            setSaveDraft(false);
+            setIsOpen(false);
+            form.reset();
+            navigate(-1);
+            toast.success("Guideline has been updated");
+          },
+          onError: (error) => {
+            setSaveDraft(false);
+            console.error("Error Updating and publishing Guideline:", error);
+            toast.error("Error Updating Guideline.");
+          },
+        }
+      );
     } else {
-      toast.success(`Added new guideline.........`, {
-        position: "bottom-right",
-        style: {
-          backgroundColor: "green",
-          color: "white",
-          textAlign: "left",
-        },
-        icon: "",
-      });
-
       let formData = new FormData();
       formData.append("title", data.title);
       formData.append("content", data.content);
@@ -132,24 +130,19 @@ const CreateGuidelineForm = () => {
 
       mutate(formData, {
         onSuccess: () => {
-          toast.success("Published", {
-            position: "bottom-right",
-            style: {
-              backgroundColor: "green",
-              color: "white",
-              textAlign: "left",
-            },
-            icon: "",
-          });
-          setSaveDraft(false);
           setIsOpen(false);
           form.reset();
-          navigate("/support");
+          navigate(-1);
+          saveDraft
+            ? toast.success("Guideline has been draft")
+            : toast.success("Guideline has been published");
+          setSaveDraft(false);
         },
         onError: (error) => {
           setSaveDraft(false);
           console.error("Error creating Guideline:", error);
-          alert("Error creating Guideline.");
+          toast.error("Failed to publish Guideline.");
+          // alert("Error creating Guideline.");
         },
       });
     }

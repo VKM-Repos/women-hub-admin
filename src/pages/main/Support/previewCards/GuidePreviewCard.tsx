@@ -9,6 +9,8 @@ import { SupportButtons } from "../components/SupportButtons";
 import { Link } from "react-router-dom";
 import { usePATCH } from "@/hooks/usePATCH.hook";
 import { API_BASE_URLS } from "@/config/api.config";
+import { useDELETE } from "@/hooks/useDelete.hook";
+import { useEffect, useRef, useState } from "react";
 
 type Props = {
   showFilters: boolean;
@@ -25,42 +27,76 @@ function GuidePreviewCard({
 }: Props) {
   const navigate = useNavigate();
 
-  const { mutate: publishGuide } = usePATCH(`guides-with-file/${data.id}`, {
+  const { mutate: updateGuideline } = usePATCH(`guides-with-file/${data.id}`, {
     baseURL: API_BASE_URLS.supportServive,
     contentType: "multipart/form-data",
-    callback: () => {
-      toast.success("Guide Published");
+    callback: (variables: any) => {
+      console.log("after hereeeeee: ", variables.status);
+      const status = variables.status; // Get the status from the submitted data
+
+      // Dynamically set the toast message based on the status
+      if (status === "Published") {
+        toast.success("Guideline has been Published");
+      } else if (status === "Archived") {
+        toast.success("Guideline has been Archived");
+      }
+
+      // toast.success("Guideline has been Published");
+
+      // Delay the navigation to let the toast be visible for a while
       setTimeout(() => {
-        navigate("/support");
-      }, 1000);
+        navigate(0); // Trigger the navigation after the toast is shown
+      }, 2000);
     },
   });
 
-  const handleArchiveGuide = (id: string) => {
-    console.log(id);
-    toast.success("Guide Archived");
+  const { mutate: deleteGuide } = useDELETE(`guides/${data.id}`, {
+    baseURL: API_BASE_URLS.supportServive,
+    // contentType: "multipart/form-data",
+    callback: () => {
+      // Show the toast first
+      toast.success("Guideline has been deleted");
+
+      // Delay the navigation to let the toast be visible for a while
+      setTimeout(() => {
+        navigate(0); // Trigger the navigation after the toast is shown
+      }, 2000);
+    },
+  });
+
+  const handleArchiveGuide = () => {
+    try {
+      updateGuideline({
+        title: data.title,
+        content: data.content,
+        file: null,
+        status: "Archived",
+      });
+    } catch (error) {
+      console.error("Error Archiving Guideline:", error);
+      toast.error("Failed to Archived Guideline.");
+    }
   };
-  const handleDeleteGuide = (id: string) => {
-    console.log(id);
-    toast.success("Guide deleted");
+  const handleDeleteGuide = () => {
+    try {
+      deleteGuide(data.id);
+    } catch (error) {
+      console.error("Error Deleting Guideline:", error);
+      toast.error("Failed to delete Guideline.");
+    }
   };
-  // const handleViewGuide = (id: string) => {
-  //   console.log(id);
-  //   navigate(`/guide/${id}`);
-  // };
+
   const handlePublishGuide = () => {
     try {
-      // data.question = "updated2";
-      // data.status = "Published";
-      publishGuide({
+      updateGuideline({
         title: data.title,
         content: data.content,
         file: null,
         status: "Published",
       });
     } catch (error) {
-      console.error("Error Publishing FAQ:", error);
-      toast.error("Error Publishing FAQ.");
+      console.error("Error Publishing Guideline:", error);
+      toast.error("Failed to Publish Guideline.");
     }
   };
 
@@ -68,8 +104,32 @@ function GuidePreviewCard({
   date.setDate(date.getDate() - 4);
   const formattedDate = date.toISOString().split("T")[0];
 
+  const buttonRef = useRef<any>(null);
+  const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    const handleMouseEnter = () => setIsHovered(true);
+    const handleMouseLeave = () => setIsHovered(false);
+
+    const buttonElement = buttonRef.current;
+    if (buttonElement) {
+      buttonElement.addEventListener("mouseenter", handleMouseEnter);
+      buttonElement.addEventListener("mouseleave", handleMouseLeave);
+    }
+
+    return () => {
+      if (buttonElement) {
+        buttonElement.removeEventListener("mouseenter", handleMouseEnter);
+        buttonElement.removeEventListener("mouseleave", handleMouseLeave);
+      }
+    };
+  }, []);
+
   return (
-    <div className="font-inter hover:border-secondary/70 group flex justify-between w-full items-center rounded-xl border-2 border-white bg-white px-[20px] py-[30px] shadow-sm">
+    <div
+      ref={buttonRef}
+      className="font-inter hover:border-secondary/70 group flex justify-between w-full items-center rounded-xl border-2 border-white bg-white px-[20px] py-[30px] shadow-sm"
+    >
       {showFilters && (
         <div className="w-[4rem]">
           <Checkbox
@@ -121,7 +181,8 @@ function GuidePreviewCard({
               <SupportButtons
                 icon={<Icon name="archivingIcon" />}
                 label="Archive"
-                onClick={() => handleArchiveGuide(data?.id)}
+                onClick={handleArchiveGuide}
+                isHovered={isHovered}
               />
             )}
             {data?.status === "Draft" && (
@@ -129,6 +190,7 @@ function GuidePreviewCard({
                 icon={<Icon name="publishingIcon" />}
                 label="Publish"
                 onClick={handlePublishGuide}
+                isHovered={isHovered}
               />
             )}
             <Link
@@ -143,13 +205,15 @@ function GuidePreviewCard({
                 icon={<Icon name="viewingIcon" />}
                 label="View"
                 onClick={() => true}
+                isHovered={isHovered}
               />
             </Link>
 
             <SupportButtons
               icon={<Icon name="deletingIcon" />}
               label="Delete"
-              onClick={() => handleDeleteGuide(data?.id)}
+              onClick={() => handleDeleteGuide()}
+              isHovered={isHovered}
             />
           </span>
           <p className="text-[#106840] font-normal text-xs">

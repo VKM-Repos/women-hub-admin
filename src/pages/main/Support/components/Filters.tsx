@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { PlusIcon, SearchIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import Icon from "@/components/icons/Icon";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SupportButtons } from "./SupportButtons";
 import MoreFilter from "./MoreFilters";
 
@@ -37,6 +37,26 @@ const Filters = ({
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState(search);
   const [currentFilter, setCurrentFilter] = useState("All");
+  const [isHovered, setIsHovered] = useState(false);
+  const buttonRef = useRef<any>(null);
+
+  useEffect(() => {
+    const handleMouseEnter = () => setIsHovered(true);
+    const handleMouseLeave = () => setIsHovered(false);
+
+    const buttonElement = buttonRef.current;
+    if (buttonElement) {
+      buttonElement.addEventListener("mouseenter", handleMouseEnter);
+      buttonElement.addEventListener("mouseleave", handleMouseLeave);
+    }
+
+    return () => {
+      if (buttonElement) {
+        buttonElement.removeEventListener("mouseenter", handleMouseEnter);
+        buttonElement.removeEventListener("mouseleave", handleMouseLeave);
+      }
+    };
+  }, []);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -116,7 +136,7 @@ const Filters = ({
           </Link>
         )}
       </div>
-      <div className="flex w-full justify-between">
+      <div ref={buttonRef} className="flex w-full justify-between">
         <>
           {showFilters ? (
             <span className="flex items-center justify-start gap-4">
@@ -134,18 +154,21 @@ const Filters = ({
                   icon={<Icon name="archivePostIcon" />}
                   label="Archive"
                   onClick={() => {}}
+                  isHovered={isHovered}
                 />
 
                 <SupportButtons
                   icon={<Icon name="publishPostIcon" />}
                   label="Publish"
                   onClick={() => {}}
+                  isHovered={isHovered}
                 />
 
                 <SupportButtons
                   icon={<Icon name="deletePostIcon" />}
                   label="Delete"
                   onClick={() => {}}
+                  isHovered={isHovered}
                 />
               </span>
             </span>

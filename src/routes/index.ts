@@ -229,12 +229,17 @@ export const routess = [
         path: "/settings",
       },
       {
-        name: "Support",
-        title: "Support page",
-        component: Support,
-        path: "/support",
+        name: "Supports",
+        title: "List of Supports",
         hasSiderLink: true,
         routes: [
+          {
+            name: "Support",
+            title: "Support List",
+            // hasSiderLink: true,
+            component: Support,
+            path: "/support",
+          },
           {
             name: "Support",
             title: "Guidelines",
@@ -264,21 +269,21 @@ export const routess = [
             path: "/support/tickets",
           },
           {
-            name: "Create Guideline",
-            title: "Create Guideline",
+            name: "Guideline",
+            title: "Create guideline",
             hasSiderLink: false,
             component: AddGuideline,
             path: "/support/create-guideline",
           },
           {
-            name: "Create FAQ",
+            name: "FAQ",
             title: "Create FAQ",
             hasSiderLink: false,
             component: AddFAQ,
             path: "/support/create-FAQ",
           },
           {
-            name: "Create Helpline",
+            name: "Helpline",
             title: "Create Helpline",
             hasSiderLink: false,
             component: AddHelpline,
