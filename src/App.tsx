@@ -1,17 +1,20 @@
-import { Routes } from "./routes";
+import { Routes } from './routes';
 import {
   QueryCache,
   QueryClient,
   QueryClientProvider,
-} from "@tanstack/react-query";
-import { Toaster, ToastPosition } from "react-hot-toast";
-import useAppStore from "./lib/store/app.store";
+} from '@tanstack/react-query';
+import { Toaster, ToastPosition } from 'react-hot-toast';
+import useAppStore from './lib/store/app.store';
+import useResetAllStores from './store/useResetAll.store';
 function App() {
   const { logout } = useAppStore();
+  const resetAllStores = useResetAllStores();
   const queryClient = new QueryClient({
     queryCache: new QueryCache({
       onError: (error: any) => {
         if (error.response.status === 401) {
+          resetAllStores();
           logout();
         }
       },
@@ -19,19 +22,19 @@ function App() {
   });
   const { loggedIn } = useAppStore();
   const toastConfig = {
-    position: "top-center" as ToastPosition,
+    position: 'top-center' as ToastPosition,
     duration: 3000,
     style: {
-      minWidth: "250px",
+      minWidth: '250px',
     },
     success: {
-      icon: "👍",
+      icon: '👍',
     },
     error: {
-      icon: "❌",
+      icon: '❌',
     },
     loading: {
-      icon: "⏳",
+      icon: '⏳',
       duration: Infinity,
     },
   } as const;
