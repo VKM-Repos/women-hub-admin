@@ -131,10 +131,18 @@ export default function Helplines() {
   const { mutate: changeHelpline } = usePATCH(`helplines/${id}`, {
     baseURL: API_BASE_URLS.supportServive,
     method: "PATCH",
-    callback: () => {
-      toast.success("Helpline Activated");
+    callback: (variables: any) => {
+      const status = variables.status; // Get the status from the submitted data
+
+      // Dynamically set the toast message based on the status
+      if (status === "Active") {
+        toast.success("Heelpline has been Activated");
+      } else if (status === "Inactive") {
+        toast.success("Helpline has been Deactivated");
+      }
+
       setTimeout(() => {
-        navigate("/support");
+        navigate(0);
       }, 1000);
     },
   });
@@ -142,16 +150,16 @@ export default function Helplines() {
   const { mutate: deleteHelpline } = useDELETE(`helplines/${id}`, {
     baseURL: API_BASE_URLS.supportServive,
     callback: () => {
-      toast.success("Helpline deleted successfully");
+      toast.success("Helpline has been deleted.");
       setTimeout(() => {
-        navigate("/support");
-      }, 1000);
+        navigate(0);
+      }, 2000);
     },
   });
 
   const handleActivateHelpline = (row: any) => {
     try {
-      row.original.status = "Activate";
+      row.original.status = "Active";
       setId(row.original.id); // Modify status
       changeHelpline(row.original); // Trigger the mutation
     } catch (error) {
@@ -162,7 +170,7 @@ export default function Helplines() {
 
   const handleDeactivateHelpline = (row: any) => {
     try {
-      row.original.status = "Suspended"; // Modify status
+      row.original.status = "Inactive"; // Modify status
       setId(row.original.id);
       changeHelpline(row.original); // Trigger the mutation for deactivation
     } catch (error) {
@@ -175,16 +183,17 @@ export default function Helplines() {
     // console.log(row);
     try {
       setId(row.original.id);
-      let formData = {
-        faq_id: row.original.id,
-        created_at: row.original.created_at,
-        name: row.original.name,
-        phone: row.original.phone,
-        state_id: row.original.state_id,
-        status: row.original.status,
-        updated_at: row.original.updated_at,
-      };
-      deleteHelpline(formData);
+      // let faq_id: row.original.id
+      // let formData = {
+      //   faq_id: row.original.id,
+      //   // created_at: row.original.created_at,
+      //   // name: row.original.name,
+      //   // phone: row.original.phone,
+      //   // state_id: row.original.state_id,
+      //   // status: row.original.status,
+      //   // updated_at: row.original.updated_at,
+      // };
+      deleteHelpline({ faq_id: row.original.id });
     } catch (error) {
       console.error("Error Deactivating Helpline:", error);
       toast.error("Error Deactivating Helpline.");
@@ -249,11 +258,7 @@ export default function Helplines() {
             className={`${
               row.getValue("status") === "Active"
                 ? "bg-[#E3FFF4] text-[#83BF6E]"
-                : row.getValue("status") === "Flagged"
-                ? "bg-[#FFF2B0] text-[#F7931E]"
-                : row.getValue("status") === "Suspended"
-                ? "bg-[#FFE7E4] text-[#FF6A55]"
-                : ""
+                : "bg-[#FFE7E4] text-[#FF6A55]"
             } px-1.5 py-1 rounded-md text-xs`}
           >
             {row.getValue("status")}
@@ -277,7 +282,7 @@ export default function Helplines() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <div className="flex flex-col gap-2 font-medium font-inter text-sm px-2">
-                <div className="flex flex-row items-center">
+                <div className="flex flex-row items-center cursor-pointer">
                   <div className="mr-2">
                     <Icon name="viewingIcon" />
                   </div>
@@ -301,17 +306,17 @@ export default function Helplines() {
 
                 {row.original.status == "Active" ? (
                   <div
-                    className="flex items-center"
+                    className="flex items-center cursor-pointer"
                     onClick={() => handleDeactivateHelpline(row)}
                   >
                     <div className="mr-2">
                       <Icon name="deactivateIcon" />
                     </div>
-                    <span>Deactivate</span>
+                    <span>Inactive</span>
                   </div>
                 ) : (
                   <div
-                    className="flex items-center"
+                    className="flex items-center cursor-pointer"
                     onClick={() => handleActivateHelpline(row)}
                   >
                     <div className="mr-2">
@@ -322,7 +327,7 @@ export default function Helplines() {
                 )}
 
                 <div
-                  className="flex flex-row items-center"
+                  className="flex flex-row items-center cursor-pointer"
                   onClick={() => handleDeleteHelpline(row)}
                 >
                   <div className="mr-2">

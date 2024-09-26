@@ -50,12 +50,6 @@ const CreateGuidelineForm = () => {
     {
       baseURL: API_BASE_URLS.supportServive,
       contentType: "multipart/form-data",
-      // callback: () => {
-      //   // toast.success("Guide Published");
-      //   setTimeout(() => {
-      //     navigate("/support");
-      //   }, 1000);
-      // },
     }
   );
 
