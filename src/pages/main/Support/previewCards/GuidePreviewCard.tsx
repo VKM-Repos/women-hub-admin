@@ -31,7 +31,6 @@ function GuidePreviewCard({
     baseURL: API_BASE_URLS.supportServive,
     contentType: "multipart/form-data",
     callback: (variables: any) => {
-      console.log("after hereeeeee: ", variables.status);
       const status = variables.status; // Get the status from the submitted data
 
       // Dynamically set the toast message based on the status
