@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { API_BASE_URLS } from "@/config/api.config";
 import { usePATCH } from "@/hooks/usePATCH.hook";
 import { useEffect, useRef, useState } from "react";
+import { useDELETE } from "@/hooks/useDelete.hook";
 
 type Props = {
   showFilters: boolean;
@@ -29,29 +30,69 @@ function FaqPreviewCard({
   const { mutate: updateFAQ } = usePATCH(`faqs/${data.id}`, {
     baseURL: API_BASE_URLS.supportServive,
     method: "PATCH",
-    callback: () => {
-      toast.success("FAQ Published");
+    callback: (variables: any) => {
+      const status = variables.status; // Get the status from the submitted data
+
+      // Dynamically set the toast message based on the status
+      if (status === "Published") {
+        toast.success("FAQ has been Published");
+      } else if (status === "Archived") {
+        toast.success("FAQ has been Archived");
+      }
+
       setTimeout(() => {
-        navigate("/support");
-      }, 1000);
+        navigate(0); // Trigger the navigation after the toast is shown
+      }, 2000);
     },
   });
-  const handleArchiveFAQ = (id: string) => {
-    console.log(id);
-    toast.success("FAQ Archived");
+
+  const { mutate: deleteFAQ } = useDELETE(`faqs/${data.id}`, {
+    baseURL: API_BASE_URLS.supportServive,
+    // contentType: "multipart/form-data",
+    callback: () => {
+      // Show the toast first
+      toast.success("FAQ has been deleted");
+
+      // Delay the navigation to let the toast be visible for a while
+      setTimeout(() => {
+        navigate(0); // Trigger the navigation after the toast is shown
+      }, 2000);
+    },
+  });
+
+  const handleArchiveFAQ = () => {
+    try {
+      updateFAQ({
+        question: data.question,
+        answer: data.answer,
+        category: data.category,
+        status: "Archived",
+      });
+    } catch (error) {
+      console.error("Error Archiving FAQ:", error);
+      toast.error("Failed to Archived FAQ.");
+    }
   };
-  const handleDeleteFAQ = (id: string) => {
-    console.log(id);
-    toast.success("FAQ deleted");
+  const handleDeleteFAQ = () => {
+    try {
+      deleteFAQ(data.id);
+    } catch (error) {
+      console.error("Error Deleting FAQ:", error);
+      toast.error("Failed to delete FAQ.");
+    }
   };
 
   const handlePublishFAQ = () => {
     try {
-      data.status = "Published";
-      updateFAQ(data);
+      updateFAQ({
+        question: data.question,
+        answer: data.answer,
+        category: data.category,
+        status: "Published",
+      });
     } catch (error) {
       console.error("Error Publishing FAQ:", error);
-      toast.error("Error Publishing FAQ.");
+      toast.error("Failed to Publish FAQ.");
     }
   };
 
@@ -136,7 +177,7 @@ function FaqPreviewCard({
               <SupportButtons
                 icon={<Icon name="archivingIcon" />}
                 label="Archive"
-                onClick={() => handleArchiveFAQ(data?.id)}
+                onClick={handleArchiveFAQ}
                 isHovered={isHovered}
               />
             )}
@@ -166,7 +207,7 @@ function FaqPreviewCard({
             <SupportButtons
               icon={<Icon name="deletingIcon" />}
               label="Delete"
-              onClick={() => handleDeleteFAQ(data?.id)}
+              onClick={handleDeleteFAQ}
               isHovered={isHovered}
             />
           </span>

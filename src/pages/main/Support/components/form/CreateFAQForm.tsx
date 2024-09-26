@@ -34,12 +34,12 @@ const CreateFAQForm = () => {
   const { mutate: updPublishFAQ } = usePATCH(`faqs/${state.details?.id}`, {
     baseURL: API_BASE_URLS.supportServive,
     method: "PATCH",
-    callback: () => {
-      toast.success("FAQ Published");
-      setTimeout(() => {
-        navigate(-1);
-      }, 1000);
-    },
+    // callback: () => {
+    //   toast.success("FAQ Published");
+    //   setTimeout(() => {
+    //     navigate(-1);
+    //   }, 1000);
+    // },
   });
 
   const categories = [
@@ -130,12 +130,15 @@ const CreateFAQForm = () => {
 
       updPublishFAQ(data, {
         onSuccess: () => {
+          setSaveDraft(false);
           form.reset();
           navigate(-1);
+          toast.success("FAQ has been updated");
         },
         onError: (error) => {
+          setSaveDraft(false);
           console.error("Error Updating and publishing FAQ:", error);
-          alert("Error Updating and publishing FAQ.");
+          toast.error("Failed Updating FAQ.");
         },
       });
     } else {
@@ -146,15 +149,17 @@ const CreateFAQForm = () => {
 
       mutate(data, {
         onSuccess: () => {
-          setSaveDraft(false);
           form.reset();
           navigate(-1); // Navigate after successful submission
-          toast.success("FAQ has been published");
+          saveDraft
+            ? toast.success("FAQ has been draft")
+            : toast.success("FAQ has been published");
+          setSaveDraft(false);
         },
         onError: (error) => {
           setSaveDraft(false);
           console.error("Error creating FAQ:", error);
-          toast.error("Error creating FAQ.");
+          toast.error("Failed creating FAQ.");
         },
       });
     }
