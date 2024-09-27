@@ -30,13 +30,11 @@ import { API_BASE_URLS } from "@/config/api.config";
 import { useLocation } from "react-router-dom";
 import { usePATCH } from "@/hooks/usePATCH.hook";
 import Header from "../Header";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 const CreateHelplineForm = () => {
   const { state } = useLocation();
   const formRef = useRef<HTMLFormElement>(null); // Form reference
-
-  const [saveDraft, setSaveDraft] = useState(false);
 
   const navigate = useNavigate();
   const { mutate, isPending: pendingCreatingFAQ } = usePOST("helplines", {
@@ -46,24 +44,25 @@ const CreateHelplineForm = () => {
   const { mutate: updHelpline } = usePATCH(`helplines/${state?.details?.id}`, {
     baseURL: API_BASE_URLS.supportServive,
     method: "PATCH",
-    callback: () => {
-      toast.success("Helpline Published");
-      setTimeout(() => {
-        navigate("/support");
-      }, 1000);
-    },
   });
 
-  saveDraft ? console.log("test") : null;
+  const formatStateId = (stateId: string) => {
+    return stateId
+      .toLowerCase() // Convert the whole string to lowercase
+      .split(" ") // Split the string into an array of words
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize the first letter of each word
+      .join(" "); // Join the words back into a single string
+  };
 
   const form = useForm<z.infer<typeof createHelplineSchema>>({
     resolver: zodResolver(createHelplineSchema),
     defaultValues: {
       name: state?.details?.name ? state.details.name : "",
-      phone: state?.details?.phone ? state.details.phone : "",
+      phone: state?.details?.phone
+        ? state.details.phone.replace(/[^+\d]/g, "")
+        : "",
       state_id: state?.details?.state_id
-        ? state.details.state_id.charAt(0).toUpperCase() +
-          state.details.state_id.slice(1).toLowerCase()
+        ? formatStateId(state.details.state_id)
         : "",
       status: state?.details?.status ? state.details.status : "",
     },
@@ -71,50 +70,37 @@ const CreateHelplineForm = () => {
 
   function onSubmit(data: z.infer<typeof createHelplineSchema>) {
     if (state?.operation === "Edit") {
-      data.status = "Active";
-      updHelpline(data, {
-        onSuccess: () => {
-          toast.success("Published", {
-            position: "bottom-right",
-            style: {
-              backgroundColor: "green",
-              color: "white",
-              textAlign: "left",
-            },
-            icon: "",
-          });
-
-          setSaveDraft(false);
-          form.reset();
-          navigate("/support");
+      // data.status = "Active";
+      updHelpline(
+        {
+          ...data,
+          state_id: data.state_id.toUpperCase(),
+          status: state?.details?.status,
         },
-        onError: (error) => {
-          setSaveDraft(false);
-          console.error("Error Updating and publishing Helpline:", error);
-          alert("Error Updating and publishing Helpline.");
-        },
-      });
+        {
+          onSuccess: () => {
+            form.reset();
+            navigate(-1);
+            toast.success("Helpline has been updated");
+          },
+          onError: (error) => {
+            console.error("Error Updating and publishing Helpline:", error);
+            toast.error("Failed updating Helpline.");
+          },
+        }
+      );
     } else {
       mutate(
         { ...data, state_id: data.state_id.toUpperCase(), status: "Active" },
         {
           onSuccess: () => {
-            toast.success("Published", {
-              position: "bottom-right",
-              style: {
-                backgroundColor: "green",
-                color: "white",
-                textAlign: "left",
-              },
-              icon: "",
-            });
-
             form.reset();
-            navigate("/"); // Navigate after successful submission
+            navigate(-1); // Navigate after successful submission
+            toast.success("Helpline has been added.");
           },
           onError: (error) => {
             console.error("Error creating Helpline:", error);
-            toast.error("Error creating Helpline.");
+            toast.error("Failed Creating Helpline.");
           },
         }
       );
@@ -128,7 +114,7 @@ const CreateHelplineForm = () => {
         className="rounded-lg  w-full"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <Header data={state} formRef={formRef} setSaveDraft={setSaveDraft} />
+        <Header data={state} formRef={formRef} />
         <div className="p-6 pb-[4rem] flex flex-col gap-y-6 bg-white">
           <FormField
             control={form.control}

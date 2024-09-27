@@ -6,12 +6,9 @@ import Back from "@/components/shared/backButton/Back";
 import MoreOptions from "@/components/common/dropdowns/MoreOptions";
 
 type Props = {
-  // step: number;
   data?: any;
-  setSaveDraft: (value: boolean) => void;
+  setSaveDraft?: (value: boolean) => void;
   formRef: React.RefObject<HTMLFormElement>;
-  // handleSaveDraft: () => void;
-  // handleSaveDraft: (event: any) => void;
 };
 
 type OptionsMenu = {
@@ -34,8 +31,9 @@ const Header = ({ data, formRef, setSaveDraft }: Props) => {
       type: "submit",
       onClick: () => {
         if (formRef.current) {
-          setSaveDraft(true); // Set saveDraft to true
-
+          if (setSaveDraft) {
+            setSaveDraft(true); // Call only if setSaveDraft exists
+          }
           // Ensure form submits after the state change
           setTimeout(() => {
             formRef.current?.requestSubmit();
@@ -51,8 +49,9 @@ const Header = ({ data, formRef, setSaveDraft }: Props) => {
             type: "submit",
             onClick: () => {
               if (formRef.current) {
-                setSaveDraft(true); // Set saveDraft to true
-
+                if (setSaveDraft) {
+                  setSaveDraft(true); // Call only if setSaveDraft exists
+                }
                 // Ensure form submits after the state change
                 setTimeout(() => {
                   formRef.current?.requestSubmit();
