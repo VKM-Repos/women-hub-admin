@@ -1,5 +1,5 @@
 import { Checkbox } from "@/components/ui/checkbox";
-import Thumbnail from "@/assets/images/guide-thumbnail.png";
+// import Thumbnail from "@/assets/images/guide-thumbnail.png";
 import Avatar from "@/assets/icons/avatar.svg";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
