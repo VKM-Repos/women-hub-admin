@@ -142,7 +142,7 @@ function GuidePreviewCard({
 
       <div className={`flex grid w-full grid-cols-10 gap-6`}>
         <picture className="col-span-1 aspect-square w-full">
-          <img src={Thumbnail} alt="" />
+          <img src={data?.picture_path} alt="" />
         </picture>
         <div className="col-span-9 space-y-1">
           <h5 className="font-normal text-[#65655E] w-full max-w-xl truncate text-base">

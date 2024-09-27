@@ -93,7 +93,7 @@ const CreateGuidelineForm = () => {
         {
           title: data.title,
           content: data.content,
-          file: null,
+          file: data?.coverImage ? data.coverImage : null,
           status: "Published",
         },
         {
