@@ -1,16 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button } from '@/components/ui/button';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { AlignJustify, Check, PenLine, Wand2 } from 'lucide-react';
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import {
+  Check,
+  ChevronRight,
+  PenLine,
+  ScanEye,
+  Sparkle,
+  Wand2,
+} from 'lucide-react';
 import { Icons } from '../icons';
-import React, { useState, ChangeEvent, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Editor } from '@tiptap/react';
 import toast from 'react-hot-toast';
 import useAppStore from '@/lib/store/app.store';
@@ -20,6 +23,7 @@ export type MenuItem = {
   icon?: React.ReactNode;
   isButton?: boolean;
   onClick?: () => void;
+  submenu?: MenuItem[];
 };
 
 const api_endpoint = 'https://api.dev.vhdo.org';
@@ -31,36 +35,48 @@ interface AIProps {
 const AI: React.FC<AIProps> = ({ editor }) => {
   const [menu, setMenu] = useState<MenuItem[]>(initializeMenu());
   const [aiResponse, setAiResponse] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
   const [aiTyping, setAiTyping] = useState(false);
-  const [isTextareaActive, setIsTextareaActive] = useState(false);
+  const [isOpen, setOpen] = useState(false);
   const aiResponseRef = useRef(aiResponse);
-  const [lastRequest, setLastRequest] = useState<{
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_, setLastRequest] = useState<{
     endpoint: string;
     action: string;
+    language?: string;
   } | null>(null);
+  const lastRequestRef = useRef<{ endpoint: string; action: string } | null>(
+    null
+  );
 
   function initializeMenu(): MenuItem[] {
     return [
       {
         title: 'Correct Phrase',
-        icon: <AlignJustify size={14} />,
+        icon: <Sparkle size={14} />,
         onClick: () => processAIRequest('Correct Phrase'),
       },
       {
         title: 'Translate Text',
         icon: <Icons.language />,
-        onClick: () => processAIRequest('Translate Text'),
+        submenu: [
+          {
+            title: 'Hausa',
+            onClick: () => processAIRequest('Translate Text', 'hausa'),
+          },
+          {
+            title: 'Igbo',
+            onClick: () => processAIRequest('Translate Text', 'igbo'),
+          },
+          {
+            title: 'Yoruba',
+            onClick: () => processAIRequest('Translate Text', 'yoruba'),
+          },
+        ],
       },
       {
         title: 'Analyze Text',
-        icon: <PenLine size={14} />,
+        icon: <ScanEye size={14} />,
         onClick: () => processAIRequest('Analyze Text'),
-      },
-      {
-        title: 'Health Query',
-        icon: <Icons.add size={15} />,
-        onClick: () => processAIRequest('Health Query'),
       },
       {
         title: 'Summarize Content',
@@ -75,66 +91,25 @@ const AI: React.FC<AIProps> = ({ editor }) => {
     ];
   }
 
-  const getRequestDetails = (action: string, text: string) => {
-    const requests: Record<string, { endpoint: string; body: any }> = {
-      'Correct Phrase': {
-        endpoint: `${api_endpoint}/api/ai/correct-phrase`,
-        body: {
-          phrase: `Act as a grammar expert and correct the following phrase: '${text}'`,
-        },
-      },
-      'Translate Text': {
-        endpoint: `${api_endpoint}/api/ai/translate-text`,
-        body: {
-          text: `Translate this text into Spanish while preserving the original meaning: '${text}'`,
-          language: 'spanish',
-        },
-      },
-      'Analyze Text': {
-        endpoint: `${api_endpoint}/api/ai/analyze-text`,
-        body: {
-          question: `Analyze the following text and provide insights on its themes and meanings: '${text}'`,
-        },
-      },
-      'Health Query': {
-        endpoint: `${api_endpoint}/api/ai/health-query`,
-        body: {
-          question: `Act as a medical advisor and answer this health-related query: '${text}'`,
-        },
-      },
-      'Summarize Content': {
-        endpoint: `${api_endpoint}/api/ai/summarize-content`,
-        body: {
-          content: `Provide a detailed summary of the following content: '${text}'`,
-        },
-      },
-      'Generate Content': {
-        endpoint: `${api_endpoint}/api/ai/generate-content`,
-        body: {
-          topic: `Generate content based on this topic and ensure it is organized and comprehensive: '${text}'`,
-        },
-      },
-    };
-
-    return requests[action] || {};
-  };
-
-  const processAIRequest = async (action: string) => {
+  const processAIRequest = async (action: string, language?: string) => {
     const selectedText = getSelectedText();
     const textareaText = getTextareaValue();
-
     const textToProcess = selectedText || textareaText;
 
-    // Ensure some text is available
     if (!textToProcess) {
       return toast.error('No text selected or entered for AI processing.');
     }
 
-    const { endpoint, body } = getRequestDetails(action, selectedText);
+    const { endpoint, body } = getRequestDetails(
+      action,
+      textToProcess,
+      language
+    );
     setAiTyping(true);
     setAiResponse('');
-    setLastRequest({ endpoint, action });
-
+    const request = { endpoint, action, language };
+    setLastRequest(request);
+    lastRequestRef.current = request;
     try {
       const token = useAppStore.getState().user?.token;
       const response = await fetch(endpoint, {
@@ -149,7 +124,7 @@ const AI: React.FC<AIProps> = ({ editor }) => {
       if (response.ok) {
         const result = await response.json();
         await streamAIResponse(result.answer);
-        updateMenuAfterResponse();
+        updateMenuAfterResponse(action);
       } else throw new Error(`Error: ${response.statusText}`);
     } catch (error) {
       toast.error(`Something went wrong - ${error}`);
@@ -158,37 +133,59 @@ const AI: React.FC<AIProps> = ({ editor }) => {
     }
   };
 
-  const retryLastRequest = () => {
-    if (lastRequest?.action) processAIRequest(lastRequest.action);
-    else toast.error('No previous request to retry.');
+  const getRequestDetails = (
+    action: string,
+    text: string,
+    language?: string
+  ) => {
+    const requests: Record<string, { endpoint: string; body: any }> = {
+      'Correct Phrase': {
+        endpoint: `${api_endpoint}/api/ai/correct-phrase`,
+        body: { phrase: text },
+      },
+      'Translate Text': {
+        endpoint: `${api_endpoint}/api/ai/translate-text`,
+        body: { text, language: language || 'yoruba' },
+      },
+      'Analyze Text': {
+        endpoint: `${api_endpoint}/api/ai/analyze-text`,
+        body: { question: text },
+      },
+      'Summarize Content': {
+        endpoint: `${api_endpoint}/api/ai/summarize-content`,
+        body: { content: text },
+      },
+      'Generate Content': {
+        endpoint: `${api_endpoint}/api/ai/generate-content`,
+        body: { topic: text },
+      },
+    };
+
+    return requests[action] || {};
   };
 
-  // Stream AI response (typewriter effect)
-  const streamAIResponse = async (text: string) => {
-    for (let i = 0; i < text.length; i++) {
-      await new Promise(resolve => setTimeout(resolve, 10));
-      setAiResponse(prev => prev + text[i]);
-    }
-  };
-
-  // Update menu after AI response
-  const updateMenuAfterResponse = () => {
-    setMenu([
-      { title: 'Accept', icon: <Check size={14} />, onClick: insertAIResponse },
+  const updateMenuAfterResponse = (action: string) => {
+    const newMenu = [
+      action !== 'Analyze Text' && {
+        title: 'Accept',
+        icon: <Check size={14} />,
+        onClick: insertAIResponse,
+      },
       { title: 'Discard', icon: <Icons.close size={14} />, onClick: resetMenu },
       {
         title: 'Try Again',
         icon: <Icons.repeat size={14} />,
         onClick: retryLastRequest,
       },
-    ]);
+    ].filter(Boolean);
+
+    setMenu(newMenu as MenuItem[]);
   };
 
   useEffect(() => {
     aiResponseRef.current = aiResponse;
   }, [aiResponse]);
 
-  // Insert AI response into the editor
   const insertAIResponse = () => {
     if (aiResponseRef.current.trim()) {
       try {
@@ -202,22 +199,36 @@ const AI: React.FC<AIProps> = ({ editor }) => {
     }
   };
 
-  // Reset menu to initial state
+  const retryLastRequest = () => {
+    console.log('LAST REQUEST REF >>>>>', lastRequestRef.current); // This will always log the latest request
+
+    if (lastRequestRef.current) {
+      processAIRequest(lastRequestRef.current.action);
+    } else {
+      toast.error('No previous request to retry.');
+    }
+  };
+
   const resetMenu = () => {
     setMenu(initializeMenu());
     setAiResponse('');
+    setLastRequest(null);
+    lastRequestRef.current = null;
   };
 
-  // Extract selected text from editor or textarea
+  const streamAIResponse = async (text: string) => {
+    for (let i = 0; i < text.length; i++) {
+      await new Promise(resolve => setTimeout(resolve, 10));
+      setAiResponse(prev => prev + text[i]);
+    }
+  };
+
   const getSelectedText = (): string => {
     const { from, to } = editor.state.selection;
     const selectedText = editor.state.doc.textBetween(from, to, ' ');
-
-    // Ensure selected text is not empty
     return selectedText.trim() ? selectedText : '';
   };
 
-  // Get the value from the textarea
   const getTextareaValue = (): string => {
     const textarea = document.getElementById(
       'ai-command-input'
@@ -225,100 +236,77 @@ const AI: React.FC<AIProps> = ({ editor }) => {
     return textarea?.value.trim() || '';
   };
 
-  // Handle textarea change to enable dynamic AI request
-  const handleTextareaChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    if (e.target.value.length > 0) {
-      setIsTextareaActive(true);
-    } else {
-      setIsTextareaActive(false);
-    }
-  };
-
-  const handleTextareaFocus = () => {
-    setIsTextareaActive(true);
-  };
-
-  const handleTextareaBlur = () => {
-    setIsTextareaActive(false);
-  };
-
   return (
-    <div>
-      <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
-        <DropdownMenuTrigger asChild>
-          <Button
-            className="text-txtColor border-gray-300 flex items-center justify-center gap-2 border"
-            variant="outline"
-          >
-            <Wand2 size={16} /> <p>Ask AI</p>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-[36rem] p-2">
-          {/* Streaming AI Response */}
-          <div
-            className="bg-background relative mt-4 min-h-[5rem] rounded-lg p-2"
-            id="ai-response"
-          >
-            {aiTyping && !aiResponse ? (
-              <div className="text-txtColor z-4 absolute top-0 mt-2 flex items-center gap-2 text-xs">
-                <Wand2 size={14} />
-                {aiTyping ? 'AI is typing...' : ''}
-              </div>
-            ) : null}
-            {aiResponse}
-            <div
-              className={`${aiResponse && !aiTyping ? 'mt-4 border-t' : ''} relative  w-full pt-2`}
-            >
-              {!isTextareaActive && !aiTyping && (
-                <div className="text-txtColor z-4 absolute top-0 mt-2 flex items-center gap-2 text-xs">
-                  <Wand2 size={14} />
-                  {aiResponse
-                    ? 'Ask AI what to do next'
-                    : 'Ask AI to improve the text'}
-                </div>
-              )}
-              <textarea
-                id="ai-command-input"
-                className="z-5 placeholder:text-gray-500 relative inset-0 w-full resize-none rounded-md border-none bg-transparent p-2 text-sm focus:outline-none"
-                placeholder=""
-                onFocus={handleTextareaFocus}
-                onBlur={handleTextareaBlur}
-                onChange={handleTextareaChange}
-                onKeyDown={async e => {
-                  if (e.key === 'Enter' && !aiTyping) {
-                    processAIRequest('Generate Content');
-                  }
-                }}
-              />
+    <Popover open={isOpen} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <button className="text-txtColor border-gray-300 flex items-center justify-center gap-2 rounded-md border p-2 text-xs font-semibold">
+          <Wand2 size={12} /> <p>Ask AI</p>
+        </button>
+      </PopoverTrigger>
+      <PopoverContent
+        onInteractOutside={() => {
+          // show alert dialogue
+        }}
+        className="w-[32rem] p-2"
+      >
+        <div
+          className="bg-background relative mt-4 min-h-[5rem] rounded-lg p-2"
+          id="ai-response"
+        >
+          {aiTyping && !aiResponse && (
+            <div className="text-txtColor z-4 absolute top-0 mt-2 flex items-center gap-2 text-xs">
+              <Wand2 size={14} />
+              {aiTyping ? 'AI is thinking...' : ''}
             </div>
+          )}
+          {aiResponse}
+          <div
+            className={`${aiResponse && !aiTyping ? 'mt-2 border-t' : ''} relative w-full pt-2`}
+          >
+            <textarea
+              id="ai-command-input"
+              className="z-5 placeholder:text-gray-500 relative inset-0 w-full resize-none rounded-md border-none bg-transparent p-2 text-sm focus:outline-none"
+              placeholder=""
+              onKeyDown={async e => {
+                if (e.key === 'Enter' && !aiTyping) {
+                  e.preventDefault();
+                  processAIRequest('Generate Content');
+                }
+              }}
+            />
           </div>
-          <DropdownMenuSeparator />
-          <DropdownMenuGroup>
-            {menu.map((item, index) => (
-              <React.Fragment key={index}>
-                <DropdownMenuItem
-                  onClick={e => {
-                    e.preventDefault();
-                    item.onClick && item.onClick();
-                  }}
-                  className="hover:bg-blue-600 group cursor-pointer "
-                >
-                  {item.icon && (
-                    <span className="mr-2 group-hover:text-white">
-                      {item.icon}
-                    </span>
-                  )}
-                  <p className="text-txtColor group-hover:text-white">
-                    {item.title}
-                  </p>
-                </DropdownMenuItem>
-                {index < menu.length - 1 && <DropdownMenuSeparator />}
-              </React.Fragment>
-            ))}
-          </DropdownMenuGroup>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
+        </div>
+        <section className="mt-4">
+          {menu.map((item, index) => (
+            <React.Fragment key={index}>
+              <div
+                className="hover:bg-gray-100 group relative flex cursor-pointer items-center gap-2 p-2 text-xs"
+                onClick={item.onClick}
+              >
+                {item.icon && <span className="mr-2">{item.icon}</span>}
+                {item.title}
+                {item.submenu && (
+                  <ChevronRight size={12} className="absolute right-0" />
+                )}
+                {item.submenu && (
+                  <div className="min-w-sm absolute left-full top-0 ml-0 hidden rounded-md bg-white p-2 shadow-md group-hover:block">
+                    {item.submenu.map((submenuItem, subIndex) => (
+                      <div
+                        key={subIndex}
+                        onClick={submenuItem.onClick}
+                        className="hover:bg-gray-100 flex cursor-pointer items-center gap-2 p-2"
+                      >
+                        {submenuItem.title}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </React.Fragment>
+          ))}
+        </section>
+      </PopoverContent>
+    </Popover>
   );
 };
 
