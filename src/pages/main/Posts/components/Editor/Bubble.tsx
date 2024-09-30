@@ -1,11 +1,13 @@
 import { BubbleMenu, Editor } from '@tiptap/react';
 import Bold from './ToolbarButtons/bold';
-import BulletList from './ToolbarButtons/bullet-list';
-import Heading from './ToolbarButtons/title';
 import Italic from './ToolbarButtons/italic';
-import OrderedList from './ToolbarButtons/ordered-list';
 import Strikethrough from './ToolbarButtons/strikethrough';
-// import { AI } from './ToolbarButtons/ai';
+import AI from './ToolbarButtons/ai';
+import Typography from './ToolbarButtons/typography';
+import ListGroup from './ToolbarButtons/list-group';
+import Underline from './ToolbarButtons/underline';
+import TextAlignGroup from './ToolbarButtons/text-align-group';
+import AddLink from './ToolbarButtons/AddLink';
 
 interface BubbleProps {
   editor: Editor | null;
@@ -19,20 +21,45 @@ export default function Bubble({ editor }: BubbleProps) {
   return (
     <BubbleMenu
       editor={editor}
-      tippyOptions={{ duration: 100 }}
-      className=" px-2"
+      tippyOptions={{
+        duration: 150,
+        moveTransition: 'transform 0.15s ease-out',
+        placement: 'bottom',
+        popperOptions: {
+          strategy: 'fixed',
+          modifiers: [
+            {
+              name: 'offset',
+              options: {
+                offset: [0, 10],
+              },
+            },
+            {
+              name: 'preventOverflow',
+              options: {
+                padding: 8,
+              },
+            },
+            {
+              name: 'flip',
+              options: {
+                fallbackPlacements: ['right'],
+              },
+            },
+          ],
+        },
+      }}
+      className="relative z-[30] mx-auto flex min-w-[32rem] items-center justify-center space-x-1 rounded-[1rem] border-2 bg-white p-1 shadow-lg"
     >
-      <div className="min-w-2xl flex  items-center justify-center space-x-1 rounded-[1rem] border-2 bg-white p-2">
-        {/* <AI /> */}
-        <Heading editor={editor} level={1} isIcon />
-        <Heading editor={editor} level={2} isIcon />
-        <Heading editor={editor} level={3} isIcon />
-        <Bold editor={editor} />
-        <Italic editor={editor} />
-        <Strikethrough editor={editor} />
-        <BulletList editor={editor} />
-        <OrderedList editor={editor} />
-      </div>
+      <AI editor={editor} />
+      <Typography editor={editor} />
+      <Bold editor={editor} />
+      <Italic editor={editor} />
+      <Underline editor={editor} />
+      <Strikethrough editor={editor} />
+      <AddLink editor={editor} />
+      <TextAlignGroup editor={editor} />
+      <ListGroup editor={editor} />
     </BubbleMenu>
   );
 }
