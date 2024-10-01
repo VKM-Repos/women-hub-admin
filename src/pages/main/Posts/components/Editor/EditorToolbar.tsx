@@ -6,7 +6,7 @@ import Emoji from './ToolbarButtons/emoji';
 import Underline from './ToolbarButtons/underline';
 import TextAlignGroup from './ToolbarButtons/text-align-group';
 import ListGroup from './ToolbarButtons/list-group';
-import { AI } from './ToolbarButtons/ai';
+import AI from './ToolbarButtons/ai';
 import Typography from './ToolbarButtons/typography';
 import Undo from './ToolbarButtons/undo';
 import Redo from './ToolbarButtons/redo';
@@ -33,11 +33,10 @@ export default function EditorToolbar({ editor }: EditorToolbarProps) {
       <AddLink editor={editor} />
       <TextAlignGroup editor={editor} />
       <ListGroup editor={editor} />
-      {/*here is where i want to implement adding image  */}
       <AddImage editor={editor} />
       <Embed editor={editor} />
       <Typography editor={editor} />
-      <AI />
+      <AI editor={editor} />
       <Undo editor={editor} />
       <Redo editor={editor} />
     </div>

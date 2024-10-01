@@ -1,69 +1,80 @@
-import { useState, useEffect } from "react"
-import { Icons } from "../icons"
+import { useState, useEffect } from 'react';
+import { Icons } from '../icons';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Editor } from "@tiptap/react"
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { Editor } from '@tiptap/react';
 
 interface TypographyProps {
-  editor: Editor | null
+  editor: Editor | null;
 }
 
 export default function Typography({ editor }: TypographyProps) {
-  const [selectedFormat, setSelectedFormat] = useState<string>("Paragraph")
-
-  if (!editor) {
-    return null
-  }
+  const [selectedFormat, setSelectedFormat] = useState<string>('Paragraph');
 
   const formatOptions = [
-    { label: "Heading", command: () => editor.chain().focus().toggleHeading({ level: 1 }).run() },
-    { label: "Sub Heading", command: () => editor.chain().focus().toggleHeading({ level: 3 }).run() },
-    { label: "Paragraph", command: () => editor.chain().focus().setBlockquote().run() },
-    { label: "Normal", command: () => editor.chain().focus().setParagraph().run() },
-  ]
+    {
+      label: 'Heading',
+      command: () => editor?.chain().focus().toggleHeading({ level: 1 }).run(),
+    },
+    {
+      label: 'Sub Heading',
+      command: () => editor?.chain().focus().toggleHeading({ level: 3 }).run(),
+    },
+    {
+      label: 'Paragraph',
+      command: () => editor?.chain().focus().setBlockquote().run(),
+    },
+    {
+      label: 'Normal',
+      command: () => editor?.chain().focus().setParagraph().run(),
+    },
+  ];
 
   useEffect(() => {
-    if (editor) {
-      if (editor.isActive('heading', { level: 1 })) {
-        setSelectedFormat('Heading')
-      } else if (editor.isActive('heading', { level: 3 })) {
-        setSelectedFormat('Sub Heading')
-      } else if (editor.isActive('blockquote')) {
-        setSelectedFormat('Paragraph')
-      } else {
-        setSelectedFormat('Normal')
-      }
+    if (!editor) return;
+
+    if (editor.isActive('heading', { level: 1 })) {
+      setSelectedFormat('Heading');
+    } else if (editor.isActive('heading', { level: 3 })) {
+      setSelectedFormat('Sub Heading');
+    } else if (editor.isActive('blockquote')) {
+      setSelectedFormat('Paragraph');
+    } else {
+      setSelectedFormat('Normal');
     }
-  }, [editor?.state.selection])
+  }, [editor?.state.selection, editor]);
+
+  if (!editor) {
+    return null;
+  }
 
   return (
-    <div className="h-9 justify-center items-center flex ">
-      <DropdownMenu >
-        <DropdownMenuTrigger asChild className="focus:ring-0 focus:outline-none ">
-          <button className="flex items-center justify-between px-3 py-2 text-sm font-medium bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none text-txtColor">
+    <div className="relative flex h-9 items-center justify-center">
+      <Popover>
+        <PopoverTrigger asChild>
+          <button className="border-gray-300 text-txtColor flex items-center justify-between rounded-md border bg-white px-3 py-2 text-xs font-medium shadow-sm focus:outline-none">
             {selectedFormat}
-            <Icons.chevronDown className="w-4 h-4 ml-2" />
+            <Icons.chevronDown className="ml-2 h-4 w-4" />
           </button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="start">
-          {formatOptions.map((option) => (
-            <DropdownMenuItem
+        </PopoverTrigger>
+        <PopoverContent className="w-48 p-2" align="start">
+          {formatOptions.map(option => (
+            <button
               key={option.label}
-              onSelect={() => {
-                option.command()
-                setSelectedFormat(option.label)
+              onClick={() => {
+                option.command();
+                setSelectedFormat(option.label);
               }}
-              className="hover:bg-blue-500 hover:text-white"
+              className="hover:bg-blue-500 w-full rounded-md p-2 text-left text-xs hover:text-white"
             >
               {option.label}
-            </DropdownMenuItem>
+            </button>
           ))}
-        </DropdownMenuContent>
-      </DropdownMenu>
+        </PopoverContent>
+      </Popover>
     </div>
-  )
+  );
 }
