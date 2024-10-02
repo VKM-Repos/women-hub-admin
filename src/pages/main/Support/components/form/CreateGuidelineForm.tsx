@@ -204,7 +204,7 @@ const CreateGuidelineForm = () => {
                     <div className="mr-2">
                       <Icon name="saveSupportIcon" />
                     </div>
-                    <span>Save</span>
+                    <span>Publish</span>
                   </div>
                 )}
               </Button>

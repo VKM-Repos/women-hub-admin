@@ -122,7 +122,7 @@ export default function Guidelines() {
               toggleSelectAll={toggleSelectAll}
               setSearchTerm={setSearchTerm}
               onStatusFilterChange={handleStatusFilterChange}
-              page="Guidelines"
+              page="guideline"
             />
 
             <div className="flex flex-col gap-4">

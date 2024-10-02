@@ -181,7 +181,7 @@ function FaqPreviewCard({
                 isHovered={isHovered}
               />
             )}
-            {data?.status === "Draft" && (
+            {data?.status !== "Published" && (
               <SupportButtons
                 icon={<Icon name="publishingIcon" />}
                 label="Publish"

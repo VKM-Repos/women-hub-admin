@@ -116,7 +116,7 @@ export default function FAQs() {
               toggleSelectAll={toggleSelectAll}
               setSearchTerm={setSearchTerm}
               onStatusFilterChange={handleStatusFilterChange}
-              page="FAQs"
+              page="faq"
             />
 
             <div className="flex flex-col gap-4">
