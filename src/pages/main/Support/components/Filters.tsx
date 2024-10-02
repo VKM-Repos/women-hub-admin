@@ -102,7 +102,7 @@ const Filters = ({
             // onChange={() => handleFilter(event)}
           />
         </div>
-        {page === "FAQs" ? (
+        {page === "faq" ? (
           <Link
             to={`/support/create-FAQ`}
             className={cn(
@@ -110,7 +110,7 @@ const Filters = ({
               "flex gap-2 text-white rounded-[12px]"
             )}
             state={{
-              pageName: { page },
+              pageName: page,
               operation: "new",
               details: null,
             }}
@@ -126,7 +126,7 @@ const Filters = ({
               "flex gap-2 text-white rounded-[12px]"
             )}
             state={{
-              pageName: { page },
+              pageName: page,
               operation: "new",
               details: null,
             }}
@@ -175,7 +175,7 @@ const Filters = ({
           ) : (
             <span className="text-textPrimary flex items-center gap-2">
               {`${
-                page === "FAQs" ? "Questions & Answer" : "Articles"
+                page === "faq" ? "Questions & Answer" : "Articles"
               } (${currentFilter} (${data?.length ?? "0"}))`}
               <MoreFilter onStatusFilterChange={handleStatusFilterChange} />
               {/* <>

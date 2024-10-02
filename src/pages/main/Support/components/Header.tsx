@@ -63,12 +63,20 @@ const Header = ({ data, formRef, setSaveDraft }: Props) => {
       : []),
   ];
 
+  console.log(data);
+
   return (
     <header className="flex items-center bg-white w-full rounded-lg justify-between min-h-[5rem] p-4">
       <div className="w-full max-w-sm flex items-center justify-start gap-4">
         <div className="w-[20px] h-[40px] bg-[#B5E4CA] rounded"></div>
         <h2 className="text-xl font-semibold w-full max-w-lg truncate">
-          {data?.operation === "new" ? "Add Article" : "Edit Article"}
+          {data?.operation === "new"
+            ? data?.pageName === "guideline"
+              ? "Add Article"
+              : data?.pageName === "faq"
+              ? "Add FAQ"
+              : "Add New Helpline"
+            : "Edit Article"}
         </h2>
       </div>
       <div className=" col-span-1 flex items-center justify-end gap-x-4">

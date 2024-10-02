@@ -282,12 +282,6 @@ export default function Helplines() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <div className="flex flex-col gap-2 font-medium font-inter text-sm px-2">
-                <div className="flex flex-row items-center cursor-pointer">
-                  <div className="mr-2">
-                    <Icon name="viewingIcon" />
-                  </div>
-                  <span>View</span>
-                </div>
                 <Link
                   to={`/support/helpline/${row.original.id}`}
                   state={{
