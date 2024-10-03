@@ -78,12 +78,12 @@ tableProps) {
     },
   });
 
-  const location = useLocation();
-  const guide = location.state?.guide;
+  // fetch the header information
+  const { state } = useLocation();
 
   return (
     <div className="mx-10">
-      <GuideHeroSection data={guide} />
+      <GuideHeroSection guide={state} />
       <div className="flex items-center justify-between py-4">
         <div className="flex w-full items-center justify-between">
           <div className="flex items-center rounded-lg bg-white px-3 py-1">
