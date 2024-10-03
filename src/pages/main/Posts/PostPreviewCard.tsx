@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Checkbox } from '@/components/ui/checkbox';
-import Thumbnail from '@/assets/images/women-hub-img-thumbnail.png';
 import Avatar from '@/assets/icons/avatar.svg';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
@@ -104,8 +103,12 @@ function PostPreviewCard({
         )}
       </div>
       <div className={`grid w-full grid-cols-10 gap-6`}>
-        <picture className="col-span-1 aspect-square w-full">
-          <img src={Thumbnail} alt="Thumbnail" />
+        <picture className="col-span-1 aspect-square w-full overflow-hidden">
+          <img
+            src={post.coverImageUrl}
+            alt="Thumbnail"
+            className="aspect-square w-full object-cover"
+          />
         </picture>
         <div className="col-span-9 space-y-1">
           <h5 className="font-normal text-textPrimary w-full max-w-xl truncate text-base">
