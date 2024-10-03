@@ -28,13 +28,13 @@ const Filters = ({
   selectedCount,
   totalCount,
   toggleSelectAll,
-  setSearchTerm,
+  // setSearchTerm,
   onStatusFilterChange,
   page,
   handleSearch,
 }: Props) => {
-  const [search, setSearch] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState(search);
+  // const [search, setSearch] = useState("");
+  // const [debouncedSearch, setDebouncedSearch] = useState(search);
   const [currentFilter, setCurrentFilter] = useState("All");
   const [isHovered, setIsHovered] = useState(false);
   const buttonRef = useRef<any>(null);
@@ -62,21 +62,21 @@ const Filters = ({
   //   setSearch(e.target.value);
   // };
 
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      setDebouncedSearch(search);
-    }, 2000);
+  // useEffect(() => {
+  //   const delayDebounceFn = setTimeout(() => {
+  //     setDebouncedSearch(search);
+  //   }, 2000);
 
-    return () => clearTimeout(delayDebounceFn);
-  }, [search]);
+  //   return () => clearTimeout(delayDebounceFn);
+  // }, [search]);
 
-  useEffect(() => {
-    if (debouncedSearch.trim() === "") {
-      setSearchTerm("");
-    } else {
-      setSearchTerm(debouncedSearch);
-    }
-  }, [debouncedSearch, setSearchTerm]);
+  // useEffect(() => {
+  //   if (debouncedSearch.trim() === "") {
+  //     setSearchTerm("");
+  //   } else {
+  //     setSearchTerm(debouncedSearch);
+  //   }
+  // }, [debouncedSearch, setSearchTerm]);
 
   const handleStatusFilterChange = (status: string | null) => {
     // console.log(status);
