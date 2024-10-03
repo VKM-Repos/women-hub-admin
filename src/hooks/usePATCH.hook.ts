@@ -1,6 +1,6 @@
-import { useMutation } from "@tanstack/react-query";
-import { toast } from "react-hot-toast";
-import { createApiInstance } from "@/config/axiosInstance";
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'react-hot-toast';
+import { createApiInstance } from '@/config/axiosInstance';
 export interface PatchOptions {
   baseURL?: string;
   withAuth?: boolean;
@@ -12,8 +12,8 @@ export const usePATCH = (
   url: string,
   {
     baseURL,
-    method = "PUT",
-    contentType = "application/json",
+    method = 'PUT',
+    contentType = 'application/json',
     callback,
   }: PatchOptions = {}
 ) => {
@@ -23,26 +23,26 @@ export const usePATCH = (
         baseURL || import.meta.env.VITE_APP_BASE_URL
       );
       const response =
-        method == "PUT"
+        method == 'PUT'
           ? await axiosInstance.put(url, values, {
               headers: {
-                "Content-Type": contentType,
+                'Content-Type': contentType,
               },
             })
           : await axiosInstance.patch(url, values, {
               headers: {
-                "Content-Type": contentType,
+                'Content-Type': contentType,
               },
             });
       return response?.data;
     },
-    onSuccess: (returnedData) => {
+    onSuccess: returnedData => {
       console.log(returnedData);
-      toast.success("Success");
+      // toast.success("Success");
 
       callback && callback(returnedData);
     },
-    onError: (err) => {
+    onError: err => {
       // (err?.data?.message instanceof Array) ? toast.error(err?.data?.message[0]) : toast.error(err?.data?.message)
       console.log(err);
     },

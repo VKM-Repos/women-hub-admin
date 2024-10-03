@@ -1,24 +1,24 @@
-import { useCreatePostFormStore } from "@/store/useCreatePostForm.store";
-import PostHeader from "../components/PostHeader";
-import PostForm from "../components/form/PostForm";
-import EditorForm from "../components/form/EditorForm";
-import { usePOST } from "@/hooks/usePOST.hook";
-import toast from "react-hot-toast";
-import Loading from "@/components/shared/Loading";
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { AlertGoBack } from "../components/AlertGoBack";
+import { useCreatePostFormStore } from '@/store/useCreatePostForm.store';
+import PostHeader from '../components/PostHeader';
+import PostForm from '../components/form/PostForm';
+import EditorForm from '../components/form/EditorForm';
+import { usePOST } from '@/hooks/usePOST.hook';
+import toast from 'react-hot-toast';
+import Loading from '@/components/shared/Loading';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { AlertGoBack } from '../components/AlertGoBack';
 
 const CreatePostPage = () => {
   const navigate = useNavigate();
   const { step, setStep, data, resetStore } = useCreatePostFormStore();
   const [showDialog, setShowDialog] = useState(false);
 
-  const { mutate: createPost, isPending: isCreating } = usePOST("admin/posts", {
-    callback: (response) => {
+  const { mutate: createPost, isPending: isCreating } = usePOST('admin/posts', {
+    callback: response => {
       console.log(response);
     },
-    contentType: "multipart/form-data",
+    contentType: 'multipart/form-data',
   });
 
   const handleNext = () => {
@@ -37,49 +37,49 @@ const CreatePostPage = () => {
   const handleSaveToDraft = () => {
     try {
       const formData = new FormData();
-      formData.append("title", data.title);
-      formData.append("author", data.author);
-      formData.append("description", data.description);
-      formData.append("categoryId", data.categoryId);
-      formData.append("body", data.body);
+      formData.append('title', data.title);
+      formData.append('author', data.author);
+      formData.append('description', data.description);
+      formData.append('categoryId', data.categoryId);
+      formData.append('body', data.body);
       if (data?.coverImage) {
-        formData.append("coverImage", data.coverImage);
+        formData.append('coverImage', data.coverImage);
       }
-      formData.append("publish", "false");
+      formData.append('publish', 'false');
 
       createPost(formData);
-      toast.success("Saved to drafts");
+      toast.success('Saved to drafts');
       resetStore();
-      navigate("/posts");
+      navigate('/posts');
     } catch (error) {
       console.log(error);
-      toast.error("Failed to create post");
+      toast.error('Failed to create post');
     }
   };
 
   const handlePublish = async () => {
     try {
       const formData = new FormData();
-      formData.append("title", data.title);
-      formData.append("author", data.author);
-      formData.append("description", data.description);
-      formData.append("categoryId", data.categoryId);
-      formData.append("body", data.body);
-      formData.append("coverImage", data.coverImage);
-      formData.append("publish", "true");
+      formData.append('title', data.title);
+      formData.append('author', data.author);
+      formData.append('description', data.description);
+      formData.append('categoryId', data.categoryId);
+      formData.append('body', data.body);
+      formData.append('coverImage', data.coverImage);
+      formData.append('publish', 'true');
 
       createPost(formData);
-      toast.success("Post has been published");
+      toast.success('Post has been published');
       resetStore();
-      navigate("/posts");
+      navigate('/posts');
     } catch (error) {
       console.log(error);
-      toast.error("Failed to publish post");
+      toast.error('Failed to publish post');
     }
   };
 
   const handleConfirmLeave = () => {
-    navigate("/posts");
+    navigate('/posts');
     resetStore();
   };
 
@@ -89,11 +89,11 @@ const CreatePostPage = () => {
       setShowDialog(true);
     };
 
-    window.addEventListener("popstate", handlePopState);
-    window.history.pushState({ modalOpened: false }, "");
+    window.addEventListener('popstate', handlePopState);
+    window.history.pushState({ modalOpened: false }, '');
 
     return () => {
-      window.removeEventListener("popstate", handlePopState);
+      window.removeEventListener('popstate', handlePopState);
     };
   }, []);
 
