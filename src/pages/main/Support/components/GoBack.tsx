@@ -14,6 +14,7 @@ import {
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   onClick?: () => void;
@@ -22,6 +23,7 @@ type Props = {
 };
 
 export function AlertGoBack({ onClick, isOpen, setIsOpen }: Props) {
+  // const navigate = useNavigate();
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogTrigger asChild>
@@ -52,6 +54,7 @@ export function AlertGoBack({ onClick, isOpen, setIsOpen }: Props) {
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction
+            // onClick={() => navigate(-1)}
             onClick={onClick}
             className={cn(
               buttonVariants({

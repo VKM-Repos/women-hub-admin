@@ -126,7 +126,7 @@ const CreateFAQForm = () => {
       const timestamp = new Date().toISOString();
 
       data.updated_at = timestamp;
-      data.status = "Published";
+      data.status = saveDraft ? "Draft" : "Published";
 
       updPublishFAQ(data, {
         onSuccess: () => {

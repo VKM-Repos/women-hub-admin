@@ -8,6 +8,7 @@ import Loading from "@/components/shared/Loading";
 import { useEffect, useState } from "react";
 import Pagination from "./components/Pagination";
 import { API_BASE_URLS } from "@/config/api.config";
+import Back from "@/components/shared/backButton/Back";
 // import { faqData } from "./mockupData/faq-mockup-data";
 
 export default function FAQs() {
@@ -119,6 +120,9 @@ export default function FAQs() {
         <Loading />
       ) : (
         <div className="mx-10">
+          <div className="mb-2">
+            <Back />
+          </div>
           <GuideHeroSection guide={state} />
           <section className="flex flex-col gap-y-6">
             <Filters

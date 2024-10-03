@@ -89,7 +89,7 @@ const Header = ({ data, formRef, setSaveDraft, handleGoBack }: Props) => {
         {data?.pageName !== "Header" && data?.pageName !== "helpline" ? (
           <>
             <Link
-              to={`/preview/1`}
+              to={`/support/${data?.pageName}/${data?.details?.id}/preview`}
               className={cn(
                 buttonVariants({ variant: "outline" }),
                 "flex items-center gap-1"

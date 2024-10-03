@@ -38,6 +38,7 @@ import Messages from "@/pages/main/NewsLetter/Messages";
 import LegalCompiance from "@/pages/main/Legal-Compliance/Index";
 import ComposeMessage from "@/pages/main/NewsLetter/ComposeMessage";
 import ChooseTemplate from "@/pages/main/NewsLetter/ChooseTemplate";
+import Preview from "@/pages/main/Support/preview";
 
 export interface Route {
   name: string;
@@ -324,6 +325,13 @@ export const routess = [
             hasSiderLink: true,
             component: AddHelpline,
             path: "/support/helpline/:id",
+          },
+          {
+            name: "",
+            title: "Preview",
+            hasSiderLink: false,
+            component: Preview,
+            path: "/support/:pageName/:id/preview",
           },
         ],
       },

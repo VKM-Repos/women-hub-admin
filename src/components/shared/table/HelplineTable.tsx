@@ -30,6 +30,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { PlusIcon } from "lucide-react";
 import { Help } from "@/types/hepline.types";
+import Back from "../backButton/Back";
 
 type tableProps = {
   columns: ColumnDef<Help>[];
@@ -83,6 +84,9 @@ tableProps) {
 
   return (
     <div className="mx-10">
+      <div className="mb-2">
+        <Back />
+      </div>
       <GuideHeroSection guide={state} />
       <div className="flex items-center justify-between py-4">
         <div className="flex w-full items-center justify-between">

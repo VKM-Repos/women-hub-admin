@@ -85,20 +85,16 @@ const CreateGuidelineForm = () => {
     data: z.infer<typeof createGuideSchema | typeof editGuideSchema>
   ) {
     if (state?.operation === "Edit") {
-      let formData = new FormData();
-      formData.append("title", data.title);
-      formData.append("content", data.content);
-
-      formData.append("file", data.coverImage);
-
-      formData.append("status", "Published");
+      // if (data?.coverImage instanceof File) {
+      //   console.log(data?.coverImage);
+      // }
 
       updPublishGuide(
         {
           title: data.title,
           content: data.content,
-          file: data?.coverImage ? data.coverImage : null,
-          status: "Published",
+          file: data?.coverImage instanceof File ? data?.coverImage : null,
+          status: saveDraft ? "Draft" : "Published",
         },
         {
           onSuccess: () => {

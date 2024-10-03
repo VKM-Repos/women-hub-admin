@@ -8,11 +8,11 @@ import { z } from "zod";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import Header from "../Header";
-import { useLocation } from "react-router-dom";
-
+import { useLocation, useNavigate } from "react-router-dom";
 import Icon from "@/components/icons/Icon";
 
 const EditForm = () => {
+  const navigate = useNavigate();
   const { state } = useLocation();
   console.log(state.data?.coverImageUrl);
 
@@ -25,6 +25,10 @@ const EditForm = () => {
     },
   });
 
+  const handleGoBack = () => {
+    navigate(-1);
+  };
+
   return (
     <Form {...form}>
       <form
@@ -35,7 +39,7 @@ const EditForm = () => {
           }
         }}
       >
-        <Header data={state} />
+        <Header data={state} handleGoBack={handleGoBack} />
         <div className="p-6 pb-[4rem] flex flex-col gap-y-6 bg-white">
           {/* UPLOAD FILE */}
           <div className="w-[315px]">

@@ -99,7 +99,7 @@ function GuidePreviewCard({
     }
   };
 
-  const date = new Date(data?.created_at);
+  const date = new Date(data?.updated_at);
   date.setDate(date.getDate() - 4);
   const formattedDate = date.toISOString().split("T")[0];
 
