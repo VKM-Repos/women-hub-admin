@@ -154,6 +154,14 @@ function PostPreviewCard({
                 isHovered={isHovered}
               />
             )}
+            {post?.status === 'ARCHIVED' && (
+              <PostButtons
+                icon={<Icon name="publishPostIcon" />}
+                label="Archive"
+                onClick={() => handlePublishPost(post?.id)}
+                isHovered={isHovered}
+              />
+            )}
             {post?.status === 'DRAFT' && (
               <PostButtons
                 icon={<Icon name="publishPostIcon" />}
