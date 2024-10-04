@@ -69,6 +69,10 @@ const CreateGuidelineForm = () => {
     },
   });
 
+  const handleGoBack = () => {
+    navigate(-1);
+  };
+
   const handleAutoSave = (content: string) => {
     console.log(content);
     // setData({
@@ -148,9 +152,19 @@ const CreateGuidelineForm = () => {
         ref={formRef}
         className=" rounded-lg  w-full"
         onSubmit={form.handleSubmit(onSubmit)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault(); // Prevent form submission on Enter key
+          }
+        }}
         encType="multipart/form-data"
       >
-        <Header data={state} formRef={formRef} setSaveDraft={setSaveDraft} />
+        <Header
+          data={state}
+          formRef={formRef}
+          setSaveDraft={setSaveDraft}
+          handleGoBack={handleGoBack}
+        />
 
         <div className="p-6 pb-[4rem] flex flex-col gap-y-6 bg-white">
           {/* TITLE */}

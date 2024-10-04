@@ -2,13 +2,15 @@ import Icon from "@/components/icons/Icon";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
-import Back from "@/components/shared/backButton/Back";
+// import Back from "@/components/shared/backButton/Back";
 import MoreOptions from "@/components/common/dropdowns/MoreOptions";
+import { AlertGoBack } from "./GoBack";
 
 type Props = {
   data?: any;
   setSaveDraft?: (value: boolean) => void;
-  formRef: React.RefObject<HTMLFormElement>;
+  formRef?: React.RefObject<HTMLFormElement>;
+  handleGoBack?: () => void;
 };
 
 type OptionsMenu = {
@@ -19,7 +21,7 @@ type OptionsMenu = {
   onClick: () => void;
 };
 
-const Header = ({ data, formRef, setSaveDraft }: Props) => {
+const Header = ({ data, formRef, setSaveDraft, handleGoBack }: Props) => {
   const handlePublish = () => {};
 
   const handleUpdate = () => {};
@@ -30,13 +32,13 @@ const Header = ({ data, formRef, setSaveDraft }: Props) => {
       isButton: true,
       type: "submit",
       onClick: () => {
-        if (formRef.current) {
+        if (formRef?.current) {
           if (setSaveDraft) {
             setSaveDraft(true); // Call only if setSaveDraft exists
           }
           // Ensure form submits after the state change
           setTimeout(() => {
-            formRef.current?.requestSubmit();
+            formRef?.current?.requestSubmit();
           }, 0);
         }
       },
@@ -48,13 +50,13 @@ const Header = ({ data, formRef, setSaveDraft }: Props) => {
             isButton: true,
             type: "submit",
             onClick: () => {
-              if (formRef.current) {
+              if (formRef?.current) {
                 if (setSaveDraft) {
                   setSaveDraft(true); // Call only if setSaveDraft exists
                 }
                 // Ensure form submits after the state change
                 setTimeout(() => {
-                  formRef.current?.requestSubmit();
+                  formRef?.current?.requestSubmit();
                 }, 0);
               }
             },
@@ -62,8 +64,6 @@ const Header = ({ data, formRef, setSaveDraft }: Props) => {
         ]
       : []),
   ];
-
-  console.log(data);
 
   return (
     <header className="flex items-center bg-white w-full rounded-lg justify-between min-h-[5rem] p-4">
@@ -76,13 +76,17 @@ const Header = ({ data, formRef, setSaveDraft }: Props) => {
               : data?.pageName === "faq"
               ? "Add FAQ"
               : "Add New Helpline"
+            : data?.pageName === "Header"
+            ? "Header Information"
             : "Edit Article"}
         </h2>
       </div>
       <div className=" col-span-1 flex items-center justify-end gap-x-4">
-        <Back />
+        {/* <Back /> */}
 
-        {data?.pageName !== "helpline" ? (
+        <AlertGoBack onClick={handleGoBack} />
+
+        {data?.pageName !== "Header" && data?.pageName !== "helpline" ? (
           <>
             <Link
               to={`/preview/1`}

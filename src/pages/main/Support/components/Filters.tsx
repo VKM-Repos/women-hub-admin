@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import Icon from "@/components/icons/Icon";
 import { useEffect, useRef, useState } from "react";
 import { SupportButtons } from "./SupportButtons";
-import MoreFilter from "./MoreFilters";
+import StatusFilters from "./StatusFilters";
 
 type Props = {
   showFilters: boolean;
@@ -17,6 +17,7 @@ type Props = {
   toggleSelectAll: () => void;
   setSearchTerm: (e: string) => void;
   onStatusFilterChange: (status: string | null) => void;
+  handleSearch: any;
   page: string;
 };
 
@@ -27,18 +28,17 @@ const Filters = ({
   selectedCount,
   totalCount,
   toggleSelectAll,
-  setSearchTerm,
+  // setSearchTerm,
   onStatusFilterChange,
   page,
+  handleSearch,
 }: Props) => {
-  const toggleFilters = () => {
-    setShowFilters(!showFilters);
-  };
-  const [search, setSearch] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState(search);
+  // const [search, setSearch] = useState("");
+  // const [debouncedSearch, setDebouncedSearch] = useState(search);
   const [currentFilter, setCurrentFilter] = useState("All");
   const [isHovered, setIsHovered] = useState(false);
   const buttonRef = useRef<any>(null);
+  const toggleFilters = () => setShowFilters(!showFilters);
 
   useEffect(() => {
     const handleMouseEnter = () => setIsHovered(true);
@@ -58,27 +58,28 @@ const Filters = ({
     };
   }, []);
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-  };
+  // const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setSearch(e.target.value);
+  // };
 
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      setDebouncedSearch(search);
-    }, 2000);
+  // useEffect(() => {
+  //   const delayDebounceFn = setTimeout(() => {
+  //     setDebouncedSearch(search);
+  //   }, 2000);
 
-    return () => clearTimeout(delayDebounceFn);
-  }, [search]);
+  //   return () => clearTimeout(delayDebounceFn);
+  // }, [search]);
 
-  useEffect(() => {
-    if (debouncedSearch.trim() === "") {
-      setSearchTerm("");
-    } else {
-      setSearchTerm(debouncedSearch);
-    }
-  }, [debouncedSearch, setSearchTerm]);
+  // useEffect(() => {
+  //   if (debouncedSearch.trim() === "") {
+  //     setSearchTerm("");
+  //   } else {
+  //     setSearchTerm(debouncedSearch);
+  //   }
+  // }, [debouncedSearch, setSearchTerm]);
 
   const handleStatusFilterChange = (status: string | null) => {
+    // console.log(status);
     onStatusFilterChange(status);
     const formatStatus = (status: string | null): string => {
       if (!status) return "All";
@@ -95,8 +96,9 @@ const Filters = ({
           <SearchIcon />
           <input
             type="text"
-            value={search}
-            onChange={handleSearch}
+            onChange={() => handleSearch(event)}
+            // value={search}
+            // onChange={handleSearch}
             placeholder="Search"
             className="w-full border-none bg-transparent focus:outline-none"
             // onChange={() => handleFilter(event)}
@@ -177,7 +179,7 @@ const Filters = ({
               {`${
                 page === "faq" ? "Questions & Answer" : "Articles"
               } (${currentFilter} (${data?.length ?? "0"}))`}
-              <MoreFilter onStatusFilterChange={handleStatusFilterChange} />
+              <StatusFilters onStatusFilterChange={handleStatusFilterChange} />
               {/* <>
                 <svg
                   width="20"

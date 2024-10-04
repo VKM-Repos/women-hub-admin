@@ -11,8 +11,8 @@ import { API_BASE_URLS } from "@/config/api.config";
 // import { faqData } from "./mockupData/faq-mockup-data";
 
 export default function FAQs() {
-  const location = useLocation();
-  const guide = location.state?.guide;
+  // fetch the header information
+  const { state } = useLocation();
 
   const [showFilters, setShowFilters] = useState(false);
   const [selectedFAQs, setSelectedFAQs] = useState<string[]>([]);
@@ -40,9 +40,9 @@ export default function FAQs() {
     baseURL: API_BASE_URLS.supportServive,
   });
 
-  useEffect(() => {
-    console.log("Fetched FAQs:", FAQs);
-  }, [FAQs]);
+  // useEffect(() => {
+  //   console.log("Fetched FAQs:", FAQs);
+  // }, [FAQs]);
 
   useEffect(() => {
     // The query URL will be updated when currentPage or searchTerm changes
@@ -50,11 +50,11 @@ export default function FAQs() {
   }, [searchTerm, currentPage]); // Refetch when search term or page changes
 
   useEffect(() => {
-    if (FAQs?.content) {
+    if (FAQs?.length > 0) {
       const applyFilters = () => {
-        let updatedFAQs = FAQs.content;
+        let updatedFAQs = FAQs;
         if (statusFilter) {
-          updatedFAQs = updatedFAQs.filter(
+          updatedFAQs = updatedFAQs?.filter(
             (faq: Faq) => faq.status === statusFilter
           );
         }
@@ -97,6 +97,20 @@ export default function FAQs() {
     setStatusFilter(status);
   };
 
+  const handleSearch = (event: any) => {
+    const filterValue = event.target.value.toLowerCase();
+    console.log(filterValue);
+    if (FAQs?.length > 0) {
+      let updatedFAQs = FAQs;
+
+      const filteredData = updatedFAQs.filter((faq: Faq) =>
+        faq.question.toLowerCase().includes(filterValue)
+      );
+
+      setFilteredFAQs(filteredData);
+    }
+  };
+
   // const test = faqData;
 
   return (
@@ -105,25 +119,26 @@ export default function FAQs() {
         <Loading />
       ) : (
         <div className="mx-10">
-          <GuideHeroSection data={guide} />
+          <GuideHeroSection guide={state} />
           <section className="flex flex-col gap-y-6">
             <Filters
               showFilters={showFilters}
               setShowFilters={setShowFilters}
-              data={FAQs}
+              data={filteredFAQs}
               selectedCount={selectedFAQs}
-              totalCount={filteredFAQs.length}
+              totalCount={filteredFAQs?.length}
               toggleSelectAll={toggleSelectAll}
               setSearchTerm={setSearchTerm}
               onStatusFilterChange={handleStatusFilterChange}
+              handleSearch={handleSearch}
               page="faq"
             />
 
             <div className="flex flex-col gap-4">
               {isLoading || isRefetching ? (
                 <Loading />
-              ) : Array.isArray(FAQs) && FAQs.length > 0 ? (
-                FAQs.map((faq: Faq) => (
+              ) : filteredFAQs?.length > 0 ? (
+                filteredFAQs.map((faq: Faq) => (
                   <FaqPreviewCard
                     key={faq.id}
                     showFilters={showFilters}

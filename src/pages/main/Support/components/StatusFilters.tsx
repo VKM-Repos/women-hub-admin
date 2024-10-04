@@ -11,7 +11,7 @@ type Props = {
   onStatusFilterChange: (status: string) => void;
 };
 
-export default function MoreFilter({ onStatusFilterChange }: Props) {
+export default function StatusFilters({ onStatusFilterChange }: Props) {
   const handleStatusFilter = (status: string) => {
     onStatusFilterChange(status);
   };
@@ -25,17 +25,17 @@ export default function MoreFilter({ onStatusFilterChange }: Props) {
     {
       listType: "PUBLISHED",
       label: `Published`,
-      action: () => handleStatusFilter("PUBLISHED"),
+      action: () => handleStatusFilter("Published"),
     },
     {
       listType: "DRAFT",
       label: `Drafts`,
-      action: () => handleStatusFilter("DRAFT"),
+      action: () => handleStatusFilter("Draft"),
     },
     {
       listType: "ARCHIVED",
       label: `Archived`,
-      action: () => handleStatusFilter("ARCHIVED"),
+      action: () => handleStatusFilter("Archived"),
     },
   ];
 

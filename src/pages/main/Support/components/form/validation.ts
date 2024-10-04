@@ -17,10 +17,10 @@ function formatPhoneNumber(phoneNumber: string) {
 }
 
 export const createFAQSchema = z.object({
-  question: z.string().min(2, "Title must not be less than 2 characters"),
+  question: z.string().min(3, "Title must not be less than 3 characters"),
   answer: z
     .string()
-    .min(2, "Description must be at least 2 characters")
+    .min(3, "Description must be at least 3 characters")
     .max(1500, "Description must be at most 1500 characters"),
   category: z.string(),
   created_at: z.string(),
@@ -29,10 +29,10 @@ export const createFAQSchema = z.object({
 });
 
 export const createGuideSchema = z.object({
-  title: z.string().min(2, "Title must not be less than 2 characters"),
+  title: z.string().min(3, "Title must not be less than 3 characters"),
   content: z
     .string()
-    .min(2, "Content must be at least 2 characters")
+    .min(3, "Content must be at least 3 characters")
     .max(1500, "Content must be at most 1500 characters"),
   coverImage: z
     .any()
@@ -48,7 +48,7 @@ export const createGuideSchema = z.object({
 });
 
 export const createHelplineSchema = z.object({
-  name: z.string().min(2, "Title must not be less than 2 characters"),
+  name: z.string().min(3, "Title must not be less than 3 characters"),
   phone: z
     .string()
     .transform((value) => formatPhoneNumber(value)) // Apply the formatPhoneNumber transformation
@@ -61,10 +61,35 @@ export const createHelplineSchema = z.object({
 });
 
 export const editGuideSchema = z.object({
-  title: z.string().min(2, "Title must not be less than 2 characters"),
+  title: z.string().min(3, "Title must not be less than 3 characters"),
   content: z
     .string()
-    .min(2, "Content must be at least 2 characters")
+    .min(3, "Content must be at least 3 characters")
+    .max(1500, "Content must be at most 1500 characters"),
+
+  // Cover image can either be a File or a string (existing image URL)
+  coverImage: z
+    .union([z.string(), z.instanceof(File)])
+    .refine(
+      (fileOrUrl) =>
+        typeof fileOrUrl === "string" ||
+        (fileOrUrl instanceof File &&
+          ACCEPTED_IMAGE_TYPES.includes(fileOrUrl.type)),
+      "Only .jpg, .jpeg, and .png formats are allowed"
+    )
+    .refine(
+      (fileOrUrl) =>
+        typeof fileOrUrl === "string" ||
+        (fileOrUrl instanceof File && fileOrUrl.size <= MAX_IMAGE_SIZE),
+      "Max file size is 5MB"
+    ),
+});
+
+export const editHeaderSchema = z.object({
+  title: z.string().min(3, "Title must not be less than 3 characters"),
+  description: z
+    .string()
+    .min(3, "Content must be at least 3 characters")
     .max(1500, "Content must be at most 1500 characters"),
 
   // Cover image can either be a File or a string (existing image URL)

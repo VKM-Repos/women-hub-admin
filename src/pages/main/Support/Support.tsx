@@ -28,15 +28,24 @@ const Support = () => {
         <div className="flex mt-10 mb-10 ">
           {guides.map((guide: GuidesCard) => {
             return guide.id === "1" ? (
-              <Link to="/support/a-guide-to-womenhub" state={{ guide }}>
+              <Link
+                to="/support/a-guide-to-womenhub"
+                state={{ pageName: "Header", data: guide }}
+              >
                 <GuideCard key={guide.id} data={guide} />
               </Link>
             ) : guide.id === "2" ? (
-              <Link to={"/support/FAQs"} state={{ guide }}>
+              <Link
+                to={"/support/FAQs"}
+                state={{ pageName: "Header", data: guide }}
+              >
                 <GuideCard key={guide.id} data={guide} />
               </Link>
             ) : (
-              <Link to={"/support/helplines"} state={{ guide }}>
+              <Link
+                to={"/support/helplines"}
+                state={{ pageName: "Header", data: guide }}
+              >
                 <GuideCard key={guide.id} data={guide} />
               </Link>
             );

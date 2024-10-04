@@ -165,14 +165,28 @@ const CreateFAQForm = () => {
     }
   }
 
+  const handleGoBack = () => {
+    navigate(-1);
+  };
+
   return (
     <Form {...form}>
       <form
         ref={formRef}
         className="rounded-lg  w-full"
         onSubmit={form.handleSubmit(onSubmit)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault(); // Prevent form submission on Enter key
+          }
+        }}
       >
-        <Header data={state} formRef={formRef} setSaveDraft={setSaveDraft} />
+        <Header
+          data={state}
+          formRef={formRef}
+          setSaveDraft={setSaveDraft}
+          handleGoBack={handleGoBack}
+        />
         <div className="p-6 pb-[4rem] flex flex-col gap-y-6 bg-white">
           {/* CATEGORY */}
           <CustomFormField

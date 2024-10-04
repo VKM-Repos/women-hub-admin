@@ -11,8 +11,8 @@ import { API_BASE_URLS } from "@/config/api.config";
 // import { guideData } from "./mockupData/guide-mockup-data";
 
 export default function Guidelines() {
-  const location = useLocation();
-  const guide = location.state?.guide;
+  // fetch the header information
+  const { state } = useLocation();
 
   const [showFilters, setShowFilters] = useState(false);
   const [selectedGuidelines, setSelectedGuidelines] = useState<string[]>([]);
@@ -46,9 +46,9 @@ export default function Guidelines() {
     enabled: true,
   });
 
-  useEffect(() => {
-    console.log("Fetched Guidelines:", guidelines);
-  }, [guidelines]);
+  // useEffect(() => {
+  //   console.log("Fetched Guidelines:", guidelines);
+  // }, [guidelines]);
 
   useEffect(() => {
     // The query URL will be updated when currentPage or searchTerm changes
@@ -56,9 +56,9 @@ export default function Guidelines() {
   }, [searchTerm, currentPage]); // Refetch when search term or page changes
 
   useEffect(() => {
-    if (guidelines?.content) {
+    if (guidelines?.length > 0) {
       const applyFilters = () => {
-        let updatedGuidelines = guidelines.content;
+        let updatedGuidelines = guidelines;
         if (statusFilter) {
           updatedGuidelines = updatedGuidelines.filter(
             (guide: Guide) => guide.status === statusFilter
@@ -103,6 +103,21 @@ export default function Guidelines() {
     }
   };
 
+  const handleSearch = (event: any) => {
+    const filterValue = event.target.value.toLowerCase();
+    console.log(filterValue);
+    if (guidelines?.length > 0) {
+      let updatedGuidelines = guidelines;
+
+      const filteredData = updatedGuidelines.filter((guide: Guide) =>
+        guide.title.toLowerCase().includes(filterValue)
+      );
+
+      // console.log(filteredData);
+      setFilteredGuidelines(filteredData);
+    }
+  };
+
   // const test = guideData;
 
   return (
@@ -111,25 +126,26 @@ export default function Guidelines() {
         <Loading />
       ) : (
         <div className="mx-10">
-          <GuideHeroSection data={guide} />
+          <GuideHeroSection guide={state} />
           <section className="flex flex-col gap-y-6">
             <Filters
               showFilters={showFilters}
               setShowFilters={setShowFilters}
-              data={guidelines}
+              data={filteredGuidelines}
               selectedCount={selectedGuidelines}
-              totalCount={filteredGuidelines.length}
+              totalCount={filteredGuidelines?.length}
               toggleSelectAll={toggleSelectAll}
               setSearchTerm={setSearchTerm}
               onStatusFilterChange={handleStatusFilterChange}
+              handleSearch={handleSearch}
               page="guideline"
             />
 
             <div className="flex flex-col gap-4">
               {isLoading || isRefetching ? (
                 <Loading />
-              ) : guidelines?.length > 0 ? (
-                guidelines?.map((guide: any) => (
+              ) : filteredGuidelines?.length > 0 ? (
+                filteredGuidelines?.map((guide: any) => (
                   <GuidePreviewCard
                     key={guide.id}
                     showFilters={showFilters}
