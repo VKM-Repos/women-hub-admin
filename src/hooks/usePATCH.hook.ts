@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation } from '@tanstack/react-query';
-import { toast } from 'react-hot-toast';
+// import { toast } from 'react-hot-toast';
 import { createApiInstance } from '@/config/axiosInstance';
 export interface PatchOptions {
   baseURL?: string;

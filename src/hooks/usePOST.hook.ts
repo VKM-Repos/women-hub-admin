@@ -1,6 +1,7 @@
-import { useMutation } from "@tanstack/react-query";
-import { toast } from "react-hot-toast";
-import { createApiInstance } from "@/config/axiosInstance";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'react-hot-toast';
+import { createApiInstance } from '@/config/axiosInstance';
 
 interface PostOptions {
   baseURL?: string;
@@ -10,7 +11,7 @@ interface PostOptions {
 }
 export const usePOST = (
   endPoint: string,
-  { baseURL, contentType = "application/json", callback }: PostOptions = {}
+  { baseURL, contentType = 'application/json', callback }: PostOptions = {}
 ) => {
   const { mutate, isError, isPending, isSuccess, data, error } = useMutation({
     mutationFn: async (values: any) => {
@@ -20,18 +21,18 @@ export const usePOST = (
 
       const response = await axiosInstance.post(endPoint, values, {
         headers: {
-          "Content-Type": contentType,
+          'Content-Type': contentType,
         },
       });
 
       return response?.data;
     },
-    onSuccess: (returnedData) => {
+    onSuccess: returnedData => {
       callback && callback(returnedData);
       // toast.success("Success");
     },
     onError: (error: { response: { data: any } }) => {
-      return toast.error(error.response.data.detail || "Something went wrong");
+      return toast.error(error.response.data.detail || 'Something went wrong');
     },
   });
 
