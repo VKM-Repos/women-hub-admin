@@ -42,6 +42,7 @@ const PostFilters = ({
   const { mutate: archiveAll } = usePOST('admin/posts/archive', {
     callback: () => {
       toast.success('Selected post(s) has been archived');
+      window.location.reload();
     },
     contentType: 'application/json',
   });
@@ -49,6 +50,7 @@ const PostFilters = ({
   const { mutate: publishAll } = usePOST('admin/posts/publish', {
     callback: () => {
       toast.success('Selected post(s) has been published');
+      window.location.reload();
     },
     contentType: 'application/json',
   });

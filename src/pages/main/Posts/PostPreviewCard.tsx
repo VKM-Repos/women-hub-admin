@@ -34,6 +34,7 @@ function PostPreviewCard({
     contentType: 'multipart/form-data',
     callback: () => {
       toast.success('Post published successfully');
+      window.location.reload();
     },
   });
 
@@ -41,6 +42,7 @@ function PostPreviewCard({
     contentType: 'multipart/form-data',
     callback: () => {
       toast.success('Post has been archived');
+      window.location.reload();
     },
   });
 
@@ -160,7 +162,7 @@ function PostPreviewCard({
             {post?.status === 'ARCHIVED' && (
               <PostButtons
                 icon={<Icon name="publishPostIcon" />}
-                label="Archive"
+                label="Publish"
                 onClick={() => handlePublishPost(post?.id)}
                 isHovered={isHovered}
               />
