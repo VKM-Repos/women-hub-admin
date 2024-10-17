@@ -18,8 +18,8 @@ import { useRef, useState, useEffect } from 'react';
 type Props = {
   showFilters: boolean;
   post: Post;
-  isSelected: boolean; // Whether the post is selected
-  togglePostSelection: () => void; // Function to toggle selection
+  isSelected: boolean;
+  togglePostSelection: () => void;
 };
 
 function PostPreviewCard({
@@ -186,7 +186,7 @@ function PostPreviewCard({
             {post?.author || 'No Author'}
           </p>
           <picture className="aspect-square w-5">
-            <img src={Avatar} alt="Avatar" />
+            <img src={post.createdBy.photoUrl ?? Avatar} alt="Avatar" />
           </picture>
         </div>
         <div className="text-txtColor flex items-start gap-4 text-xs font-semibold">

@@ -1,4 +1,5 @@
 import { Category } from './category.types';
+import { UserDTO } from './user.types';
 
 export type Post = {
   id: number;
@@ -14,6 +15,7 @@ export type Post = {
   numberOfLikes: number;
   status: PostStatus;
   createdAt: string;
+  createdBy: UserDTO;
 };
 
 type PostStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED' | null;
