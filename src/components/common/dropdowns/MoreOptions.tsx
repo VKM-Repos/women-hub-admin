@@ -1,21 +1,21 @@
-"use client";
-import React, { useState } from "react";
+'use client';
+import React, { useState } from 'react';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { TooltipProvider } from "@radix-ui/react-tooltip";
+} from '@/components/ui/popover';
+import { TooltipProvider } from '@radix-ui/react-tooltip';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from '@/components/ui/tooltip';
 
-import { MoreHorizontalIcon } from "lucide-react";
-import { Separator } from "@radix-ui/react-dropdown-menu";
-import { NavLink } from "react-router-dom";
-import { cn } from "@/lib/utils";
+import { MoreHorizontalIcon } from 'lucide-react';
+import { Separator } from '@radix-ui/react-dropdown-menu';
+import { NavLink } from 'react-router-dom';
+import { cn } from '@/lib/utils';
 
 export type MenuItem = {
   title: string;
@@ -31,12 +31,12 @@ type Props = {
   label?: React.ReactNode;
 };
 
-const MoreOptions: React.FC<Props> = ({ menu, label = "options" }) => {
+const MoreOptions: React.FC<Props> = ({ menu, label = 'options' }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <PopoverTrigger>
+      <PopoverTrigger id="trigger_auto_save3">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -46,7 +46,7 @@ const MoreOptions: React.FC<Props> = ({ menu, label = "options" }) => {
             </TooltipTrigger>
             <TooltipContent
               side="left"
-              className="text-black bg-white shadow-sm  border text-xs"
+              className="text-black border bg-white  text-xs shadow-sm"
             >
               {label}
             </TooltipContent>
@@ -55,7 +55,7 @@ const MoreOptions: React.FC<Props> = ({ menu, label = "options" }) => {
       </PopoverTrigger>
       <PopoverContent
         align="end"
-        className="bg-white absolute top-[0px] right-7 w-48 overflow-hidden rounded shadow-md p-0"
+        className="absolute right-7 top-[0px] w-48 overflow-hidden rounded bg-white p-0 shadow-md"
       >
         <ul className=" text-gray-200 flex flex-col items-start justify-center gap-0 p-0">
           {menu.map((item, index) => {
@@ -66,28 +66,28 @@ const MoreOptions: React.FC<Props> = ({ menu, label = "options" }) => {
                   <>
                     <li className="flex w-full items-center justify-start gap-2 whitespace-nowrap">
                       <button
-                        onClick={(e) => {
+                        onClick={e => {
                           item.onClick && item.onClick(e);
                           setIsOpen(false);
                         }}
-                        className="w-full  text-black hover:text-white relative bg-none hover:bg-blue-600 p-2 flex cursor-pointer gap-4 text-sm transition duration-300 ease-in-out hover:no-underline"
+                        className="text-black  hover:bg-blue-600 relative flex w-full cursor-pointer gap-4 bg-none p-2 text-sm transition duration-300 ease-in-out hover:text-white hover:no-underline"
                       >
                         {item.icon}
                         {item.title}
                       </button>
                     </li>
                     {index !== menu.length - 1 && (
-                      <Separator className="bg-gray-300 w-full h-[1px]" />
+                      <Separator className="bg-gray-300 h-[1px] w-full" />
                     )}
                   </>
                 ) : (
                   <>
                     <li className="flex w-full items-center justify-start whitespace-nowrap">
                       <NavLink
-                        to={item.link || ""}
+                        to={item.link || ''}
                         onClick={() => setIsOpen(false)}
                         className={cn(
-                          " w-full  text-black hover:text-white relative bg-none hover:bg-blue-600 p-2 flex gap-4 text-sm transition duration-300 ease-in-out hover:no-underline"
+                          ' text-black  hover:bg-blue-600 relative flex w-full gap-4 bg-none p-2 text-sm transition duration-300 ease-in-out hover:text-white hover:no-underline'
                         )}
                       >
                         {item.icon}

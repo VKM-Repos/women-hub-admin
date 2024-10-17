@@ -1,8 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEditor } from '@tiptap/react';
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { Editor, useEditor } from '@tiptap/react';
+import { useState, useCallback, useEffect } from 'react';
 
 import defaultExtensions from './extensions';
+
+interface Props {
+  editor: Editor | any;
+}
 
 export const useEditorWithDebounce = (
   initialContent: string,
@@ -16,12 +20,12 @@ export const useEditorWithDebounce = (
     content: initialContent,
     extensions: [...defaultExtensions],
     onUpdate: useCallback(
-      ({ editor }: any) => {
-        const newContent = editor.getHTML();
+      ({ editor }: Props) => {
+        const newContent = editor?.getHTML();
         onChange(newContent);
 
-        // Update word count
-        const words = editor.state.doc.textContent
+        // Update character count
+        const words = editor?.state.doc.textContent
           .split(/\s+/)
           .filter((word: string) => word.length > 0);
         setCharsCount(words.length);
@@ -37,41 +41,45 @@ export const useEditorWithDebounce = (
         class:
           'h-[120dvh] !p-[1.5rem] !tiptap overflow-y-auto border-none focus:outline-none space-y-6',
       },
+      handleDOMEvents: {
+        submit: () => {
+          if (editor) {
+            const content = editor.getHTML();
+            onAutoSave(content);
+            setSaveStatus('Saved');
+          }
+          return false;
+        },
+      },
     },
   });
 
-  const timeoutIdRef = useRef<NodeJS.Timeout | null>(null);
-
-  const autoSave = useCallback(() => {
-    if (editor) {
-      const content = editor.getHTML();
-      onAutoSave(content);
-      setSaveStatus('Saved');
-    }
-  }, [editor, onAutoSave]);
-
+  // Use useEffect to handle clicks on the specified elements
   useEffect(() => {
-    if (editor) {
-      const handleEditorChange = () => {
-        if (timeoutIdRef.current) {
-          clearTimeout(timeoutIdRef.current);
-        }
+    const handleAutoSave = () => {
+      if (editor) {
+        const content = editor.getHTML();
+        onAutoSave(content);
+        setSaveStatus('Saved');
+      }
+    };
 
-        timeoutIdRef.current = setTimeout(() => {
-          autoSave();
-        }, 1500);
-      };
+    const trigger1 = document.getElementById('trigger_auto_save');
+    const trigger2 = document.getElementById('trigger_auto_save2');
+    const trigger3 = document.getElementById('trigger_auto_save3');
 
-      editor.on('update', handleEditorChange);
+    // Check if elements exist and add event listeners
+    trigger1?.addEventListener('click', handleAutoSave);
+    trigger2?.addEventListener('click', handleAutoSave);
+    trigger3?.addEventListener('click', handleAutoSave);
 
-      return () => {
-        editor.off('update', handleEditorChange);
-        if (timeoutIdRef.current) {
-          clearTimeout(timeoutIdRef.current);
-        }
-      };
-    }
-  }, [editor, autoSave]);
+    // Cleanup event listeners on component unmount
+    return () => {
+      trigger1?.removeEventListener('click', handleAutoSave);
+      trigger2?.removeEventListener('click', handleAutoSave);
+      trigger3?.removeEventListener('click', handleAutoSave);
+    };
+  }, [editor, onAutoSave]);
 
   return { editor, charsCount, saveStatus };
 };

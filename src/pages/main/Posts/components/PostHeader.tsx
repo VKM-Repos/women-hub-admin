@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { useCreatePostFormStore } from '@/store/useCreatePostForm.store';
 import { useEditPostFormStore } from '@/store/useEditPostForm.store';
 import { Post } from '@/types/posts.type';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AlertGoBack } from './AlertGoBack';
 
 type Props = {
@@ -53,6 +53,7 @@ const PostHeader = ({
 
   const { data } = useCreatePostFormStore();
   const { data: editData } = useEditPostFormStore();
+  const navigate = useNavigate();
 
   return (
     <header className="grid min-h-[5rem] grid-cols-2 items-center justify-between p-4">
@@ -72,8 +73,9 @@ const PostHeader = ({
         <AlertGoBack onClick={handleGoBack} />
         {step > 1 && (
           <>
-            <Link
-              to={`/posts/${post?.id}/preview`}
+            <Button
+              id="trigger_auto_save"
+              onClick={() => navigate(`/posts/${post?.id}/preview`)}
               className={cn(
                 buttonVariants({ variant: 'outline' }),
                 'flex items-center gap-1'
@@ -81,8 +83,9 @@ const PostHeader = ({
             >
               <Icon name="eyeIcon" />
               <span>Preview</span>
-            </Link>
+            </Button>
             <Button
+              id="trigger_auto_save2"
               onClick={() => {
                 post?.id && post?.status !== 'DRAFT'
                   ? handleUpdate?.()
