@@ -1,38 +1,38 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from "react-router-dom";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 
-import NotificationIcon from '@/assets/icons/notification-icon.svg';
-import Avatar from '@/assets/icons/avatar.svg';
-import ChevronDown from '@/assets/icons/chevron-down-icon.svg';
+import NotificationIcon from "@/assets/icons/notification-icon.svg";
+import Avatar from "@/assets/icons/avatar.svg";
+import ChevronDown from "@/assets/icons/chevron-down-icon.svg";
 
-import Icon from '../icons/Icon';
-import useAppStore from '@/lib/store/app.store';
+import Icon from "../icons/Icon";
+import useAppStore from "@/lib/store/app.store";
 
-import { routess } from '@/routes';
-import useRouteName from '@/hooks/useRoutename';
-import useResetAllStores from '@/store/useResetAll.store';
+import { routess } from "@/routes";
+import useRouteName from "@/hooks/useRoutename";
+import useResetAllStores from "@/store/useResetAll.store";
 const Header = () => {
   const { logout, user } = useAppStore();
   const resetAllStores = useResetAllStores();
   const { state } = useLocation();
   const routeName = useRouteName(routess);
-  let modifiedUserRole = user?.role?.replace('_', ' ');
+  let modifiedUserRole = user?.role?.replace("_", " ");
   const handleLogout = () => {
     resetAllStores();
     logout();
   };
 
   return (
-    <div className="font-inter flex justify-end">
+    <div className="font-inter fixed w-[80%] max-w-[80%] z-50 right-0 flex justify-end">
       <div className=" fixed z-50 flex h-16 w-[80%] min-w-[80%] max-w-[80%] items-center justify-between rounded-bl-3xl bg-white px-10">
         <span className="static text-[20px] font-semibold capitalize">
-          {state?.operation ? state?.operation : ''} {routeName || ''}
+          {state?.operation ? state?.operation : ""} {routeName || ""}
         </span>
         <div className="flex items-center">
           <img src={NotificationIcon} alt="" />
