@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import BlogImage from "@/assets/sample-blog-image.png";
-import NewsLetterSVG from "./components/NewsLetterSVG";
 import { useCreatePostFormStore } from "@/store/useCreatePostForm.store";
 import { useEditPostFormStore } from "@/store/useEditPostForm.store";
 import ImageWithFallback from "@/components/shared/ImageWithFallBack";
 import { useGET } from "@/hooks/useGET.hook";
+// import FooterSVG from "./components/FooterSVG";
+import Footer from "@/assets/images/footer.png";
 
 const Preview = () => {
   useEffect(() => {
@@ -52,7 +53,7 @@ const Preview = () => {
 
   return (
     <div className="absolute inset-0 !z-[1000] !min-h-screen w-screen overflow-y-scroll bg-white pb-[4rem]">
-      <section className="bg-textPrimary mx-auto mt-[2rem] grid h-[28rem] w-full grid-cols-1 rounded-[1rem] p-4 md:grid-cols-2 md:p-12 lg:w-[90%]">
+      {/* <section className="bg-textPrimary mx-auto mt-[2rem] grid h-[28rem] w-full grid-cols-1 rounded-[1rem] p-4 md:grid-cols-2 md:p-12 lg:w-[90%]">
         <div className=" relative col-span-1 flex flex-col items-start justify-center gap-2">
           <button onClick={goBack} className="absolute -top-5 left-0">
             <svg
@@ -101,6 +102,9 @@ const Preview = () => {
             />
           </span>
         </div>
+      </section> */}
+      <section className="bg-textPrimary mx-auto mt-[2rem] grid h-[28rem] w-full grid-cols-1 rounded-[1rem] p-4 md:grid-cols-2 md:p-12 lg:w-[90%]">
+        <div className="mx-auto">How to create an Organization</div>
       </section>
 
       <article className=" mx-auto mt-[5rem] w-[95%] max-w-[80%] space-y-10">
@@ -112,7 +116,8 @@ const Preview = () => {
         />
       </article>
       <section className="mx-auto mt-[5rem] w-[95%] max-w-[80%] space-y-10">
-        <NewsLetterSVG />
+        <img src={Footer} />
+        {/* <FooterSVG /> */}
       </section>
     </div>
   );

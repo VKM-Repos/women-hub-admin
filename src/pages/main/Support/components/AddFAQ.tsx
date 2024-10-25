@@ -1,4 +1,4 @@
-import CreateFAQForm from "./form/CreateFAQForm";
+import CreateFAQForm from "./form/FAQForm";
 
 const AddFAQ = () => {
   return (

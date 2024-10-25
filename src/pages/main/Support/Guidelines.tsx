@@ -57,9 +57,9 @@ export default function Guidelines() {
   }, [searchTerm, currentPage]); // Refetch when search term or page changes
 
   useEffect(() => {
-    if (guidelines?.length > 0) {
+    if (guidelines?.items) {
       const applyFilters = () => {
-        let updatedGuidelines = guidelines;
+        let updatedGuidelines = guidelines.items;
         if (statusFilter) {
           updatedGuidelines = updatedGuidelines.filter(
             (guide: Guide) => guide.status === statusFilter
@@ -182,6 +182,7 @@ export default function Guidelines() {
               toggleSelectAll={toggleSelectAll}
               setSearchTerm={setSearchTerm}
               onStatusFilterChange={handleStatusFilterChange}
+              handleSearch={handleSearch}
               page="Guidelines"
             />
 
@@ -205,8 +206,9 @@ export default function Guidelines() {
                 handlePrevious={handlePreviousPage}
                 handleNext={handleNextPage}
                 currentPage={currentPage + 1}
-                numberOfElements={guidelines?.numberOfElements ?? 0}
+                // numberOfElements={guidelines?.numberOfElements ?? 0}
                 totalElements={guidelines?.length ?? 0}
+                pageSize={pageSize}
               />
             </div>
           </section> */}

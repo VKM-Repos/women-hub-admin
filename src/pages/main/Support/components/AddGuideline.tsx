@@ -1,4 +1,4 @@
-import CreateGuidelineForm from "./form/CreateGuidelineForm";
+import CreateGuidelineForm from "./form/GuidelineForm";
 
 const AddGuideline = () => {
   return (

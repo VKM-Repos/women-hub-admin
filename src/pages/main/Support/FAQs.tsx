@@ -51,9 +51,9 @@ export default function FAQs() {
   }, [searchTerm, currentPage]); // Refetch when search term or page changes
 
   useEffect(() => {
-    if (FAQs?.length > 0) {
+    if (FAQs?.items) {
       const applyFilters = () => {
-        let updatedFAQs = FAQs;
+        let updatedFAQs = FAQs.items;
         if (statusFilter) {
           updatedFAQs = updatedFAQs?.filter(
             (faq: Faq) => faq.status === statusFilter
@@ -158,7 +158,7 @@ export default function FAQs() {
                 handlePrevious={handlePreviousPage}
                 handleNext={handleNextPage}
                 currentPage={currentPage + 1}
-                // numberOfElements={FAQs?.numberOfElements ?? 0}
+                numberOfElements={FAQs?.total ?? 0}
                 totalElements={FAQs?.length ?? 0}
                 pageSize={pageSize}
               />

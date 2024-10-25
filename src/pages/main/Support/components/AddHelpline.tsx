@@ -1,4 +1,4 @@
-import CreateHelplineForm from "./form/CreateHelplineForm";
+import CreateHelplineForm from "./form/HelplineForm";
 
 const AddHelpline = () => {
   return (
