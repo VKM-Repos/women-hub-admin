@@ -120,10 +120,9 @@ import { useDELETE } from "@/hooks/useDelete.hook";
 
 export default function Helplines() {
   const navigate = useNavigate();
-  // const [searchTerm, setSearchTerm] = useState<string>("");
-  // State for search term and pagination
-  const [searchTerm] = useState<string>(""); // Destructuring state and setter
-  const [currentPage, setCurrentPage] = useState<number>(0); // For pagination
+
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [offset, setOffset] = useState<number>(0);
   const [pageSize] = useState<number>(10); // Static page size
 
   const [id, setId] = useState<{ id: string }>();
@@ -183,16 +182,7 @@ export default function Helplines() {
     // console.log(row);
     try {
       setId(row.original.id);
-      // let faq_id: row.original.id
-      // let formData = {
-      //   faq_id: row.original.id,
-      //   // created_at: row.original.created_at,
-      //   // name: row.original.name,
-      //   // phone: row.original.phone,
-      //   // state_id: row.original.state_id,
-      //   // status: row.original.status,
-      //   // updated_at: row.original.updated_at,
-      // };
+
       deleteHelpline({ faq_id: row.original.id });
     } catch (error) {
       console.error("Error Deactivating Helpline:", error);
@@ -338,9 +328,7 @@ export default function Helplines() {
   ];
 
   // Construct the URL based on pagination and search term
-  const apiUrl = searchTerm
-    ? `helplines/search?title=${searchTerm}&page=${currentPage}&size=${pageSize}`
-    : `helplines?page=${currentPage}&size=${pageSize}`;
+  const apiUrl = `helplines?limit=${pageSize}&offset=${offset}`;
 
   // Fetching helplines data using the GET request hook
   const {
@@ -350,39 +338,34 @@ export default function Helplines() {
     isRefetching,
   } = useGET({
     url: apiUrl,
-    queryKey: [
-      searchTerm ? "Helplines-search" : "Helplines",
-      searchTerm,
-      currentPage,
-    ],
+    queryKey: ["Get_Helplines"],
     baseURL: API_BASE_URLS.supportServive,
     withAuth: true,
     enabled: true,
   });
 
-  // Log fetched data to the console for debugging
-  useEffect(() => {
-    console.log("Fetched Helplines:", helplines);
-  }, [helplines]);
+  // // Log fetched data to the console for debugging
+  // useEffect(() => {
+  //   console.log("Fetched Helplines:", helplines);
+  // }, [helplines]);
 
   // Refetch data when searchTerm or currentPage changes
   useEffect(() => {
     refetch();
-  }, [searchTerm, currentPage, refetch]);
+  }, [currentPage]);
 
   // Handlers for pagination
   const handleNextPage = () => {
-    if (
-      helplines?.totalElements &&
-      currentPage < helplines.totalElements / pageSize - 1
-    ) {
+    if (helplines?.total_pages > currentPage) {
       setCurrentPage((prevPage) => prevPage + 1);
+      setOffset((prevOffset) => prevOffset + 10);
     }
   };
 
   const handlePreviousPage = () => {
-    if (currentPage > 0) {
+    if (helplines?.total_pages >= currentPage) {
       setCurrentPage((prevPage) => prevPage - 1);
+      setOffset((prevOffset) => prevOffset - 10);
     }
   };
 
@@ -409,12 +392,13 @@ export default function Helplines() {
       ) : (
         <GenericTable
           columns={columns}
-          data={helplines || []}
+          data={helplines?.items || []}
           handlePrevious={handlePreviousPage}
           handleNext={handleNextPage}
-          currentPage={currentPage + 1}
-          numberOfElements={helplines?.numberOfElements ?? 0}
-          totalElements={helplines?.totalElements ?? 0}
+          currentPage={currentPage}
+          numberOfElements={helplines?.items.length ?? 0}
+          totalElements={helplines?.total ?? 0}
+          pageSize={pageSize}
         />
       )}
       {/* <GenericTable

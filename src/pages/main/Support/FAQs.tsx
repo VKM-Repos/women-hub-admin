@@ -17,18 +17,17 @@ export default function FAQs() {
 
   const [showFilters, setShowFilters] = useState(false);
   const [selectedFAQs, setSelectedFAQs] = useState<string[]>([]);
-  const [searchTerm, setSearchTerm] = useState<string>("");
+
   const [filteredFAQs, setFilteredFAQs] = useState<Faq[]>([]);
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
 
   // Pagination states
-  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [offset, setOffset] = useState<number>(0);
   const [pageSize] = useState<number>(10);
 
-  // Construct the URL based on pagination and search term
-  const apiUrl = searchTerm
-    ? `faqs/search?title=${searchTerm}&page=${currentPage}&size=${pageSize}`
-    : `faqs?page=${currentPage}&size=${pageSize}`;
+  // Construct the URL based on pagination
+  const apiUrl = `faqs?limit=${pageSize}&offset=${offset}`;
 
   const {
     data: FAQs,
@@ -37,18 +36,14 @@ export default function FAQs() {
     isRefetching,
   } = useGET({
     url: apiUrl,
-    queryKey: [searchTerm ? "FAQs-search" : "FAQs", searchTerm, currentPage],
+    queryKey: ["Get_FAQs"],
     baseURL: API_BASE_URLS.supportServive,
   });
-
-  // useEffect(() => {
-  //   console.log("Fetched FAQs:", FAQs);
-  // }, [FAQs]);
 
   useEffect(() => {
     // The query URL will be updated when currentPage or searchTerm changes
     refetch();
-  }, [searchTerm, currentPage]); // Refetch when search term or page changes
+  }, [currentPage]); // Refetch when search term or page changes
 
   useEffect(() => {
     if (FAQs?.items) {
@@ -67,14 +62,16 @@ export default function FAQs() {
   }, [FAQs, statusFilter]);
 
   const handleNextPage = () => {
-    if (FAQs?.length && currentPage < FAQs.length - 1) {
+    if (FAQs?.total_pages > currentPage) {
       setCurrentPage((prevPage) => prevPage + 1);
+      setOffset((prevOffset) => prevOffset + 10);
     }
   };
 
   const handlePreviousPage = () => {
-    if (currentPage > 0) {
+    if (FAQs?.total_pages >= currentPage) {
       setCurrentPage((prevPage) => prevPage - 1);
+      setOffset((prevOffset) => prevOffset - 10);
     }
   };
 
@@ -132,7 +129,6 @@ export default function FAQs() {
               selectedCount={selectedFAQs}
               totalCount={filteredFAQs?.length}
               toggleSelectAll={toggleSelectAll}
-              setSearchTerm={setSearchTerm}
               onStatusFilterChange={handleStatusFilterChange}
               handleSearch={handleSearch}
               page="faq"
@@ -157,14 +153,15 @@ export default function FAQs() {
               <Pagination
                 handlePrevious={handlePreviousPage}
                 handleNext={handleNextPage}
-                currentPage={currentPage + 1}
-                numberOfElements={FAQs?.total ?? 0}
-                totalElements={FAQs?.length ?? 0}
+                currentPage={currentPage}
+                numberOfElements={FAQs?.items.length ?? 0}
+                totalElements={FAQs?.total ?? 0}
                 pageSize={pageSize}
               />
             </div>
           </section>
 
+          {/* use this comment if you want to use dumi data instead of API data */}
           {/* <section className="flex flex-col gap-y-6">
             <Filters
               showFilters={showFilters}
@@ -173,7 +170,7 @@ export default function FAQs() {
               selectedCount={selectedFAQs}
               totalCount={filteredFAQs.length}
               toggleSelectAll={toggleSelectAll}
-              setSearchTerm={setSearchTerm}
+              
               onStatusFilterChange={handleStatusFilterChange}
               page="FAQs"
             />

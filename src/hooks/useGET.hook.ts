@@ -9,7 +9,7 @@ export const useGET = ({
 }: {
   baseURL?: string;
   url: string;
-  queryKey: any[];
+  queryKey?: any[];
   withAuth?: boolean;
   enabled?: boolean;
 }) => {
