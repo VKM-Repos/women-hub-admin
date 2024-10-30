@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery } from "@tanstack/react-query";
 import { createApiInstance } from "@/config/axiosInstance";
 
@@ -9,7 +10,7 @@ export const useGET = ({
 }: {
   baseURL?: string;
   url: string;
-  queryKey?: any[];
+  queryKey: any[];
   withAuth?: boolean;
   enabled?: boolean;
 }) => {
