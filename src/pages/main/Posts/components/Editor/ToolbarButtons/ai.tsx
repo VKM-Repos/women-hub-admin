@@ -10,6 +10,7 @@ import {
   PenLine,
   ScanEye,
   Sparkle,
+  ThumbsUp,
   Wand2,
 } from 'lucide-react';
 import { Icons } from '../icons';
@@ -167,10 +168,21 @@ const AI: React.FC<AIProps> = ({ editor }) => {
   const updateMenuAfterResponse = (action: string) => {
     const newMenu = [
       action !== 'Analyze Text' && {
-        title: 'Accept',
-        icon: <Check size={14} />,
-        onClick: insertAIResponse,
+        title: 'Okay',
+        icon: <ThumbsUp size={14} />,
+        onClick: resetMenu,
       },
+      action !== 'Analyze Text'
+        ? {
+            title: 'Insert',
+            icon: <Check size={14} />,
+            onClick: insertAIResponse,
+          }
+        : {
+            title: 'Insert Report',
+            icon: <Check size={14} />,
+            onClick: insertAIResponse,
+          },
       { title: 'Discard', icon: <Icons.close size={14} />, onClick: resetMenu },
       {
         title: 'Try Again',
@@ -236,6 +248,25 @@ const AI: React.FC<AIProps> = ({ editor }) => {
     return textarea?.value.trim() || '';
   };
 
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleKeyDown = async (e: any) => {
+    if (e.key === 'Enter' && !aiTyping) {
+      e.preventDefault();
+
+      const inputElement = e.target as HTMLTextAreaElement;
+      const term = inputElement.value.trim();
+
+      if (term) {
+        setSearchTerm(term);
+        processAIRequest('Generate Content');
+        inputElement.value = '';
+      } else {
+        toast.error('Please enter a search term!');
+      }
+    }
+  };
+
   return (
     <Popover open={isOpen} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -250,29 +281,33 @@ const AI: React.FC<AIProps> = ({ editor }) => {
         className="w-[32rem] p-2"
       >
         <div
-          className="bg-background relative mt-4 min-h-[5rem] rounded-lg p-2"
+          className="bg-background relative mt-4 min-h-[5rem] space-y-2 rounded-lg p-2"
           id="ai-response"
         >
-          {aiTyping && !aiResponse && (
+          {aiResponse}
+          {!aiResponse ? (
             <div className="text-txtColor z-4 absolute top-0 mt-2 flex items-center gap-2 text-xs">
               <Wand2 size={14} />
-              {aiTyping ? 'AI is thinking...' : ''}
+              {aiTyping
+                ? 'AI is thinking...'
+                : searchTerm
+                  ? 'Tell AI what to do next'
+                  : 'Ask AI anything...'}
+            </div>
+          ) : (
+            <div className="text-txtColor z-4 relative mt-2 flex items-center gap-2 text-xs">
+              <Wand2 size={14} />
+              {'Tell AI what to do next'}
             </div>
           )}
-          {aiResponse}
+
           <div
             className={`${aiResponse && !aiTyping ? 'mt-2 border-t' : ''} relative w-full pt-2`}
           >
             <textarea
               id="ai-command-input"
               className="z-5 placeholder:text-gray-500 relative inset-0 w-full resize-none rounded-md border-none bg-transparent p-2 text-sm focus:outline-none"
-              placeholder=""
-              onKeyDown={async e => {
-                if (e.key === 'Enter' && !aiTyping) {
-                  e.preventDefault();
-                  processAIRequest('Generate Content');
-                }
-              }}
+              onKeyDown={handleKeyDown}
             />
           </div>
         </div>

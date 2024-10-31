@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 
 const findRouteName = (routes: any, path: any): string => {
   for (let route of routes) {
@@ -16,7 +16,7 @@ const findRouteName = (routes: any, path: any): string => {
     }
   }
 
-  return ""; // Return undefined if no match is found
+  return ''; // Return undefined if no match is found
 };
 
 const useRouteName = (routes: any) => {

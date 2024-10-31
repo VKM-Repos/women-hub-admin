@@ -10,6 +10,7 @@ import { z } from 'zod';
 import { Form } from '@/components/ui/form';
 import { SelectItem } from '@/components/ui/select';
 import Avatar from '@/assets/icons/avatar.svg';
+import WHLogo from '@/assets/women-hub-logo.svg';
 import { useGET } from '@/hooks/useGET.hook';
 import { Category } from '@/types/category.types';
 import useAppStore from '@/lib/store/app.store';
@@ -112,7 +113,13 @@ const PostForm = ({ handleNext }: Props) => {
             <SelectItem key={author.name} value={author.name}>
               <div className="flex cursor-pointer items-center gap-2">
                 <img
-                  src={author.image ? author.image : Avatar}
+                  src={
+                    author.name === 'Women Hub'
+                      ? WHLogo
+                      : author.name === user.name
+                        ? WHLogo // change to user profile image
+                        : Avatar
+                  }
                   width={32}
                   height={32}
                   alt="author"
