@@ -1,36 +1,36 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from 'react';
-import Dropzone, { DropzoneInputProps } from 'react-dropzone';
-import { cn } from '@/lib/utils';
-import { UploadIcon } from 'lucide-react';
-import { Control } from 'react-hook-form';
+import { useEffect, useState } from "react";
+import Dropzone, { DropzoneInputProps } from "react-dropzone";
+import { cn } from "@/lib/utils";
+import { UploadIcon } from "lucide-react";
+import { Control } from "react-hook-form";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from '../ui/form';
-import { Input } from '../ui/input';
+} from "../ui/form";
+import { Input } from "../ui/input";
 import {
   Select,
   SelectContent,
   SelectTrigger,
   SelectValue,
-} from '../ui/select';
-import { Textarea } from '../ui/textarea';
-import { Checkbox } from '../ui/checkbox';
-import Editor from '@/pages/main/Posts/components/Editor';
+} from "../ui/select";
+import { Textarea } from "../ui/textarea";
+import { Checkbox } from "../ui/checkbox";
+import Editor from "@/pages/main/Posts/components/Editor";
 
 export enum FormFieldType {
-  INPUT = 'input',
-  TEXTAREA = 'textarea',
-  PHONE_INPUT = 'phoneInput',
-  CHECKBOX = 'checkbox',
-  EDITOR = 'editor',
-  SELECT = 'select',
-  SKELETON = 'skeleton',
-  IMAGE_UPLOAD = 'imageUpload',
+  INPUT = "input",
+  TEXTAREA = "textarea",
+  PHONE_INPUT = "phoneInput",
+  CHECKBOX = "checkbox",
+  EDITOR = "editor",
+  SELECT = "select",
+  SKELETON = "skeleton",
+  IMAGE_UPLOAD = "imageUpload",
 }
 
 interface CustomProps {
@@ -48,6 +48,7 @@ interface CustomProps {
   fieldType: FormFieldType;
   initialImage?: string;
   onAutoSave?: (content: string) => void;
+  onChange?: any;
 }
 
 const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
@@ -68,13 +69,14 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
               src={props.iconSrc}
               height={24}
               width={24}
-              alt={props.iconAlt || 'icon'}
+              alt={props.iconAlt || "icon"}
               className="ml-2"
             />
           )}
           <FormControl>
             <Input
               placeholder={props.placeholder}
+              onChange={props.onChange}
               {...field}
               className="border-0"
             />
@@ -124,10 +126,10 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
       return (
         <FormControl>
           <Dropzone
-            accept={{ 'image/*': ['.jpg', '.jpeg', '.png'] }}
+            accept={{ "image/*": [".jpg", ".jpeg", ".png"] }}
             multiple={false}
             maxSize={5000000}
-            onDrop={acceptedFiles => {
+            onDrop={(acceptedFiles) => {
               const file = acceptedFiles[0];
               if (file) {
                 // Create a preview URL for the image to be shown as a background
@@ -143,8 +145,8 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
               <div
                 {...getRootProps({
                   className: cn(
-                    'mt-6 w-full min-h-[14rem] cursor-pointer flex items-center p-4 rounded-lg text-center',
-                    backgroundImage ? 'bg-cover bg-center' : 'bg-background'
+                    "mt-6 w-full min-h-[14rem] cursor-pointer flex items-center p-4 rounded-lg text-center",
+                    backgroundImage ? "bg-cover bg-center" : "bg-background"
                   ),
                   style: backgroundImage
                     ? { backgroundImage: `url(${backgroundImage})` }
@@ -155,7 +157,7 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
                 <span className="mx-auto flex w-fit items-center gap-2 rounded-lg bg-white p-4 shadow-md">
                   <UploadIcon />
                   <p className="font-bold">
-                    {!backgroundImage ? 'Click, or drop files' : 'Change photo'}
+                    {!backgroundImage ? "Click, or drop files" : "Change photo"}
                   </p>
                 </span>
               </div>

@@ -8,6 +8,7 @@ import Loading from "@/components/shared/Loading";
 import { useEffect, useState } from "react";
 import Pagination from "./components/Pagination";
 import { API_BASE_URLS } from "@/config/api.config";
+import Back from "@/components/shared/backButton/Back";
 // import { guideData } from "./mockupData/guide-mockup-data";
 
 export default function Guidelines() {
@@ -16,18 +17,17 @@ export default function Guidelines() {
 
   const [showFilters, setShowFilters] = useState(false);
   const [selectedGuidelines, setSelectedGuidelines] = useState<string[]>([]);
-  const [searchTerm, setSearchTerm] = useState<string>("");
+
   const [filteredGuidelines, setFilteredGuidelines] = useState<Guide[]>([]);
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
 
   // Pagination states
-  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [skip, setSkip] = useState<number>(0);
   const [pageSize] = useState<number>(10);
 
   // Construct the URL based on pagination and search term
-  const apiUrl = searchTerm
-    ? `guides/search?title=${searchTerm}&page=${currentPage}&size=${pageSize}`
-    : `guides?page=${currentPage}&size=${pageSize}`;
+  const apiUrl = `guides?limit=${pageSize}&skip=${skip}`;
 
   const {
     data: guidelines,
@@ -36,29 +36,21 @@ export default function Guidelines() {
     isRefetching,
   } = useGET({
     url: apiUrl,
-    queryKey: [
-      searchTerm ? "Guidelines-search" : "Guidelines",
-      searchTerm,
-      currentPage,
-    ],
+    queryKey: ["Get_Guidelines"],
     baseURL: API_BASE_URLS.supportServive,
     withAuth: true,
     enabled: true,
   });
 
-  // useEffect(() => {
-  //   console.log("Fetched Guidelines:", guidelines);
-  // }, [guidelines]);
-
   useEffect(() => {
     // The query URL will be updated when currentPage or searchTerm changes
     refetch();
-  }, [searchTerm, currentPage]); // Refetch when search term or page changes
+  }, [currentPage]); // Refetch when search term or page changes
 
   useEffect(() => {
-    if (guidelines?.length > 0) {
+    if (guidelines?.items) {
       const applyFilters = () => {
-        let updatedGuidelines = guidelines;
+        let updatedGuidelines = guidelines.items;
         if (statusFilter) {
           updatedGuidelines = updatedGuidelines.filter(
             (guide: Guide) => guide.status === statusFilter
@@ -92,14 +84,16 @@ export default function Guidelines() {
   };
 
   const handleNextPage = () => {
-    if (guidelines?.length && currentPage < guidelines.length - 1) {
+    if (guidelines?.total_pages > currentPage) {
       setCurrentPage((prevPage) => prevPage + 1);
+      setSkip((prevSkip) => prevSkip + 10);
     }
   };
 
   const handlePreviousPage = () => {
-    if (currentPage > 0) {
+    if (guidelines?.total_pages >= currentPage) {
       setCurrentPage((prevPage) => prevPage - 1);
+      setSkip((prevSkip) => prevSkip - 10);
     }
   };
 
@@ -126,6 +120,9 @@ export default function Guidelines() {
         <Loading />
       ) : (
         <div className="mx-10">
+          <div className="mb-2">
+            <Back />
+          </div>
           <GuideHeroSection guide={state} />
           <section className="flex flex-col gap-y-6">
             <Filters
@@ -135,7 +132,6 @@ export default function Guidelines() {
               selectedCount={selectedGuidelines}
               totalCount={filteredGuidelines?.length}
               toggleSelectAll={toggleSelectAll}
-              setSearchTerm={setSearchTerm}
               onStatusFilterChange={handleStatusFilterChange}
               handleSearch={handleSearch}
               page="guideline"
@@ -160,14 +156,15 @@ export default function Guidelines() {
               <Pagination
                 handlePrevious={handlePreviousPage}
                 handleNext={handleNextPage}
-                currentPage={currentPage + 1}
-                // numberOfElements={guidelines?.numberOfElements ?? 0}
-                totalElements={guidelines?.length ?? 0}
+                currentPage={currentPage}
+                numberOfElements={guidelines?.items.length ?? 0}
+                totalElements={guidelines?.total ?? 0}
                 pageSize={pageSize}
               />
             </div>
           </section>
 
+          {/* use this comment if you want to use dumi data instead of API data */}
           {/* <section className="flex flex-col gap-y-6">
             <Filters
               showFilters={showFilters}
@@ -176,8 +173,9 @@ export default function Guidelines() {
               selectedCount={selectedGuidelines}
               totalCount={filteredGuidelines.length}
               toggleSelectAll={toggleSelectAll}
-              setSearchTerm={setSearchTerm}
+             
               onStatusFilterChange={handleStatusFilterChange}
+              handleSearch={handleSearch}
               page="Guidelines"
             />
 
@@ -201,8 +199,9 @@ export default function Guidelines() {
                 handlePrevious={handlePreviousPage}
                 handleNext={handleNextPage}
                 currentPage={currentPage + 1}
-                numberOfElements={guidelines?.numberOfElements ?? 0}
+                // numberOfElements={guidelines?.numberOfElements ?? 0}
                 totalElements={guidelines?.length ?? 0}
+                pageSize={pageSize}
               />
             </div>
           </section> */}

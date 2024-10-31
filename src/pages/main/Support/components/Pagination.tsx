@@ -4,7 +4,7 @@ type Props = {
   handlePrevious: () => void;
   handleNext: () => void;
   currentPage: number;
-  // numberOfElements: number;
+  numberOfElements: number;
   totalElements: number;
   pageSize: number;
 };

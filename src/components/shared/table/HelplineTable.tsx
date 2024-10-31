@@ -12,7 +12,7 @@ import {
   getGroupedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-// import Pagination from "@/pages/main/Support/components/Pagination";
+import Pagination from "@/pages/main/Support/components/Pagination";
 
 import { useLocation } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -30,6 +30,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { PlusIcon } from "lucide-react";
 import { Help } from "@/types/hepline.types";
+import Back from "../backButton/Back";
 
 type tableProps = {
   columns: ColumnDef<Help>[];
@@ -39,17 +40,19 @@ type tableProps = {
   currentPage: number;
   numberOfElements: number;
   totalElements: number;
+  pageSize: number;
 };
 
 export default function HelplineTable({
   columns,
   data,
-}: // handlePrevious,
-// handleNext,
-// currentPage,
-// totalElements,
-// numberOfElements,
-tableProps) {
+  handlePrevious,
+  handleNext,
+  currentPage,
+  numberOfElements,
+  totalElements,
+  pageSize,
+}: tableProps) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -83,6 +86,9 @@ tableProps) {
 
   return (
     <div className="mx-10">
+      <div className="mb-2">
+        <Back />
+      </div>
       <GuideHeroSection guide={state} />
       <div className="flex items-center justify-between py-4">
         <div className="flex w-full items-center justify-between">
@@ -187,13 +193,14 @@ tableProps) {
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        {/* <Pagination
+        <Pagination
           handlePrevious={handlePrevious}
           handleNext={handleNext}
           currentPage={currentPage}
-          // numberOfElements={totalElements}
-          totalElements={numberOfElements}
-        /> */}
+          numberOfElements={numberOfElements}
+          totalElements={totalElements}
+          pageSize={pageSize}
+        />
       </div>
     </div>
   );

@@ -28,8 +28,10 @@ import "@mdxeditor/editor/style.css";
 import { API_BASE_URLS } from "@/config/api.config";
 import { usePATCH } from "@/hooks/usePATCH.hook";
 import Header from "../Header";
+import { useCreateGuidelineFormStore } from "@/store/useCreateGuidelineForm.store";
 
 const CreateGuidelineForm = () => {
+  const { setData, resetStore } = useCreateGuidelineFormStore();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [saveDraft, setSaveDraft] = useState(false);
@@ -82,23 +84,19 @@ const CreateGuidelineForm = () => {
   };
 
   function onSubmit(
-    data: z.infer<typeof createGuideSchema | typeof editGuideSchema>
+    value: z.infer<typeof createGuideSchema | typeof editGuideSchema>
   ) {
     if (state?.operation === "Edit") {
-      let formData = new FormData();
-      formData.append("title", data.title);
-      formData.append("content", data.content);
-
-      formData.append("file", data.coverImage);
-
-      formData.append("status", "Published");
+      // if (value?.coverImage instanceof File) {
+      //   console.log(value?.coverImage);
+      // }
 
       updPublishGuide(
         {
-          title: data.title,
-          content: data.content,
-          file: data?.coverImage ? data.coverImage : null,
-          status: "Published",
+          title: value.title,
+          content: value.content,
+          file: value?.coverImage instanceof File ? value?.coverImage : null,
+          status: saveDraft ? "Draft" : "Published",
         },
         {
           onSuccess: () => {
@@ -117,14 +115,20 @@ const CreateGuidelineForm = () => {
       );
     } else {
       let formData = new FormData();
-      formData.append("title", data.title);
-      formData.append("content", data.content);
+      formData.append("title", value.title);
+      formData.append("content", value.content);
 
-      formData.append("file", data.coverImage);
+      formData.append("file", value.coverImage);
 
       saveDraft
         ? formData.append("status", "Draft")
         : formData.append("status", "Published");
+
+      setData({
+        title: value.title,
+        content: value.content,
+        image: value.coverImage,
+      });
 
       mutate(formData, {
         onSuccess: () => {
@@ -134,6 +138,8 @@ const CreateGuidelineForm = () => {
           saveDraft
             ? toast.success("Guideline has been draft")
             : toast.success("Guideline has been published");
+
+          resetStore();
           setSaveDraft(false);
         },
         onError: (error) => {
@@ -171,6 +177,7 @@ const CreateGuidelineForm = () => {
           <CustomFormField
             fieldType={FormFieldType.INPUT}
             control={form.control}
+            onChange={() => console.log(1)}
             name="title"
             placeholder=""
             label="Title"

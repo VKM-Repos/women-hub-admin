@@ -15,7 +15,7 @@ type Props = {
   selectedCount: Array<string>;
   totalCount: number;
   toggleSelectAll: () => void;
-  setSearchTerm: (e: string) => void;
+
   onStatusFilterChange: (status: string | null) => void;
   handleSearch: any;
   page: string;
@@ -28,7 +28,7 @@ const Filters = ({
   selectedCount,
   totalCount,
   toggleSelectAll,
-  // setSearchTerm,
+
   onStatusFilterChange,
   page,
   handleSearch,
@@ -57,26 +57,6 @@ const Filters = ({
       }
     };
   }, []);
-
-  // const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setSearch(e.target.value);
-  // };
-
-  // useEffect(() => {
-  //   const delayDebounceFn = setTimeout(() => {
-  //     setDebouncedSearch(search);
-  //   }, 2000);
-
-  //   return () => clearTimeout(delayDebounceFn);
-  // }, [search]);
-
-  // useEffect(() => {
-  //   if (debouncedSearch.trim() === "") {
-  //     setSearchTerm("");
-  //   } else {
-  //     setSearchTerm(debouncedSearch);
-  //   }
-  // }, [debouncedSearch, setSearchTerm]);
 
   const handleStatusFilterChange = (status: string | null) => {
     // console.log(status);
