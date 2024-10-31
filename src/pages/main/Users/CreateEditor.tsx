@@ -28,7 +28,7 @@ const FormSchema = z.object({
   }),
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   phone: z
-    .number()
+    .string()
     .min(10, { message: "Phone number must be at least 10 digit." }),
   bio: z.string().min(2, { message: "Bio is required." }),
   password: z

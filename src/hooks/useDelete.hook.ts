@@ -1,6 +1,7 @@
-import { useMutation } from "@tanstack/react-query";
-import { toast } from "react-hot-toast";
-import { createApiInstance } from "@/config/axiosInstance";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'react-hot-toast';
+import { createApiInstance } from '@/config/axiosInstance';
 
 interface DeleteOptions {
   withAuth?: boolean;
@@ -23,11 +24,11 @@ export const useDELETE = (
       const response = await axiosInstance.delete(url, { data: values });
       return response;
     },
-    onSuccess: (returnedData) => {
-      toast.success(returnedData?.data?.message || "Deleted successfully");
+    onSuccess: returnedData => {
+      toast.success(returnedData?.data?.message || 'Deleted successfully');
       callback && callback(returnedData);
     },
-    onError: (err) => {
+    onError: err => {
       // toast.error(err?.data?.message);
       console.log(err);
     },

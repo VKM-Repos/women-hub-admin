@@ -35,12 +35,8 @@ export default function Posts() {
   });
 
   useEffect(() => {
-    console.log('Fetched posts:', posts);
-  }, [posts]);
-
-  useEffect(() => {
     refetch();
-  }, [searchTerm, currentPage]);
+  }, [searchTerm, currentPage, filteredPosts, refetch]);
 
   useEffect(() => {
     if (posts?.content) {

@@ -20,11 +20,11 @@ export default function Editor({ body, onChange, onAutoSave }: Props) {
     <div className="bg-background relative mx-auto min-h-screen w-[95%] overflow-hidden rounded-[1rem] border-2">
       {/* Save status and word count */}
       <div className="absolute right-5 top-5 z-10 mb-5 flex gap-2">
-        <div className="bg-accent text-muted-foreground rounded-lg px-2 py-1 text-xs">
+        <div className="bg-accent text-muted-foreground rounded-lg px-1 py-0.5 text-xs">
           {saveStatus}
         </div>
         {charsCount > 0 && (
-          <div className="bg-accent text-muted-foreground rounded-lg px-2 py-1 text-xs">
+          <div className="bg-accent text-muted-foreground rounded-lg px-1 py-0.5 text-xs">
             {charsCount} Words
           </div>
         )}
