@@ -86,10 +86,15 @@ const Header = ({ data, formRef, setSaveDraft, handleGoBack }: Props) => {
 
         <AlertGoBack onClick={handleGoBack} />
 
-        {data?.pageName !== "Header" && data?.pageName !== "helpline" ? (
+        {data?.pageName !== "Header" &&
+        data?.pageName !== "helpline" &&
+        data?.operation !== "new" ? (
           <>
             <Link
               to={`/support/${data?.pageName}/${data?.details?.id}/preview`}
+              state={{
+                details: data?.details,
+              }}
               className={cn(
                 buttonVariants({ variant: "outline" }),
                 "flex items-center gap-1"

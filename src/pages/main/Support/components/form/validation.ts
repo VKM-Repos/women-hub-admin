@@ -21,7 +21,7 @@ export const createFAQSchema = z.object({
   answer: z
     .string()
     .min(3, "Description must be at least 3 characters")
-    .max(1500, "Description must be at most 1500 characters"),
+    .max(50000, "Description must be at most 50000 characters"),
   category: z.string(),
   created_at: z.string(),
   updated_at: z.string(),
@@ -33,7 +33,7 @@ export const createGuideSchema = z.object({
   content: z
     .string()
     .min(3, "Content must be at least 3 characters")
-    .max(1500, "Content must be at most 1500 characters"),
+    .max(50000, "Content must be at most 50000 characters"),
   coverImage: z
     .any()
     .refine(
@@ -65,7 +65,7 @@ export const editGuideSchema = z.object({
   content: z
     .string()
     .min(3, "Content must be at least 3 characters")
-    .max(1500, "Content must be at most 1500 characters"),
+    .max(50000, "Content must be at most 50000 characters"),
 
   // Cover image can either be a File or a string (existing image URL)
   coverImage: z
@@ -90,7 +90,7 @@ export const editHeaderSchema = z.object({
   description: z
     .string()
     .min(3, "Content must be at least 3 characters")
-    .max(1500, "Content must be at most 1500 characters"),
+    .max(50000, "Content must be at most 50000 characters"),
 
   // Cover image can either be a File or a string (existing image URL)
   coverImage: z
