@@ -22,7 +22,6 @@ export default function ManageUser({ user, refetch }: { user: any, refetch: any}
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <div className="flex flex-col items-start gap-3 font-medium font-inter text-sm px-2 cursor-pointer">
-            <ViewUser user={user} />
             <FlagUser user={user} />
             <SuspendUser user={user} />
             <ActivateUser user={user} refetch={refetch}/>
@@ -34,24 +33,6 @@ export default function ManageUser({ user, refetch }: { user: any, refetch: any}
           </div>
         </DropdownMenuContent>
       </DropdownMenu>
-    )
-}
-
-
-const ViewUser = ({ user }: { user: any}) => {
-  
-
-    return (
-        <Dialog>
-            <DialogTrigger className="hover:bg-[#EAEAEA] w-full py-1 px-1.5 rounded">
-                <span className="flex gap-2">
-                    <span><Icon name="eyeViewIcon" /></span> View
-                </span>
-            </DialogTrigger>
-            <DialogContent>
-                <p>View ${user?.name}'s content</p>
-            </DialogContent>
-        </Dialog>
     )
 }
 

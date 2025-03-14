@@ -369,7 +369,7 @@ export default function DataTable({ columns, data }: tableProps) {
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="text-muted-foreground flex-1 text-sm">
-          Showing 1-10 of {table.getFilteredRowModel().rows.length}
+          Showing 1-{table.getRowModel().rows.length} of {table.getFilteredRowModel().rows.length}
         </div>
         <div className="space-x-0">
           <Button
