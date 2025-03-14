@@ -2,18 +2,11 @@ import GenericTable from "@/components/shared/table/Table";
 import { ColumnDef } from "@tanstack/react-table";
 
 import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
-import { MoreVertical } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
 import UserImg from "@/assets/user-img.svg";
 import { useGET } from "@/hooks/useGET.hook";
 import Loading from "@/components/shared/Loading";
 import { formatDate } from "@/lib/utils/dateFormat";
+import ManageUser from "./components/ManageUser";
 
 export type User = {
   id: string;
@@ -67,25 +60,40 @@ const columns: ColumnDef<string>[] = [
     ),
   },
   {
-    accessorKey: "suspended",
+    id: "status",
     header: () => (<p className="text-sm text-textPrimary font-medium">Status</p>),
-    cell: ({ row }) => (
-      <div className="capitalize">
-        <span
-          className={`${
-            row.getValue("suspended") == false
-              ? "bg-[#E3FFF4] text-[#83BF6E]"
-              : row.getValue("suspended") == true
-              ? "bg-[#FFF2B0] text-[#F7931E]"
-              : row.getValue("suspended") == true
-              ? "bg-[#FFE7E4] text-[#FF6A55]"
-              : ""
-          } px-1.5 py-1 rounded-md text-xs`}
-        >
-          {row.getValue("suspended") ? "Suspend" : "Active"}
-        </span>
-      </div>
-    ),
+    cell: ({ row }) => {
+      
+      const user: any = row.original;
+
+      const isSuspended = user?.suspended;
+      const isActive = user?.active;
+      const isFlagged = user?.flagged;
+  
+      let statusText = "Active";
+      let bgColor = "bg-[#E3FFF4] text-[#83BF6E]";
+
+      if (isActive === false) {
+        statusText = "Deactivated";
+        bgColor = "bg-[#FFE7E4] text-[#FF6A55]"; 
+      }
+      else if (isFlagged) {
+        statusText = "Suspended";
+        bgColor = "bg-[#FFE7E4] text-[#FF6A55]"; 
+      } 
+      else if (isSuspended) {
+        statusText = "Flagged";
+        bgColor = "bg-[#FFF2B0] text-[#F7931E]"; 
+      }
+
+      return (
+        <div className="capitalize">
+          <span className={`${bgColor} px-1.5 py-1 rounded-md text-xs font-semibold`}>
+            {statusText}
+          </span>
+        </div>
+      )
+    }
   },
   {
     accessorKey: "createdAt",
@@ -104,42 +112,40 @@ const columns: ColumnDef<string>[] = [
     id: "actions",
     header: () => (<p className="text-sm text-textPrimary font-medium">Action</p>),
     enableHiding: false,
-    cell: ({}) => {
+    cell: ({ row }) => {
+      const user = row.original;
+      
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreVertical className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <div className="flex flex-col gap-2 font-medium font-inter text-sm px-5">
-              <p>View</p>
-              <p>Edit</p>
-              <p>Flag</p>
-              <p>Suspend</p>
-              <p>Active</p>
-              <p>Delete</p>
-            </div>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <ManageUser user={user} />
       );
     },
   },
 ];
 export default function Users() {
-  const { data: users, isPending } = useGET({
+  const { data, isPending } = useGET({
     url: `admin/users`,
     queryKey: ["GET_USERS_LIST"],
   });
+
+  const users = (
+    data && 
+    data.content?.map((user: any) => ({
+      id: user?.id,
+      name: user?.name,
+      email: user?.email,
+      bio: user?.bio,
+      createdAt: user?.createdAt,
+      active: user?.active,
+      suspended: user?.suspended,
+    }))
+  )
 
   return (
     <div className="cursor-default">
       {isPending ? (
         <Loading />
       ) : (
-        <GenericTable columns={columns} data={users?.content || []} />
+        <GenericTable columns={columns} data={users || []} />
       )}
     </div>
   );
