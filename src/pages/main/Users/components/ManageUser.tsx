@@ -7,8 +7,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import Icon from "@/components/icons/Icon";
+import { usePOST } from "@/hooks/usePOST.hook";
+import toast from "react-hot-toast";
+import { useState } from "react";
 
-export default function ManageUser({ user }: { user: any}) {
+export default function ManageUser({ user, refetch }: { user: any, refetch: any}) {
     return (
         <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -22,8 +25,8 @@ export default function ManageUser({ user }: { user: any}) {
             <ViewUser user={user} />
             <FlagUser user={user} />
             <SuspendUser user={user} />
-            <ActivateUser user={user} />
-            <DeactivateUser user={user} />
+            <ActivateUser user={user} refetch={refetch}/>
+            <DeactivateUser user={user} refetch={refetch}/>
             <DeleteUser user={user} />
             <span className="flex gap-2 hover:bg-[#EAEAEA] w-full py-1 px-1.5 rounded items-center">
                 <span><Icon name="editIcon" /></span> Edit
@@ -45,7 +48,9 @@ const ViewUser = ({ user }: { user: any}) => {
                     <span><Icon name="eyeViewIcon" /></span> View
                 </span>
             </DialogTrigger>
-            <DialogContent></DialogContent>
+            <DialogContent>
+                <p>View ${user?.name}'s content</p>
+            </DialogContent>
         </Dialog>
     )
 }
@@ -119,13 +124,27 @@ const DeleteUser = ({ user }: { user: any}) => {
     )
 }
 
-const ActivateUser = ({ user }: { user: any}) => {
+const ActivateUser = ({ user, refetch }: { user: any, refetch: any }) => {
+    const [open, setOpen] = useState(false);
 
-
+    const { mutate: activateUser } = usePOST(
+        `admin/users/${user?.id}/activate`,
+        {
+          callback: () => {
+            toast.success(`${user?.name} has been activated. They can now access WomenHub`);
+            setOpen(false);
+            refetch();
+          },
+        }
+      );
+    
+    const handleActivate = () => {
+        activateUser({ id: user?.name});
+    }
 
 
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger className="hover:bg-[#EAEAEA] w-full py-1 px-1.5 rounded">
                 <span className="flex gap-2">
                     <span><Icon name="activateIcon" /></span> Activate
@@ -146,7 +165,9 @@ const ActivateUser = ({ user }: { user: any}) => {
                     <DialogClose className="text-black bg-white h-10 px-5 border border-[#EFEFEF] rounded-lg">
                         Cancel
                     </DialogClose>
-                    <Button className="text-white bg-secondary h-10 px-5 ml-7 rounded-lg">
+                    <Button
+                        className="text-white bg-secondary h-10 px-5 ml-7 rounded-lg"
+                        onClick={handleActivate}>
                         Confirm
                     </Button>
                </DialogFooter>
@@ -155,10 +176,28 @@ const ActivateUser = ({ user }: { user: any}) => {
     )
 }
 
-const DeactivateUser = ({ user }: { user: any}) => {
 
+const DeactivateUser = ({ user, refetch }: { user: any, refetch: any }) => {
+    const [open, setOpen] = useState(false);
+
+    const { mutate: deactivateUser } = usePOST(
+        `admin/users/${user?.id}/deactivate`,
+        {
+          callback: () => {
+            toast.success(`${user?.name} has been deactivated. They can no longer access WomenHub`);
+            refetch();
+          },
+        }
+      );
+
+    const handleDelete = () => {
+        deactivateUser({ id: user?.id });
+        setOpen(false);
+    }
+
+    
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger className="hover:bg-[#EAEAEA] w-full py-1 px-1.5 rounded">
                 <span className="flex gap-2">
                     <span><Icon name="suspendIcon" /></span> Deactivate
@@ -179,7 +218,9 @@ const DeactivateUser = ({ user }: { user: any}) => {
                     <DialogClose className="text-black bg-white h-10 px-5 border border-[#EFEFEF] rounded-lg">
                         Cancel
                     </DialogClose>
-                    <Button className="text-white bg-secondary h-10 px-5 ml-7 rounded-lg">
+                    <Button 
+                        className="text-white bg-secondary h-10 px-5 ml-7 rounded-lg"
+                        onClick={handleDelete}>
                         Confirm
                     </Button>
                </DialogFooter>
@@ -198,7 +239,9 @@ const FlagUser = ({ user }: { user: any}) => {
                     <span><Icon name="flagIcon" /></span> Flag
                 </span>
             </DialogTrigger>
-            <DialogContent></DialogContent>
+            <DialogContent>
+                Flag ${user?.name}?
+            </DialogContent>
         </Dialog>
     )
 }

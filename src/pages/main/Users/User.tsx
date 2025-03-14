@@ -18,111 +18,9 @@ export type User = {
   bio: string;
 };
 
-const columns: ColumnDef<string>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-        className="text-white"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-        className="text-white"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "name",
-    header: () => (<p className="text-sm text-textPrimary font-medium">User Name</p>) ,
-    cell: ({ row }) => (
-      <div className="capitalize text-sm text-textPrimary flex items-center gap-5">
-        <img src={UserImg} alt="" /> {row.getValue("name")}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "email",
-    header: () => (<p className="text-sm text-textPrimary font-medium">Email</p>),
-    cell: ({ row }) => (
-      <p className="text-textPrimary text-sm">{row.getValue("email")}</p>
-    ),
-  },
-  {
-    id: "status",
-    header: () => (<p className="text-sm text-textPrimary font-medium">Status</p>),
-    cell: ({ row }) => {
-      
-      const user: any = row.original;
 
-      const isSuspended = user?.suspended;
-      const isActive = user?.active;
-      const isFlagged = user?.flagged;
-  
-      let statusText = "Active";
-      let bgColor = "bg-[#E3FFF4] text-[#83BF6E]";
-
-      if (isActive === false) {
-        statusText = "Deactivated";
-        bgColor = "bg-[#FFE7E4] text-[#FF6A55]"; 
-      }
-      else if (isFlagged) {
-        statusText = "Suspended";
-        bgColor = "bg-[#FFE7E4] text-[#FF6A55]"; 
-      } 
-      else if (isSuspended) {
-        statusText = "Flagged";
-        bgColor = "bg-[#FFF2B0] text-[#F7931E]"; 
-      }
-
-      return (
-        <div className="capitalize">
-          <span className={`${bgColor} px-1.5 py-1 rounded-md text-xs font-semibold`}>
-            {statusText}
-          </span>
-        </div>
-      )
-    }
-  },
-  {
-    accessorKey: "createdAt",
-    header: () => (<p className="text-sm text-textPrimary font-medium">Join Date</p>),
-    cell: ({ row }) => (
-      <div className="min-w-[6rem] text-textPrimary text-sm">{formatDate(row.getValue("createdAt"))}</div>
-    ),
-  },
-  {
-    accessorKey: "bio",
-    header: () => (<p className="text-sm text-textPrimary font-medium">Bio</p>),
-    cell: ({ row }) => <div className="truncate text-textPrimary text-sm w-[15.625rem]">{row.getValue("bio") ?? "--"}</div>,
-  },
-
-  {
-    id: "actions",
-    header: () => (<p className="text-sm text-textPrimary font-medium">Action</p>),
-    enableHiding: false,
-    cell: ({ row }) => {
-      const user = row.original;
-      
-      return (
-        <ManageUser user={user} />
-      );
-    },
-  },
-];
 export default function Users() {
-  const { data, isPending } = useGET({
+  const { data, isPending, refetch } = useGET({
     url: `admin/users`,
     queryKey: ["GET_USERS_LIST"],
   });
@@ -139,6 +37,112 @@ export default function Users() {
       suspended: user?.suspended,
     }))
   )
+
+
+  const columns: ColumnDef<string>[] = [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+          className="text-white"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+          className="text-white"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: "name",
+      header: () => (<p className="text-sm text-textPrimary font-medium">User Name</p>) ,
+      cell: ({ row }) => (
+        <div className="capitalize text-sm text-textPrimary flex items-center gap-5">
+          <img src={UserImg} alt="" /> {row.getValue("name")}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "email",
+      header: () => (<p className="text-sm text-textPrimary font-medium">Email</p>),
+      cell: ({ row }) => (
+        <p className="text-textPrimary text-sm">{row.getValue("email")}</p>
+      ),
+    },
+    {
+      id: "status",
+      header: () => (<p className="text-sm text-textPrimary font-medium">Status</p>),
+      cell: ({ row }) => {
+        
+        const user: any = row.original;
+  
+        const isSuspended = user?.suspended;
+        const isActive = user?.active;
+        const isFlagged = user?.flagged;
+    
+        let statusText = "Active";
+        let bgColor = "bg-[#E3FFF4] text-[#83BF6E]";
+  
+        if (isActive === false) {
+          statusText = "Deactivated";
+          bgColor = "bg-[#FFE7E4] text-[#FF6A55]"; 
+        }
+        else if (isFlagged) {
+          statusText = "Suspended";
+          bgColor = "bg-[#FFE7E4] text-[#FF6A55]"; 
+        } 
+        else if (isSuspended) {
+          statusText = "Flagged";
+          bgColor = "bg-[#FFF2B0] text-[#F7931E]"; 
+        }
+  
+        return (
+          <div className="capitalize">
+            <span className={`${bgColor} px-1.5 py-1 rounded-md text-xs font-semibold`}>
+              {statusText}
+            </span>
+          </div>
+        )
+      }
+    },
+    {
+      accessorKey: "createdAt",
+      header: () => (<p className="text-sm text-textPrimary font-medium">Join Date</p>),
+      cell: ({ row }) => (
+        <div className="min-w-[6rem] text-textPrimary text-sm">{formatDate(row.getValue("createdAt"))}</div>
+      ),
+    },
+    {
+      accessorKey: "bio",
+      header: () => (<p className="text-sm text-textPrimary font-medium">Bio</p>),
+      cell: ({ row }) => <div className="truncate text-textPrimary text-sm w-[15.625rem]">{row.getValue("bio") ?? "--"}</div>,
+    },
+  
+    {
+      id: "actions",
+      header: () => (<p className="text-sm text-textPrimary font-medium">Action</p>),
+      enableHiding: false,
+      cell: ({ row }) => {
+        const user = row.original;
+        
+        return (
+          <ManageUser user={user} refetch={refetch}/>
+        );
+      },
+    },
+  ];
+
 
   return (
     <div className="cursor-default">
