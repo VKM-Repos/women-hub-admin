@@ -321,7 +321,7 @@ export default function DataTable({ columns, data }: tableProps) {
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map(header => {
                   return (
-                    <TableHead key={header.id} className="py-4">
+                    <TableHead key={header.id} className="py-3 px-4">
                       <span className="text-base">
                         {header.isPlaceholder
                           ? null

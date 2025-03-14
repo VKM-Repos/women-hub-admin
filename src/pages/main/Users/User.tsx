@@ -52,23 +52,23 @@ const columns: ColumnDef<string>[] = [
   },
   {
     accessorKey: "name",
-    header: "Name",
+    header: () => (<p className="text-sm text-textPrimary font-medium">User Name</p>) ,
     cell: ({ row }) => (
-      <div className="capitalize flex items-center gap-5">
+      <div className="capitalize text-sm text-textPrimary flex items-center gap-5">
         <img src={UserImg} alt="" /> {row.getValue("name")}
       </div>
     ),
   },
   {
     accessorKey: "email",
-    header: "Email",
+    header: () => (<p className="text-sm text-textPrimary font-medium">Email</p>),
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("email")}</div>
+      <p className="text-textPrimary text-sm">{row.getValue("email")}</p>
     ),
   },
   {
     accessorKey: "suspended",
-    header: "Status",
+    header: () => (<p className="text-sm text-textPrimary font-medium">Status</p>),
     cell: ({ row }) => (
       <div className="capitalize">
         <span
@@ -89,20 +89,20 @@ const columns: ColumnDef<string>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "Join date",
+    header: () => (<p className="text-sm text-textPrimary font-medium">Join Date</p>),
     cell: ({ row }) => (
-      <div className="capitalize">{formatDate(row.getValue("createdAt"))}</div>
+      <div className="min-w-[6rem] text-textPrimary text-sm">{formatDate(row.getValue("createdAt"))}</div>
     ),
   },
   {
     accessorKey: "bio",
-    header: "Bio",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("bio")}</div>,
+    header: () => (<p className="text-sm text-textPrimary font-medium">Bio</p>),
+    cell: ({ row }) => <div className="truncate text-textPrimary text-sm w-[15.625rem]">{row.getValue("bio") ?? "--"}</div>,
   },
 
   {
     id: "actions",
-    header: "Action",
+    header: () => (<p className="text-sm text-textPrimary font-medium">Action</p>),
     enableHiding: false,
     cell: ({}) => {
       return (
@@ -135,7 +135,7 @@ export default function Users() {
   });
 
   return (
-    <div className="">
+    <div className="cursor-default">
       {isPending ? (
         <Loading />
       ) : (
