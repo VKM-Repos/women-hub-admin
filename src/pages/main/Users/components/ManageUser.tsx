@@ -16,7 +16,7 @@ export default function ManageUser({ user, refetch }: { user: any, refetch: any 
     const navigate = useNavigate();
     function redirectToEditPage() {
         const redirectPath = encodeURIComponent(user?.id);
-        navigate(`/users/edit-user/${redirectPath}`);
+        navigate(`/users/edit-user?id=${redirectPath}`);
     }
     return (
         <DropdownMenu>

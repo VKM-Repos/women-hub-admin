@@ -39,6 +39,7 @@ import LegalCompiance from "@/pages/main/Legal-Compliance/Index";
 import ComposeMessage from "@/pages/main/NewsLetter/ComposeMessage";
 import ChooseTemplate from "@/pages/main/NewsLetter/ChooseTemplate";
 import Preview from "@/pages/main/Support/preview";
+import EditUser from "@/pages/main/Users/components/EditUser";
 
 export interface Route {
   name: string;
@@ -86,8 +87,8 @@ export const routess = [
                 name: 'Edit User',
                 title: 'Edit a User',
                 hasSiderLink: false,
-                component: User,
-                path: '/users/edit-user/:id'
+                component: EditUser,
+                path: '/users/edit-user'
               }
             ]
           },
