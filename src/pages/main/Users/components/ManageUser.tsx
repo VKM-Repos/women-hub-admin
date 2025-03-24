@@ -11,7 +11,8 @@ import { usePOST } from "@/hooks/usePOST.hook";
 import toast from "react-hot-toast";
 import { useState } from "react";
 
-export default function ManageUser({ user, refetch }: { user: any, refetch: any}) {
+export default function ManageUser({ user, refetch }: { user: any, refetch: any }) {
+  
     return (
         <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -24,8 +25,8 @@ export default function ManageUser({ user, refetch }: { user: any, refetch: any}
           <div className="flex flex-col items-start gap-3 font-medium font-inter text-sm px-2 cursor-pointer">
             <FlagUser user={user} />
             <SuspendUser user={user} />
-            <ActivateUser user={user} refetch={refetch}/>
-            <DeactivateUser user={user} refetch={refetch}/>
+            <ActivateUser user={user} refetch={refetch} />
+            <DeactivateUser user={user} refetch={refetch} />
             <DeleteUser user={user} />
             <span className="flex gap-2 hover:bg-[#EAEAEA] w-full py-1 px-1.5 rounded items-center">
                 <span><Icon name="editIcon" /></span> Edit
@@ -107,20 +108,28 @@ const DeleteUser = ({ user }: { user: any}) => {
 
 const ActivateUser = ({ user, refetch }: { user: any, refetch: any }) => {
     const [open, setOpen] = useState(false);
+ 
 
     const { mutate: activateUser } = usePOST(
         `admin/users/${user?.id}/activate`,
         {
           callback: () => {
-            toast.success(`${user?.name} has been activated. They can now access WomenHub`);
             setOpen(false);
             refetch();
+            toast.success(`${user?.name} has been activated. They can now access WomenHub`);
           },
         }
       );
     
     const handleActivate = () => {
-        activateUser({ id: user?.name});
+        if (user?.active === false) {
+            activateUser(
+                { id: user?.name }
+            );
+        }
+        else {
+            toast.error(`${user?.name} is already active. You cannot activate this user.`)
+        }
     }
 
 
@@ -165,18 +174,24 @@ const DeactivateUser = ({ user, refetch }: { user: any, refetch: any }) => {
         `admin/users/${user?.id}/deactivate`,
         {
           callback: () => {
-            toast.success(`${user?.name} has been deactivated. They can no longer access WomenHub`);
             refetch();
+            toast.success(`${user?.name} has been deactivated. They can no longer access WomenHub`);
           },
         }
       );
 
-    const handleDelete = () => {
-        deactivateUser({ id: user?.id });
-        setOpen(false);
+    const handleDeactivate = () => {
+        if (user?.active === true) {
+            deactivateUser(
+                { id: user?.id }
+            );
+            setOpen(false);
+        } else {
+            toast.error(`${user?.name} has already been deactivated. You can not deactivate this user.`)
+        }
     }
 
-    
+
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger className="hover:bg-[#EAEAEA] w-full py-1 px-1.5 rounded">
@@ -201,7 +216,7 @@ const DeactivateUser = ({ user, refetch }: { user: any, refetch: any }) => {
                     </DialogClose>
                     <Button 
                         className="text-white bg-secondary h-10 px-5 ml-7 rounded-lg"
-                        onClick={handleDelete}>
+                        onClick={handleDeactivate}>
                         Confirm
                     </Button>
                </DialogFooter>
