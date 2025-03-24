@@ -10,9 +10,14 @@ import Icon from "@/components/icons/Icon";
 import { usePOST } from "@/hooks/usePOST.hook";
 import toast from "react-hot-toast";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function ManageUser({ user, refetch }: { user: any, refetch: any }) {
-  
+    const navigate = useNavigate();
+    function redirectToEditPage() {
+        const redirectPath = encodeURIComponent(user?.id);
+        navigate(`/users/edit-user/${redirectPath}`);
+    }
     return (
         <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -28,9 +33,9 @@ export default function ManageUser({ user, refetch }: { user: any, refetch: any 
             <ActivateUser user={user} refetch={refetch} />
             <DeactivateUser user={user} refetch={refetch} />
             <DeleteUser user={user} />
-            <span className="flex gap-2 hover:bg-[#EAEAEA] w-full py-1 px-1.5 rounded items-center">
+            <button onClick={redirectToEditPage} className="flex gap-2 hover:bg-[#EAEAEA] w-full py-1 px-1.5 rounded items-center">
                 <span><Icon name="editIcon" /></span> Edit
-            </span>
+            </button>
           </div>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -236,7 +241,7 @@ const FlagUser = ({ user }: { user: any}) => {
                 </span>
             </DialogTrigger>
             <DialogContent>
-                Flag ${user?.name}?
+                Flag {user?.name}
             </DialogContent>
         </Dialog>
     )

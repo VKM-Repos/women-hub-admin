@@ -81,13 +81,22 @@ export const routess = [
             hasSiderLink: true,
             component: User,
             path: "/users",
+            routes: [
+              {
+                name: 'Edit User',
+                title: 'Edit a User',
+                hasSiderLink: false,
+                component: User,
+                path: '/users/edit-user/:id'
+              }
+            ]
           },
           {
-            name: "Administrators",
-            title: "List of admin",
+            name: "Organisations",
+            title: "List of organisations",
             hasSiderLink: true,
             component: Admin,
-            path: "/administrators",
+            path: "/organisations",
           },
           {
             name: "Editors",
