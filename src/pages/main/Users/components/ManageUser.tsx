@@ -14,10 +14,14 @@ import { useNavigate } from "react-router-dom";
 
 export default function ManageUser({ user, refetch }: { user: any, refetch: any }) {
     const navigate = useNavigate();
+
     function redirectToEditPage() {
         const redirectPath = encodeURIComponent(user?.id);
         navigate(`/users/edit-user?id=${redirectPath}`);
     }
+
+    let user_is_inactive = user?.active === false;
+
     return (
         <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -33,7 +37,10 @@ export default function ManageUser({ user, refetch }: { user: any, refetch: any 
             <ActivateUser user={user} refetch={refetch} />
             <DeactivateUser user={user} refetch={refetch} />
             <DeleteUser user={user} />
-            <button onClick={redirectToEditPage} className="flex gap-2 hover:bg-[#EAEAEA] w-full py-1 px-1.5 rounded items-center">
+            <button 
+                onClick={redirectToEditPage} 
+                className={`flex gap-2 ${!user_is_inactive ? `hover:bg-[#EAEAEA] text-black` : `text-black/30`} w-full py-1 px-1.5 rounded items-center`} 
+                disabled={user_is_inactive}>
                 <span><Icon name="editIcon" /></span> Edit
             </button>
           </div>
