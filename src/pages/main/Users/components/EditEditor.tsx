@@ -44,7 +44,7 @@ export default function EditEditor() {
     const { pathname } = useParams();
     
     const { data: editor, isPending: updatingEditor } = useGET({
-        url: `admin/editors/${editor_id}`,
+        url: `admin/users/editors/${editor_id}`,
         queryKey: ["EDITOR_DATA"],
     });
     
