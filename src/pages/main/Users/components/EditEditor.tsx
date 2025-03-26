@@ -12,7 +12,7 @@ import UpdateUserButton from "./UpdateUserButton";
 import Loading from "@/components/shared/Loading";
 import EditForm from "./EditForm";
 
-const edit_user_schema = z.object({
+const edit_editor_schema = z.object({
     role: z
         .string()
         .min(1, { message: 'User type is required'}),
@@ -32,44 +32,44 @@ const edit_user_schema = z.object({
         .optional()
 })
 
-type EditUserData = z.infer<typeof edit_user_schema>
+type EditEditorData = z.infer<typeof edit_editor_schema>
 
-export default function EditUser() {
+export default function EditEditor() {
     const inputRef = useRef<HTMLInputElement>(null);
     const formRef = useRef<HTMLFormElement>(null);
 
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
-    const user_id = searchParams.get("id");
+    const editor_id = searchParams.get("id");
     const { pathname } = useParams();
     
-    const { data: user, isPending: updatingUser } = useGET({
-        url: `admin/users/${user_id}`,
-        queryKey: ["USER_DATA"],
+    const { data: editor, isPending: updatingEditor } = useGET({
+        url: `admin/editors/${editor_id}`,
+        queryKey: ["EDITOR_DATA"],
     });
     
     
 
     const [fileState, setFileState] = useState({
         selectedFile: null as File | null,
-        imagePreview: user?.photoUrl || "",
+        imagePreview: editor?.photoUrl || "",
         validationError: false,
     });
     
-    const form = useForm<EditUserData>({
-        resolver: zodResolver(edit_user_schema),
+    const form = useForm<EditEditorData>({
+        resolver: zodResolver(edit_editor_schema),
     });
     
     useEffect(() => {
-        if (user) {
+        if (editor) {
             form.reset({
-                name: user.name || "",
-                email: user.email || "",
-                bio: user.bio || "",
-                role: user.role?.toLowerCase() || "",
+                name: editor.name || "",
+                email: editor.email || "",
+                bio: editor.bio || "",
+                role: editor.role?.toLowerCase() || "",
             });
         }
-    }, [user, form]);
+    }, [editor, form]);
     
     
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,13 +95,13 @@ export default function EditUser() {
 
     return (
         <>
-        {updatingUser ? 
+        {updatingEditor ? 
             <Loading />
         : 
         <section>
             <div className="rounded-[1.25rem] mt-8 bg-[#FCFCFC] p-6 w-full max-w-[62.5rem] mx-auto flex flex-col gap-8">
                 <div className="flex justify-between items-center ">
-                    <Tag title='User Information' color="bg-tagBgGrn" />
+                    <Tag title='Editor Information' color="bg-tagBgGrn" />
                     <Back />
                 </div>
                 <div>
@@ -157,10 +157,17 @@ export default function EditUser() {
                 )}
 
                 </div>
-               <EditForm endpoint={`/admin/users/${user_id}`} entityName="User" initialData={user} formRef={formRef}/>
+               <EditForm 
+                    endpoint={`/admin/editors/${editor_id}`} 
+                    entityName="Editor" 
+                    initialData={editor} 
+                    formRef={formRef}/>
 
             </div>
-            <UpdateUserButton showModal={false} pathname={pathname} handleExternalSubmit={handleExternalSubmit} />
+            <UpdateUserButton 
+                showModal={false} 
+                pathname={pathname} 
+                handleExternalSubmit={handleExternalSubmit} />
         </section>
         }
         </>
