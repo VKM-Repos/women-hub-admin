@@ -17,9 +17,9 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
     subMenuItems: [
       { title: "Users", icon: <img src={Circle} />, path: "/users" },
       {
-        title: "Administrators",
+        title: "Organisations",
         icon: <img src={Circle} className="z-50" />,
-        path: "/administrators",
+        path: "/organisations",
       },
       {
         title: "Editors",

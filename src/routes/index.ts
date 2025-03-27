@@ -39,6 +39,7 @@ import LegalCompiance from "@/pages/main/Legal-Compliance/Index";
 import ComposeMessage from "@/pages/main/NewsLetter/ComposeMessage";
 import ChooseTemplate from "@/pages/main/NewsLetter/ChooseTemplate";
 import Preview from "@/pages/main/Support/preview";
+import EditUser from "@/pages/main/Users/components/EditUser";
 
 export interface Route {
   name: string;
@@ -81,13 +82,22 @@ export const routess = [
             hasSiderLink: true,
             component: User,
             path: "/users",
+            routes: [
+              {
+                name: 'Edit User',
+                title: 'Edit a User',
+                hasSiderLink: false,
+                component: EditUser,
+                path: '/users/edit-user'
+              }
+            ]
           },
           {
-            name: "Administrators",
-            title: "List of admin",
+            name: "Organisations",
+            title: "List of organisations",
             hasSiderLink: true,
             component: Admin,
-            path: "/administrators",
+            path: "/organisations",
           },
           {
             name: "Editors",
