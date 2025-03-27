@@ -17,7 +17,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 
-import SubmitButton from "./components/SubmitButton";
+import SubmitButton from "../buttons/SubmitButton";
 import { useState } from "react";
 import { generatePassword } from "@/lib/utils/passwordGenerator";
 import { usePOST } from "@/hooks/usePOST.hook";

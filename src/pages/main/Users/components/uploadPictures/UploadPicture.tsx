@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { usePOST } from "@/hooks/usePOST.hook";
 import { useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import SubmitProfilePictureButton from "./components/SubmitProfilePictureButton";
+import SubmitProfilePictureButton from "../buttons/SubmitProfilePictureButton";
 import Loading from "@/components/shared/Loading";
 
 export default function UploadPicture() {

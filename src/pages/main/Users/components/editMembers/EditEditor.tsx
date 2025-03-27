@@ -8,9 +8,9 @@ import { useGET } from "@/hooks/useGET.hook";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import UpdateUserButton from "./UpdateUserButton";
+import UpdateUserButton from "../buttons/UpdateUserButton";
 import Loading from "@/components/shared/Loading";
-import EditForm from "./EditForm";
+import EditForm from "./components/EditForm";
 
 const edit_editor_schema = z.object({
     role: z

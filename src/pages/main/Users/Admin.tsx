@@ -190,6 +190,13 @@ const columns: ColumnDef<string>[] = [
   },
 ];
 export default function Admin() {
+    // const { data: organizations, refetch, isPending } = useGET({
+    //   url: `admin/organizations`,
+    //   queryKey: ["GET_EDITORS_LIST"],
+    //   withAuth: true,
+    //   enabled: true,
+    // });
+
   return (
     <div className="w-full">
       <GenericTable columns={columns} data={data} />

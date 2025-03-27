@@ -1,4 +1,4 @@
-import GenericTable from "@/components/shared/table/Table";
+import MembersTable from "@/components/shared/table/Table";
 import { ColumnDef } from "@tanstack/react-table";
 
 import { Checkbox } from "@/components/ui/checkbox";
@@ -129,7 +129,7 @@ export default function Editor() {
       {isPending ? (
         <Loading />
       ) : (
-        <GenericTable columns={columns} data={editors?.content || []} />
+        <MembersTable columns={columns} data={editors?.content || []} />
       )}
     </div>
   );

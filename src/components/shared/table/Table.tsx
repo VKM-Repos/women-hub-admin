@@ -34,7 +34,7 @@ type tableProps = {
   data: any[] | string[];
 };
 
-export default function DataTable({ columns, data }: tableProps) {
+export default function MembersTable({ columns, data }: tableProps) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []

@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import SubmitButton from "./components/SubmitButton";
+import SubmitButton from "../buttons/SubmitButton";
 import Icon from "@/components/icons/Icon";
 import { Textarea } from "@/components/ui/textarea";
 import { generatePassword } from "@/lib/utils/passwordGenerator";
@@ -23,13 +23,10 @@ import { usePOST } from "@/hooks/usePOST.hook";
 import { useLocation } from "react-router-dom";
 
 const FormSchema = z.object({
-  email: z.string().email("Invalid email.").min(5, {
+  email: z.string().email().min(5, {
     message: "Email must be at least 5 characters.",
   }),
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  phone: z
-    .string()
-    .min(10, { message: "Phone number must be at least 10 digit." }),
   bio: z.string().min(2, { message: "Bio is required." }),
   password: z
     .string()
@@ -40,7 +37,7 @@ export default function CreateUser() {
   const [showModal, setShowModal] = useState(false);
   const [user, setUser] = useState("");
   const { pathname } = useLocation();
-  const { mutate, isPending } = usePOST("admin/users/editors");
+  const { mutate, isPending } = usePOST("admin/users");
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -81,7 +78,7 @@ export default function CreateUser() {
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="bg-white p-5 rounded-md w-[80%] mx-auto">
             <div className="flex items-center justify-between">
-              <Tag title="Editor Information" color="bg-[#B5E4CA]" />
+              <Tag title="User Information" color="bg-[#B5E4CA]" />
               <Back />
             </div>
             <div className="font-inter mt-7 flex flex-col gap-7">
@@ -107,21 +104,6 @@ export default function CreateUser() {
                   <FormItem>
                     <FormLabel className="flex gap-2 items-center font-bold mb-2">
                       Name <Icon name="info" />
-                      <FormMessage className="bg-black text-white px-3 py-1 rounded-md" />
-                    </FormLabel>
-                    <FormControl>
-                      <Input className="bg-input" {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="flex gap-2 items-center font-bold mb-2">
-                      Phone Number <Icon name="info" />
                       <FormMessage className="bg-black text-white px-3 py-1 rounded-md" />
                     </FormLabel>
                     <FormControl>
