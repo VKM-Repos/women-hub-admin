@@ -6,6 +6,7 @@ import FlagUserButton from "../components/FlagUserButton";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/icons/Icon";
 import useAppStore from "@/lib/store/app.store";
+import toast from "react-hot-toast";
 
 const baseURL = import.meta.env.VITE_APP_BASE_URL;
 
@@ -14,14 +15,19 @@ export default function MembersTableLayout({ table, children, endpoint = '' }: {
 
     const handleDownload = async () => {   
         try {
-            const token = useAppStore.getState().user?.token;
-            const response = await fetch(baseURL + endpoint, {
-              method: 'GET',
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            });
+          const token = useAppStore.getState().user?.token;
+          const response = await fetch(baseURL + endpoint, {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
           const blob = await response.blob();
+          if (blob.type.includes("application/json")) {
+            throw new Error("File could not be downloaded. File might be empty.");
+          }
+
           const url = window.URL.createObjectURL(blob);
           
           
@@ -32,9 +38,11 @@ export default function MembersTableLayout({ table, children, endpoint = '' }: {
           link.setAttribute('download', filename); 
           document.body.appendChild(link);
           link.click();
+
           document.body.removeChild(link);
           window.URL.revokeObjectURL(url);
-        } catch (error) {
+        } catch (error: any) {
+          toast.error(error.message)
           console.error('Download failed:', error);
         }
       };
