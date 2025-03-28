@@ -1,4 +1,4 @@
-import MembersTable from "@/components/shared/table/Table";
+import MembersTable from "@/components/shared/table/MembersTable";
 import { ColumnDef } from "@tanstack/react-table";
 
 import { Checkbox } from "@/components/ui/checkbox";
@@ -37,6 +37,8 @@ export default function Users() {
       suspended: user?.suspended,
     }))
   )
+
+  const export_users_endpoint = 'admin/analytics/export/users';
 
 
   const columns: ColumnDef<string>[] = [
@@ -149,7 +151,7 @@ export default function Users() {
       {isPending ? (
         <Loading />
       ) : (
-        <MembersTable columns={columns} data={users || []} />
+        <MembersTable columns={columns} data={users || []} endpoint={export_users_endpoint}/>
       )}
     </div>
   );

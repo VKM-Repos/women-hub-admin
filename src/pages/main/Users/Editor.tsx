@@ -1,4 +1,4 @@
-import MembersTable from "@/components/shared/table/Table";
+import MembersTable from "@/components/shared/table/MembersTable";
 import { ColumnDef } from "@tanstack/react-table";
 
 import { Checkbox } from "@/components/ui/checkbox";
@@ -123,13 +123,14 @@ export default function Editor() {
     },
   ];
 
+  const export_editors_endpoint = 'admin/analytics/export/editors';
 
   return (
     <div className="">
       {isPending ? (
         <Loading />
       ) : (
-        <MembersTable columns={columns} data={editors?.content || []} />
+        <MembersTable columns={columns} data={editors?.content || []} endpoint={export_editors_endpoint}/>
       )}
     </div>
   );

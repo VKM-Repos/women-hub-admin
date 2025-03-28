@@ -1,4 +1,3 @@
-import GenericTable from "@/components/shared/table/Table";
 import { ColumnDef } from "@tanstack/react-table";
 
 import { Checkbox } from "@/components/ui/checkbox";
@@ -12,6 +11,7 @@ import {
 
 import UserImg from "@/assets/user-img.svg";
 import OrgImg from "@/assets/org-img.svg";
+import MembersTable from "@/components/shared/table/MembersTable";
 
 const data: any[] | [string] = [
   {
@@ -197,9 +197,11 @@ export default function Admin() {
     //   enabled: true,
     // });
 
+  const export_admins_endpoint = 'admin/analytics/export/admins';
+
   return (
     <div className="w-full">
-      <GenericTable columns={columns} data={data} />
+      <MembersTable columns={columns} data={data} endpoint={export_admins_endpoint}/>
     </div>
   );
 }

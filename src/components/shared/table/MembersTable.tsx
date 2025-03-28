@@ -23,18 +23,17 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import CreateUserButton from './components/CreateUserButton';
 import Icon from '@/components/icons/Icon';
-import FlagUserButton from './components/FlagUserButton';
-import FilterTableButton from './components/FilterTableButton';
-import SearchInputField from './components/SearchInputField';
+import MembersTableLayout from './layouts/MemberLayout';
 
 type tableProps = {
   columns: ColumnDef<string>[];
   data: any[] | string[];
+  endpoint?: string;
 };
 
-export default function MembersTable({ columns, data }: tableProps) {
+
+export default function MembersTable({ columns, data, endpoint }: tableProps) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -64,23 +63,7 @@ export default function MembersTable({ columns, data }: tableProps) {
   });
 
   return (
-    <div>
-      <div className="flex items-center justify-between py-4">
-        <CreateUserButton />
-
-        <div className="flex items-center gap-5">
-          <SearchInputField table={table} />
-          <FilterTableButton table={table} />
-          <FlagUserButton />
-          <Button
-            variant="outline"
-            className="flex h-12 items-center gap-2 font-semibold">
-            <Icon name='exportIcon' />
-            Export
-          </Button>
-        </div>
-      </div>
-
+    <MembersTableLayout table={table} endpoint={endpoint}>
       <div className="font-inter rounded-md border bg-white">
         <Table>
           <TableHeader>
@@ -157,6 +140,6 @@ export default function MembersTable({ columns, data }: tableProps) {
           </Button>
         </div>
       </div>
-    </div>
+    </MembersTableLayout>
   );
 }
