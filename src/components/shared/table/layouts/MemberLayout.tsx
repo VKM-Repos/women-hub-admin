@@ -11,7 +11,8 @@ const baseURL = import.meta.env.VITE_APP_BASE_URL;
 
 
 export default function MembersTableLayout({ table, children, endpoint = '' }: { table: Table<any>, children: React.ReactNode, endpoint?: string }) {
-    const handleDownload = async () => {
+
+    const handleDownload = async () => {   
         try {
             const token = useAppStore.getState().user?.token;
             const response = await fetch(baseURL + endpoint, {
@@ -23,9 +24,12 @@ export default function MembersTableLayout({ table, children, endpoint = '' }: {
           const blob = await response.blob();
           const url = window.URL.createObjectURL(blob);
           
+          
           const link = document.createElement('a');
           link.href = url;
-          link.setAttribute('download', 'file'); 
+          const filename = transformEndpoint(endpoint) || 'downloaded-file';
+
+          link.setAttribute('download', filename); 
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
@@ -60,3 +64,9 @@ export default function MembersTableLayout({ table, children, endpoint = '' }: {
       </div>
     )
 }
+
+
+const transformEndpoint = (endpoint: string) => {
+  const parts = endpoint.split('/'); 
+  return parts[parts.length - 1]; 
+};
