@@ -8,11 +8,11 @@ import { useGET } from "@/hooks/useGET.hook";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import UpdateUserButton from "./UpdateUserButton";
+import UpdateUserButton from "../buttons/UpdateUserButton";
 import Loading from "@/components/shared/Loading";
-import EditForm from "./EditForm";
+import EditForm from "./components/EditForm";
 
-const edit_org_schema = z.object({
+const edit_user_schema = z.object({
     role: z
         .string()
         .min(1, { message: 'User type is required'}),
@@ -32,44 +32,44 @@ const edit_org_schema = z.object({
         .optional()
 })
 
-type EditOrganizationData = z.infer<typeof edit_org_schema>
+type EditUserData = z.infer<typeof edit_user_schema>
 
-export default function EditOrganization() {
+export default function EditUser() {
     const inputRef = useRef<HTMLInputElement>(null);
     const formRef = useRef<HTMLFormElement>(null);
 
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
-    const org_id = searchParams.get("id");
+    const user_id = searchParams.get("id");
     const { pathname } = useParams();
     
-    const { data: organization, isPending: updatingOrg } = useGET({
-        url: `admin/organizations/${org_id}`,
-        queryKey: ["ORGANIZATION_DATA"],
+    const { data: user, isPending: updatingUser } = useGET({
+        url: `admin/users/${user_id}`,
+        queryKey: ["USER_DATA"],
     });
     
     
 
     const [fileState, setFileState] = useState({
         selectedFile: null as File | null,
-        imagePreview: organization?.photoUrl || "",
+        imagePreview: user?.photoUrl || "",
         validationError: false,
     });
     
-    const form = useForm<EditOrganizationData>({
-        resolver: zodResolver(edit_org_schema),
+    const form = useForm<EditUserData>({
+        resolver: zodResolver(edit_user_schema),
     });
     
     useEffect(() => {
-        if (organization) {
+        if (user) {
             form.reset({
-                name: organization.name || "",
-                email: organization.email || "",
-                bio: organization.bio || "",
-                role: organization.role?.toLowerCase() || "",
+                name: user.name || "",
+                email: user.email || "",
+                bio: user.bio || "",
+                role: user.role?.toLowerCase() || "",
             });
         }
-    }, [organization, form]);
+    }, [user, form]);
     
     
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,13 +95,13 @@ export default function EditOrganization() {
 
     return (
         <>
-        {updatingOrg ? 
+        {updatingUser ? 
             <Loading />
         : 
         <section>
             <div className="rounded-[1.25rem] mt-8 bg-[#FCFCFC] p-6 w-full max-w-[62.5rem] mx-auto flex flex-col gap-8">
                 <div className="flex justify-between items-center ">
-                    <Tag title='Organization Information' color="bg-tagBgGrn" />
+                    <Tag title='User Information' color="bg-tagBgGrn" />
                     <Back />
                 </div>
                 <div>
@@ -157,17 +157,10 @@ export default function EditOrganization() {
                 )}
 
                 </div>
-               <EditForm 
-                    endpoint={`/admin/organizations/${org_id}`} 
-                    entityName="Organization" 
-                    initialData={organization} 
-                    formRef={formRef}/>
+               <EditForm endpoint={`/admin/users/${user_id}`} entityName="User" initialData={user} formRef={formRef}/>
 
             </div>
-            <UpdateUserButton 
-                showModal={false} 
-                pathname={pathname} 
-                handleExternalSubmit={handleExternalSubmit} />
+            <UpdateUserButton showModal={false} pathname={pathname} handleExternalSubmit={handleExternalSubmit} />
         </section>
         }
         </>
