@@ -45,10 +45,10 @@ export default function Home() {
                 </div>
               </div>
               <div className="flex gap-5 mt-10 mb-10">
-                <div className="bg-white rounded-md drop-shadow-lg w-[70%] h-fit">
+                <div className="bg-white rounded-md drop-shadow-lg w-[70%]">
                   <LineChart />
                 </div>
-                <div className="bg-white drop-shadow-lg rounded-md w-[30%] flex flex-col px-4 py-4 h-fit">
+                <div className="bg-white drop-shadow-lg rounded-md w-[30%] flex flex-col px-4 py-4">
                   <h2 className="text-base font-bold">
                     Recent Support Tickets
                   </h2>

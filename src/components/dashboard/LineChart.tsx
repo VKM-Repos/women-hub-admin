@@ -30,8 +30,11 @@ export default function LineChart() {
         borderColor: "#FF7400",
         cubicInterpolationMode: "monotone",
         pointStyle: "circle",
-        borderWidth: 4,
+        borderWidth: 2,
         backgroundColor: "#FF7400",
+        fontWeight: 600,
+        stepped: false,
+        tension: 1,
       },
       {
         label: "Organization likes",
@@ -39,22 +42,32 @@ export default function LineChart() {
         borderColor: "#65B891",
         cubicInterpolationMode: "monotone",
         pointStyle: "circle",
-        borderWidth: 4,
+        borderWidth: 2,
         backgroundColor: "#65B891",
+        stepped: false,
+        tension: 1,
       },
     ],
   };
   const options = {
+    responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         labels: {
           usePointStyle: true,
-        },
-      },
-    },
-  };
+          padding: 24,
+          boxWidth: 14,
+          font: {
+            weight: 700,
+          },
+        }
+        }
+      }
+    }
+  
   return (
-    <div className="px-5 pt-5">
+    <div className="px-5 py-5 w-full h-full">
       <Line data={data as ChartData<"line">} options={options} />
     </div>
   );
