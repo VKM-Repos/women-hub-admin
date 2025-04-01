@@ -9,7 +9,7 @@ type userTypes = {
   icon: JSX.Element;
   color: string;
 };
-export const userStarts: userTypes[] = [
+export const userStats: userTypes[] = [
   {
     title: "Users",
     key: "users",
