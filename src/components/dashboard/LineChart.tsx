@@ -10,6 +10,7 @@ import {
   Legend,
   ChartData,
 } from "chart.js";
+import { useGET } from "@/hooks/useGET.hook";
 
 ChartJS.register(
   LinearScale,
@@ -20,54 +21,71 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-export default function LineChart() {
+
+type Period = {
+  period: string,
+}
+
+export default function LineChart({ period }: Period) {
+  
+  const { data: user_engagement } = useGET({
+    url: `admin/stats/user-engagement?period=${period}`,
+    queryKey: [`${period}_ENGAGEMENT_STATISTICS`],
+  });
+
+  const discussionData = user_engagement?.map((entry: any) => entry?.discussion);
+  const likesData = user_engagement?.map((entry: any) => entry?.organizationLikes);
+
+
   const data = {
-    labels: ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"],
+    labels: period === 'WEEKLY' ? 
+      ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"] : 
+      ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     datasets: [
       {
         label: "Discussion",
-        data: [40, 31, 33, 25, 60, 10, 80],
+        data: discussionData,
         borderColor: "#FF7400",
+        backgroundColor: "#FF7400",
         cubicInterpolationMode: "monotone",
         pointStyle: "circle",
         borderWidth: 2,
-        backgroundColor: "#FF7400",
-        fontWeight: 600,
-        stepped: false,
         tension: 1,
       },
       {
         label: "Organization likes",
-        data: [2, 28, 53, 24, 33, 19, 40],
+        data: likesData,
         borderColor: "#65B891",
+        backgroundColor: "#65B891",
         cubicInterpolationMode: "monotone",
         pointStyle: "circle",
         borderWidth: 2,
-        backgroundColor: "#65B891",
-        stepped: false,
         tension: 1,
       },
     ],
   };
+  
   const options = {
     responsive: true,
-    maintainAspectRatio: false,
+    maintainAspectRatio: true,
     plugins: {
       legend: {
-        labels: {
-          usePointStyle: true,
-          padding: 24,
-          boxWidth: 14,
-          font: {
-            weight: 700,
-          },
-        }
-        }
+        display: false,
+      }
+    },
+    scales: {
+      y: {
+        min: 0,
+      },
+      x: {
+        min: 0,
       }
     }
+  }
+
   
   return (
-    <div className="px-5 py-5 w-full h-full">
+    <div className="p-4">
       <Line data={data as ChartData<"line">} options={options} />
     </div>
   );
