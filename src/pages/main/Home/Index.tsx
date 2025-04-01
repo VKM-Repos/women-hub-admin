@@ -137,11 +137,11 @@ export default function Home() {
                 </div>
 
                 {/* NEWSLETTER SUBSCRIPTION */}
-                <div className="w-[30%] bg-[#FCFCFC] drop-shadow-lg max-h-fit p-6 rounded-lg flex flex-col justify-between">
+                <div className="w-[30%] bg-[#FCFCFC] drop-shadow-lg max-h-fit p-6 rounded-lg flex flex-col justify-between cursor-default">
                 <div className="gap-8 flex flex-col">
                   <h2 className="font-semibold text-[#1A1D1F] text-[1.25rem]">Newsletter Subscription</h2>
                   <div className="flex gap-3">
-                    <div className="rounded-full p-[.3rem] w-[3rem] h-[3rem] bg-[#FFE7E4]">
+                    <div className="rounded-full py-[.475rem] pl-[.5rem] pr-[.3rem] w-fit h-fit bg-[#FFE7E4] flex items-center justify-center">
                       <Icon name='userCheckIcon' />
                     </div>
                     <p className="text-[#65655E]">You have <span className="text-secondary ">12 new subscribers to Newsletter.</span> Welcome them.</p>
