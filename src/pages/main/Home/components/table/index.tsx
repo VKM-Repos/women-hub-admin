@@ -57,7 +57,7 @@ export default function SystemActivityTable({ data, columns }: any) {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  No recorded activity at the moment.
                 </TableCell>
               </TableRow>
             )}
