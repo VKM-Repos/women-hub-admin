@@ -5,6 +5,21 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/compon
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreVertical } from "lucide-react";
 
+
+export function sysActivityFormatDate(isoString: string) {
+  const date = new Date(isoString);
+  
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = String(date.getFullYear()).slice(-2);
+  
+  const hours = date.getHours() % 12 || 12;
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const ampm = date.getHours() >= 12 ? 'PM' : 'AM';
+  
+  return `${day}/${month}/${year}, ${hours}:${minutes} ${ampm}`;
+}
+
 export const columns: ColumnDef<string>[] = [
     {
         id: "select",
@@ -33,7 +48,7 @@ export const columns: ColumnDef<string>[] = [
     {
         accessorKey: 'timestamp',
         header: () => <p>Timestamp</p>,
-        cell: ({ row }) => <p>{row.getValue('timestamp')}</p>
+        cell: ({ row }) => <p>{sysActivityFormatDate(row.getValue('timestamp'))}</p>
     },
     {
         accessorKey: 'activity',
