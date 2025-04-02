@@ -1,22 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAppStore from "@/lib/store/app.store";
 import { useGET } from "@/hooks/useGET.hook";
-
 import Loading from "@/components/shared/Loading";
 import Icon from "@/components/icons/Icon";
-
 import StatisticsCard from "@/components/dashboard/StatisticsCard";
 import LineChart from "@/components/dashboard/LineChart";
 import SupportTicketCard from "@/components/dashboard/SupportTicketCard";
 import Tag from "@/components/dashboard/Tag";
 import PostMetricsGrid from "@/components/dashboard/PostMetricsStats/PostMetricsGrid";
 import RecentPostCard from "@/components/dashboard/RecentPostCard";
-
 import SystemActivityTable from "./components/table";
 import { columns } from "./components/table/columns";
-import { dummyData } from "./components/table/data";
-
 import { userStats } from "./components/UserStats";
 
 
@@ -36,6 +31,15 @@ export default function Home() {
     url: "admin/stats/post-metrics",
     queryKey: ["POST_METRICS_STATISTICS"],
   });
+
+  const { data: sysActivity } = useGET({
+    url: 'admin/stats/system-activity',
+    queryKey: ['SYSTEM_ACTIVITY_STATISTICS'],
+  });
+
+  useEffect(() => {
+    console.log(sysActivity)
+  }, [sysActivity])
 
 
   return (
@@ -133,18 +137,28 @@ export default function Home() {
               <Tag title="System Activity" color="bg-[#FFBC99]" />
               <div className="flex justify-between gap-10 mt-5 mb-10">
                 <div className="drop-shadow-lg w-[70%]">
-                  <SystemActivityTable columns={columns} data={dummyData} />
+                  <SystemActivityTable columns={columns} data={sysActivity?.auditLogs || []} />
                 </div>
 
                 {/* NEWSLETTER SUBSCRIPTION */}
                 <div className="w-[30%] bg-[#FCFCFC] drop-shadow-lg max-h-fit p-6 rounded-lg flex flex-col justify-between cursor-default">
                 <div className="gap-8 flex flex-col">
                   <h2 className="font-semibold text-[#1A1D1F] text-[1.25rem]">Newsletter Subscription</h2>
-                  <div className="flex gap-3">
+                  <div className="flex gap-3 items-center justify-center">
                     <div className="rounded-full py-[.475rem] pl-[.5rem] pr-[.3rem] w-fit h-fit bg-[#FFE7E4] flex items-center justify-center">
                       <Icon name='userCheckIcon' />
                     </div>
-                    <p className="text-[#65655E]">You have <span className="text-secondary ">12 new subscribers to Newsletter.</span> Welcome them.</p>
+                    <p className="text-[#65655E]">
+                      {sysActivity?.newsletterSubcribers === 0 ?
+                        <span>You have no new subscribers.</span>
+                        :
+                        <span>
+                          You have <span className="text-secondary ">{sysActivity?.newsletterSubcribers} new subscribers to Newsletter.</span> 
+                          Welcome them.
+                        </span>
+                      }
+                      
+                    </p>
                   </div>
           
                   <button onClick={() => navigate('subscribers')} className="border px-5 py-3 rounded-xl font-bold text-sm text-black">View Subscribers</button>
