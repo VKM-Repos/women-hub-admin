@@ -3,7 +3,6 @@ import CommentIcon from "@/assets/icons/comment-icon.svg";
 import AnalyticsIcon from "@/assets/icons/analytics-icon.svg";
 import { convertISOToReadableDate } from "@/lib/utils";
 export default function RecentPostCard({ recentsPost }: any) {
-  console.log(recentsPost);
 
   return (
     <>
