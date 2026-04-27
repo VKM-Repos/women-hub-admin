@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
+    <title>Audit Log</title>
+</head>
+<body class="box-border max-w-[1440px] w-[100%] mx-auto overflow-x-hidden font-[inter]">
+    <div class="p-6 bg-gray-100 min-h-screen md:px-[40px] px-[20px]">
+      <div class="flex justify-between items-center mb-6">
+
+        <div class="flex items-center md:gap-3 gap-2">
+          <div class="flex items-center bg-white rounded-lg pl-[10px] gap-1">
+            <img src="/src/assets/search-icon.png" alt="" class="w-[15px]">
+            <input
+              type="text"
+              placeholder="Search keyword"
+              class="py-2 bg-white rounded-r-lg md:text-sm text-[13.5px] focus:outline-none focus:ring-2 focus:ring-gray-300"
+            />
+          </div>
+
+          <div class="flex justify-between md:gap-205 gap-2">
+            <button id="filterBtn" class="flex items-center md:px-4 px-2 md:py-2 py-1 bg-white rounded-lg md:text-sm text-[13.5px] hover:bg-gray-300 gap-1">
+              <img src="/src/assets/filter-icon.png" alt="" class="w-[16px] h-[16px]">Filter
+            </button>
+          </div>
+
+
+
+
+</div>
+          <div>
+            <button class="flex items-center md:px-4 px-2 md:py-2 py-1 bg-white rounded-lg md:text-sm text-[13.5px] hover:bg-gray-300 gap-1">
+              <img src="/src/assets/file-export-icon.png" alt="" class="w-[16px] h-[16px]">Export
+            </button> 
+
+        </div>
+        </div>
+
+      <div class="bg-gray-100 shadow-sm overflow-hidden">
+        <!-- First Row -->
+        <div class="grid grid-cols-2 md:grid-cols-1">
+          <div class="md:h-[61px] md:gap-0 gap-[12px] grid grid-rows-8 md:justify-items-center md:grid-cols-8 px-5 py-5 bg-white text-sm font-bold text-[#106840] leading-[100%]">
+            
+              <div> <input type="checkbox" id="selectAll" placeholder="Search keyword" class=""/></div>  
+                <div>Timestamp</div>
+                <div>Action Type</div>
+                <div>Email</div>
+                <div>Performed By</div>
+                <div>Object</div>
+                <div>Object ID</div>
+                </div>
+
+        <div class="md:h-[61px] gap-[12px] md:gap-0 grid grid-rows-8 md:grid-cols-8 md:justify-items-center px-5 py-5 text-[13px] font-normal text-[#106840] leading-[100%] bg-gray-300 hover:bg-gray-200">
+              <div class="flex justify-between md:flex-none">
+              <div> <input type="checkbox" data-id="1" placeholder="Search keyword" class=""/> 
+                </div>
+                <img class="md:hidden h-[12px]" src="/src/assets/option-but2.png" alt="">
+                </div>  
+              <div>21/03/24, 7:00 AM</div>
+              <div class="font-medium">User Created</div>
+              <div>example@gmail.com</div>
+              <div>admin</div>
+              <div>User</div>
+              <div>User567</div>
+              <div class="hidden md:block mt-[5px]"><img src="/src/assets/option-but2.png" alt=""></div>
+
+      
+
+      </div>
+    </div>
+
+      <!-- Second Row -->
+          <div class="grid grid-cols-2 md:grid-cols-1">
+          <div class="md:hidden md:h-[61px] md:gap-0 gap-[12px] grid grid-rows-8 md:justify-items-center md:grid-cols-8 px-5 py-5 bg-white text-sm font-medium text-[#106840] leading-[100%]">
+            
+              <div> <input type="checkbox" id="selectAll"placeholder="Search keyword" class=""/></div>  
+                <div>Timestamp</div>
+                <div>Action Type</div>
+                <div>Email</div>
+                <div>Performed By</div>
+                <div>Object</div>
+                <div>Object ID</div>
+                </div>
+
+          <div class=" md:h-[61px] gap-[12px] md:gap-0 grid grid-rows-8 md:grid-cols-8 md:justify-items-center px-5 py-5 text-[13px] font-normal text-[#106840] leading-[100%] bg-white hover:bg-gray-100">
+              <div class="flex justify-between md:flex-none">
+              <div> <input type="checkbox" data-id="2" placeholder="Search keyword" class=""/> 
+                </div>
+                <img class="md:hidden h-[12px]" src="/src/assets/option-but2.png" alt="">
+                </div>  
+              <div>21/03/24, 7:00 AM</div>
+              <div class="font-medium">User Created</div>
+              <div>example@gmail.com</div>
+              <div>admin</div>
+              <div>User</div>
+              <div>User567</div>
+              <div class="hidden md:block mt-[5px]"><img src="/src/assets/option-but2.png" alt=""></div>
+
+          </div>
+          
+        </div>
+
+        <!-- Third Row -->
+          <div class="grid grid-cols-2 md:grid-cols-1">
+          <div class="md:hidden md:h-[61px] md:gap-0 gap-[12px] grid grid-rows-8 md:justify-items-center md:grid-cols-8 px-5 py-5 bg-white text-sm font-medium text-[#106840] leading-[100%]">
+            
+              <div> <input type="checkbox" id="selectAll" placeholder="Search keyword" class=""/></div>  
+                <div>Timestamp</div>
+                <div>Action Type</div>
+                <div>Email</div>
+                <div>Performed By</div>
+                <div>Object</div>
+                <div>Object ID</div>
+                </div>
+
+          <div class=" md:h-[61px] gap-[12px] md:gap-0 grid grid-rows-8 md:grid-cols-8 md:justify-items-center px-5 py-5 text-[13px] font-normal text-[#106840] leading-[100%] bg-gray-300 hover:bg-gray-100">
+              <div class="flex justify-between md:flex-none">
+              <div> <input type="checkbox" data-id="3" placeholder="Search keyword" class=""/> 
+                </div>
+                <img class="md:hidden h-[12px]" src="/src/assets/option-but2.png" alt="">
+                </div>  
+              <div>21/03/24, 7:00 AM</div>
+              <div class="font-medium">User Created</div>
+              <div>example@gmail.com</div>
+              <div>admin</div>
+              <div>User</div>
+              <div>User567</div>
+              <div class="hidden md:block mt-[5px]"><img src="/src/assets/option-but2.png" alt=""></div>
+
+          </div>
+          
+        </div>
+
+        <!-- Fourth Row -->
+          <div class="grid grid-cols-2 md:grid-cols-1">
+          <div class="md:hidden md:h-[61px] md:gap-0 gap-[12px] grid grid-rows-8 md:justify-items-center md:grid-cols-8 px-5 py-5 bg-white text-sm font-medium text-[#106840] leading-[100%]">
+            
+              <div> <input type="checkbox" id="selectAll" placeholder="Search keyword" class=""/></div>  
+                <div>Timestamp</div>
+                <div>Action Type</div>
+                <div>Email</div>
+                <div>Performed By</div>
+                <div>Object</div>
+                <div>Object ID</div>
+                </div>
+
+          <div class=" md:h-[61px] gap-[12px] md:gap-0 grid grid-rows-8 md:grid-cols-8 md:justify-items-center px-5 py-5 text-[13px] font-normal text-[#106840] leading-[100%] bg-white hover:bg-gray-100">
+              <div class="flex justify-between md:flex-none">
+              <div> <input type="checkbox" data-id="4" placeholder="Search keyword" class=""/> 
+                </div>
+                <img class="md:hidden h-[12px]" src="/src/assets/option-but2.png" alt="">
+                </div>  
+              <div>21/03/24, 7:00 AM</div>
+              <div class="font-medium">User Created</div>
+              <div>example@gmail.com</div>
+              <div>admin</div>
+              <div>User</div>
+              <div>User567</div>
+              <div class="hidden md:block mt-[5px]"><img src="/src/assets/option-but2.png" alt=""></div>
+
+          </div>
+          
+        </div>
+
+        <!-- Fifth Row -->
+          <div class="grid grid-cols-2 md:grid-cols-1">
+          <div class="md:hidden md:h-[61px] md:gap-0 gap-[12px] grid grid-rows-8 md:justify-items-center md:grid-cols-8 px-5 py-5 bg-white text-sm font-medium text-[#106840] leading-[100%]">
+            
+              <div> <input type="checkbox" id="selectAll" placeholder="Search keyword" class=""/></div>  
+                <div>Timestamp</div>
+                <div>Action Type</div>
+                <div>Email</div>
+                <div>Performed By</div>
+                <div>Object</div>
+                <div>Object ID</div>
+                </div>
+
+          <div class=" md:h-[61px] gap-[12px] md:gap-0 grid grid-rows-8 md:grid-cols-8 md:justify-items-center px-5 py-5 text-[13px] font-normal text-[#106840] leading-[100%] bg-gray-300 hover:bg-gray-100">
+              <div class="flex justify-between md:flex-none">
+              <div> <input type="checkbox" data-id="5" placeholder="Search keyword" class=""/> 
+                </div>
+                <img class="md:hidden h-[12px]" src="/src/assets/option-but2.png" alt="">
+                </div>  
+              <div>21/03/24, 7:00 AM</div>
+              <div class="font-medium">User Created</div>
+              <div>example@gmail.com</div>
+              <div>admin</div>
+              <div>User</div>
+              <div>User567</div>
+              <div class="hidden md:block mt-[5px]"><img src="/src/assets/option-but2.png" alt=""></div>
+
+          </div>
+          
+        </div>
+
+         <!-- Sixth Row -->
+          <div class="grid grid-cols-2 md:grid-cols-1">
+          <div class="md:hidden md:h-[61px] md:gap-0 gap-[12px] grid grid-rows-8 md:justify-items-center md:grid-cols-8 px-5 py-5 bg-white text-sm font-medium text-[#106840] leading-[100%]">
+            
+              <div> <input type="checkbox" id="selectAll" placeholder="Search keyword" class=""/></div>  
+                <div>Timestamp</div>
+                <div>Action Type</div>
+                <div>Email</div>
+                <div>Performed By</div>
+                <div>Object</div>
+                <div>Object ID</div>
+                </div>
+
+          <div class=" md:h-[61px] gap-[12px] md:gap-0 grid grid-rows-8 md:grid-cols-8 md:justify-items-center px-5 py-5 text-[13px] font-normal text-[#106840] leading-[100%] bg-white hover:bg-gray-100">
+              <div class="flex justify-between md:flex-none">
+              <div> <input type="checkbox" data-id="6" placeholder="Search keyword" class=""/> 
+                </div>
+                <img class="md:hidden h-[12px]" src="/src/assets/option-but2.png" alt="">
+                </div>  
+              <div>21/03/24, 7:00 AM</div>
+              <div class="font-medium">User Created</div>
+              <div>example@gmail.com</div>
+              <div>admin</div>
+              <div>User</div>
+              <div>User567</div>
+              <div class="hidden md:block mt-[5px]"><img src="/src/assets/option-but2.png" alt=""></div>
+
+          </div>
+          
+        </div>
+
+        <!-- Seventh Row -->
+          <div class="grid grid-cols-2 md:grid-cols-1">
+          <div class="md:hidden md:h-[61px] md:gap-0 gap-[12px] grid grid-rows-8 md:justify-items-center md:grid-cols-8 px-5 py-5 bg-white text-sm font-medium text-[#106840] leading-[100%]">
+            
+              <div> <input type="checkbox" id="selectAll" placeholder="Search keyword" class=""/></div>  
+                <div>Timestamp</div>
+                <div>Action Type</div>
+                <div>Email</div>
+                <div>Performed By</div>
+                <div>Object</div>
+                <div>Object ID</div>
+                </div>
+
+          <div class=" md:h-[61px] gap-[12px] md:gap-0 grid grid-rows-8 md:grid-cols-8 md:justify-items-center px-5 py-5 text-[13px] font-normal text-[#106840] leading-[100%] bg-gray-300 hover:bg-gray-100">
+              <div class="flex justify-between md:flex-none">
+              <div> <input type="checkbox" data-id="7" placeholder="Search keyword" class=""/> 
+                </div>
+                <img class="md:hidden h-[12px]" src="/src/assets/option-but2.png" alt="">
+                </div>  
+              <div>21/03/24, 7:00 AM</div>
+              <div class="font-medium">User Created</div>
+              <div>example@gmail.com</div>
+              <div>admin</div>
+              <div>User</div>
+              <div>User567</div>
+              <div class="hidden md:block mt-[5px]"><img src="/src/assets/option-but2.png" alt=""></div>
+
+          </div>
+          
+        </div>
+
+        <!-- Eighth Row -->
+          <div class="grid grid-cols-2 md:grid-cols-1">
+          <div class="md:hidden md:h-[61px] md:gap-0 gap-[12px] grid grid-rows-8 md:justify-items-center md:grid-cols-8 px-5 py-5 bg-white text-sm font-medium text-[#106840] leading-[100%]">
+            
+              <div> <input type="checkbox" id="selectAll" placeholder="Search keyword" class=""/></div>  
+                <div>Timestamp</div>
+                <div>Action Type</div>
+                <div>Email</div>
+                <div>Performed By</div>
+                <div>Object</div>
+                <div>Object ID</div>
+                </div>
+
+          <div class=" md:h-[61px] gap-[12px] md:gap-0 grid grid-rows-8 md:grid-cols-8 md:justify-items-center px-5 py-5 text-[13px] font-normal text-[#106840] leading-[100%] bg-white hover:bg-gray-100">
+              <div class="flex justify-between md:flex-none">
+              <div> <input type="checkbox" data-id="8" placeholder="Search keyword" class=""/> 
+                </div>
+                <img class="md:hidden h-[12px]" src="/src/assets/option-but2.png" alt="">
+                </div>  
+              <div>21/03/24, 7:00 AM</div>
+              <div class="font-medium">User Created</div>
+              <div>example@gmail.com</div>
+              <div>admin</div>
+              <div>User</div>
+              <div>User567</div>
+              <div class="hidden md:block mt-[5px]"><img src="/src/assets/option-but2.png" alt=""></div>
+
+          </div>
+          
+        </div>
+
+        <!-- Ninth Row -->
+          <div class="grid grid-cols-2 md:grid-cols-1">
+          <div class="md:hidden md:h-[61px] md:gap-0 gap-[12px] grid grid-rows-8 md:justify-items-center md:grid-cols-8 px-5 py-5 bg-white text-sm font-medium text-[#106840] leading-[100%]">
+            
+              <div> <input type="checkbox" id="selectAll" placeholder="Search keyword" class=""/></div>  
+                <div>Timestamp</div>
+                <div>Action Type</div>
+                <div>Email</div>
+                <div>Performed By</div>
+                <div>Object</div>
+                <div>Object ID</div>
+                </div>
+
+          <div class=" md:h-[61px] gap-[12px] md:gap-0 grid grid-rows-8 md:grid-cols-8 md:justify-items-center px-5 py-5 text-[13px] font-normal text-[#106840] leading-[100%] bg-gray-300 hover:bg-gray-100">
+              <div class="flex justify-between md:flex-none">
+              <div> <input type="checkbox" data-id="9" placeholder="Search keyword" class=""/> 
+                </div>
+                <img class="md:hidden h-[12px]" src="/src/assets/option-but2.png" alt="">
+                </div>  
+              <div>21/03/24, 7:00 AM</div>
+              <div class="font-medium">User Created</div>
+              <div>example@gmail.com</div>
+              <div>admin</div>
+              <div>User</div>
+              <div>User567</div>
+              <div class="hidden md:block mt-[5px]"><img src="/src/assets/option-but2.png" alt=""></div>
+
+          </div>
+          
+        </div>
+
+        <!-- Tenth Row -->
+          <div class="grid grid-cols-2 md:grid-cols-1">
+          <div class="md:hidden md:h-[61px] md:gap-0 gap-[12px] grid grid-rows-8 md:justify-items-center md:grid-cols-8 px-5 py-5 bg-white text-sm font-medium text-[#106840] leading-[100%] mb-[12px]">
+            
+              <div> <input type="checkbox" id="selectAll" placeholder="Search keyword" class=""/></div>  
+                <div>Timestamp</div>
+                <div>Action Type</div>
+                <div>Email</div>
+                <div>Performed By</div>
+                <div>Object</div>
+                <div>Object ID</div>
+                </div>
+
+          <div class=" md:h-[61px] gap-[12px] md:gap-0 grid grid-rows-8 md:grid-cols-8 md:justify-items-center px-5 py-5 text-[13px] font-normal text-[#106840] leading-[100%] bg-white hover:bg-gray-100 mb-[12px]">
+              <div class="flex justify-between md:flex-none">
+              <div> <input type="checkbox" data-id="10" placeholder="Search keyword" class=""/> 
+                </div>
+                <img class="md:hidden h-[12px]" src="/src/assets/option-but2.png" alt="">
+                </div>  
+              <div>21/03/24, 7:00 AM</div>
+              <div class="font-medium">User Created</div>
+              <div>example@gmail.com</div>
+              <div>admin</div>
+              <div>User</div>
+              <div>User567</div>
+              <div class="hidden md:block mt-[5px]"><img src="/src/assets/option-but2.png" alt=""></div>
+
+          </div>
+          
+        </div>
+
+
+
+    
+        <div class="flex items-center justify-between font-[Nunito Sans, sans-serif] font-semibold text-sm text-[#202224] leading-[100%] mb-[12px]">
+      <p>Showing 1-10 of 50</p>
+        <div class="flex">
+          <button class="flex items-center justify-center w-[43px] h-[30px] bg-[#FAFBFD] rounded-l-lg border border-[#D5D5D5]"><img src="/src/assets/btn-left-arrow.png" alt="" class="w-[7px] h-[11px]"></button>
+          <a href="#">
+            <button class="flex items-center justify-center w-[43px] h-[30px] bg-[#FAFBFD] rounded-r-lg border border-[#D5D5D5] hover:bg-gray-500"><img src="/src/assets/btn-right-arrow.png" alt="" class="w-[7px] h-[11px]"></button>
+          </a>
+        </div>
+    </div>
+
+      <!-- FILTER MODAL -->
+<div id="overlay" class="hidden fixed inset-0 bg-black/30 z-50 flex items-center justify-center">
+
+  <div class="w-[408px] bg-white rounded-2xl shadow-xl">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-4 h-[60px] bg-gray-100 rounded-t-2xl px-4">
+      <h2 class="text-lg font-[inter] font-semibold text-base leading-[24px] color-[#1B1B1B]">Filter</h2>
+      <button id="closeFilter" class="text-xl">&times;</button>
+    </div>
+
+    <!-- Date -->
+    <div class="mb-3 px-4">
+      <div class="flex justify-between text-sm mb-1">
+        <span class="text-sm text-gray-600">Select Date</span>
+        <span class="text-blue-500 cursor-pointer">Clear</span>
+      </div>
+      <div class="flex gap-16">
+        <input type="date" class="border border-gray-300 rounded-lg px-[8px] py-[5px] mb-[20px]">
+        <input type="date" class="border border-gray-300 rounded-lg px-[8px] py-[5px] mb-[20px]">
+        
+      </div>
+    </div>
+
+    <!-- Action Type -->
+    <div class="mb-3 px-4">
+      <div class="flex justify-between text-sm mb-1">
+        <span class="text-gray-600">Action Type</span>
+        <span class="text-sm text-[#0080FF]">Clear</span>
+      </div>
+      <select class="border border-gray-300 rounded-lg px-[8px] py-[5px] text-sm] h-[50px] gap-[8px] mb-[20px] font-[inter] font-normal text-base leading-[100%] color-[#000000] shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-300 w-[380px] relative z-10 pointer-events-auto hover:bg-blue-200">
+        <option>Authentication</option>
+        <option>Engagement</option>
+        <option>Activism</option>
+        <option>Law & Politics</option>
+        <option>Women in tech</option>
+        <option>Education</option>
+        </select>
+    </div>
+
+    <!-- Action Type -->
+    <div class="mb-4 px-4">
+      <div class="flex justify-between text-sm mb-1">
+        <span class="text-sm text-gray-600">Action Type</span>
+        <span class="text-sm text-[#0080FF]">Clear</span>
+      </div>
+      <input type="text" placeholder="Search keyword" class="border border-gray-300 py-2 bg-white rounded-lg md:text-sm text-[13.5px] focus:outline-none focus:ring-2 focus:ring-gray-300 mb-[20px] w-[380px] pl-[8px]">
+    </div>
+
+    <!-- Buttons -->
+    <div class="flex items-center justify-between border-t border-gray-300 w-full px-[24px] py-[24px]">
+      <button class="border border-gray-300 rounded-xl bg-[#FCFCFC] w-[82px] h-[48px] px-[14px] py-[12px] font-bold text-base leading-[24px] color-[#FCFCFC]">Reset</button>
+      <button class="rounded-xl bg-[#FF7400] w-[82px] h-[48px] px-[14px] py-[12px] font-bold text-base leading-[24px] text-white">Apply</button>
+    </div>
+
+  </div>
+</div>
+
+    <script src="/src/pages/main/AuditLog/audit.js"></script>
+</body>
+</html>
+
