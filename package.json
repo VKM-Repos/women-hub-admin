@@ -65,6 +65,7 @@
     "react-hot-toast": "^2.4.1",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.23.1",
+    "recharts": "^3.8.1",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "tiptap-editor-extension-emoji": "^1.1.0",
