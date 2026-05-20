@@ -40,22 +40,24 @@ const chartConfig = {
 
 export function ChartLineDefault() {
   return (
-    <Card>
+    <Card className="px-3">
       <CardHeader className="flex flex-row items-center justify-between">
         <div>
           <CardTitle className="font-[inter] font-medium text-lg text-[#3A3541]">Website Visits</CardTitle>
-          <CardDescription>Mon - Sun</CardDescription>
+          <CardDescription></CardDescription>
         </div>
-        <button className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50">
-          Today
-        </button>
+        <select className="px-2 py-2 border border-gray-300 rounded-lg text-sm font-normal text-[#1B1B1B] hover:bg-gray-50 w-[130px] h-[37px]">
+          <option>Today</option>
+          <option>Week</option>
+          <option>Month</option>
+        </select>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
           <LineChart
             accessibilityLayer
             data={chartData}
-            width={650}
+            width={680}
             height={325}
             margin={{
               left: 12,

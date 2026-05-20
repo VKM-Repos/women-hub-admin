@@ -52,18 +52,18 @@ export function ChartLineMultiple() {
   const data = period === "WEEKLY" ? weeklyData : monthlyData
 
   return (
-    <Card>
-      <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <Card className="px-3">
+      <CardHeader className="flex gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <CardTitle className="text-lg font-semibold">User Engagement</CardTitle>
-          <CardDescription>{period === "WEEKLY" ? "Mon - Sun" : "This month"}</CardDescription>
+          <CardDescription></CardDescription>
         </div>
         <div className="inline-flex rounded-full border border-neutral-200 bg-white p-1 shadow-sm">
           <button
             type="button"
             className={`rounded-full px-4 py-2 text-sm font-medium transition ${
               period === "WEEKLY"
-                ? "bg-slate-950 text-white"
+                ? "bg-[#FF7400] text-white"
                 : "text-slate-500 hover:text-slate-900"
             }`}
             onClick={() => setPeriod("WEEKLY")}
@@ -74,7 +74,7 @@ export function ChartLineMultiple() {
             type="button"
             className={`rounded-full px-4 py-2 text-sm font-medium transition ${
               period === "MONTHLY"
-                ? "bg-slate-950 text-white"
+                ? "bg-[#FF7400] text-white"
                 : "text-slate-500 hover:text-slate-900"
             }`}
             onClick={() => setPeriod("MONTHLY")}
@@ -84,7 +84,7 @@ export function ChartLineMultiple() {
         </div>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="">
         <div className="mb-4 flex flex-wrap gap-4 text-sm">
           <div className="flex items-center gap-2 text-slate-600">
             <span className="inline-flex h-2.5 w-2.5 rounded-full" style={{ backgroundColor: chartConfig.discussion.color }} />
@@ -100,13 +100,13 @@ export function ChartLineMultiple() {
           <LineChart
             accessibilityLayer
             data={data}
-            width={650}
+            width={680}
             height={325}
             margin={{
               left: 12,
               right: 12,
               top: 12,
-              bottom: 8,
+              bottom: 12,
             }}
           >
             <CartesianGrid stroke="#E5E7EB" vertical={false} />

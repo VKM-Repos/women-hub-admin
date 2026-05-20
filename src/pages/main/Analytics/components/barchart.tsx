@@ -29,11 +29,11 @@ export function ChartBarMultiple() {
     <Card>
       <CardHeader className="flex items-center justify-between gap-4">
         <div>
-          <CardTitle className="font-[inter] text-lg font-medium text-slate-900">
+          <CardTitle className="font-[public sans] text-base font-semibold text-slate-900 px-3">
             Blog Activites
           </CardTitle>
         </div>
-        <div className="flex items-center gap-4 text-sm text-slate-600">
+        <div className="flex items-center gap-4 font-[Inter] text-sm font-normal text-slate-600">
           <span className="flex items-center gap-2">
             <span className="inline-flex h-2.5 w-2.5 rounded-full bg-emerald-700" />
             Comments
@@ -49,7 +49,7 @@ export function ChartBarMultiple() {
           <BarChart
             accessibilityLayer
             data={chartData}
-            width={650}
+            width={680}
             height={325}
             margin={{ top: 16, right: 12, left: 12, bottom: 16 }}
             barCategoryGap="24%"

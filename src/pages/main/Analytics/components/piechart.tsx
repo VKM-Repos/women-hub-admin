@@ -59,7 +59,7 @@ export function ChartPieDonut() {
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[400px]"
+          className="mx-auto aspect-square max-h-[420px]"
         >
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>

@@ -112,7 +112,7 @@ function DesktopIcon(props: React.SVGProps<SVGSVGElement>) {
 
 export function ChartPieDonutTwo() {
   return (
-    <Card className="max-w-[400px] rounded-[28px] border border-slate-200">
+    <Card className="max-w-[400px] rounded-lg border border-slate-200">
       <CardHeader className="flex items-center justify-between gap-4 pb-0">
         <div>
           <CardTitle className="text-base font-semibold">Top device</CardTitle>
@@ -124,7 +124,7 @@ export function ChartPieDonutTwo() {
       </CardHeader>
 
       <CardContent className="pb-0">
-        <div className="relative h-[280px] w-full">
+        <div className="relative h-[350px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Tooltip
