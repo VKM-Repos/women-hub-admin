@@ -1,0 +1,482 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Legal & Compliance</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-[Inter] mx-auto">
+
+<div class="max-w-5xl mx-auto mt-10 bg-[#FCFCFC] shadow rounded-lg p-10">
+    
+
+  <h1 class="text-xl font-semibold mb-4">Legal and Compliance</h1>
+
+  <div class="flex items-center gap-6 bg-[#FCFCFC] w-[460px] px-2 py-2 mb-6 font-semibold text-sm">
+    <button onclick="switchTab(event, 'privacy')" class="tab-btn text-blue-600 pb-2">Privacy Policy</button>
+    <button onclick="switchTab(event, 'terms')" class="tab-btn text-gray-500 pb-2">Terms & Conditions</button>
+    <button onclick="switchTab(event, 'gdpr')" class="tab-btn text-gray-500 pb-2">GDPR Compliance</button>
+  </div>
+
+    <div class="flex items-center gap-2 mb-5">
+        <img src="/src/assets/tag.svg" alt="">
+        <h3 class="font-bold">Add Content</h3>
+
+        <div class="flex text-left pl-[300px] gap-3">
+            <img src="/src/assets/arrow-move-up-left-sharp.svg" alt="">
+            <img src="/src/assets/arrow-move-up-right-sharp.svg" alt="">
+
+            <button class="flex items-center gap-1 border-[2px] py-[8px] px-[16px] rounded-lg w-[95px] font-[Inter] font-semibold hover:bg-[#B5E4CA]"><img src="/src/assets/Union.svg" alt="" class="w-[18px] h-[15px]">Back</button>
+
+            <button class="flex items-center gap-1 border-[2px] py-[8px] px-[16px] rounded-lg w-[124px] font-[Inter] font-semibold hover:bg-[#B5E4CA]"><img src="/src/assets/eye-hide-show.svg" alt="" class="">Preview</button>
+
+            <button onclick="openModal()" class="flex items-center gap-1 border-[2px] py-[8px] px-[16px] rounded-lg w-[115px] font-[Inter] font-semibold hover:bg-[#B5E4CA]"><img src="/src/assets/update.svg" alt="" class="">Update</button>
+
+  <!-- Overlay -->
+
+          <div id="modalOverlay"
+            class="fixed inset-0 bg-black/40 hidden items-center justify-center">
+
+            <!-- Modal -->
+            <div class="bg-white w-[408px] h-[262px] rounded-2xl p-6 shadow-xl">
+
+              <!-- Header -->
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-3 h-8 bg-orange-400 rounded"></div>
+                <h2 class="text-lg font-semibold">Save Changes</h2>
+              </div>
+
+              <hr class="mb-4">
+
+              <!-- Content -->
+              <p class="text-gray-500 mb-6 font-semibold text-sm">
+                This edit will take effect once confirmed
+              </p>
+
+              <hr class="mb-4">
+
+              <!-- Actions -->
+              <div class="flex justify-end gap-3 mt-[50px]">
+                <button onclick="closeModal()"
+                  class="px-4 py-2 border rounded-lg hover:bg-gray-100 font-bold text-base h-[48px]">
+                  Cancel
+                </button>
+
+                <button onclick="confirmAction()"
+                  class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 font-bold text-base h-[48px]">
+                  Confirm
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+
+        
+
+        </div>
+    </div>
+
+  <!-- Content -->
+  <div id="content-area">
+
+    <!-- Title -->
+     <label for="" class="font-semibold">Title</label>
+    <input 
+      type="text" 
+      placeholder="Text" 
+      class="w-full border bg-gray-100 rounded-lg px-4 py-2 mt-3 mb-5 text-sm"
+    />
+
+    <!-- Upload -->
+     <label for="" class="font-semibold">Cover Page</label>
+        <div 
+      onclick="document.getElementById('fileInput').click()"
+      class="border rounded-lg h-40 flex items-center justify-center mb-4 cursor-pointer hover:bg-gray-50"
+    >
+      <span id="uploadText" class="font-[Inter] font-bold text-base color-[#1A1D1F]">
+        <button class="flex items-center justify-center gap-2 border-[2px] rounded-xl w-[200px] h-[50px] bg-gray-200 hover:bg-gray-400"><img src="/src/assets/upload.svg" alt="" class="w-[24px]">Click or drop files</button>
+      </span>
+    </div>
+
+    
+    <input 
+      type="file" 
+      id="fileInput" 
+      class="hidden"
+      onchange="handleFileUpload(event)"
+    />
+
+    <!-- Toolbar -->
+    <div class="flex gap-3 border rounded-t-lg px-3 py-2 text-gray-600 text-sm">
+      <button onclick="formatText('bold')" class="hover:bg-gray-200"><img src="/src/assets/bold-text-icon.svg" alt=""></button>
+      
+      <button onclick="formatText('italic')" class="hover:bg-gray-200"><img src="/src/assets/italic-text-icon.svg" alt=""></button>
+     
+      <button onclick="formatText('underline')" class="hover:bg-gray-200"><img src="/src/assets/underline-text-icon.svg" alt=""></button>
+      
+      <button id="strikeBtn" class="hover:bg-gray-200 p-2 rounded"><img src="/src/assets/text-strikethrough.svg" alt=""></button>
+      
+      <div class="relative">
+
+      <button onclick="toggleEmojiPicker()" class="hover:bg-gray-200 p-2 rounded"><img src="/src/assets/emoji-icon.svg" alt=""></button>
+
+      
+
+    
+
+      <!-- Emoji Picker -->
+  <div 
+    id="emojiPicker"
+    class="hidden absolute top-12 left-0 bg-white border rounded-lg shadow-lg p-2 w-64 max-h-48 overflow-y-auto z-50"
+  >
+    <div class="grid grid-cols-6 gap-2 text-lg cursor-pointer">
+      <span onmousedown="event.preventDefault(); insertEmoji('😀')">😀</span>
+      <span onmousedown="event.preventDefault(); insertEmoji('😁')">😁</span>
+      <span onmousedown="event.preventDefault(); insertEmoji('😂')">😂</span>
+      <span onmousedown="event.preventDefault(); insertEmoji('🤣')">🤣</span>
+      <span onmousedown="event.preventDefault(); insertEmoji('😊')">😊</span>
+      <span onmousedown="event.preventDefault(); insertEmoji('😍')">😍</span>
+      <span onmousedown="event.preventDefault(); insertEmoji('😎')">😎</span>
+      <span onmousedown="event.preventDefault(); insertEmoji('😢')">😢</span>
+      <span onmousedown="event.preventDefault(); insertEmoji('😡')">😡</span>
+      <span onmousedown="event.preventDefault(); insertEmoji('👍')">👍</span>
+      <span onmousedown="event.preventDefault(); insertEmoji('👏')">👏</span>
+      <span onmousedown="event.preventDefault(); insertEmoji('🙏')">🙏</span>
+      <span onmousedown="event.preventDefault(); insertEmoji('🔥')">🔥</span>
+      <span onmousedown="event.preventDefault(); insertEmoji('💯')">💯</span>
+      <span onmousedown="event.preventDefault(); insertEmoji('✔️')">✔️</span>
+      <span onmousedown="event.preventDefault(); insertEmoji('❌')">❌</span>
+      <span onmousedown="event.preventDefault(); insertEmoji('🎉')">🎉</span>
+      <span onmousedown="event.preventDefault(); insertEmoji('❤️')">❤️</span>
+    </div>
+  </div>
+
+</div>  
+
+      <button onclick="addLink()" class="hover:bg-gray-200 p-2 rounded"><img src="/src/assets/link-icon.svg" alt=""></button>
+      
+      <button id="listBtn" type="button" class="hover:bg-gray-200 p-2 rounded"><img src="/src/assets/list-icon.svg" alt=""></button>
+      
+      <!-- Dropdown List -->
+    <select id="alignSelect" class="h-[34px] border rounded-lg px-2 py-1 text-sm">
+  <option value="left">Align Left</option>
+  <option value="center">Align Center</option>
+  <option value="justify">Align Justify</option>
+  <option value="right">Align Right</option>
+</select>
+
+      <button onclick="insertImage()" class="hover:bg-gray-200 p-2 rounded"><img src="/src/assets/image-upload-icon.svg" alt=""></button>
+
+      <button onclick="insertVideo()" class="hover:bg-gray-200 p-2 rounded"><img src="/src/assets/video-upload-icon.svg" alt=""></button>
+
+      <button onclick="insertCode()" class="hover:bg-gray-200 p-2 rounded"><img src="/src/assets/code-icon.svg" alt=""></button>
+
+      <select onchange="formatText(this.value)"
+      class="h-[34px] border rounded-lg px-2 py-1 text-sm focus:outline-none">
+      <option value="h1">Heading</option>
+      <option value="h2">Subheading</option>
+      <option value="p">Paragraph</option>
+    </select>
+
+      <button onclick="askAI()" class="flex items-center border border-[#D6D6D6] w-[89px] h-[34px] px-[10px] py-[5px] rounded hover:bg-gray-200"><img src="/src/assets/ask-ai-icon.svg" alt="">Ask AI</button>
+
+
+    </div>
+
+
+    <!-- Editor -->
+    <div 
+      id="editor"
+      contenteditable="true"
+      onkeyup="saveSelection()"
+      onclick="saveSelection()"
+      class="border border-t-0 rounded-b-lg p-4 min-h-[200px] text-sm focus:outline-none"
+    >
+      Start typing your content here...
+    </div>
+
+    <div class="flex justify-end gap-3 mt-6">
+      <button class="w-[74px] h-[48px] px-[20px] py-[12px font-bold bg-[#FF7400] hover:bg-orange-400 text-white rounded-xl text-base">Next</button>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  function switchTab(event, tab) {
+    const tabs = document.querySelectorAll(".tab-btn");
+    tabs.forEach(btn => {
+      btn.classList.remove("text-black", "border-b-4", "border-black");
+      btn.classList.add("text-gray-500");
+    });
+
+    
+
+    const activeBtn = event.currentTarget;
+    activeBtn.classList.remove("text-gray-500");
+    activeBtn.classList.add("text-black", "border-b-4", "border-black");
+
+    console.log("Active tab:", tab);
+  }
+
+  function formatText(command) {
+    document.execCommand(command, false, null);
+  }
+
+  function previewContent() {
+    const content = document.getElementById("editor").innerHTML;
+    alert("Preview:\n\n" + content.replace(/<[^>]+>/g, ''));
+  }
+
+  function handleFileUpload(event) {
+    const file = event.target.files[0];
+
+    if (file) {
+      document.getElementById("uploadText").textContent = file.name;
+
+      console.log("Selected file:", file);
+
+      if (file.type.startsWith("image/")) {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+          const preview = document.createElement("img");
+          preview.src = e.target.result;
+          preview.className = "mt-2 h-20 rounded";
+
+          document.getElementById("uploadText").innerHTML = "";
+          document.getElementById("uploadText").appendChild(preview);
+        };
+
+        reader.readAsDataURL(file);
+      }
+    }
+  }
+
+  function format(command) {
+    document.execCommand(command, false, null);
+  }
+
+  // Strikethrough Functions
+
+ const strikeBtn = document.getElementById("strikeBtn");
+const editor = document.getElementById("editor");
+
+
+strikeBtn.addEventListener("mousedown", (e) => {
+    e.preventDefault();
+});
+
+strikeBtn.addEventListener("click", () => {
+    editor.focus(); 
+
+    document.execCommand("strikeThrough", false, null);
+});
+
+  //Emoji Picker Functions
+  let savedRange;
+
+  function saveSelection() {
+    const selection = window.getSelection();
+    if (selection.rangeCount > 0) {
+      savedRange = selection.getRangeAt(0);
+    }
+  }
+
+   function insertEmoji(emoji) {
+    const editor = document.getElementById("editor");
+    editor.focus();
+
+    if (!savedRange) return;
+    
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(savedRange);
+
+    if (savedRange) {
+      selection.removeAllRanges();
+      selection.addRange(savedRange);
+    }
+
+   
+    const textNode = document.createTextNode(emoji);
+
+    
+    savedRange.deleteContents();
+    savedRange.insertNode(textNode);
+
+    
+    savedRange.setStartAfter(textNode);
+    savedRange.setEndAfter(textNode);
+
+    selection.removeAllRanges();
+    selection.addRange(savedRange);
+
+    saveSelection();
+    console.log("saved");
+
+    document.getElementById("emojiPicker").classList.add("hidden");
+  
+
+      function insertEmoji(emoji) {
+    const editor = document.getElementById("editor");
+
+    
+    editor.focus();
+
+    document.execCommand("insertText", false, emoji);
+  }
+
+    document.getElementById("emojiPicker").classList.add("hidden");
+  }
+
+   function toggleEmojiPicker() {
+    const picker = document.getElementById("emojiPicker");
+    picker.classList.toggle("hidden");
+  }
+
+  function insertEmoji(emoji) {
+    document.execCommand("insertText", false, emoji);
+
+    document.getElementById("emojiPicker").classList.add("hidden");
+  }
+
+  document.addEventListener("click", function(e) {
+    const picker = document.getElementById("emojiPicker");
+    if (!e.target.closest("#emojiPicker") && !e.target.closest("button")) {
+      picker.classList.add("hidden");
+    }
+  });
+
+  function addLink() {
+    const url = prompt("Enter URL:");
+    if (url) {
+      document.execCommand("createLink", false, url);
+    }
+  }
+
+  const alignSelect = document.getElementById("alignSelect");
+
+alignSelect.addEventListener("change", () => {
+    editor.focus();
+
+    const value = alignSelect.value;
+
+    if (value === "left") {
+        document.execCommand("justifyLeft");
+    } else if (value === "center") {
+        document.execCommand("justifyCenter");
+    } else if (value === "right") {
+        document.execCommand("justifyRight");
+    } else if (value === "justify") {
+        document.execCommand("justifyFull");
+    }
+});
+
+
+function focusEditor() {
+  editor.focus();
+}
+ 
+function insertImage() {
+  focusEditor();
+  const url = prompt("Enter image URL:");
+  if (url) {
+    document.execCommand("insertImage", false, url);
+  }
+}
+
+function insertVideo() {
+  focusEditor();
+  let url = prompt("Enter YouTube URL:");
+  if (!url) return;
+
+  url = url.replace("watch?v=", "embed/");
+  const iframe = `
+    <div class="my-4">
+      <iframe class="w-full h-64 rounded-lg" src="${url}" frameborder="0" allowfullscreen></iframe>
+    </div>
+  `;
+
+  document.execCommand("insertHTML", false, iframe);
+}
+
+function insertCode() {
+  focusEditor();
+  const code = prompt("Enter your code:");
+  if (code) {
+    const formatted = `
+      <pre class="bg-gray-900 text-green-400 p-3 rounded-lg overflow-x-auto my-2">
+<code>${code}</code></pre>
+    `;
+    document.execCommand("insertHTML", false, formatted);
+  }
+}
+
+
+function formatText(tag) {
+  if (!tag) return;
+
+  const selection = window.getSelection();
+  if (!selection.rangeCount) return;
+
+  const range = selection.getRangeAt(0);
+  const selectedText = range.toString();
+
+  if (!selectedText) return;
+
+  // Create new element (h1, h2, p)
+  const newNode = document.createElement(tag);
+  newNode.textContent = selectedText;
+
+  range.deleteContents();
+  range.insertNode(newNode);
+
+  selection.removeAllRanges();
+  const newRange = document.createRange();
+  newRange.setStartAfter(newNode);
+  selection.addRange(newRange);
+}
+
+
+function askAI() {
+  focusEditor();
+  const text = prompt("Ask AI:");
+  if (text) {
+    document.execCommand("insertText", false, "AI: " + text);
+  }
+}
+
+// Open modal
+function openModal() {
+  const modal = document.getElementById("modalOverlay");
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+}
+
+// Close modal
+function closeModal() {
+  const modal = document.getElementById("modalOverlay");
+  modal.classList.add("hidden");
+  modal.classList.remove("flex");
+}
+
+// Confirm action
+function confirmAction() {
+  alert("Changes saved!");
+  closeModal();
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
+    <title>Filter</title>
+</head>
+<body class="box-border max-w-[1440px] w-[100%] mx-auto overflow-x-hidden flex flex-col items-center justify-center mt-[60px] bg-gray-100 font-[inter]">
+    <div class="flex items-center justify-between w-[408px] h-[60px] bg-[#F9F9F9] rounded-t-2xl">
+        <p class="pl-[24px] font-[inter] font-semibold text-base leading-[24px] color-[#1B1B1B]">Filter</p>
+        <img src="/src/assets/close-btn.png" alt="" class="pr-[24px]">
+
+    </div>
+
+    <div class="flex justify-between w-[408px] h-[390px] bg-white rounded-b-2xl">
+  
+  <!-- LEFT -->
+  <div class="flex flex-col gap-2 w-[180px] pl-[24px] pt-[15px]">
+    <label class="text-sm text-gray-600">Select Date</label>
+
+    <input type="date" class="border border-gray-300 rounded-lg px-[8px] py-[5px] mb-[20px]" />
+
+    <!-- Dropdown BELOW -->
+     <div class="flex justify-between w-[360px]">
+        <label class="text-sm text-gray-600">Action Type</label>
+        <label class="text-sm text-[#0080FF]">Clear</label>
+     </div>
+    <select class="border border-gray-300 rounded-lg px-[8px] py-[5px] text-sm] h-[50px] gap-[8px] mb-[20px] font-[inter] font-normal text-base leading-[100%] color-[#000000] shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-300 w-[360px] relative z-10 pointer-events-auto hover:bg-blue-200">
+      <option>Authentication</option>
+      <option>Engagement</option>
+      <option>Activism</option>
+      <option>Law & Politics</option>
+      <option>Women in tech</option>
+      <option>Education</option>
+    </select>
+
+    <div class="flex justify-between w-[360px]">
+        <label class="text-sm text-gray-600">Action Type</label>
+        <label class="text-sm text-[#0080FF]">Clear</label>
+     </div>
+
+     
+        <input type="text" placeholder="Search keyword" class="border border-gray-300 py-2 bg-white rounded-lg md:text-sm text-[13.5px] focus:outline-none focus:ring-2 focus:ring-gray-300 mb-[20px] w-[360px] pl-[8px]"/>
+  
+    
+      <div class="flex items-center justify-between border-t border-gray-300 ml-[-24px] w-[408px] h-[150px] px-[24px]">
+        <button class="border border-gray-300 rounded-xl bg-[#FCFCFC] w-[82px] h-[48px] px-[20px] py-[12px] font-bold text-base leading-[24px] color-[#FCFCFC]">Reset</button>
+        <button class="rounded-xl bg-[#FF7400] w-[82px] h-[48px] px-[20px] py-[12px] font-bold text-base leading-[24px] text-white">Apply</button>
+
+      </div>
+
+      
+  </div>
+
+  
+  <!-- RIGHT -->
+  <div class="flex flex-col gap-2 w-[180px] pr-[24px] pt-[15px]">
+    <label class="text-sm text-[#0080FF] text-right">Clear</label>
+
+    <input type="date" class="border border-gray-300 rounded-lg px-[8px] py-[5px]" />
+
+  </div>
+
+
+</div>
+
+
+</div>
+    
+  
+
+</body>
+</html>
+
+           

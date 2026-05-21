@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Analytics Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 p-6 font-sans">
+
+<div class="max-w-7xl mx-auto">
+
+  <!-- Top Right -->
+  <div class="flex justify-end mb-4">
+    <button class="bg-white px-4 py-2 rounded-lg shadow text-sm mr-2">Export</button>
+    <select class="bg-white px-3 py-2 rounded-lg shadow text-sm">
+      <option>Today</option>
+    </select>
+  </div>
+
+ <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+
+  <!-- LEFT: Top Cards -->
+  <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+
+    <div class="bg-green-100 p-4 rounded-lg flex justify-between items-center">
+      <div>
+        <p class="text-sm text-gray-600">Total Users</p>
+        <h2 class="text-2xl font-semibold">180</h2>
+      </div>
+      <div class="bg-white p-3 rounded-full">👤</div>
+    </div>
+
+    <div class="bg-yellow-100 p-4 rounded-lg flex justify-between items-center">
+      <div>
+        <p class="text-sm text-gray-600">Active Users</p>
+        <h2 class="text-2xl font-semibold">80</h2>
+      </div>
+      <div class="bg-white p-3 rounded-full">👤</div>
+    </div>
+
+    <div class="bg-gray-200 p-4 rounded-lg flex justify-between items-center">
+      <div>
+        <p class="text-sm text-gray-600">Organizations</p>
+        <h2 class="text-2xl font-semibold">160</h2>
+      </div>
+      <div class="bg-white p-3 rounded-full">🏢</div>
+    </div>
+
+    <div class="bg-blue-100 p-4 rounded-lg flex justify-between items-center">
+      <div>
+        <p class="text-sm text-gray-600">Active Organizations</p>
+        <h2 class="text-2xl font-semibold">16</h2>
+      </div>
+      <div class="bg-white p-3 rounded-full">🏢</div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: Most Visited Pages -->
+  <div class="bg-white p-4 rounded-lg shadow h-fit">
+    <h3 class="font-semibold mb-4">Most Visited Pages</h3>
+
+    <div class="w-40 h-40 mx-auto rounded-full border-[20px] border-orange-400 border-t-yellow-400 border-r-green-500 border-b-gray-300"></div>
+
+    <div class="mt-4 text-sm space-y-1">
+      <p>• Home Page</p>
+      <p>• Events Page</p>
+      <p>• Discussions Page</p>
+      <p>• Projects Page</p>
+    </div>
+  </div>
+
+</div>
+
+
+</body>
+</html>
