@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Dropzone, { DropzoneInputProps } from "react-dropzone";
 import { cn } from "@/lib/utils";
 import { UploadIcon } from "lucide-react";
-import { Control } from "react-hook-form";
+import { Control, FieldPath, FieldValues } from "react-hook-form";
 import {
   FormControl,
   FormField,
@@ -33,9 +33,12 @@ export enum FormFieldType {
   IMAGE_UPLOAD = "imageUpload",
 }
 
-interface CustomProps {
-  control: Control<any>;
-  name: string;
+interface CustomProps<
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+> {
+  control: Control<TFieldValues, any, TFieldValues>;
+  name: TName;
   label?: string;
   placeholder?: string;
   iconSrc?: string;
@@ -51,7 +54,16 @@ interface CustomProps {
   onChange?: any;
 }
 
-const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
+const RenderInput = <
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+>({
+  field,
+  props,
+}: {
+  field: any;
+  props: CustomProps<TFieldValues, TName>;
+}) => {
   const [backgroundImage, setBackgroundImage] = useState<string | null>(
     props.initialImage ?? null
   );
@@ -182,8 +194,11 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
   }
 };
 
-const CustomFormField = (props: CustomProps) => {
-  const { control, name, label, onAutoSave } = props;
+const CustomFormField = <
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+>(props: CustomProps<TFieldValues, TName>) => {
+  const { control, name, label } = props;
 
   return (
     <FormField
@@ -194,7 +209,7 @@ const CustomFormField = (props: CustomProps) => {
           {props.fieldType !== FormFieldType.CHECKBOX && label && (
             <FormLabel className="shad-input-label">{label}</FormLabel>
           )}
-          <RenderInput field={field} props={{ ...props, onAutoSave }} />
+          <RenderInput field={field} props={props} />
           <FormMessage className="" />
         </FormItem>
       )}
