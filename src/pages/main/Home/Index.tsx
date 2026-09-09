@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAppStore from "@/lib/store/app.store";
 import { useGET } from "@/hooks/useGET.hook";
@@ -57,6 +57,7 @@ export default function Home() {
                 <div className="flex justify-stretch gap-5 mt-10 w-full">
                   {userStats?.map((stats) => (
                     <StatisticsCard
+                      key={stats.key}
                       title={stats?.title}
                       count={usersStats ? usersStats[stats.key] : 0}
                       icon={stats.icon}
@@ -96,10 +97,10 @@ export default function Home() {
                     Recent Support Tickets
                   </h1>
                   {[1, 2, 3, 4].map((item) => (
-                    <>
-                      <SupportTicketCard key={item} />
+                    <Fragment key={item}>
+                      <SupportTicketCard />
                       <hr className="m-0" />
-                    </>
+                    </Fragment>
                   ))}
                   <button className="border py-2 rounded-xl mt-3">
                     View all tickets

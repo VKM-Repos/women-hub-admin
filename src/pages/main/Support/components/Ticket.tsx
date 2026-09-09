@@ -31,9 +31,9 @@ const Ticket = () => {
               <path
                 d="M16 1.25L8.5 8.75L1 1.25"
                 stroke="#413723"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
           </button>

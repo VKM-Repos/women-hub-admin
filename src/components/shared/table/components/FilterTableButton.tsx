@@ -31,14 +31,13 @@ export default function FilterTableButton({ table }: { table: Table<any>}) {
                   .filter(column => column.getCanHide())
                   .map(column => {
                     return (
-                      <div className="my-3 w-[300px]">
+                      <div key={column.id} className="my-3 w-[300px]">
                         <div className="flex justify-between">
                           <span className="font-semibold capitalize">
                             {column.id}
                           </span>
 
                           <DropdownMenuCheckboxItem
-                            key={column.id}
                             className="capitalize"
                             checked={column.getIsVisible()}
                             onCheckedChange={(value: boolean) =>
